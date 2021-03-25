@@ -34,7 +34,9 @@ const styles = ({ palette, zIndex }) => ({
     width: 20,
     height: 20,
     top: 10,
-    left: 20
+    left: 20,
+    backgroundColor: '#0095b3',
+    color: '#ffffff'
   }
 });
 
@@ -171,7 +173,7 @@ class MiniCart extends Component {
               ? (
                 <Badge
                   badgeContent={cart.totalItemQuantity}
-                  color="primary"
+                  // color="primary"
                   classes={{ badge: classes.badge }}
                 >
                   <CartIcon />

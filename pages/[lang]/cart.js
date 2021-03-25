@@ -16,6 +16,7 @@ import Router from "translations/i18nRouter";
 import PageLoading from "components/PageLoading";
 import { withApollo } from "lib/apollo/withApollo";
 
+import { locales } from "translations/config";
 import fetchPrimaryShop from "staticUtils/shop/fetchPrimaryShop";
 import fetchTranslations from "staticUtils/translations/fetchTranslations";
 
@@ -176,17 +177,29 @@ class CartPage extends Component {
 }
 
 /**
- *  Server props for the cart route
+ *  Static props for the cart route
  *
  * @param {String} lang - the shop's language
  * @returns {Object} props
  */
-export async function getServerSideProps({ params: { lang } }) {
+export async function getStaticProps({ params: { lang } }) {
   return {
     props: {
       ...await fetchPrimaryShop(lang),
       ...await fetchTranslations(lang, ["common"])
     }
+  };
+}
+
+/**
+ *  Static paths for the cart route
+ *
+ * @returns {Object} paths
+ */
+export async function getStaticPaths() {
+  return {
+    paths: locales.map((locale) => ({ params: { lang: locale } })),
+    fallback: false
   };
 }
 

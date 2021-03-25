@@ -14,6 +14,9 @@ const styles = (theme) => ({
   cfXPgA: {
     paddingLeft: 0,
     paddingRight: 0
+  },
+  checkoutButton: {
+    backgroundColor: '#0095b3',
   }
 });
 
@@ -86,6 +89,7 @@ class CartItems extends Component {
               isShortHeight={isMiniCart}
               isTextOnly
               onClick={onLoadMoreCartItems}
+              className = { classes.checkoutButton }
             >
               {"Load More"}
             </Button>

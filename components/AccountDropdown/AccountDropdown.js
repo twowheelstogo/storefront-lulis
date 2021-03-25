@@ -17,6 +17,13 @@ const useStyles = makeStyles((theme) => ({
   },
   marginBottom: {
     marginBottom: theme.spacing(2)
+  },
+  regularButton: {
+    color: '#0095b3',
+  },
+  underlinedButton: {
+    color: '#0095b3',
+    textDecoration: 'underline'
   }
 }));
 
@@ -60,28 +67,28 @@ const AccountDropdown = () => {
             <Fragment>
               <div className={classes.marginBottom}>
                 <Link href="/profile/address">
-                  <Button color="primary" fullWidth>
+                  <Button color="secondary" fullWidth className = { classes.regularButton }>
                     Profile
                   </Button>
                 </Link>
               </div>
               <div className={classes.marginBottom}>
-                <Button color="primary" fullWidth href={`/change-password?email=${encodeURIComponent(viewer.emailRecords[0].address)}`}>
+                <Button color="secondary" fullWidth href={`/change-password?email=${encodeURIComponent(viewer.emailRecords[0].address)}`} className = { classes.regularButton }>
                   Change Password
                 </Button>
               </div>
-              <Button color="primary" fullWidth href="/logout" variant="contained">
+              <Button color="secondary" fullWidth href="/logout" className = { classes.underlinedButton }>
                 Sign Out
               </Button>
             </Fragment>
             :
             <Fragment>
               <div className={classes.authContent}>
-                <Button color="primary" fullWidth href="/signin" variant="contained">
+                <Button color="primary" fullWidth href="/signin" className = { classes.underlinedButton }>
                   Sign In
                 </Button>
               </div>
-              <Button color="primary" fullWidth href="/signup">
+              <Button color="primary" fullWidth href="/signup" className = { classes.regularButton }>
                 Create Account
               </Button>
             </Fragment>

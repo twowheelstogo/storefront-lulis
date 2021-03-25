@@ -26,6 +26,9 @@ const styles = (theme) => ({
   },
   info: {
     marginBottom: theme.spacing()
+  },
+  page: {
+    padding: theme.spacing(3)
   }
 });
 
@@ -258,7 +261,7 @@ class ProductDetail extends Component {
     }
 
     return (
-      <Fragment>
+      <div className = { classes.page }>
         <Grid container spacing={5}>
           <Grid item className={classes.breadcrumbGrid} xs={12}>
             <Breadcrumbs isPDP tagId={routingStore.tagId} product={product} />
@@ -297,7 +300,7 @@ class ProductDetail extends Component {
             />
           </Grid>
         </Grid>
-      </Fragment>
+      </div>
     );
   }
 }

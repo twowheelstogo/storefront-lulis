@@ -16,8 +16,9 @@ import withTranslation from "hocs/withTranslation";
 
 const styles = (theme) => ({
   addToCartText: {
-    color: theme.palette.primary.contrastText,
-    fontWeight: 600
+    color: '#7ec5c8',
+    fontWeight: 600,
+    margin: theme.spacing(2)
   },
   addToCartErrorText: {
     color: theme.palette.primary.coolGray500,
@@ -25,38 +26,42 @@ const styles = (theme) => ({
     marginTop: "20px"
   },
   incrementButton: {
-    backgroundColor: theme.palette.reaction.black02,
-    color: theme.palette.reaction.coolGray500,
+    // backgroundColor: theme.palette.reaction.black02,
+    color: '#0095b3',
     fontSize: "12px",
     padding: 6
   },
   quantityContainer: {
     padding: 0,
-    border: `1px solid ${theme.palette.reaction.black15}`,
+    // border: `1px solid ${theme.palette.reaction.black15}`,
     backgroundColor: theme.palette.common.white,
     borderRadius: theme.palette.reaction.buttonBorderRadius
   },
   quantityGrid: {
-    marginBottom: theme.spacing(3)
+    margin: theme.spacing(3, 0)
   },
   quantityInput: {
+    color: '#888e8e',
     "color": theme.palette.reaction.coolGray500,
-    "fontSize": "12px",
+    "fontSize": "18px",
     "width": "40px",
     "textAlign": "center",
     "&:focus": {
       borderColor: "#80bdff",
-      boxShadow: "0 0 0 0.2rem rgba(0,123,255,.25)"
+      boxShadow: "0 0 0 0.2rem rgba(0,149,179,.25)"
     },
-    "borderLeft": `1px solid ${theme.palette.reaction.black15}`,
-    "borderRight": `1px solid ${theme.palette.reaction.black15}`
+    // "borderLeft": `1px solid ${theme.palette.reaction.black15}`,
+    // "borderRight": `1px solid ${theme.palette.reaction.black15}`
   },
   quantitySvg: {
     fontSize: "18px"
   },
   quantityTypography: {
     color: theme.palette.reaction.coolGray500,
-    marginBottom: theme.spacing(2)
+    margin: theme.spacing(2)
+  },
+  divider: {
+    backgroundColor: '#0095b3'
   }
 });
 
@@ -196,7 +201,8 @@ class ProductDetailAddToCart extends Component {
         quantityGrid,
         quantityInput,
         quantitySvg,
-        quantityTypography
+        quantityTypography,
+        divider
       },
       t // eslint-disable-line id-length
     } = this.props;
@@ -207,7 +213,7 @@ class ProductDetailAddToCart extends Component {
       <Fragment>
         <Grid container>
           <Grid item xs={12} className={quantityGrid}>
-            <Divider />
+            <Divider  className = { divider } />
             <Typography component="span" className={quantityTypography}>{t("quantity")}</Typography>
             <TextField
               id="addToCartQuantityInput"
@@ -245,14 +251,17 @@ class ProductDetailAddToCart extends Component {
                 }
               }}
             />
-            <Typography className={addToCartErrorText} component="span" variant="body1">
-              {this.state.addToCartError}
-            </Typography>
+            <Grid item xs = { 12 }>
+              <Typography className={addToCartErrorText} component="span" variant="body1">
+                {this.state.addToCartError}
+              </Typography>
+            </Grid>
           </Grid>
           <Grid item xs={12}>
             <Button
               onClick={this.handleOnClick}
-              variant="contained"
+              variant="outlined"
+              fullWidth
               color="primary"
               disableElevation
             >

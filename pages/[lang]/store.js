@@ -8,6 +8,7 @@ import withCatalogItems from "containers/catalog/withCatalogItems";
 
 import Layout from 'components/Layout';
 import HomePage from 'custom/homePage';
+import CategoryTabs from 'custom/components/CategoryTabs'
 
 import { locales } from "translations/config";
 import fetchPrimaryShop from "staticUtils/shop/fetchPrimaryShop";
@@ -16,7 +17,7 @@ import fetchTranslations from "staticUtils/translations/fetchTranslations";
 // @inject("routingStore")
 // @observer
 
-const Home = props => {
+const Store = props => {
 	const propTypes = {
 		catalogItems: PropTypes.array,
     	catalogItemsPageInfo: PropTypes.object,
@@ -76,7 +77,7 @@ const Home = props => {
 				<meta name="description" content={shop && shop.description} />
 			</Helmet>
 
-			<HomePage 
+			<CategoryTabs 
 				catalogItems={ catalogItems }
 				currencyCode={ (shop && shop.currency && shop.currency.code) || "GTQ" }
 				isLoadingCatalogItems={ isLoadingCatalogItems }
@@ -135,4 +136,4 @@ export async function getStaticPaths() {
 	};
 }
   
-export default withApollo()(withCatalogItems(inject("routingStore", "uiStore")(Home)));
+export default withApollo()(withCatalogItems(inject("routingStore", "uiStore")(Store)));

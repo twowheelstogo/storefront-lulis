@@ -19,7 +19,7 @@ export default (theme) => ({
     fontSize: "0.9rem"
   },
   isSelected: {
-    borderColor: theme.palette.reaction.activeElementBorderColor
+    borderColor: '#0095b3'
   },
   soldOutOption: {
     opacity: 0.2

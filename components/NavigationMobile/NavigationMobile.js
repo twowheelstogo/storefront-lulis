@@ -24,8 +24,9 @@ const styles = (theme) => ({
     flex: "0 0 auto"
   },
   toolbarTitle: {
-    position: "absolute",
+    position: "realtive",
     width: "100%",
+    height: 'auto',
     textAlign: "center"
   },
   title: {
@@ -45,7 +46,12 @@ const styles = (theme) => ({
     width: 320,
     height: "100vh",
     backgroundColor: theme.palette.background.default
-  }
+  },
+  logo: {
+    margin: theme.spacing(2, 0),
+    width: 75,
+    height: 'auto'
+},
 });
 
 class NavigationMobile extends Component {
@@ -102,11 +108,19 @@ class NavigationMobile extends Component {
           <div className={classes.header}>
             <Toolbar disableGutters>
               <div className={classes.toolbarTitle}>
-                <Typography className={classes.title} color="inherit" variant="h6">
+                {/* <Typography className={classes.title} color="inherit" variant="h6">
                   <Link route="/" onClick={this.handleClose}>
                     {shop ? <ShopLogo shopName={shop.name} /> : "Example Storefront"}
                   </Link>
-                </Typography>
+                </Typography> */}
+
+                  <Link route="/">
+                      <img
+                          // src = 'https://firebasestorage.googleapis.com/v0/b/twg-rrhh.appspot.com/o/company-logos%2Flulis-logo%20(2).png?alt=media&token=50e9772a-81c8-43d8-ba5d-29c70ed918c4'
+                          src = 'https://firebasestorage.googleapis.com/v0/b/twg-rrhh.appspot.com/o/company-logos%2Flulis-logo.png?alt=media&token=891d79ae-57a0-48f7-bc09-8e757e77af34'
+                          className = { classes.logo }
+                      />
+                  </Link>
               </div>
               <IconButton onClick={this.handleClose}>
                 <CloseIcon />
