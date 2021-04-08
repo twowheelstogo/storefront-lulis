@@ -166,7 +166,6 @@ const Checkout = ({ router }) => {
         !!availablePaymentMethods.find((availableMethod) => availableMethod.name === method.name));
 
       return (
-        <StripeProvider stripe={stripe}>
           <div className={classes.checkoutContentContainer}>
             <div className={classes.checkoutContent}>
               <Grid container spacing={3}>
@@ -201,7 +200,6 @@ const Checkout = ({ router }) => {
               </Grid>
             </div>
           </div>
-        </StripeProvider>
       );
     }
 

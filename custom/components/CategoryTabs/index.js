@@ -51,7 +51,7 @@ const CategoryTabs = props =>  {
     } = props;
 
     const products = (catalogItems || []).map((item) => item.node.product);
-    
+    console.log(products);
     products.map( product => {
         if(categories.includes(product.metafields[0].value)) {
             productsByCategories.map( category => {
@@ -93,8 +93,13 @@ const CategoryTabs = props =>  {
                                 }
                             </Tabs>
                         </AppBar>
-
-                        {
+                                {
+                                    categories.map((cat,index)=>{
+                                        console.log(index);
+                                        if(tab===index) return <ProductGrid products = { productsByCategories[index].products } />  
+                                    })
+                                }
+                        {/* {
                             tab === 0 && (
                                 <ProductGrid products = { productsByCategories[0].products } />    
                             )
@@ -106,11 +111,11 @@ const CategoryTabs = props =>  {
                             )
                         }
 
-{
+                        {
                             tab === 2 && (
                                 <ProductGrid products = { productsByCategories[2].products } />    
                             )
-                        }
+                        } */}
                     </div>
                 )
             }
