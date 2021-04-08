@@ -6,6 +6,18 @@ import {withComponents} from "@reactioncommerce/components-context";
 import {CustomPropTypes,applyTheme } from "@reactioncommerce/components/utils";
 import { Field,Form } from "react-final-form";
 import { formatCVC,formatCreditCardNumber,formatExpirationDate } from "../utils/index";
+import {makeStyles} from "@material-ui/core";
+
+const useStyles = makeStyles((theme)=>({
+  root:{
+
+  },
+  textInput:{
+    width:'100%',
+    border: '1px solid #95d2de',
+    height:'25px'
+  }
+}))
 import styled from "styled-components";
 const Grid = styled.div`
   display: flex;
@@ -15,10 +27,12 @@ const Grid = styled.div`
 
 const ColFull = styled.div`
   flex: 1 1 100%;
+  padding:2px;
 `;
 
 const ColHalf = styled.div`
   flex: 1 1 100%;
+  padding:2px;
   @media (min-width: ${applyTheme("sm", "breakpoints")}px) {
     flex: 0 1 calc(50% - 9px);
   }
@@ -26,6 +40,7 @@ const ColHalf = styled.div`
 function EpayPaymentForm(props,ref){
     const lastDocRef = useRef();
   const isReadyRef = useRef();
+  const classes = useStyles();
 
   const [uniqueInstanceIdentifier, setUniqueInstanceIdentifier] = useState();
   if (!uniqueInstanceIdentifier) {
@@ -109,44 +124,46 @@ function EpayPaymentForm(props,ref){
           <Grid>
           <ColFull>
               <Field
+              className={classes.textInput}
                 name="cardNumber"
                 component="input"
                 type="text"
                 pattern="[\d| ]{16,22}"
-                placeholder="Card Number"
+                placeholder="Número de tarjeta"
                 format={formatCreditCardNumber}
               />
             </ColFull>
             <ColFull>
               <Field
+              className={classes.textInput}
                 name="postalCode"
                 component="input"
                 type="text"
-                placeholder="Name"
+                placeholder="Nombre de la tarjeta"
               />
             </ColFull>
-            <div>
               <ColHalf>
               <Field
+              className={classes.textInput}
                 name="cardExpiry"
                 component="input"
                 type="text"
                 pattern="\d\d/\d\d"
-                placeholder="Valid Thru"
+                placeholder="Fecha de expiración"
                 format={formatExpirationDate}
               />
               </ColHalf>
               <ColHalf>
               <Field
+              className={classes.textInput}
                 name="cardCVV"
                 component="input"
                 type="text"
                 pattern="\d{3,4}"
-                placeholder="CVC"
+                placeholder="CVV/CVC"
                 format={formatCVC}
               />
               </ColHalf>
-            </div> 
             </Grid> 
         </form>
         </div>
