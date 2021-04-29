@@ -8,7 +8,6 @@ import AddressBook from "@reactioncommerce/components/AddressBook/v1";
 import withAddressBook from "containers/address/withAddressBook";
 import relayConnectionToArray from "lib/utils/relayConnectionToArray";
 import ErrorPage from "../../pages/_error";
-
 const styles = (theme) => ({
   profileAddressBookTitle: {
     marginBottom: theme.spacing(4)

@@ -13,17 +13,16 @@ import Layout from "components/Layout";
 import PageLoading from "components/PageLoading";
 import { withApollo } from "lib/apollo/withApollo";
 import useCart from "hooks/cart/useCart";
+import  useAuthStore from "hooks/globalStores/useAuthStore";
 import useStores from "hooks/useStores";
 import useShop from "hooks/shop/useShop";
 import useAvailablePaymentMethods from "hooks/availablePaymentMethods/useAvailablePaymentMethods";
 // import useAddressValidation from "hooks/address/useAddressValidation";
 import useTranslation from "hooks/useTranslation";
 import definedPaymentMethods from "custom/paymentMethods";
-
 import { locales } from "translations/config";
 import fetchPrimaryShop from "staticUtils/shop/fetchPrimaryShop";
 import fetchTranslations from "staticUtils/translations/fetchTranslations";
-
 const useStyles = makeStyles((theme) => ({
   checkoutActions: {
     width: "100%",
@@ -91,12 +90,12 @@ const Checkout = ({ router }) => {
   const classes = useStyles();
   const { cartStore } = useStores();
   const shop = useShop();
+  const authStore = useAuthStore();
   const { locale, t } = useTranslation("common"); // eslint-disable-line no-unused-vars, id-length
   const apolloClient = useApolloClient();
   // TODO: implement address validation
   // const [addressValidation, addressValidationResults] = useAddressValidation();
   const [stripe, setStripe] = useState();
-
   const {
     cart,
     isLoadingCart,
@@ -107,7 +106,8 @@ const Checkout = ({ router }) => {
     onRemoveCartItems,
     onChangeCartItemsQuantity
   } = useCart();
-
+  console.log('cart result :',cart);
+  console.log("authStore: ",authStore);
   const [availablePaymentMethods = [], isLoadingAvailablePaymentMethods] = useAvailablePaymentMethods();
 
   const { asPath } = router;
@@ -127,7 +127,6 @@ const Checkout = ({ router }) => {
       setStripe(window.Stripe(process.env.STRIPE_PUBLIC_API_KEY));
     }
   }), [stripe]; // eslint-disable-line no-sequences
-
   // eslint-disable-next-line react/no-multi-comp
   const renderCheckoutContent = () => {
     // sanity check that "tries" to render the correct /cart view if SSR doesn't provide the `cart`
@@ -176,6 +175,7 @@ const Checkout = ({ router }) => {
                         apolloClient={apolloClient}
                         cart={cart}
                         cartStore={cartStore}
+                        authStore={authStore}
                         checkoutMutations={checkoutMutations}
                         clearAuthenticatedUsersCart={clearAuthenticatedUsersCart}
                         orderEmailAddress={orderEmailAddress}
@@ -227,7 +227,7 @@ const Checkout = ({ router }) => {
 };
 
 Checkout.propTypes = {
-  router: PropTypes.object
+  router: PropTypes.object,
 };
 
 /**

@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { isEqual } from "lodash";
 import styled from "styled-components";
 import Actions from "@reactioncommerce/components/CheckoutActions/v1";
-import ShippingAddressCheckoutAction from "@reactioncommerce/components/ShippingAddressCheckoutAction/v1";
+import ShippingAddressCheckoutAction from "components/ShippingAddressCheckoutAction";
 import FulfillmentOptionsCheckoutAction from "@reactioncommerce/components/FulfillmentOptionsCheckoutAction/v1";
 import PaymentsCheckoutAction from "@reactioncommerce/components/PaymentsCheckoutAction/v1";
 import FinalReviewCheckoutAction from "@reactioncommerce/components/FinalReviewCheckoutAction/v1";
@@ -38,6 +38,9 @@ class CheckoutActions extends Component {
       items: PropTypes.array
     }).isRequired,
     cartStore: PropTypes.object,
+    authStore: PropTypes.shape({
+      account: PropTypes.object.isRequired
+    }),
     checkoutMutations: PropTypes.shape({
       onSetFulfillmentOption: PropTypes.func.isRequired,
       onSetShippingAddress: PropTypes.func.isRequired
@@ -252,6 +255,7 @@ class CheckoutActions extends Component {
       addressValidationResults,
       cart,
       cartStore,
+      authStore,
       paymentMethods
     } = this.props;
 
@@ -282,7 +286,7 @@ class CheckoutActions extends Component {
     if (!Array.isArray(paymentMethods) || paymentMethods.length === 0) {
       PaymentComponent = NoPaymentMethodsMessage;
     }
-
+    console.log("fulfillmentGroup: ",fulfillmentGroup);
     const actions = [
       {
         id: "1",
@@ -294,6 +298,7 @@ class CheckoutActions extends Component {
         onSubmit: this.setShippingAddress,
         props: {
           addressValidationResults,
+          authStore,
           alert: actionAlerts["1"],
           fulfillmentGroup,
           onAddressValidation: addressValidation
