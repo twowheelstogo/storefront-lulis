@@ -4,10 +4,9 @@ import styled from "styled-components";
 import isEqual from "lodash.isequal";
 import { withComponents } from "@reactioncommerce/components-context";
 import { addTypographyStyles, CustomPropTypes } from "@reactioncommerce/components/utils";
-import AddressBook from "@reactioncommerce/components/AddressBook/v1";
+import AddressBook from "components/AddressBook";
 import relayConnectionToArray from "lib/utils/relayConnectionToArray";
-
-import inject from "hocs/inject";
+import withCheckoutAddressBook from "containers/checkoutAddress/withCheckoutAddressBook";
 const Title = styled.h3`
   ${addTypographyStyles("ShippingAddressCheckoutActionTitle", "subheadingTextBold")};
 `;
@@ -86,6 +85,9 @@ class ShippingAddressCheckoutAction extends Component {
         shippingAddress: CustomPropTypes.address
       })
     }),
+    onAddressAdded: PropTypes.func.isRequired,
+    onAddressDeleted: PropTypes.func.isRequired,
+    onAddressEdited: PropTypes.func.isRequired,
     /**
      * Is the shipping address being saved
      */
@@ -238,9 +240,15 @@ class ShippingAddressCheckoutAction extends Component {
       />
     );
   }
-
   render() {
-    const { alert, components: { InlineAlert }, label, stepNumber,authStore:{account:{addressBook}} } = this.props;
+    const { alert, 
+      components: { InlineAlert }, 
+      label, stepNumber,
+      authStore:{account:{addressBook}},
+      onSubmit,
+      onAddressAdded,
+      onAddressEdited,
+      onAddressDeleted } = this.props;
     const addresses = (addressBook && relayConnectionToArray(addressBook)) || [];
     const accountAddressBook = {
         addressBook: addresses
@@ -253,15 +261,24 @@ class ShippingAddressCheckoutAction extends Component {
         {alert ? <InlineAlert {...alert} /> : ""}
         <AddressBook
         account={accountAddressBook}
-        onAddressAdded={()=>{}}
-        onAddressEdited={()=>{}}
-        onAddressDeleted={()=>{}}
+        onAddressAdded={async(values)=>{
+          await onAddressAdded(values);
+          await onSubmit(values);
+          console.log("New Address Added");
+        }}
+        onAddressEdited={async(id,values)=>{
+          console.log("onAddressEdited: ",values)
+          await onAddressEdited(id,values);
+          await onSubmit(values);
+          console.log("form submitted");
+        }}
+        onAddressDeleted={onAddressDeleted}
         />
-        {this.renderAddressCapture()}
+        {/* {this.renderAddressCapture()} */}
       </Fragment>
     );
   }
 }
 // export default withAddressBook(inject("authStore","uiStore")(withComponents(ShippingAddressCheckoutAction)))
 // export default withComponents(withAddressBook(inject("authStore", "uiStore")(ShippingAddressCheckoutAction)));
-export default withComponents(ShippingAddressCheckoutAction);
+export default withCheckoutAddressBook(ShippingAddressCheckoutAction);

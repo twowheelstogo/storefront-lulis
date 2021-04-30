@@ -290,7 +290,7 @@ class CheckoutActions extends Component {
     const actions = [
       {
         id: "1",
-        activeLabel: "Enter a shipping address",
+        activeLabel: "Select a shipping address",
         completeLabel: "Shipping address",
         incompleteLabel: "Shipping address",
         status: fulfillmentGroup.type !== "shipping" || fulfillmentGroup.shippingAddress ? "complete" : "incomplete",

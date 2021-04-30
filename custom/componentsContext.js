@@ -24,7 +24,7 @@ import iconValid from "@reactioncommerce/components/svg/iconValid";
 import iconVisa from "@reactioncommerce/components/svg/iconVisa";
 import spinner from "@reactioncommerce/components/svg/spinner";
 import Accordion from "@reactioncommerce/components/Accordion/v1";
-import AccordionFormList from "@reactioncommerce/components/AccordionFormList/v1";
+import AccordionFormList from "components/AccordionFormList";
 import AddressBook from "@reactioncommerce/components/AddressBook/v1";
 import Address from "@reactioncommerce/components/Address/v1";
 import AddressCapture from "@reactioncommerce/components/AddressCapture/v1";
