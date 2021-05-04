@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import { withComponents } from "@reactioncommerce/components-context";
 import { applyTheme, addTypographyStyles, CustomPropTypes } from "@reactioncommerce/components/utils";
-
+import GoogleMapComponent from "components/GoogleMaps";
 const AddNewItemAction = styled.div`
   border-color: ${applyTheme("Accordion.borderColor")};
   border-style: ${applyTheme("Accordion.borderStyle")};
@@ -240,6 +240,7 @@ class AccordionFormList extends Component {
                 this._refs[`editForm_${id}`] = el;
               }}
             />
+            <GoogleMapComponent/>
             <FormActions>
               <FormActionDelete>
                 <Button
@@ -288,6 +289,7 @@ class AccordionFormList extends Component {
             this._addItemForm = el;
           }}
         />
+        <GoogleMapComponent/>
         <FormActions>
           <Button actionType="secondary" onClick={this.handleEntryFormCancel}>
             {cancelButtonText}
