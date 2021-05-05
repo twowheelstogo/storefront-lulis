@@ -1,9 +1,11 @@
 import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import { withComponents } from "@reactioncommerce/components-context";
 import { applyTheme, addTypographyStyles, CustomPropTypes } from "@reactioncommerce/components/utils";
-import GoogleMapComponent from "components/GoogleMaps";
+
+import { withComponents } from "@reactioncommerce/components-context";
+import _ from "lodash";
+
 const AddNewItemAction = styled.div`
   border-color: ${applyTheme("Accordion.borderColor")};
   border-style: ${applyTheme("Accordion.borderStyle")};
@@ -162,7 +164,8 @@ class AccordionFormList extends Component {
     /**
      * The text for the "Save" text, if it is shown.
      */
-    saveButtonText: PropTypes.string
+    saveButtonText: PropTypes.string,
+    googleProps:PropTypes.any
   };
 
   static defaultProps = {
@@ -222,7 +225,7 @@ class AccordionFormList extends Component {
       items,
       saveButtonText
     } = this.props;
-
+    // const SearchBox = ()=><PlacesWithStandaloneSearchBox {...this.props}/>
     return (
       <Fragment>
         {items && items.map(({ detail, id, itemEditFormProps, label }) => (
@@ -240,7 +243,7 @@ class AccordionFormList extends Component {
                 this._refs[`editForm_${id}`] = el;
               }}
             />
-            <GoogleMapComponent/>
+            {/* <GoogleMapComponent/> */}
             <FormActions>
               <FormActionDelete>
                 <Button
@@ -279,7 +282,7 @@ class AccordionFormList extends Component {
     );
   }
 
-  renderEntryForm() {
+  renderEntryForm(googleMapProps) {
     const { cancelButtonText, components: { Button, ItemAddForm }, entryFormSubmitButtonText, isWaiting, itemAddFormProps } = this.props;
     return (
       <Fragment>
@@ -289,7 +292,7 @@ class AccordionFormList extends Component {
             this._addItemForm = el;
           }}
         />
-        <GoogleMapComponent/>
+        {/* <GoogleMapComponent/> */}
         <FormActions>
           <Button actionType="secondary" onClick={this.handleEntryFormCancel}>
             {cancelButtonText}
@@ -307,8 +310,8 @@ class AccordionFormList extends Component {
     const { status } = this.state;
     return (
       <div className={className}>
-        {status === LIST ? this.renderAccordion() : this.renderEntryForm()}
-      </div>
+      {status === LIST ? this.renderAccordion() : this.renderEntryForm()}
+    </div>
     );
   }
 }
