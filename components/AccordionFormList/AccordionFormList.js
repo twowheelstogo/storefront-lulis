@@ -1,10 +1,8 @@
 import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import { applyTheme, addTypographyStyles, CustomPropTypes } from "@reactioncommerce/components/utils";
-
 import { withComponents } from "@reactioncommerce/components-context";
-import _ from "lodash";
+import { applyTheme, addTypographyStyles, CustomPropTypes } from "@reactioncommerce/components/utils";
 
 const AddNewItemAction = styled.div`
   border-color: ${applyTheme("Accordion.borderColor")};
@@ -164,8 +162,7 @@ class AccordionFormList extends Component {
     /**
      * The text for the "Save" text, if it is shown.
      */
-    saveButtonText: PropTypes.string,
-    googleProps:PropTypes.any
+    saveButtonText: PropTypes.string
   };
 
   static defaultProps = {
@@ -173,7 +170,7 @@ class AccordionFormList extends Component {
     deleteItemButtonText: "Delete this item",
     entryFormSubmitButtonText: "Add item",
     cancelButtonText: "Cancel",
-    saveButtonText: "Save and Select",
+    saveButtonText: "Save Changes",
     isWaiting: false,
     onItemDeleted() {}
   };
@@ -225,7 +222,7 @@ class AccordionFormList extends Component {
       items,
       saveButtonText
     } = this.props;
-    // const SearchBox = ()=><PlacesWithStandaloneSearchBox {...this.props}/>
+    console.log(items);
     return (
       <Fragment>
         {items && items.map(({ detail, id, itemEditFormProps, label }) => (
@@ -243,7 +240,6 @@ class AccordionFormList extends Component {
                 this._refs[`editForm_${id}`] = el;
               }}
             />
-            {/* <GoogleMapComponent/> */}
             <FormActions>
               <FormActionDelete>
                 <Button
@@ -282,17 +278,17 @@ class AccordionFormList extends Component {
     );
   }
 
-  renderEntryForm(googleMapProps) {
+  renderEntryForm() {
     const { cancelButtonText, components: { Button, ItemAddForm }, entryFormSubmitButtonText, isWaiting, itemAddFormProps } = this.props;
     return (
       <Fragment>
         <ItemAddForm
           {...itemAddFormProps}
           ref={(el) => {
+            console.log("ItemAddForm ref: ",el);
             this._addItemForm = el;
           }}
         />
-        {/* <GoogleMapComponent/> */}
         <FormActions>
           <Button actionType="secondary" onClick={this.handleEntryFormCancel}>
             {cancelButtonText}
@@ -310,8 +306,8 @@ class AccordionFormList extends Component {
     const { status } = this.state;
     return (
       <div className={className}>
-      {status === LIST ? this.renderAccordion() : this.renderEntryForm()}
-    </div>
+        {status === LIST ? this.renderAccordion() : this.renderEntryForm()}
+      </div>
     );
   }
 }

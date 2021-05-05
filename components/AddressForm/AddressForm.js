@@ -8,9 +8,9 @@ import { applyTheme, CustomPropTypes, getRequiredValidator } from "@reactioncomm
 import GoogleMapComponent from "components/GoogleMaps";
 import { StandaloneSearchBox } from "react-google-maps/lib/components/places/StandaloneSearchBox";
 import withGoogleMaps from "containers/maps/withGoogleMap";
+import { withComponents } from "@reactioncommerce/components-context";
 const PlacesWithStandaloneSearchBox = (props)=>
 {
-  console.log("PlacesWithStandAloneSearch props: ",props);
   return <div data-standalone-searchbox="">
   <StandaloneSearchBox
     ref={props.onSearchBoxMounted}
@@ -19,10 +19,6 @@ const PlacesWithStandaloneSearchBox = (props)=>
   >
     {props.children}
   </StandaloneSearchBox>
-  <br></br>
-  {props.places!=undefined&&props.places.length>0&&(
-    <GoogleMapComponent{...props}/>
-  )}
   </div>
 };
 const Grid = styled.div`
@@ -558,7 +554,9 @@ class AddressForm extends Component {
               <ErrorsBlock names={["phone"]} />
             </Field>
           </ColFull>
-
+                <ColFull>
+                <GoogleMapComponent {...googleProps}/>
+                </ColFull>
           {shouldShowIsCommercialField && (
             <ColFull>
               <Field name="isCommercial" labelFor={isCommercialInputId}>

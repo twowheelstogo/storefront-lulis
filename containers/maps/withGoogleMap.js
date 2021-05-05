@@ -34,14 +34,15 @@ const enhance = compose(
     withScriptjs
   );
 export default function withGoogleMaps(Component){
-    function WithGoogleMap(props){
-        const GoogleMapLayout = enhance(googleProps=>
-            <Component
-                {...props}
-                googleProps={googleProps}
-                />);
-        return <GoogleMapLayout/>;
-    }
+    const WithGoogleMap = React.forwardRef((props,ref)=>{
+      const GoogleMapLayout = enhance(googleProps=>
+                <Component
+                ref={ref}
+                    {...props}
+                    googleProps={googleProps}
+                    />);
+            return <GoogleMapLayout/>;
+    })
     hoistNonReactStatic(WithGoogleMap,Component);
     return withComponents(WithGoogleMap);
 };
