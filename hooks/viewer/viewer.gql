@@ -17,6 +17,10 @@ query viewer {
           phone
           postal
           region
+          metafields {
+            key
+            value
+          }
         }
       }
     }

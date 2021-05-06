@@ -9,6 +9,7 @@ import GoogleMapComponent from "components/GoogleMaps";
 import { StandaloneSearchBox } from "react-google-maps/lib/components/places/StandaloneSearchBox";
 import withGoogleMaps from "containers/maps/withGoogleMap";
 import { withComponents } from "@reactioncommerce/components-context";
+import { forEach } from "lodash";
 const PlacesWithStandaloneSearchBox = (props)=>
 {
   return <div data-standalone-searchbox="">
@@ -282,7 +283,13 @@ class AddressForm extends Component {
       postal: "",
       region: "",
       phone: "",
-      isCommercial: false
+      isCommercial: false,
+      metafields:[
+        {
+          key:"locationRef",
+          value:null
+        }
+      ]
     }
   };
 
@@ -359,7 +366,11 @@ class AddressForm extends Component {
   };
 
   validate = () => this._form.validate();
-
+  concatBeforeSubmit=(formData)=>{
+    var index = formData.metafields.findIndex(element=>element.key=="locationRef");
+    formData.metafields[index].value=this.props.googleProps.locationRef;
+    this.props.onSubmit(formData);
+  }
   render() {
     const {
       address1LabelText,
@@ -416,7 +427,7 @@ class AddressForm extends Component {
         errors={errors}
         name={name}
         onChange={onChange}
-        onSubmit={this.props.onSubmit}
+        onSubmit={this.concatBeforeSubmit}
         validator={validator}
         revalidateOn="changed"
         value={value}

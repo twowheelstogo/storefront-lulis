@@ -17,6 +17,7 @@ const enhance = compose(
   
         this.setState({
           places: [],
+          locationRef:"",
           onSearchBoxMounted: (ref) => {
             console.log("onSearchBoxMounted: ", ref);
             refs.searchBox = ref;
@@ -25,7 +26,8 @@ const enhance = compose(
             const places = refs.searchBox.getPlaces();
             console.log("onPlacesChanged: ", places);
             this.setState({
-              places
+              places,
+              locationRef:`${places[0].geometry.location.lat()},${places[0].geometry.location.lng()}`
             });
           }
         });
