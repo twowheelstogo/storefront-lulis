@@ -30,8 +30,8 @@ const ProductGrid = props => {
                     products.map( product => 
                         <Grid
                             item
-                            lg = { 6 }
-                            md = { 6 }
+                            lg = { 4 }
+                            md = { 4 }
                             xs = { 12 }
                             className = { classes.grid }
                         >

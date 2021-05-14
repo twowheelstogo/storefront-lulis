@@ -15,7 +15,10 @@ const useStyles = makeStyles( theme => ({
         height: 240,
         // maxHeight: 240,
         padding: theme.spacing(3, 1),
-        margin: theme.spacing(0, 1)
+        margin: theme.spacing(0, 1),
+        borderStyle:'solid',
+        borderWidth:'1px',
+        borderColor:'#7A6240'
     },
     showCard: {
         width: '95%',
@@ -86,6 +89,7 @@ const ProductCard = props => {
                 onMouseOver = { () => setShow(true) }
                 onMouseOut = { () => setShow(false) }
                 className = { show ? classes.showCard : classes.card }
+                elevation={0}
             >
                 <Grid
                     container
@@ -106,13 +110,13 @@ const ProductCard = props => {
                             alignItems = 'flex-start'
                             alignContent = 'flex-start'
                         >
-                            <Typography variant = 'h6' className = { classes.productName }>
+                            <Typography variant = 'h5' className = { classes.productName }>
                                 { product.title }
                             </Typography>
 
-                            <Typography variant = 'body1' className = { classes.productDescription }>
+                            {/* <Typography variant = 'body1' className = { classes.productDescription }>
                                 { product.description }
-                            </Typography>
+                            </Typography> */}
 
                             <Typography variant = 'body2' className = { classes.productPrice}>
                                 <strong>{ product.pricing[0].displayPrice }</strong>
