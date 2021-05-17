@@ -103,9 +103,9 @@ class Header extends Component {
                             <Hidden mdUp>
                                 <NavigationToggleMobile onClick={this.handleNavigationToggleClick} />
                             </Hidden>
-                            <IconButton edge="start" className={menuButton} color="inherit" aria-label="menu">
+                            {/* <IconButton edge="start" className={menuButton} color="inherit" aria-label="menu">
                             <MenuIcon />
-                        </IconButton>
+                        </IconButton> */}
                             <Link route="/">
                                 <img
                                     // src = 'https://firebasestorage.googleapis.com/v0/b/twg-rrhh.appspot.com/o/company-logos%2Flulis-logo%20(2).png?alt=media&token=50e9772a-81c8-43d8-ba5d-29c70ed918c4'

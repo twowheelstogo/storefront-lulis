@@ -146,7 +146,7 @@ export async function getStaticProps({ params: { slugOrId, lang } }) {
       unstable_revalidate: 1 // Revalidate immediately
     };
   }
-
+  console.log("productSlug: ",productSlug);
   return {
     props: {
       ...primaryShop,
