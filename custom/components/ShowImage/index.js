@@ -57,7 +57,7 @@ const ShowImage = () => {
                             alignItems = 'flex-start'
                             alignContent = 'flex-start'
                         >
-                            <Typography variant = 'h1' className = { classes.title }>
+                            <Typography variant = 'h2' className = { classes.title }>
                                 {"Creaciones con Lulis"}
                             </Typography>
                             
@@ -108,7 +108,7 @@ const ShowImage = () => {
                             alignItems = 'flex-start'
                             alignContent = 'flex-start'
                         >
-                            <Typography variant = 'h1' className = { classes.title }>
+                            <Typography variant = 'h2' className = { classes.title }>
                                 {"¡Fresh, calientito y de nuestro horno a tu casa! :)"}
                             </Typography>
                             

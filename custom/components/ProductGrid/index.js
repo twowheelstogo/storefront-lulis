@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import { 
     makeStyles,
     Grid,
-
+    
 } from '@material-ui/core';
 
 import ProductCard from '../ProductCard';

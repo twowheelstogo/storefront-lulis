@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/core';
+import { makeStyles,useMediaQuery, useTheme } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 
@@ -27,8 +27,7 @@ const styles = makeStyles( theme => ({
         fontWight: 500,
     },
     imagesContainer: {
-        marginTop: '10vh',
-        marginBottom: '10vh'
+        padding:'10px'
     }
 }));
 
@@ -43,6 +42,8 @@ const HomePage = props => {
         setSortBy,
         sortBy
     } = props;
+    const uiTheme = useTheme();
+    const matches = useMediaQuery(uiTheme.breakpoints.down("xs"));
 
     const classes = styles();
 
@@ -56,9 +57,10 @@ const HomePage = props => {
                 justify = 'center'
                 alignItems = 'center'
                 alignContent = 'center'
-                className = { classes.imagesContainer }
             >
-                <Grid
+                    
+                {!matches &&(
+                    <Grid
                     item 
                     md = { 6 }
                     xs = { 12 }
@@ -75,6 +77,7 @@ const HomePage = props => {
                             />
                         </Grid>
                 </Grid>
+                )}
 
                 <Grid
                     item
@@ -88,32 +91,32 @@ const HomePage = props => {
                         alignItems = 'flex-start'
                         alignContent = 'flex-start'
                     >
-                        <Typography variant = 'h1' className = { classes.title }>
+                        <Typography variant = 'h2' className = { classes.title }>
                             FRESH
                         </Typography>
 
-                        <Typography variant = 'h1' className = { classes.title }>
+                        <Typography variant = 'h2' className = { classes.title }>
                             CHUNKY
                         </Typography>
 
-                        <Typography variant = 'h1' className = { classes.title }>
+                        <Typography variant = 'h2' className = { classes.title }>
                             GOOEY
                         </Typography>
 
-                        <Typography variant = 'h1' className = { classes.title }>
+                        <Typography variant = 'h2' className = { classes.title }>
                             SUPER
                         </Typography>
 
-                        <Typography variant = 'h1' className = { classes.title }>
+                        <Typography variant = 'h2' className = { classes.title }>
                             YUMMY XL
                         </Typography>
 
-                        <Typography variant = 'h1' className = { classes.title }>
+                        <Typography variant = 'h2' className = { classes.title }>
                             COOKIES
                         </Typography>
                     </Grid>
                 </Grid>
-            </Grid>
+                 </Grid>
 
             <CategoryTabs 
                 catalogItems = { catalogItems }
