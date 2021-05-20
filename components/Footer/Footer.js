@@ -174,7 +174,7 @@ const Footer = ({ ...props }) => (
 
                     <div className = { props.classes.footer }>
                         <Typography variant="caption">
-                            &copy; {date.getFullYear()} Reaction Commerce
+                            &copy; {date.getFullYear()} Lulis GT
                         </Typography>
                     </div>
                 </Grid>
