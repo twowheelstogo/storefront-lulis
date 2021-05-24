@@ -23,7 +23,7 @@ const ProductGrid = props => {
                 container
                 direction = 'row'
                 justify = 'flex-start'
-                alignItems = 'center'
+                alignItems = 'stretch'
                 alignContent = 'center'
             >
                 {

@@ -6,7 +6,7 @@ import { inPageSizes } from "lib/utils/pageSizes";
 import { withApollo } from "lib/apollo/withApollo";
 import withCatalogItems from "containers/catalog/withCatalogItems";
 
-import Layout from 'components/Layout';
+import MainLayout from 'components/MainLayout';
 import HomePage from 'custom/homePage';
 
 import { locales } from "translations/config";
@@ -70,7 +70,7 @@ const Home = props => {
     }
 
 	return(
-		<Layout shop = { shop }>
+		<MainLayout shop = { shop }>
 			<Helmet>
 				<title>{shop && shop.name}</title>
 				<meta name="description" content={shop && shop.description} />
@@ -86,7 +86,7 @@ const Home = props => {
 				setSortBy={ setSortBy }
 				sortBy={ sortBy }
 			/>
-        </Layout>
+        </MainLayout>
 	);
 };
 

@@ -210,49 +210,4 @@ const ProductCard = props => {
         </Link>
     );
 };
-/**
- *  Static props for a product
- *
- * @returns {Object} the props
- */
-//  export async function getStaticProps({ params: { slugOrId, lang } }) {
-//     const productSlug = slugOrId && slugOrId[0];
-//     const primaryShop = await fetchPrimaryShop(lang);
-  
-//     if (!primaryShop) {
-//       return {
-//         props: {
-//           shop: null,
-//           translations: null,
-//           products: null,
-//           tags: null
-//         },
-//         // eslint-disable-next-line camelcase
-//         unstable_revalidate: 1 // Revalidate immediately
-//       };
-//     }
-//     console.log("productSlug: ",productSlug);
-//     return {
-//       props: {
-//         ...primaryShop,
-//         ...await fetchTranslations(lang, ["common", "productDetail"]),
-//         ...await fetchCatalogProduct(productSlug),
-//         ...await fetchAllTags(lang)
-//       },
-//       // eslint-disable-next-line camelcase
-//       unstable_revalidate: 120 // Revalidate each two minutes
-//     };
-//   }
-  
-//   /**
-//    *  Static paths for a product
-//    *
-//    * @returns {Object} the paths
-//    */
-//   export async function getStaticPaths() {
-//     return {
-//       paths: locales.map((locale) => ({ params: { lang: locale, slugOrId: ["-"] } })),
-//       fallback: true
-//     };
-//   }
 export default withCart(inject("routingStore","uiStore")(ProductCard));

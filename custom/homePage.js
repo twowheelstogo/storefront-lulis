@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { makeStyles,useMediaQuery, useTheme } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
-
 import Carousel from 'custom/components/Carousel';
 import ShowImage from 'custom/components/ShowImage';
 import CategoryTabs from 'custom/components/CategoryTabs';
@@ -49,75 +48,6 @@ const HomePage = props => {
 
     return (
         <Fragment>
-            {/* <Carousel /> */}
-
-            <Grid
-                container
-                direction = 'row'
-                justify = 'center'
-                alignItems = 'center'
-                alignContent = 'center'
-            >
-                    
-                {!matches &&(
-                    <Grid
-                    item 
-                    md = { 6 }
-                    xs = { 12 }
-                >
-                     <Grid
-                            container
-                            direction = 'column'
-                            justify = 'center'
-                            alignItems = 'center'
-                            alignContent = 'center'
-                        >
-                            <img 
-                                src = 'https://cdn.shopify.com/s/files/1/0471/9814/2623/files/Lulis_web_22_503x.jpeg?v=1599172549'
-                            />
-                        </Grid>
-                </Grid>
-                )}
-
-                <Grid
-                    item
-                    md = { 6 }
-                    xs = { 12 }
-                >
-                    <Grid
-                        container
-                        direction = 'column'
-                        justify = 'flex-start'
-                        alignItems = 'flex-start'
-                        alignContent = 'flex-start'
-                    >
-                        <Typography variant = 'h2' className = { classes.title }>
-                            FRESH
-                        </Typography>
-
-                        <Typography variant = 'h2' className = { classes.title }>
-                            CHUNKY
-                        </Typography>
-
-                        <Typography variant = 'h2' className = { classes.title }>
-                            GOOEY
-                        </Typography>
-
-                        <Typography variant = 'h2' className = { classes.title }>
-                            SUPER
-                        </Typography>
-
-                        <Typography variant = 'h2' className = { classes.title }>
-                            YUMMY XL
-                        </Typography>
-
-                        <Typography variant = 'h2' className = { classes.title }>
-                            COOKIES
-                        </Typography>
-                    </Grid>
-                </Grid>
-                 </Grid>
-
             <CategoryTabs 
                 catalogItems = { catalogItems }
                 currencyCode = { currencyCode }
