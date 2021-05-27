@@ -12,11 +12,11 @@ networks:
       name: reaction.localhost
 
 services:
-  # web:
-  #   image: reactioncommerce/example-storefront:4.0.2
   web:
-    build: 
-      context: .
+    image: luiscelano/storefront:1.0.0
+  # web:
+  #   build: 
+  #     context: .
     env_file:
       - ./.env
     networks:
