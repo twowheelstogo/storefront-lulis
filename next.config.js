@@ -11,6 +11,7 @@ module.exports = {
     STRIPE_PUBLIC_API_KEY: appConfig.STRIPE_PUBLIC_API_KEY,
     ENABLE_SPA_ROUTING: appConfig.ENABLE_SPA_ROUTING
   },
+  target:"serverless",
   webpack: (webpackConfig) => {
     webpackConfig.module.rules.push({
       test: /\.(gql|graphql)$/,

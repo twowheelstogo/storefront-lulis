@@ -35,7 +35,7 @@ function SlideHero(props){
     return(
         <React.Fragment>
             <div className={classes.hero}>
-            <video id="video-player" className={classes.videoPlayer} poster="//cdn.shopify.com/s/files/1/0100/4575/1377/files/Homepage_Desktop_Still0_2_1600x.jpg?v=1571852084" playsinline="" muted="" autoplay="" loop="" width="100%">
+            <video id="video-player" className={classes.videoPlayer} poster="//cdn.shopify.com/s/files/1/0100/4575/1377/files/Homepage_Desktop_Still0_2_1600x.jpg?v=1571852084" playsInline="" muted="" autoplay="" loop="" width="100%">
                 <source src="https://cdn.shopify.com/s/files/1/0253/7442/5166/files/LB_Homepage_Cookie_Break.mp4?14611" type="video/mp4"/>
                 
                 Your browser does not support the video tag.
