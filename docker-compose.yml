@@ -13,10 +13,9 @@ networks:
 
 services:
   web:
-    image: luiscelano/storefront:1.0.0
-  # web:
-  #   build: 
-  #     context: .
+    image: luiscelano/storefront:1.0.2
+    # build: 
+    #   context: .
     env_file:
       - ./.env
     networks:
