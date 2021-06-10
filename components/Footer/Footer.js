@@ -156,6 +156,9 @@ const Footer = ({ ...props }) => (
                             <Typography variant = 'body1' className = { props.classes.footerContent}>
                                 <Link href="/en/faq" color="inherit">{"Preguntas Frecuentes"}</Link>
                             </Typography>
+                            <Typography variant = 'body1' className = { props.classes.footerContent}>
+                                <Link href="/en/about" color="inherit">{"Sobre Nosotros"}</Link>
+                            </Typography>
                             {/* <div >
                                 <TextField 
                                     fullwidth
