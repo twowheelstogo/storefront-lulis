@@ -70,7 +70,9 @@ const Home = props => {
     }
 
 	return(
-		<MainLayout shop = { shop }>
+		<MainLayout shop = { shop } title="YUM NOM NOM :)"
+		subtitle="" background="https://cdn.shopify.com/s/files/1/0253/7442/5166/files/LB_Homepage_Cookie_Break.mp4?14611"
+		type="video">
 			<Helmet>
 				<title>{shop && shop.name}</title>
 				<meta name="description" content={shop && shop.description} />

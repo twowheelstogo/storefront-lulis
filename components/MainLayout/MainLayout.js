@@ -22,6 +22,10 @@ class MainLayout extends Component{
     static propTypes = {
       children: PropTypes.node,
       classes: PropTypes.object,
+      title:PropTypes.string,
+      subtitle:PropTypes.string,
+      background:PropTypes.string,
+      type:PropTypes.string.isRequired,
       shop: PropTypes.shape({
         name: PropTypes.string.isRequired
       }),
@@ -33,12 +37,15 @@ class MainLayout extends Component{
     };
   
     render(){
-        const {classes,children,shop,viewer} = this.props;
+        const {classes,children,shop,viewer,title,subtitle,background,type} = this.props;
+        const sliderProps={
+          title,subtitle,background,type
+        }
         return (
             <React.Fragment>
                 <div className={classes.root}>
                 <Header shop={shop} viewer={viewer}/>
-                <SlideHero/>
+                <SlideHero {...sliderProps}/>
                 <main className={classes.main}>
                     <article className={classes.article}>{children}</article>
                 </main>
