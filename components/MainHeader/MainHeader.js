@@ -21,7 +21,7 @@ const styles = (theme)=>({
     },
     scrolledAppBar:{
         background:'white',
-        color:"#84C7D9"
+        color:"#0095b3"
     },
     logo:{
         marginLeft: theme.spacing(1),

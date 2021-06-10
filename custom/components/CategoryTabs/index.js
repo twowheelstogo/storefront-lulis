@@ -52,73 +52,10 @@ const CategoryTabs = props =>  {
 
     const products = (catalogItems || []).map((item) => item.node.product);
     console.log(products);
-    products.map( product => {
-        if(categories.includes(product.metafields[0].value)) {
-            productsByCategories.map( category => {
-                if(category.name === product.metafields[0].value) {
-                    category.products.push(product);
-                };
-            });
-        } else {
-            categories.push(product.metafields[0].value);
-
-            productsByCategories.push({
-                name: product.metafields[0].value,
-                products: [ product ] 
-            });
-        };
-    });
 
     return(
         <Fragment>
-            {
-                isLoadingCatalogItems ? (
-                    <PageLoading />
-                ) : (
-                    <div className = { classes.bg }>
-                        <AppBar 
-                            position = 'static' 
-                            color = 'transparent'
-                            className = { classes.appbarBG }
-                        >
-                            <Tabs 
-                                value = { tab } 
-                                onChange = { handleTabChange }
-                                aria-label = "simple tabs"
-                            >
-                                {
-                                    categories.map( category => 
-                                        <Tab label = { category } />    
-                                    )
-                                }
-                            </Tabs>
-                        </AppBar>
-                                {
-                                    categories.map((cat,index)=>{
-                                        console.log(index);
-                                        if(tab===index) return <ProductGrid products = { productsByCategories[index].products } />  
-                                    })
-                                }
-                        {/* {
-                            tab === 0 && (
-                                <ProductGrid products = { productsByCategories[0].products } />    
-                            )
-                        }
-
-                        {
-                            tab === 1 && (
-                                <ProductGrid products = { productsByCategories[1].products } />    
-                            )
-                        }
-
-                        {
-                            tab === 2 && (
-                                <ProductGrid products = { productsByCategories[2].products } />    
-                            )
-                        } */}
-                    </div>
-                )
-            }
+            <ProductGrid products = {products} /> 
         </Fragment>
     );
 };

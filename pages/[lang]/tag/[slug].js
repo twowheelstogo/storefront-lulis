@@ -8,10 +8,10 @@ import ProductGrid from "components/ProductGrid";
 import ProductGridEmptyMessage from "components/ProductGrid/ProductGridEmptyMessage";
 import ProductGridHero from "components/ProductGridHero";
 import ProductGridTitle from "components/ProductGridTitle";
-import Layout from "components/Layout";
+import MainLayout from "components/MainLayout";
 import SharedPropTypes from "lib/utils/SharedPropTypes";
 import { withApollo } from "lib/apollo/withApollo";
-
+import CustomProductGrid from "custom/components/ProductGrid";
 import { locales } from "translations/config";
 import fetchPrimaryShop from "staticUtils/shop/fetchPrimaryShop";
 import fetchAllTags from "staticUtils/tags/fetchAllTags";
@@ -95,7 +95,17 @@ class TagGridPage extends Component {
     }
     return metatags;
   }
-
+  getMetaImage(metafields){
+    let url="https://firebasestorage.googleapis.com/v0/b/twowheelstogo-572d7.appspot.com/o/resources%2Fezgif.com-gif-maker(2).png?alt=media&token=e1c9e79f-4977-4288-9fd5-7737dc96e268s"
+    metafields.forEach((field)=>{
+      if(field.key=="og:image") url =field.value;
+    })
+    return url
+  }
+  getMediaUrl(heroMediaUrl){
+    if(heroMediaUrl==null) return "https://firebasestorage.googleapis.com/v0/b/twowheelstogo-572d7.appspot.com/o/resources%2Fezgif.com-gif-maker(2).png?alt=media&token=e1c9e79f-4977-4288-9fd5-7737dc96e268s";
+    return heroMediaUrl;
+  }
   render() {
     const {
       catalogItems,
@@ -111,18 +121,25 @@ class TagGridPage extends Component {
 
     if (!tag && !shop) {
       return (
-        <Layout shop={shop}>
+        <MainLayout shop={shop} title={`No encontrado`}
+        subtitle=""
+        type="image"
+        background="https://firebasestorage.googleapis.com/v0/b/twowheelstogo-572d7.appspot.com/o/resources%2Fezgif.com-gif-maker(2).png?alt=media&token=e1c9e79f-4977-4288-9fd5-7737dc96e268s">  
           <ProductGridEmptyMessage
             actionMessage="Go Home"
             resetLink="/"
           />
-        </Layout>
+        </MainLayout>
       );
     }
-
+    console.log("tag properties: ",tag);
     return (
-      <Layout shop={shop}>
-        <Helmet
+      <MainLayout shop={shop}
+      title={`${tag.displayTitle|| "Sin etiqueta"}`}
+      subtitle=""
+      type="image"
+      background={this.getMediaUrl(tag.heroMediaUrl)}>
+      <Helmet
           title={`${tag && tag.name} | ${shop && shop.name}`}
           meta={
             tag && tag.metafields && tag.metafields.length > 0 ?
@@ -131,12 +148,11 @@ class TagGridPage extends Component {
               [{ name: "description", content: shop && shop.description }]
           }
         />
-        <Breadcrumbs isTagGrid tagId={routingStore.tagId} />
+        {/* <Breadcrumbs isTagGrid tagId={routingStore.tagId} />
         {
           tag && tag.displayTitle && <ProductGridTitle displayTitle={tag.displayTitle} />
-        }
-        <ProductGridHero tag={tag} />
-        <ProductGrid
+        } */}
+        {/* <ProductGrid
           catalogItems={catalogItems}
           currencyCode={shop.currency.code}
           isLoadingCatalogItems={isLoadingCatalogItems}
@@ -145,8 +161,11 @@ class TagGridPage extends Component {
           setPageSize={this.setPageSize}
           setSortBy={this.setSortBy}
           sortBy={sortBy}
+        /> */}
+        <CustomProductGrid
+        products={(catalogItems || []).map((item) => item.node.product)}
         />
-      </Layout>
+      </MainLayout>
     );
   }
 }

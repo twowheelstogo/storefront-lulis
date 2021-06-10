@@ -6,7 +6,8 @@ import Divider from '@material-ui/core/Divider';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-
+import Link from "@material-ui/core/Link";
+import {  } from "react";
 const date = new Date();
 
 const styles = (theme) => ({
@@ -76,7 +77,7 @@ const Footer = ({ ...props }) => (
                             </Typography>
 
                             <Typography variant = 'body1' className = { props.classes.footerContent}>
-                                Pago y Garantías
+                                <Link href="/en/terms" color="inherit">{"Pago y Garantías"}</Link>
                             </Typography>
                         </Grid>
                     </Grid>
@@ -132,7 +133,7 @@ const Footer = ({ ...props }) => (
                             </Typography>
 
                             <Typography variant = 'body1' className = { props.classes.footerContent}>
-                                Políticas de devolución
+                                <Link href="/en/politics" color="inherit">{"Políticas de devolución"}</Link>
                             </Typography>
                         </Grid>
                     </Grid>
@@ -150,10 +151,12 @@ const Footer = ({ ...props }) => (
                             alignContent = 'flex-start'N
                         >
                             <Typography variant = 'h5' className = { props.classes.footerHeader }>
-                                SUSCRÍBETE
+                                DUDAS
                             </Typography>
-
-                            <div >
+                            <Typography variant = 'body1' className = { props.classes.footerContent}>
+                                <Link href="/en/faq" color="inherit">{"Preguntas Frecuentes"}</Link>
+                            </Typography>
+                            {/* <div >
                                 <TextField 
                                     fullwidth
                                     type = 'email'
@@ -168,7 +171,7 @@ const Footer = ({ ...props }) => (
                                 >
                                     SUSCRIBIRSE
                                 </Button>
-                            </div>
+                            </div> */}
                         </Grid>
                     </Grid>
 
