@@ -244,7 +244,7 @@ class ShippingAddressCheckoutAction extends Component {
     const { alert, 
       components: { InlineAlert }, 
       label, stepNumber,
-      authStore:{account:{addressBook}},
+      authStore:{account:{addressBook},accountId},
       onSubmit,
       onAddressAdded,
       onAddressEdited,
@@ -253,28 +253,32 @@ class ShippingAddressCheckoutAction extends Component {
     const accountAddressBook = {
         addressBook: addresses
       };
+      console.log("authStore: ",this.props.authStore);
+      console.log("addressBook: ",addressBook);
     return (
       <Fragment>
         <Title>
           {stepNumber}. {label}
         </Title>
         {alert ? <InlineAlert {...alert} /> : ""}
-        <AddressBook
-        account={accountAddressBook}
-        onAddressAdded={async(values)=>{
-          await onAddressAdded(values);
-          await onSubmit(values);
-          console.log("New Address Added");
-        }}
-        onAddressEdited={async(id,values)=>{
-          console.log("onAddressEdited: ",values)
-          await onAddressEdited(id,values);
-          await onSubmit(values);
-          console.log("form submitted");
-        }}
-        onAddressDeleted={onAddressDeleted}
-        />
-        {/* {this.renderAddressCapture()} */}
+        {accountId!=null &&(
+          <AddressBook
+          account={accountAddressBook}
+          onAddressAdded={async(values)=>{
+            await onAddressAdded(values);
+            await onSubmit(values);
+            console.log("New Address Added");
+          }}
+          onAddressEdited={async(id,values)=>{
+            console.log("onAddressEdited: ",values)
+            await onAddressEdited(id,values);
+            await onSubmit(values);
+            console.log("form submitted");
+          }}
+          onAddressDeleted={onAddressDeleted}
+          />
+        )}
+        {accountId==null && this.renderAddressCapture()}
       </Fragment>
     );
   }

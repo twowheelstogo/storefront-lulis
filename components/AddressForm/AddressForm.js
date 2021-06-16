@@ -8,8 +8,6 @@ import { applyTheme, CustomPropTypes, getRequiredValidator } from "@reactioncomm
 import GoogleMapComponent from "components/GoogleMaps";
 import { StandaloneSearchBox } from "react-google-maps/lib/components/places/StandaloneSearchBox";
 import withGoogleMaps from "containers/maps/withGoogleMap";
-import { withComponents } from "@reactioncommerce/components-context";
-import { forEach } from "lodash";
 const PlacesWithStandaloneSearchBox = (props)=>
 {
   return <div data-standalone-searchbox="">

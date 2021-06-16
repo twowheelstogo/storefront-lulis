@@ -10,7 +10,7 @@ import { withComponents } from "@reactioncommerce/components-context";
  * @return {React.Component} Wrapped component
  */
 export default function withCheckoutAddressBook(Component) {
-  function WithCheckoutAddressBook(props) { // eslint-disable-line require-jsdoc
+  const WithCheckoutAddressBook = React.forwardRef((props,ref)=>{
     const [addAccountAddressBookEntry] = useAddAccountAddressBookEntry();
     const [updateAccountAddressBookEntry] = useUpdateAccountAddressBookEntry();
     const [removeAccountAddressBookEntry] = useRemoveAccountAddressBookEntry();
@@ -18,12 +18,13 @@ export default function withCheckoutAddressBook(Component) {
     return (
       <Component
         {...props}
+        ref={ref}
         onAddressAdded={addAccountAddressBookEntry}
         onAddressEdited={updateAccountAddressBookEntry}
         onAddressDeleted={removeAccountAddressBookEntry}
       />
     );
-  }
+  })
 
   hoistNonReactStatic(WithCheckoutAddressBook, Component);
 
