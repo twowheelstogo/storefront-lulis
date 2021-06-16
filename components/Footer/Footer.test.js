@@ -5,6 +5,6 @@ import Footer from "./Footer";
 test("Renders the footer", () => {
   render(<Footer />);
 
-  const footerText = screen.getByText(/Reaction Commerce/);
+  const footerText = screen.getByText(/Lulis GT/);
   expect(footerText).toBeInTheDocument();
 });
