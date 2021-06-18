@@ -213,7 +213,9 @@ class ShippingAddressCheckoutAction extends Component {
       onAddressValidation
     } = this.props;
     const { formErrors } = this.state;
-
+    console.log("inEdit: ",this.inEdit);
+    console.log("getSubmittedAddress: ",this.getSubmittedAddress);
+    console.log("getShippingAddress: ",this.getShippingAddress);
     const captureProps = {
       addressFormProps: {
         onChange: this.handleChange,

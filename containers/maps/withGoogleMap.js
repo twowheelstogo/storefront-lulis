@@ -1,6 +1,6 @@
 import React from "react";
-import { compose, withProps,lifecycle } from "recompose"
-import { withScriptjs, withGoogleMap, GoogleMap, Marker } from "react-google-maps"
+import { compose, withProps,withHandlers,withState } from "recompose"
+import { withScriptjs } from "react-google-maps"
 import hoistNonReactStatic from "hoist-non-react-statics";
 import { withComponents } from "@reactioncommerce/components-context";
 const enhance = compose(
@@ -11,26 +11,23 @@ const enhance = compose(
       containerElement: <div style={{ height: `400px` }} />,
       mapElement:<div style={{ height: `100%` }} />
     }),
-    lifecycle({
-      componentWillMount() {
-        const refs = {};
-  
-        this.setState({
-          places: [],
-          locationRef:"",
-          onSearchBoxMounted: (ref) => {
-            console.log("onSearchBoxMounted: ", ref);
-            refs.searchBox = ref;
-          },
-          onPlacesChanged: () => {
-            const places = refs.searchBox.getPlaces();
-            console.log("onPlacesChanged: ", places);
-            this.setState({
-              places,
-              locationRef:`${places[0].geometry.location.lat()},${places[0].geometry.location.lng()}`
-            });
-          }
-        });
+    withState('refs','setRefs',{}),
+    withState('locationRef','setLocation',''),
+    withState('places','setPlaces',[]),
+    withHandlers({
+      onSearchBoxMounted:({setRefs})=> (ref) => {
+        console.log("onSearchBoxMounted: ", ref);
+        setRefs(prev=>({
+          ...prev,
+          searchBox:ref
+        }))
+      },
+      onPlacesChanged:({setPlaces,setLocation,refs})=> () => {
+        const places = refs.searchBox.getPlaces();
+        setPlaces(places);
+        const locationRef = `${places[0].geometry.location.lat()},${places[0].geometry.location.lng()}`;
+        setLocation(locationRef);
+        console.log("onPlacesChanged: ", places);
       }
     }),
     withScriptjs

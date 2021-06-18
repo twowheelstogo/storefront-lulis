@@ -13,7 +13,7 @@ networks:
 
 services:
   web:
-    image: luiscelano/storefront:1.0.3
+    image: luiscelano/storefront:1.0.4
     #image: reactioncommerce/example-storefront:4.0.2
     # build: 
     #   context: .
