@@ -10,7 +10,8 @@ import Hidden from "@material-ui/core/Hidden";
 import Toolbar from "@material-ui/core/Toolbar";
 import { toPairs } from "lodash";
 import MiniCart from "components/MiniCart";
-import AccountDropdown from "components/AccountDropdown";import inject from "hocs/inject";
+import AccountDropdown from "components/AccountDropdown";
+import inject from "hocs/inject";
 
 const styles = (theme)=>({
     root:{

@@ -7,7 +7,7 @@ import ButtonBase from "@material-ui/core/ButtonBase";
 import AccountIcon from "mdi-material-ui/Account";
 import Popover from "@material-ui/core/Popover";
 import useViewer from "hooks/viewer/useViewer";
-import ViewerInfo from "@reactioncommerce/components/ViewerInfo/v1";
+import ViewerInfo from "components/ViewerInfo";
 import Link from "components/Link";
 
 const useStyles = makeStyles((theme) => ({

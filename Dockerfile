@@ -31,7 +31,7 @@ RUN export $(grep -v '^#' .env.${NEXTJS_DOTENV:-prod} | xargs -0) && yarn build
 # Install only prod dependencies now that we've built, to make the image smaller
 RUN rm -rf node_modules/*
 RUN yarn install --production=true --frozen-lockfile --ignore-scripts --non-interactive
-
+#RUN rm -rf .env && rm -rf .env.prod
 # If any Node flags are needed, they can be set in the NODE_OPTIONS env variable.
 CMD ["tini", "--", "yarn", "start"]
 LABEL com.reactioncommerce.name="example-storefront"

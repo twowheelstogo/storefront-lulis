@@ -13,10 +13,10 @@ networks:
 
 services:
   web:
-    image: luiscelano/storefront:1.0.4
+    image: luiscelano/storefront:1.0.5
     #image: reactioncommerce/example-storefront:4.0.2
-    # build: 
-    #   context: .
+    build: 
+      context: .
     env_file:
       - ./.env
     networks:
