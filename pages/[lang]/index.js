@@ -12,6 +12,7 @@ import HomePage from 'custom/homePage';
 import { locales } from "translations/config";
 import fetchPrimaryShop from "staticUtils/shop/fetchPrimaryShop";
 import fetchTranslations from "staticUtils/translations/fetchTranslations";
+import fetchAllTags from "staticUtils/tags/fetchAllTags";
 
 // @inject("routingStore")
 // @observer
@@ -55,12 +56,12 @@ const Home = props => {
 		isLoadingCatalogItems,
 		routingStore: { query },
 		shop,
+		tags,
 		uiStore
 	} = props;
 
 	const pageSize = query && inPageSizes(query.limit) ? parseInt(query.limit, 10) : uiStore.pageSize;
     const sortBy = query && query.sortby ? query.sortby : uiStore.sortBy;
-
 	let pageTitle;
     if (shop) {
       pageTitle = shop.name;
@@ -84,6 +85,7 @@ const Home = props => {
 				isLoadingCatalogItems={ isLoadingCatalogItems }
 				pageInfo={ catalogItemsPageInfo }
 				pageSize={ pageSize }
+				tags={tags}
 				setPageSize={ setPageSize }
 				setSortBy={ setSortBy }
 				sortBy={ sortBy }
@@ -102,13 +104,14 @@ const Home = props => {
 export async function getStaticProps({ params: { lang } }) {
 	const primaryShop = await fetchPrimaryShop(lang);
 	const translations = await fetchTranslations(lang, ["common"]);
-
+	const fetchAllTags = await fetchAllTags(lang)
 	if (!primaryShop) {
 		return {
 			props: {
 			shop: null,
 			...translations
 			},
+			fetchAllTags:null,
 			// eslint-disable-next-line camelcase
 			unstable_revalidate: 1 // Revalidate immediately
 		};
@@ -117,7 +120,8 @@ export async function getStaticProps({ params: { lang } }) {
 	return {
 		props: {
 			...primaryShop,
-			...translations
+			...translations,
+			...fetchAllTags
 		},
 		// eslint-disable-next-line camelcase
 		unstable_revalidate: 120 // Revalidate each two minutes
