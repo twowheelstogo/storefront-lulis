@@ -50,20 +50,17 @@ const CategoryTabs = props =>  {
         sortBy,
         tags
     } = props;
-
-    // const products = (catalogItems || []).map((item) => item.node.product);
-    console.log(products);
-
+    console.log(tags);
     return(
         <Fragment>
             {/* <ProductGrid products = {products} />  */}
             {(tags||[]).map(item=>{
                 const products = (catalogItems||[]).filter((element)=>{
-                    return item.node.product.tagIds.find((ids)=>ids==item.node._id)!=undefined;
+                    return element.node.product.tagIds.find((ids)=>ids==item._id)!=undefined;
                 }).map((value)=>value.node.product);
-                return <CategoryLayout 
-                title={item.node.displayTitle}
-                products={products}/>
+                return products.length>0?<CategoryLayout 
+                title={item.displayTitle}
+                products={products}/>:<div></div>
             })}
         </Fragment>
     );

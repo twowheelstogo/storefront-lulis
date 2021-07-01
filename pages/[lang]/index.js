@@ -59,7 +59,7 @@ const Home = props => {
 		tags,
 		uiStore
 	} = props;
-
+	console.log(props);
 	const pageSize = query && inPageSizes(query.limit) ? parseInt(query.limit, 10) : uiStore.pageSize;
     const sortBy = query && query.sortby ? query.sortby : uiStore.sortBy;
 	let pageTitle;
@@ -104,7 +104,7 @@ const Home = props => {
 export async function getStaticProps({ params: { lang } }) {
 	const primaryShop = await fetchPrimaryShop(lang);
 	const translations = await fetchTranslations(lang, ["common"]);
-	const fetchAllTags = await fetchAllTags(lang)
+	const tags = await fetchAllTags(lang)
 	if (!primaryShop) {
 		return {
 			props: {
@@ -121,7 +121,7 @@ export async function getStaticProps({ params: { lang } }) {
 		props: {
 			...primaryShop,
 			...translations,
-			...fetchAllTags
+			...tags
 		},
 		// eslint-disable-next-line camelcase
 		unstable_revalidate: 120 // Revalidate each two minutes
