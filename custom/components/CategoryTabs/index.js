@@ -14,7 +14,7 @@ import PageStepper from "components/PageStepper";
 import PageSizeSelector from "components/PageSizeSelector";
 import SortBySelector from "components/SortBySelector";
 import ProductGrid from "../ProductGrid";
-
+import CategoryLayout from 'components/CategoryLayout';
 const useStyles = makeStyles( theme => ({
     bg: { 
         // backgroundColor: '#e8fbff',
@@ -47,15 +47,21 @@ const CategoryTabs = props =>  {
         pageSize,
         setPageSize,
         setSortBy,
-        sortBy
+        sortBy,
+        tags
     } = props;
-
-    const products = (catalogItems || []).map((item) => item.node.product);
-    console.log(products);
-
+    console.log(tags);
     return(
         <Fragment>
-            <ProductGrid products = {products} /> 
+            {/* <ProductGrid products = {products} />  */}
+            {(tags||[]).map(item=>{
+                const products = (catalogItems||[]).filter((element)=>{
+                    return element.node.product.tagIds.find((ids)=>ids==item._id)!=undefined;
+                }).map((value)=>value.node.product);
+                return products.length>0?<CategoryLayout 
+                title={item.displayTitle}
+                products={products}/>:<div></div>
+            })}
         </Fragment>
     );
 };

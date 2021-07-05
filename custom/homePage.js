@@ -39,7 +39,8 @@ const HomePage = props => {
         pageSize,
         setPageSize,
         setSortBy,
-        sortBy
+        sortBy,
+        tags
     } = props;
     const uiTheme = useTheme();
     const matches = useMediaQuery(uiTheme.breakpoints.down("xs"));
@@ -57,6 +58,7 @@ const HomePage = props => {
                 setPageSize = { setPageSize }
                 setSortBy = { setSortBy }
                 sortBy = { sortBy }
+                tags={tags}
             />
 
             <ShowImage />
