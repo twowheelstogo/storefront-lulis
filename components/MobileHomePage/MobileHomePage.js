@@ -15,7 +15,9 @@ const MobileHomePage = (props)=>{
             catalogItems,
             tags,
             classes,
-            cart:{items}
+            cart:{items},
+            addItemsToCart,
+            onChangeCartItemsQuantity
         } = props;
         const [selected,SetSelected] = useState(tags[0]||null);
         const products = catalogItems.filter((element=>{
@@ -24,14 +26,14 @@ const MobileHomePage = (props)=>{
             const productInCart = items.find((cartItem)=>cartItem.productSlug==item.node.product.slug);
             return{
                 ...item.node.product,
-                ...productInCart
+                cartItem:productInCart
             }
         })
         return(
             <React.Fragment>
                 <CatalogNavItems tags={tags} selected={selected} SetSelected={SetSelected}/>
                 <div className={classes.productList}>
-                <ProductGrid products ={products}/>
+                <ProductGrid products ={products} addItemsToCart={addItemsToCart} onChangeCartItemsQuantity={onChangeCartItemsQuantity}/>
                 </div>
             </React.Fragment>
         );

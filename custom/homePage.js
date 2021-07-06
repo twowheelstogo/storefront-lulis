@@ -41,7 +41,9 @@ const HomePage = props => {
         setSortBy,
         sortBy,
         tags,
-        cart
+        cart,
+        addItemsToCart,
+        onChangeCartItemsQuantity
     } = props;
     const uiTheme = useTheme();
     const matches = useMediaQuery(uiTheme.breakpoints.down("xs"));
@@ -61,6 +63,8 @@ const HomePage = props => {
                 sortBy = { sortBy }
                 tags={tags}
                 cart={cart}
+                addItemsToCart={addItemsToCart}
+                onChangeCartItemsQuantity={onChangeCartItemsQuantity}
             />
 
         </Fragment>

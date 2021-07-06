@@ -73,7 +73,9 @@ const Home = props => {
 		shop,
 		tags,
 		uiStore,
-		cart
+		cart,
+		addItemsToCart,
+		onChangeCartItemsQuantity
 	} = props;
 	const pageSize = query && inPageSizes(query.limit) ? parseInt(query.limit, 10) : uiStore.pageSize;
     const sortBy = query && query.sortby ? query.sortby : uiStore.sortBy;
@@ -87,7 +89,7 @@ const Home = props => {
 
 	return(
 		<MainLayout shop = { shop } title="YUM NOM NOM :)"
-		subtitle="" background="https://ucac3f0aaead6791e3a985872cfc.previews.dropboxusercontent.com/p/thumb/ABOvdn79ya6NmtC1atQ6RSOWuPQXRLIsa_bGz68IgC8mtMY4MB1c95jAVTcDQrp5R49ZW9PfgkL2WnbcXHfbIsJBMIHV6PvN4V2ZmCuZi_UEdrVpNelZBTGTuKCx_IxBtE71P2Ufz-IOXyrU8OnltQ1yiZhvD4MLe7xvcGmgfLPyDot8sPjG-huQTr-6fksXHVHUEvLvuQfSKnqxEBL0KmCZEsbRWb_AzwiYIV-kaSSwngoB3JLBYUYeLfPONTDlznpltQ8QH0SpzT5Bndk596HBBOGcxVVrQn9n5kLmCnZzBzKpLijkBjKRJCdTuIJAix8cdBqHF3Cz1OpnDJ3aq4JikQcN5ZexryN3T-SPrYnzUA/p.png?fv_content=true&size_mode=5"
+		subtitle="" background="https://uc7745e148afe2ab7827903ef17b.previews.dropboxusercontent.com/p/thumb/ABNxCOd93WAixMAVC1Slu5bzrRqS38z4TWnl2a5UYiKbAuCG4nYom3Ly5-gOibY72Y1DqBYy8aKAhEn1tRbreeUcQtdVR5mi3lXZPnYKJ1KOKofmu_DzW_WHlZXDX29h71YcWmNFzFRAhSSNUKGsm5zec0UeW4K4ovG4tFBJHltdyLLuad3F7obIMP0XpqTiRygzQnhOs_PIrnYGVuXMTo4GJT-_1o1elXx9hYMXk9iMUzdBysIY-ynioKvTZl1gERWalfnIbgIPh6GNHOwxbxIKpRuTq-jkx2HRKLkcgWLFTZ_ImIgtehIWlL406JgKI8T1IJapSCN5t8PUKso-KB9g6OBOp3BX910Yw67wfLQACQ/p.png?fv_content=true&size_mode=5"
 		type="image">
 			<Helmet>
 				<title>{shop && shop.name}</title>
@@ -106,6 +108,8 @@ const Home = props => {
 					setSortBy={ setSortBy }
 					sortBy={ sortBy }
 					cart={cart}
+					addItemsToCart={addItemsToCart}
+					onChangeCartItemsQuantity={onChangeCartItemsQuantity}
 				/>
 				</main>
 			)}
@@ -114,6 +118,8 @@ const Home = props => {
 				 catalogItems = {catalogItems}
 				 tags = {tags}
 				 cart={cart}
+				 addItemsToCart={addItemsToCart}
+				 onChangeCartItemsQuantity={onChangeCartItemsQuantity}
 				/>
 			)}
         </MainLayout>

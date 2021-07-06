@@ -6,6 +6,7 @@ import {Add as AddIcon, Remove as RemoveIcon} from "@material-ui/icons"
 import styled from "styled-components";
 import Link from "components/Link"
 import Badge from "@material-ui/core/Badge";
+import priceByCurrencyCode from "lib/utils/priceByCurrencyCode";
 const StyledContent = styled.div`
 display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -73,15 +74,45 @@ const styles = (theme)=>({
     }
 });
 class HorizontalProductCard extends React.Component{
+    constructor(props){
+        super(props);
+    }
     static propTypes = {
 
+    }
+    async HandleAddItemToCart(props){
+        const {product,addItemsToCart} = props;
+        const currentVariant = product.variants[0];
+        const price = priceByCurrencyCode("USD",currentVariant.pricing);
+        await addItemsToCart([
+            {
+                price:{
+                amount:price.price,
+                currencyCode:"USD",
+                },
+                productConfiguration:{
+                    productId:product.productId,
+                    productVariantId:currentVariant.variantId
+                },
+                quantity:1
+            }
+        ])
+
+    }
+    HandleRemoveItemToCart(props){
+        const {onChangeCartItemsQuantity,product} = props;
+        onChangeCartItemsQuantity({
+            quantity:product.cartItem.quantity-1,
+            cartItemId:product.cartItem._id
+        });
     }
     render(){
         const {classes,product} = this.props;
         const {slug} = product;
+        const quantity = product.cartItem!=undefined?product.cartItem.quantity:0
         return(
             <React.Fragment>
-                <Badge badgeContent={product.quantity||0}
+                <Badge badgeContent={quantity}
                  classes={{ badge: classes.badge }}>
                 <div className={classes.root}>
                     <div className={classes.leading}>
@@ -98,10 +129,10 @@ class HorizontalProductCard extends React.Component{
                     <div className={classes.trailing}>
                         <div className= {classes.title} style={{display:'flex',justifyContent:'flex-end'}}>{product.pricing[0].displayPrice}</div>
                         <div className={classes.controls}>
-                            <IconButton size="small" color="primary">
+                            <IconButton size="small" color="primary" disabled={product.cartItem==undefined} onClick={()=>this.HandleRemoveItemToCart(this.props)}>
                             <RemoveIcon/>
                             </IconButton>
-                            <IconButton size="small" color="primary">
+                            <IconButton size="small" color="primary" onClick={()=>this.HandleAddItemToCart(this.props)}>
                             <AddIcon/>
                             </IconButton>
                         </div>

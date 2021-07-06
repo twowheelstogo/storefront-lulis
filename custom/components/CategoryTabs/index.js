@@ -49,7 +49,9 @@ const CategoryTabs = props =>  {
         setSortBy,
         sortBy,
         tags,
-        cart:{items}
+        cart:{items},
+        addItemsToCart,
+        onChangeCartItemsQuantity
     } = props;
     return(
         <Fragment>
@@ -61,12 +63,14 @@ const CategoryTabs = props =>  {
                     const productInCart = items.find((cartItem)=>cartItem.productSlug==value.node.product.slug);
                         return{
                             ...value.node.product,
-                            ...productInCart
+                            cartItem:productInCart
                         }
                 });
                 return products.length>0?<CategoryLayout 
                 title={item.displayTitle}
-                products={products}/>:<div></div>
+                products={products}
+                addItemsToCart={addItemsToCart}
+                onChangeCartItemsQuantity={onChangeCartItemsQuantity}/>:<div></div>
             })}
         </Fragment>
     );
