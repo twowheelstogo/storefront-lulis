@@ -11,19 +11,20 @@ const theme = createMuiTheme({
   },
   palette: {
     primary: {
-      light: "#26B0F9",
-      main: "#0095b3",
-      dark: "#172F3C",
+      light: "#4F4F4E",
+      main: "#000025",
+      dark: "#0C0547",
       contrastText: "#FFFFFF"
     },
     secondary: {
-      light: "#5d8ea9",
-      main: "#5E7480",
-      dark: "#1D1D1D",
+      light: "#84C7D9",
+      main: "#7A6240",
+      dark: "#242356",
       contrastText: "#000000"
     },
     background: {
-      default: "#ffffff"
+      default: "#ffffff",
+      cards:'#F1F1F1'
     },
     error: {
       light: "#E54F5D",
@@ -39,7 +40,9 @@ const theme = createMuiTheme({
       buttonBorderColor: "#5e7480"
     },
     borders: {
-      default: "1px solid #e6e6e6"
+      default: "1px solid #0095b3",
+      main:"1px solid #000025",
+      secondary:"1px solid #7A6240"
     },
     reaction: {
       activeElementBorderColor: "#94E8D1",
@@ -148,17 +151,28 @@ const theme = createMuiTheme({
     fontWeightBold: 700,
     subtitle2: {
       fontSize: 14,
-      color: "#737373"
+      fontWeight:300,
+      color: "#7A6240"
     },
     body2: {
+      fontSize: 18,
+      fontWeight: 400,
+      color: "#7A6240"
+    },
+    body1:{
       fontSize: 14,
       fontWeight: 400,
-      color: "#595959"
+      color: "#7A6240"
     },
     subtitle1: {
       fontSize: 16,
       fontWeight: 600,
-      color: "#3c3c3c"
+      color: "#7A6240"
+    },
+    title1:{
+      fontSize:18,
+      fontWeight:700,
+      color:"#000025"
     }
   }
 });

@@ -1,24 +1,17 @@
-import React, { Fragment } from 'react';
-import { 
-    makeStyles,
-    Grid,
-    
-} from '@material-ui/core';
-
+import React from "react";
+import {Grid} from "@material-ui/core"
 import ProductCard from 'components/HorizontalProductCard';
-
-const useStyles = makeStyles( theme => ({
+import {withStyles} from "@material-ui/core/styles";
+const styles = (theme)=>({
     grid: {
-        margin: theme.spacing(0, 0)
+        margin: theme.spacing(2, 0)
     }
-}));
-
-const ProductGrid = props => {
-    const { products } = props;
-    const classes = useStyles();
-
-    return (
-        <Fragment>
+})
+class CustomProductGrid extends React.Component{
+    render(){
+        const {classes} = this.props;
+        return(
+        <React.Fragment>
             <Grid
                 container
                 direction = 'row'
@@ -41,8 +34,8 @@ const ProductGrid = props => {
                     )
                 }
             </Grid>
-        </Fragment>
-    );
-};
-
-export default ProductGrid;
+        </React.Fragment>
+        );
+    }
+}
+export default (styles)(CustomProductGrid);

@@ -61,7 +61,6 @@ const HomePage = props => {
                 tags={tags}
             />
 
-            <ShowImage />
         </Fragment>
     );
 };

@@ -13,11 +13,25 @@ import { locales } from "translations/config";
 import fetchPrimaryShop from "staticUtils/shop/fetchPrimaryShop";
 import fetchTranslations from "staticUtils/translations/fetchTranslations";
 import fetchAllTags from "staticUtils/tags/fetchAllTags";
-
+import CategoryLayout from 'components/CategoryLayout';
+import {makeStyles} from "@material-ui/core";
+import { useTheme } from '@material-ui/core/styles';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import MobileHomePage from "components/MobileHomePage";
 // @inject("routingStore")
 // @observer
-
+const useStyles = makeStyles((theme)=>({
+	root:{
+		display:'flex'
+	},
+	content:{
+		padding:theme.spacing(2)
+	}
+}))
 const Home = props => {
+	const classes = useStyles();
+	const theme = useTheme();
+	const matches = useMediaQuery(theme.breakpoints.down('sm'));
 	const propTypes = {
 		catalogItems: PropTypes.array,
     	catalogItemsPageInfo: PropTypes.object,
@@ -72,24 +86,33 @@ const Home = props => {
 
 	return(
 		<MainLayout shop = { shop } title="YUM NOM NOM :)"
-		subtitle="" background="https://cdn.shopify.com/s/files/1/0253/7442/5166/files/LB_Homepage_Cookie_Break.mp4?14611"
-		type="video">
+		subtitle="" background="https://uca5a585755fee8f824a446217bb.previews.dropboxusercontent.com/p/thumb/ABNDZqo3pg7RCtvb_n4zFvo6sMkWRfwdhjjxZlKBdXM_dwamAkTKe5L8eayPb0ybYQGOE_d04xao8oTY0POKVLd5wJmLR3YiOpYdrDrG2rvQJobGyj77DQyqBw4FvB3eJefNdH0VMUidhYsyW-8ByrbXoHTgJjiOXWRjjoGwzHmWwPEMfE5GEIypRNog5zLrFi9zKEtGrkwZ9Ts-A-DhADf8kasIvP9KGr04TfDpLzThrV1PfSOAipAZ3NBvg1UwqdrJGAsB-hppBbfjsQkeZL1FD2nobWVjQjtiQ8P7Q5mQd7DBbOLyiYCu2mrsinzt_oIMAmhStjXTkF9Hx2uf4bQFyOPdeEqqIy_ut0HVwgurRw/p.png?fv_content=true&size_mode=5"
+		type="image">
 			<Helmet>
 				<title>{shop && shop.name}</title>
 				<meta name="description" content={shop && shop.description} />
 			</Helmet>
-
-			<HomePage 
-				catalogItems={ catalogItems }
-				currencyCode={ (shop && shop.currency && shop.currency.code) || "GTQ" }
-				isLoadingCatalogItems={ isLoadingCatalogItems }
-				pageInfo={ catalogItemsPageInfo }
-				pageSize={ pageSize }
-				tags={tags}
-				setPageSize={ setPageSize }
-				setSortBy={ setSortBy }
-				sortBy={ sortBy }
-			/>
+			{!matches &&(
+				<main className={classes.content}>
+				<HomePage 
+					catalogItems={ catalogItems }
+					currencyCode={ (shop && shop.currency && shop.currency.code) || "GTQ" }
+					isLoadingCatalogItems={ isLoadingCatalogItems }
+					pageInfo={ catalogItemsPageInfo }
+					pageSize={ pageSize }
+					tags={tags}
+					setPageSize={ setPageSize }
+					setSortBy={ setSortBy }
+					sortBy={ sortBy }
+				/>
+				</main>
+			)}
+			{matches &&(
+				<MobileHomePage
+				 catalogItems = {catalogItems}
+				 tags = {tags}
+				/>
+			)}
         </MainLayout>
 	);
 };

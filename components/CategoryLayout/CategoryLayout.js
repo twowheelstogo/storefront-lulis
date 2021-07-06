@@ -5,13 +5,13 @@ import ProductGrid from "custom/components/ProductGrid";
 
 const styles = (theme)=>({
     title:{
-        color:"#7A6240",
-        fontSize:35,
-        fontWeight:'800'
+        color:theme.palette.secondary.main,
+        fontSize:36,
+        fontWeight:'700'
     },
     divider:{
-        color:"#7A6240",
-        borderTop:'1px solid #7A6240',
+        color:theme.palette.secondary.main,
+        borderTop:theme.palette.borders.secondary,
         borderRadius:5
     },
     content:{
