@@ -222,7 +222,6 @@ class AccordionFormList extends Component {
       items,
       saveButtonText
     } = this.props;
-    console.log(items);
     return (
       <Fragment>
         {items && items.map(({ detail, id, itemEditFormProps, label }) => (
@@ -285,7 +284,6 @@ class AccordionFormList extends Component {
         <ItemAddForm
           {...itemAddFormProps}
           ref={(el) => {
-            console.log("ItemAddForm ref: ",el);
             this._addItemForm = el;
           }}
         />

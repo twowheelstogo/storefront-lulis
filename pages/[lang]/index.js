@@ -73,7 +73,6 @@ const Home = props => {
 		tags,
 		uiStore
 	} = props;
-	console.log(props);
 	const pageSize = query && inPageSizes(query.limit) ? parseInt(query.limit, 10) : uiStore.pageSize;
     const sortBy = query && query.sortby ? query.sortby : uiStore.sortBy;
 	let pageTitle;
@@ -86,7 +85,7 @@ const Home = props => {
 
 	return(
 		<MainLayout shop = { shop } title="YUM NOM NOM :)"
-		subtitle="" background="https://uca5a585755fee8f824a446217bb.previews.dropboxusercontent.com/p/thumb/ABNDZqo3pg7RCtvb_n4zFvo6sMkWRfwdhjjxZlKBdXM_dwamAkTKe5L8eayPb0ybYQGOE_d04xao8oTY0POKVLd5wJmLR3YiOpYdrDrG2rvQJobGyj77DQyqBw4FvB3eJefNdH0VMUidhYsyW-8ByrbXoHTgJjiOXWRjjoGwzHmWwPEMfE5GEIypRNog5zLrFi9zKEtGrkwZ9Ts-A-DhADf8kasIvP9KGr04TfDpLzThrV1PfSOAipAZ3NBvg1UwqdrJGAsB-hppBbfjsQkeZL1FD2nobWVjQjtiQ8P7Q5mQd7DBbOLyiYCu2mrsinzt_oIMAmhStjXTkF9Hx2uf4bQFyOPdeEqqIy_ut0HVwgurRw/p.png?fv_content=true&size_mode=5"
+		subtitle="" background="https://ucac3f0aaead6791e3a985872cfc.previews.dropboxusercontent.com/p/thumb/ABOvdn79ya6NmtC1atQ6RSOWuPQXRLIsa_bGz68IgC8mtMY4MB1c95jAVTcDQrp5R49ZW9PfgkL2WnbcXHfbIsJBMIHV6PvN4V2ZmCuZi_UEdrVpNelZBTGTuKCx_IxBtE71P2Ufz-IOXyrU8OnltQ1yiZhvD4MLe7xvcGmgfLPyDot8sPjG-huQTr-6fksXHVHUEvLvuQfSKnqxEBL0KmCZEsbRWb_AzwiYIV-kaSSwngoB3JLBYUYeLfPONTDlznpltQ8QH0SpzT5Bndk596HBBOGcxVVrQn9n5kLmCnZzBzKpLijkBjKRJCdTuIJAix8cdBqHF3Cz1OpnDJ3aq4JikQcN5ZexryN3T-SPrYnzUA/p.png?fv_content=true&size_mode=5"
 		type="image">
 			<Helmet>
 				<title>{shop && shop.name}</title>

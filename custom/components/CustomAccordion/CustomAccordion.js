@@ -36,8 +36,6 @@ const useStyles = makeStyles((theme)=>({
 const CustomAccordion = (props)=>{
     const classes = useStyles();
     const {id,name,items} = props;
-    console.log(id);
-    console.log(items);
     const [open,setOpen] = useState(false);
     const changeState =()=>{
         setOpen(!open);

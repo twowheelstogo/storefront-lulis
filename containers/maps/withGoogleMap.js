@@ -16,7 +16,6 @@ const enhance = compose(
     withState('places','setPlaces',[]),
     withHandlers({
       onSearchBoxMounted:({setRefs})=> (ref) => {
-        console.log("onSearchBoxMounted: ", ref);
         setRefs(prev=>({
           ...prev,
           searchBox:ref
@@ -27,7 +26,6 @@ const enhance = compose(
         setPlaces(places);
         const locationRef = `${places[0].geometry.location.lat()},${places[0].geometry.location.lng()}`;
         setLocation(locationRef);
-        console.log("onPlacesChanged: ", places);
       }
     }),
     withScriptjs

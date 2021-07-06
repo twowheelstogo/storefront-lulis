@@ -26,8 +26,8 @@ const styles = (theme)=>({
     },
     logo:{
         marginLeft: theme.spacing(1),
-        width: 95,
-        height: 'auto'
+        width: 'auto',
+        height: '70px'
     },    
     controls: {
         alignItems: "inherit",
@@ -78,7 +78,6 @@ class MainHeader extends React.Component{
 
     render(){
         const {classes:{logo,controls,toolbar}} = this.props;
-        console.log(this.props)
         return(
             <React.Fragment>
             <CssBaseline />

@@ -94,13 +94,10 @@ class AddressBook extends Component {
     entryFormSubmitButtonText: "Save and Select",
     isSaving: false,
     onAddressAdded(values) {
-      console.log('onAddressAdded :',values);
     },
     onAddressDeleted(values) {
-      console.log('onAddressDeleted :',values);
     },
     onAddressEdited(values) {
-      console.log('onAddressEdited :',values);
     },
     validatedValue: {},
     value: {}

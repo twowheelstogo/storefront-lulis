@@ -106,8 +106,6 @@ const Checkout = ({ router }) => {
     onRemoveCartItems,
     onChangeCartItemsQuantity
   } = useCart();
-  console.log('cart result :',cart);
-  console.log("authStore: ",authStore);
   const [availablePaymentMethods = [], isLoadingAvailablePaymentMethods] = useAvailablePaymentMethods();
 
   const { asPath } = router;

@@ -45,7 +45,6 @@ const styles = (theme)=>({
         display:'flex',
         flexDirection:'column',
         justifyContent:'space-between',
-        position:'relative',
         marginRight:'0',
         marginLeft:'auto',
     },

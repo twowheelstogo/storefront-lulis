@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme)=>({
         left:0,
         width:'auto',
         margin:0,
-        height:'80vh',
+        height:'50vh',
         display:'flex'
     }
 }));
@@ -55,7 +55,7 @@ function SlideHero(props){
             Your browser does not support the video tag.
             </video>:<img src={background} className={classes.background} width="100%"></img>}
                 <div className={classes.slideContent}>
-                <h1 style={{color:"white",fontSize: '9vw',
+                <h1 style={{color:"white",fontSize: '8vw',
                 
                 letterSpacing: '.0119em'}}>{title}</h1>
                 </div>

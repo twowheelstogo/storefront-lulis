@@ -2,8 +2,6 @@ import passportMiddleware, { passport } from "apiUtils/passportMiddleware";
 
 const singIn = async (req, res) => {
   req.session.redirectTo = req.headers.Referer;
-  console.log("auth request: ",req);
-  console.log("auth response: ",res);
   passport.authenticate("oauth2", {
     loginAction: "signin",
     failureRedirect: "/"

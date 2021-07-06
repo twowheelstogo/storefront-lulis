@@ -286,7 +286,6 @@ class CheckoutActions extends Component {
     if (!Array.isArray(paymentMethods) || paymentMethods.length === 0) {
       PaymentComponent = NoPaymentMethodsMessage;
     }
-    console.log("fulfillmentGroup: ",fulfillmentGroup);
     const actions = [
       {
         id: "1",

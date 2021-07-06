@@ -50,7 +50,6 @@ const CategoryTabs = props =>  {
         sortBy,
         tags
     } = props;
-    console.log(tags);
     return(
         <Fragment>
             {/* <ProductGrid products = {products} />  */}
