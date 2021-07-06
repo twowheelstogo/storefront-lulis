@@ -5,6 +5,7 @@ import Helmet from 'react-helmet';
 import { inPageSizes } from "lib/utils/pageSizes";
 import { withApollo } from "lib/apollo/withApollo";
 import withCatalogItems from "containers/catalog/withCatalogItems";
+import withCart from "containers/cart/withCart";
 
 import MainLayout from 'components/MainLayout';
 import HomePage from 'custom/homePage';
@@ -71,7 +72,8 @@ const Home = props => {
 		routingStore: { query },
 		shop,
 		tags,
-		uiStore
+		uiStore,
+		cart
 	} = props;
 	const pageSize = query && inPageSizes(query.limit) ? parseInt(query.limit, 10) : uiStore.pageSize;
     const sortBy = query && query.sortby ? query.sortby : uiStore.sortBy;
@@ -103,6 +105,7 @@ const Home = props => {
 					setPageSize={ setPageSize }
 					setSortBy={ setSortBy }
 					sortBy={ sortBy }
+					cart={cart}
 				/>
 				</main>
 			)}
@@ -110,6 +113,7 @@ const Home = props => {
 				<MobileHomePage
 				 catalogItems = {catalogItems}
 				 tags = {tags}
+				 cart={cart}
 				/>
 			)}
         </MainLayout>
@@ -163,4 +167,4 @@ export async function getStaticPaths() {
 	};
 }
   
-export default withApollo()(withCatalogItems(inject("routingStore", "uiStore")(Home)));
+export default withApollo()(withCatalogItems(withCart(inject("routingStore", "uiStore")(Home))));

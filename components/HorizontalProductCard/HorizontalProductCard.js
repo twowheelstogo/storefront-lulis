@@ -4,7 +4,8 @@ import {Grid,IconButton} from "@material-ui/core";
 import {withStyles} from "@material-ui/core/styles"
 import {Add as AddIcon, Remove as RemoveIcon} from "@material-ui/icons"
 import styled from "styled-components";
-
+import Link from "components/Link"
+import Badge from "@material-ui/core/Badge";
 const StyledContent = styled.div`
 display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -61,6 +62,14 @@ const styles = (theme)=>({
     controls:{
         display:'flex',
         flexDirection:'row',
+    },
+    badge: {
+      width: 20,
+      height: 20,
+      top: 0,
+      right: 0,
+      backgroundColor: '#0095b3',
+      color: '#ffffff'
     }
 });
 class HorizontalProductCard extends React.Component{
@@ -69,15 +78,22 @@ class HorizontalProductCard extends React.Component{
     }
     render(){
         const {classes,product} = this.props;
+        const {slug} = product;
         return(
             <React.Fragment>
+                <Badge badgeContent={product.quantity||0}
+                 classes={{ badge: classes.badge }}>
                 <div className={classes.root}>
                     <div className={classes.leading}>
                         <img className={classes.image} src={product.primaryImage.URLs.small} width={95} height={95}/>
                     </div>
                     <div className={classes.content}>
+                    <Link
+                    href = "/product/[...slugOrId]"
+                    as = {`/product/${slug}`}>
                     <StyledTitle>{product.title}</StyledTitle>
                     <StyledContent>{product.description}</StyledContent>
+                    </Link>
                     </div>
                     <div className={classes.trailing}>
                         <div className= {classes.title} style={{display:'flex',justifyContent:'flex-end'}}>{product.pricing[0].displayPrice}</div>
@@ -92,6 +108,7 @@ class HorizontalProductCard extends React.Component{
                         </div>
                     <div></div>
                 </div>
+                </Badge>
             </React.Fragment>
         );
     }

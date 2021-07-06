@@ -48,7 +48,6 @@ export default function useCart() {
     pollInterval: shouldSkipAccountCartByAccountIdQuery ? 0 : 10000
   });
 
-
   const [
     fetchAnonymousCart,
     { data: cartDataAnonymous, called: anonymousCartQueryCalled, refetch: refetchAnonymousCart }

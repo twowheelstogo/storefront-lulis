@@ -14,12 +14,19 @@ const MobileHomePage = (props)=>{
         const  {
             catalogItems,
             tags,
-            classes
+            classes,
+            cart:{items}
         } = props;
         const [selected,SetSelected] = useState(tags[0]||null);
         const products = catalogItems.filter((element=>{
             return element.node.product.tagIds.find((ids)=>ids==selected?._id)!=undefined
-        })).map((item)=>item.node.product)
+        })).map((item)=>{
+            const productInCart = items.find((cartItem)=>cartItem.productSlug==item.node.product.slug);
+            return{
+                ...item.node.product,
+                ...productInCart
+            }
+        })
         return(
             <React.Fragment>
                 <CatalogNavItems tags={tags} selected={selected} SetSelected={SetSelected}/>

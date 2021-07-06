@@ -40,7 +40,8 @@ const HomePage = props => {
         setPageSize,
         setSortBy,
         sortBy,
-        tags
+        tags,
+        cart
     } = props;
     const uiTheme = useTheme();
     const matches = useMediaQuery(uiTheme.breakpoints.down("xs"));
@@ -59,6 +60,7 @@ const HomePage = props => {
                 setSortBy = { setSortBy }
                 sortBy = { sortBy }
                 tags={tags}
+                cart={cart}
             />
 
         </Fragment>

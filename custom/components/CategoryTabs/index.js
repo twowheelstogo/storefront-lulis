@@ -48,7 +48,8 @@ const CategoryTabs = props =>  {
         setPageSize,
         setSortBy,
         sortBy,
-        tags
+        tags,
+        cart:{items}
     } = props;
     return(
         <Fragment>
@@ -56,7 +57,13 @@ const CategoryTabs = props =>  {
             {(tags||[]).map(item=>{
                 const products = (catalogItems||[]).filter((element)=>{
                     return element.node.product.tagIds.find((ids)=>ids==item._id)!=undefined;
-                }).map((value)=>value.node.product);
+                }).map((value)=>{
+                    const productInCart = items.find((cartItem)=>cartItem.productSlug==value.node.product.slug);
+                        return{
+                            ...value.node.product,
+                            ...productInCart
+                        }
+                });
                 return products.length>0?<CategoryLayout 
                 title={item.displayTitle}
                 products={products}/>:<div></div>

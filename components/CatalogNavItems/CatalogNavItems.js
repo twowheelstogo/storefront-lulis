@@ -7,7 +7,7 @@ const styles = (theme) => ({
         padding:'15px',
         // position:'sticky',
         top:'70px',
-        zIndex:1
+        zIndex:2
         // background:'white'
     },
     items:{
