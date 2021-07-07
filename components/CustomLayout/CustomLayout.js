@@ -1,8 +1,7 @@
 import React, {Component} from "react";
 import {withStyles} from "@material-ui/core/styles";
 import Header from "components/MainHeader";
-import Footer from "components/Footer";
-import SlideHero from "custom/components/SlideHero";
+import Footer from "components/CustomFooter";
 import PropTypes from "prop-types";
 const styles = (theme) => ({
     root: {
