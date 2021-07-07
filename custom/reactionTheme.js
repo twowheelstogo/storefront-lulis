@@ -13,7 +13,7 @@ const theme = createMuiTheme({
     primary: {
       light: "#4F4F4E",
       main: "#000025",
-      dark: "#0C0547",
+      dark: "#565656",
       contrastText: "#FFFFFF"
     },
     secondary: {
@@ -169,9 +169,19 @@ const theme = createMuiTheme({
       fontWeight: 600,
       color: "#7A6240"
     },
+    subtitle3: {
+      fontSize: 18,
+      fontWeight: 800,
+      color: "#7A6240"
+    },
     title1:{
       fontSize:18,
       fontWeight:700,
+      color:"#000025"
+    },
+    title2:{
+      fontSize:24,
+      fontWeight:600,
       color:"#000025"
     }
   }

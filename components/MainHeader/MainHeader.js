@@ -77,7 +77,31 @@ class MainHeader extends React.Component{
 };
 
     render(){
-        const {classes:{logo,controls,toolbar}} = this.props;
+        const {classes:{logo,controls,toolbar,scrolledAppBar},noScrollAction} = this.props;
+        if(noScrollAction) return(
+            <React.Fragment>
+            <CssBaseline />
+                   <AppBar position="fixed" className={scrolledAppBar} elevation={1}>
+                    <Toolbar className={toolbar}>
+                        <Hidden mdUp>
+                                <NavigationToggleMobile onClick={this.handleNavigationToggleClick} />
+                            </Hidden>
+                    <img
+                    src = 'https://firebasestorage.googleapis.com/v0/b/twowheelstogo-572d7.appspot.com/o/resources%2FArtboard%201%402x.png?alt=media&token=6cb86848-7fe8-426d-b087-772f99392f9d'
+                    className = { logo }
+                />
+                <div className={controls}>
+                <Hidden xsDown initialWidth={"md"}>
+                                    <NavigationDesktop />
+                                </Hidden>
+                </div>
+                <AccountDropdown />
+                            <MiniCart/>
+                    </Toolbar>
+                    <NavigationMobile/>
+                    </AppBar>
+            </React.Fragment>
+        );
         return(
             <React.Fragment>
             <CssBaseline />

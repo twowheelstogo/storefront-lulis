@@ -5,8 +5,9 @@ import { useRouter } from "next/router";
 import Typography from "@material-ui/core/Typography";
 import withCart from "containers/cart/withCart";
 import ProductDetail from "components/ProductDetail";
+import CustomProductDetails from "components/CustomProductDetails";
 import PageLoading from "components/PageLoading";
-import Layout from "components/Layout";
+import Layout from "components/CustomLayout";
 import { withApollo } from "lib/apollo/withApollo";
 
 import { locales } from "translations/config";
@@ -94,11 +95,17 @@ function ProductDetailPage({ addItemsToCart, product, isLoadingProduct, shop }) 
         meta={[{ name: "description", content: product && product.description }]}
         script={[{ type: "application/ld+json", innerHTML: JSONLd }]}
       />
-      <ProductDetail
+      {/* <ProductDetail
         addItemsToCart={addItemsToCart}
         currencyCode={currencyCode}
         product={product}
         shop={shop}
+      /> */}
+      <CustomProductDetails
+      addItemsToCart={addItemsToCart}
+      currencyCode={currencyCode}
+      product={product}
+      shop={shop}
       />
     </Layout>
   );
