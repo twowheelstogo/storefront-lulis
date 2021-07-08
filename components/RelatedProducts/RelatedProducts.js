@@ -19,10 +19,10 @@ const styles = (theme) => ({
     }
 });
 const RelatedProducts = props => {
-    const {classes,relatedProducts,product,cart:{items},onChangeCartItemsQuantity,addItemsToCart,uiStore} = props;
+    const {classes,relatedProducts,product,cart,onChangeCartItemsQuantity,addItemsToCart,uiStore} = props;
     const products = relatedProducts.filter((item)=>item.node.product.productId!=product.productId)
     .map((item)=>{
-        const productInCart = items.find((cartItem)=>cartItem.productSlug==item.node.product.slug);
+        const productInCart = (cart?.items||[]).find((cartItem)=>cartItem.productSlug==item.node.product.slug);
         return{
             ...item.node.product,
             cartItem:productInCart

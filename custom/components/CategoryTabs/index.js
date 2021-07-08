@@ -49,7 +49,7 @@ const CategoryTabs = props =>  {
         setSortBy,
         sortBy,
         tags,
-        cart:{items},
+        cart,
         addItemsToCart,
         onChangeCartItemsQuantity
     } = props;
@@ -60,7 +60,7 @@ const CategoryTabs = props =>  {
                 const products = (catalogItems||[]).filter((element)=>{
                     return element.node.product.tagIds.find((ids)=>ids==item._id)!=undefined;
                 }).map((value)=>{
-                    const productInCart = items.find((cartItem)=>cartItem.productSlug==value.node.product.slug);
+                    const productInCart = (cart?.items||[]).find((cartItem)=>cartItem.productSlug==value.node.product.slug);
                         return{
                             ...value.node.product,
                             cartItem:productInCart

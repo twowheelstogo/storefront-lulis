@@ -15,7 +15,7 @@ const MobileHomePage = (props)=>{
             catalogItems,
             tags,
             classes,
-            cart:{items},
+            cart,
             addItemsToCart,
             onChangeCartItemsQuantity
         } = props;
@@ -23,7 +23,7 @@ const MobileHomePage = (props)=>{
         const products = catalogItems.filter((element=>{
             return element.node.product.tagIds.find((ids)=>ids==selected?._id)!=undefined
         })).map((item)=>{
-            const productInCart = items.find((cartItem)=>cartItem.productSlug==item.node.product.slug);
+            const productInCart = (cart?.items||[]).find((cartItem)=>cartItem.productSlug==item.node.product.slug);
             return{
                 ...item.node.product,
                 cartItem:productInCart

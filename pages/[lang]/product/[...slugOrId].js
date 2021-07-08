@@ -106,7 +106,7 @@ function ProductDetailPage({ addItemsToCart, product, isLoadingProduct, shop,cat
       addItemsToCart={addItemsToCart}
       currencyCode={currencyCode}
       product={product}
-      relatedProducts={catalogItems}
+      relatedProducts={(catalogItems||[])}
       shop={shop}
       cart={cart}
       onChangeCartItemsQuantity={onChangeCartItemsQuantity}
@@ -145,13 +145,18 @@ export async function getStaticProps({ params: { slugOrId, lang } }) {
   const productSlug = slugOrId && slugOrId[0];
   const primaryShop = await fetchPrimaryShop(lang);
   const catalogProduct = await fetchCatalogProduct(productSlug);
+  const tag = (catalogProduct && catalogProduct.product)?{tag:{
+    _id:catalogProduct?.product.tagIds[0]
+  }}:null;
   if (!primaryShop) {
     return {
       props: {
         shop: null,
         translations: null,
         products: null,
-        tags: null
+        tags: null,
+        tag:undefined,
+        catalogItems:[]
       },
       // eslint-disable-next-line camelcase
       unstable_revalidate: 1 // Revalidate immediately
@@ -163,9 +168,7 @@ export async function getStaticProps({ params: { slugOrId, lang } }) {
       ...await fetchTranslations(lang, ["common", "productDetail"]),
       ...await catalogProduct,
       ...await fetchAllTags(lang),
-      tag:{
-        _id:catalogProduct.product.tagIds[0]
-      }
+      ...tag
     },
     // eslint-disable-next-line camelcase
     unstable_revalidate: 120 // Revalidate each two minutes
