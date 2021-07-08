@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState,useEffect } from "react";
 import {Grid,IconButton} from "@material-ui/core";
 import {withStyles} from "@material-ui/core/styles";
 import FavoriteIcon from "@material-ui/icons/FavoriteBorder";
@@ -8,6 +8,24 @@ import { useTheme } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import RelatedProducts from "components/RelatedProducts";
 import RoundedButton from "components/RoundedButton";
+import styled from "styled-components";
+import priceByCurrencyCode from "lib/utils/priceByCurrencyCode";
+import variantById from "lib/utils/variantById";
+import withWidth, { isWidthUp, isWidthDown } from "@material-ui/core/withWidth";
+import inject from "hocs/inject";
+import Router from "translations/i18nRouter";
+
+
+
+const CustomProductTitle = styled.div`
+   font-size:36px;
+   font-weight:600;
+   color:#000025;
+   display: -webkit-box;
+     -webkit-line-clamp: 1;
+     -webkit-box-orient: vertical;  
+     overflow: hidden;
+`;
 const styles = (theme) => ({
     root:{
         paddingTop:theme.spacing(10),
@@ -34,7 +52,11 @@ const styles = (theme) => ({
         marginBottom:'auto',
         alignItems:'center'
     },
-    title: theme.typography.title2,
+    title: {
+        fontSize:36,
+        fontWeight:600,
+        color:theme.palette.primary.main
+      },
     subtitle:theme.typography.subtitle3,
     favoriteIcon:{
         color:theme.palette.primary.main
@@ -84,7 +106,67 @@ const styles = (theme) => ({
 const CustomProductDetails = props => {
     const theme = useTheme();
     const matches= useMediaQuery(theme.breakpoints.down("sm"));
-    const {classes,product} = props
+    const [quantity,setQuantity] = useState(1);
+    const { classes,
+            product,
+            relatedProducts,cart,addItemsToCart,onChangeCartItemsQuantity,uiStore} = props;
+    const relatedProps = {product,relatedProducts,cart,addItemsToCart,onChangeCartItemsQuantity,uiStore};
+    delete relatedProducts.classes;
+    useEffect(()=>{
+        const { product, uiStore } = props;
+    const variant =product.variants[0];
+    // Select the variant, and if it has options, the first option
+    const variantId = variant._id;
+    let selectOptionId;
+    if (!selectOptionId && variant.options && variant.options.length) {
+      selectOptionId = variant.options[0]._id;
+    }
+
+    uiStore.setPDPSelectedVariantId(variantId, selectOptionId);
+
+    Router.replace("/product/[...slugOrId]", `/product/${product.slug}/${selectOptionId || variantId}`);
+    },[])
+    const handleChange = (count) => setQuantity(quantity+count);
+    const handleAddToCart = async () => {
+        const {
+            addItemsToCart,
+            currencyCode,
+            product,
+            uiStore: { openCartWithTimeout, pdpSelectedOptionId, pdpSelectedVariantId },
+            width
+          } = props;
+      
+          // Get selected variant or variant option
+          const selectedVariant = variantById(product.variants, pdpSelectedVariantId);
+          const selectedOption = variantById(selectedVariant.options, pdpSelectedOptionId);
+          const selectedVariantOrOption = selectedOption || selectedVariant;
+      
+          if (selectedVariantOrOption) {
+            // Get the price for the currently selected variant or variant option
+            const price = priceByCurrencyCode(currencyCode, selectedVariantOrOption.pricing);
+      
+            // Call addItemsToCart with an object matching the GraphQL `CartItemInput` schema
+            await addItemsToCart([
+              {
+                price: {
+                  amount: price.price,
+                  currencyCode
+                },
+                productConfiguration: {
+                  productId: product.productId, // Pass the productId, not to be confused with _id
+                  productVariantId: selectedVariantOrOption.variantId // Pass the variantId, not to be confused with _id
+                },
+                quantity
+              }
+            ]);
+          }
+        //   if (isWidthUp("md", width)) {
+        //     // Open the cart, and close after a 3 second delay
+        //     openCartWithTimeout(3000);
+        //   }
+        openCartWithTimeout(3000);
+        // Router.push("","")
+    }
     return(
         <React.Fragment>
             <div className={classes.root}>
@@ -98,6 +180,7 @@ const CustomProductDetails = props => {
                     <div className={classes.content}>
                         <div>
                         <div className={classes.headerContent}>
+                            {/* <CustomProductTitle>{product.title}</CustomProductTitle> */}
                         <div className={classes.title}>{product.title}</div>
                         <IconButton>
                         <FavoriteIcon className={classes.favoriteIcon}/>
@@ -109,18 +192,18 @@ const CustomProductDetails = props => {
                         </div>
                         <br></br>
                         <div className={!matches?classes.controls:classes.centerControls}>
-                            <IconButton className={classes.removeButton}>
+                            <IconButton className={classes.removeButton} onClick={()=>handleChange(-1)} disabled={quantity==0}>
                                 <RemoveIcon/>
                             </IconButton>
-                            <div className={classes.title}>2</div>
-                            <IconButton className={classes.addButon}>
+                            <div className={classes.title}>{quantity}</div>
+                            <IconButton className={classes.addButon} onClick={()=>handleChange(1)}>
                                 <AddIcon/>
                             </IconButton>
                         </div>
                     </div>
                 </Grid>
                 <Grid item xs={12}>
-                    <RelatedProducts/>
+                    <RelatedProducts {...relatedProps}/>
                 </Grid>
                 <div className={classes.bottom}>
                 <Grid
@@ -129,7 +212,7 @@ const CustomProductDetails = props => {
                     lg={4}>
                     <br></br>
                     <br></br>
-                        <RoundedButton/>
+                        <RoundedButton onClick={handleAddToCart}/>
                     </Grid>
                 </div>
             </Grid>
@@ -137,4 +220,4 @@ const CustomProductDetails = props => {
         </React.Fragment>
     );
 }
-export default withStyles(styles)(CustomProductDetails);
+export default withWidth({ initialWidth: "md" })(withStyles(styles, { withTheme: true })(inject("routingStore", "uiStore")(CustomProductDetails)));

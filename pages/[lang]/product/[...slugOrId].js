@@ -15,6 +15,7 @@ import fetchPrimaryShop from "staticUtils/shop/fetchPrimaryShop";
 import fetchCatalogProduct from "staticUtils/catalog/fetchCatalogProduct";
 import fetchAllTags from "staticUtils/tags/fetchAllTags";
 import fetchTranslations from "staticUtils/translations/fetchTranslations";
+import withCatalogItems from "containers/catalog/withCatalogItems";
 
 /**
  *
@@ -75,7 +76,7 @@ function buildJSONLd(product, shop) {
  * @param {Object} shop - the shop this product belong to
  * @return {React.Component} The product detail page
  */
-function ProductDetailPage({ addItemsToCart, product, isLoadingProduct, shop }) {
+function ProductDetailPage({ addItemsToCart, product, isLoadingProduct, shop,catalogItems,cart,onChangeCartItemsQuantity }) {
   const router = useRouter();
   const currencyCode = (shop && shop.currency.code) || "USD";
   const JSONLd = useMemo(() => {
@@ -87,7 +88,7 @@ function ProductDetailPage({ addItemsToCart, product, isLoadingProduct, shop }) 
 
   if (isLoadingProduct || router.isFallback) return <PageLoading />;
   if (!product || !shop) return <Typography>Not Found</Typography>;
-
+  console.log("Related Products: ",catalogItems)
   return (
     <Layout shop={shop}>
       <Helmet
@@ -105,7 +106,10 @@ function ProductDetailPage({ addItemsToCart, product, isLoadingProduct, shop }) 
       addItemsToCart={addItemsToCart}
       currencyCode={currencyCode}
       product={product}
+      relatedProducts={catalogItems}
       shop={shop}
+      cart={cart}
+      onChangeCartItemsQuantity={onChangeCartItemsQuantity}
       />
     </Layout>
   );
@@ -140,7 +144,7 @@ ProductDetailPage.propTypes = {
 export async function getStaticProps({ params: { slugOrId, lang } }) {
   const productSlug = slugOrId && slugOrId[0];
   const primaryShop = await fetchPrimaryShop(lang);
-
+  const catalogProduct = await fetchCatalogProduct(productSlug);
   if (!primaryShop) {
     return {
       props: {
@@ -157,8 +161,11 @@ export async function getStaticProps({ params: { slugOrId, lang } }) {
     props: {
       ...primaryShop,
       ...await fetchTranslations(lang, ["common", "productDetail"]),
-      ...await fetchCatalogProduct(productSlug),
-      ...await fetchAllTags(lang)
+      ...await catalogProduct,
+      ...await fetchAllTags(lang),
+      tag:{
+        _id:catalogProduct.product.tagIds[0]
+      }
     },
     // eslint-disable-next-line camelcase
     unstable_revalidate: 120 // Revalidate each two minutes
@@ -177,4 +184,4 @@ export async function getStaticPaths() {
   };
 }
 
-export default withApollo()(withCart(ProductDetailPage));
+export default withApollo()(withCart(withCatalogItems(ProductDetailPage)));

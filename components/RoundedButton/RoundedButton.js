@@ -40,7 +40,7 @@ const styles = (theme) => ({
     }
 });
 const RoundedButton = props => {
-    const {classes} = props;
+    const {classes,onClick} = props;
     return(
         <React.Fragment>
            <div className={classes.root}>
@@ -51,7 +51,7 @@ const RoundedButton = props => {
                    <CustomSubtitle>2 items por Q50.00</CustomSubtitle>
                </div>
                <div className={classes.trailing}>
-                <IconButton style={{color:"white"}}>
+                <IconButton style={{color:"white"}} onClick={onClick}>
                     <ArrowIcon/>
                 </IconButton>
                </div>

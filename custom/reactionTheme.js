@@ -170,7 +170,7 @@ const theme = createMuiTheme({
       color: "#7A6240"
     },
     subtitle3: {
-      fontSize: 18,
+      fontSize: 24,
       fontWeight: 800,
       color: "#7A6240"
     },
