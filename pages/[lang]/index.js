@@ -89,7 +89,7 @@ const Home = props => {
 
 	return(
 		<MainLayout shop = { shop } title="YUM NOM NOM :)"
-		subtitle="" background="https://uc7745e148afe2ab7827903ef17b.previews.dropboxusercontent.com/p/thumb/ABNxCOd93WAixMAVC1Slu5bzrRqS38z4TWnl2a5UYiKbAuCG4nYom3Ly5-gOibY72Y1DqBYy8aKAhEn1tRbreeUcQtdVR5mi3lXZPnYKJ1KOKofmu_DzW_WHlZXDX29h71YcWmNFzFRAhSSNUKGsm5zec0UeW4K4ovG4tFBJHltdyLLuad3F7obIMP0XpqTiRygzQnhOs_PIrnYGVuXMTo4GJT-_1o1elXx9hYMXk9iMUzdBysIY-ynioKvTZl1gERWalfnIbgIPh6GNHOwxbxIKpRuTq-jkx2HRKLkcgWLFTZ_ImIgtehIWlL406JgKI8T1IJapSCN5t8PUKso-KB9g6OBOp3BX910Yw67wfLQACQ/p.png?fv_content=true&size_mode=5"
+		subtitle="" background="https://firebasestorage.googleapis.com/v0/b/twowheelstogo-572d7.appspot.com/o/resources%2Fprincipal.png?alt=media&token=f54afab0-0e72-4590-a711-20f72204938f"
 		type="image">
 			<Helmet>
 				<title>{shop && shop.name}</title>

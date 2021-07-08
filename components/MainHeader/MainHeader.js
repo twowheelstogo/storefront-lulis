@@ -12,6 +12,7 @@ import { toPairs } from "lodash";
 import MiniCart from "components/MiniCart";
 import AccountDropdown from "components/AccountDropdown";
 import inject from "hocs/inject";
+import Link from "components/Link";
 
 const styles = (theme)=>({
     root:{
@@ -25,7 +26,7 @@ const styles = (theme)=>({
         color:"#000025"
     },
     logo:{
-        marginLeft: theme.spacing(1),
+        // marginLeft: theme.spacing(1),
         width: 'auto',
         height: '70px'
     },    
@@ -86,10 +87,12 @@ class MainHeader extends React.Component{
                         <Hidden mdUp>
                                 <NavigationToggleMobile onClick={this.handleNavigationToggleClick} />
                             </Hidden>
-                    <img
+                   <Link route="/" className={logo}>
+                   <img
                     src = 'https://firebasestorage.googleapis.com/v0/b/twowheelstogo-572d7.appspot.com/o/resources%2FArtboard%201%402x.png?alt=media&token=6cb86848-7fe8-426d-b087-772f99392f9d'
                     className = { logo }
                 />
+                   </Link>
                 <div className={controls}>
                 <Hidden xsDown initialWidth={"md"}>
                                     <NavigationDesktop />
@@ -111,10 +114,12 @@ class MainHeader extends React.Component{
                         <Hidden mdUp>
                                 <NavigationToggleMobile onClick={this.handleNavigationToggleClick} />
                             </Hidden>
-                    <img
+                            <Link route="/" className={logo}>
+                   <img
                     src = 'https://firebasestorage.googleapis.com/v0/b/twowheelstogo-572d7.appspot.com/o/resources%2FArtboard%201%402x.png?alt=media&token=6cb86848-7fe8-426d-b087-772f99392f9d'
                     className = { logo }
                 />
+                   </Link>
                 <div className={controls}>
                 <Hidden xsDown initialWidth={"md"}>
                                     <NavigationDesktop />
