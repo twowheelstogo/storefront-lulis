@@ -14,7 +14,7 @@ display: -webkit-box;
 const styles = (theme) => ({
     root:{
         width:"100%",
-        height:'90px',
+        height:'120px',
         background:theme.palette.primary.dark,
         color:'white',
         borderRadius:'16px',

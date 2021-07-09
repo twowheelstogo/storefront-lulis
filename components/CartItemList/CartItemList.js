@@ -5,7 +5,13 @@ import { withComponents } from "@reactioncommerce/components-context";
 import { CustomPropTypes } from "@reactioncommerce/components/utils";
 
 const Items = styled.div``;
-
+const BorderedItems= styled.div`
+  display:flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-top:10px;
+  padding-bottom: 10px;
+`;
 class CartItems extends Component {
   static propTypes = {
     /**
@@ -69,7 +75,17 @@ class CartItems extends Component {
   };
 
   render() {
-    const { className, items, components: { CartItem, ...components }, ...props } = this.props;
+    const { className, items, components: { CartItem,CustomCartItem, ...components }, ...props } = this.props;
+    console.log(CustomCartItem)
+    if(CustomCartItem) 
+    {
+      console.log("custom")
+      return (
+        <BorderedItems className={className}>
+          {items.map((item) => <CustomCartItem key={item._id} item={item} components={components} {...props} />)}
+        </BorderedItems>
+      );
+    }
     return (
       <Items className={className}>
         {items.map((item) => <CartItem key={item._id} item={item} components={components} {...props} />)}
