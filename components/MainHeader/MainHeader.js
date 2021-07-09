@@ -23,7 +23,8 @@ const styles = (theme)=>({
     },
     scrolledAppBar:{
         background:'white',
-        color:"#000025"
+        color:"#000025",
+        borderBottom: '1px solid #f1f1f1'
     },
     logo:{
         // marginLeft: theme.spacing(1),
@@ -59,7 +60,7 @@ function ElevationScroll(props) {
     });
   
     return React.cloneElement(children, {
-      elevation: trigger ? 4 : 0,
+      elevation: 0,
       className: trigger ? scrolledAppBar:appBar
     });
   }
@@ -82,7 +83,7 @@ class MainHeader extends React.Component{
         if(noScrollAction) return(
             <React.Fragment>
             <CssBaseline />
-                   <AppBar position="fixed" className={scrolledAppBar} elevation={1}>
+                   <AppBar position="fixed" className={scrolledAppBar} elevation={0}>
                     <Toolbar className={toolbar}>
                         <Hidden mdUp>
                                 <NavigationToggleMobile onClick={this.handleNavigationToggleClick} />

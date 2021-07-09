@@ -11,7 +11,7 @@ import withCart from "containers/cart/withCart";
 import CartItems from "components/CartItems";
 import CheckoutButtons from "components/CheckoutButtons";
 import Link from "components/Link";
-import Layout from "components/Layout";
+import Layout from "components/CustomLayout";
 import Router from "translations/i18nRouter";
 import PageLoading from "components/PageLoading";
 import { withApollo } from "lib/apollo/withApollo";
