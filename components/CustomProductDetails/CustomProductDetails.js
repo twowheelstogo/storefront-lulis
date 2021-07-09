@@ -167,6 +167,7 @@ const CustomProductDetails = props => {
         openCartWithTimeout(3000);
         // Router.push("","")
     }
+    const subtotal = `Q${Number(product.pricing[0].maxPrice*quantity).toFixed(2)}`
     return(
         <React.Fragment>
             <div className={classes.root}>
@@ -212,7 +213,7 @@ const CustomProductDetails = props => {
                     lg={4}>
                     <br></br>
                     <br></br>
-                        <RoundedButton onClick={handleAddToCart}/>
+                        <RoundedButton onClick={handleAddToCart} buttonTitle={"Agregar al carrito"} buttonSubtitle={quantity!=1?`${quantity} items por ${subtotal}`:`${quantity} item por ${subtotal}`}/>
                     </Grid>
                 </div>
             </Grid>

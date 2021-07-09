@@ -12,7 +12,7 @@ import Popper from "@material-ui/core/Popper";
 import Fade from "@material-ui/core/Fade";
 import withCart from "containers/cart/withCart";
 import SvgIcon from "@material-ui/core/SvgIcon";
-import useScrollTrigger from '@material-ui/core/useScrollTrigger';
+import { withComponents } from "@reactioncommerce/components-context";
 const styles = ({ palette, zIndex }) => ({
   popper: {
     marginTop: "0.5rem",
@@ -124,13 +124,14 @@ class MiniCart extends Component {
   };
 
   renderMiniCart() {
-    const { cart, classes, hasMoreCartItems, loadMoreCartItems } = this.props;
+    const { cart, classes, hasMoreCartItems, loadMoreCartItems,components:{Button} } = this.props;
 
     if (cart && Array.isArray(cart.items) && cart.items.length) {
       return (
         <MiniCartComponent
           cart={cart}
           onCheckoutButtonClick={this.handleCheckoutButtonClick}
+          footerMessageText ="El envìo es calculado en el proceso de compra"
           components={{
             QuantityInput: "div",
             CartItems: (cartItemProps) => (
@@ -141,6 +142,9 @@ class MiniCart extends Component {
                 onChangeCartItemQuantity={this.handleItemQuantityChange}
                 onLoadMoreCartItems={loadMoreCartItems}
               />
+            ),
+            CartCheckoutButton: (cartCheckoutProps) => (
+                <Button {...cartCheckoutProps} isFullWidth color="primary">{"Proceder a la compra"}</Button>          
             )
           }}
         />
@@ -212,4 +216,4 @@ const CartIcon =(props) =><SvgIcon {...props}>
 <path d="M26.9375 9.29245H20.966V10.6953C20.966 11.9362 19.9569 12.9453 18.716 12.9453C17.4751 12.9453 16.466 11.9362 16.466 10.6953V9.29245H11.6009V10.6953C11.6009 11.9362 10.5918 12.9453 9.35092 12.9453C8.11005 12.9453 7.10092 11.9362 7.10092 10.6953V9.29245H1.06248C0.751983 9.29245 0.560171 9.53714 0.633858 9.83864L4.57023 25.8682C4.80761 26.7693 5.75598 27.5 6.68748 27.5H21.3125C22.2451 27.5 23.1924 26.7693 23.4309 25.8682L27.3661 9.83864C27.4398 9.53657 27.2485 9.29245 26.9375 9.29245Z"/>
 </svg>
 </SvgIcon>
-export default withStyles(styles, { name: "SkMiniCart" })(withCart(inject("uiStore")(MiniCart)));
+export default withStyles(styles, { name: "SkMiniCart" })(withCart(inject("uiStore")(withComponents(MiniCart))));

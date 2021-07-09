@@ -14,7 +14,7 @@ display: -webkit-box;
 const styles = (theme) => ({
     root:{
         width:"100%",
-        height:'120px',
+        height:'90px',
         background:theme.palette.primary.dark,
         color:'white',
         borderRadius:'16px',
@@ -40,15 +40,15 @@ const styles = (theme) => ({
     }
 });
 const RoundedButton = props => {
-    const {classes,onClick} = props;
+    const {classes,onClick,buttonTitle,buttonSubtitle} = props;
     return(
         <React.Fragment>
            <div className={classes.root}>
                <div className={classes.leading}>
                    <div className={classes.title}>
-                       Agregar al carrito
+                       {buttonTitle}
                    </div>
-                   <CustomSubtitle>2 items por Q50.00</CustomSubtitle>
+                   <CustomSubtitle>{buttonSubtitle}</CustomSubtitle>
                </div>
                <div className={classes.trailing}>
                 <IconButton style={{color:"white"}} onClick={onClick}>
