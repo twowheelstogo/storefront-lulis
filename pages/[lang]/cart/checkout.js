@@ -166,6 +166,19 @@ const Checkout = ({ router }) => {
           <div className={classes.checkoutContentContainer}>
             <div className={classes.checkoutContent}>
               <Grid container spacing={3}>
+                <Grid item xs={12} md={5}>
+                  <div className={classes.flexContainer}>
+                    <div className={classes.cartSummary}>
+                      <CheckoutSummary
+                        cart={cart}
+                        hasMoreCartItems={hasMoreCartItems}
+                        onRemoveCartItems={onRemoveCartItems}
+                        onChangeCartItemsQuantity={onChangeCartItemsQuantity}
+                        onLoadMoreCartItems={loadMoreCartItems}
+                      />
+                    </div>
+                  </div>
+                </Grid>
                 <Grid item xs={12} md={7}>
                   <div className={classes.flexContainer}>
                     <div className={classes.checkoutActions}>
@@ -178,19 +191,6 @@ const Checkout = ({ router }) => {
                         clearAuthenticatedUsersCart={clearAuthenticatedUsersCart}
                         orderEmailAddress={orderEmailAddress}
                         paymentMethods={paymentMethods}
-                      />
-                    </div>
-                  </div>
-                </Grid>
-                <Grid item xs={12} md={5}>
-                  <div className={classes.flexContainer}>
-                    <div className={classes.cartSummary}>
-                      <CheckoutSummary
-                        cart={cart}
-                        hasMoreCartItems={hasMoreCartItems}
-                        onRemoveCartItems={onRemoveCartItems}
-                        onChangeCartItemsQuantity={onChangeCartItemsQuantity}
-                        onLoadMoreCartItems={loadMoreCartItems}
                       />
                     </div>
                   </div>
