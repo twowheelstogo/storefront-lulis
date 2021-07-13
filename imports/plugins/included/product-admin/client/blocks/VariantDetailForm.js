@@ -158,7 +158,8 @@ const VariantDetailForm = React.forwardRef((props, ref) => {
             }}
             select
             {...originCountryInputProps}
-            value={originCountryInputProps.value || ""}
+            value={originCountryInputProps.value || "GT"}
+            disabled={true}
           >
             {CountryOptions.map((countryOption) => (
               <MenuItem key={countryOption.value} value={countryOption.value}>

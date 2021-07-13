@@ -53,5 +53,9 @@ export default envalid.cleanEnv(process.env, {
   ROOT_URL: str({
     desc: "The canonical root URL for the Reaction Admin server",
     example: "http://localhost:4080"
+  }),
+  PUBLIC_INVOICE_URL: str({
+    desc: "This is public service to make the logic of the invoice",
+    example: "http://localhost"
   })
 });

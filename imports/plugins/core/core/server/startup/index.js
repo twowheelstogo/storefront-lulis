@@ -17,7 +17,8 @@ const {
   PUBLIC_I18N_BASE_URL,
   PUBLIC_STOREFRONT_HOME_URL,
   REACTION_METEOR_APP_COMMAND_START_TIME,
-  ROOT_URL
+  ROOT_URL,
+  PUBLIC_INVOICE_URL
 } = config;
 
 /**
@@ -69,7 +70,8 @@ export default function startup() {
     oidcUrl: OAUTH2_PUBLIC_URL,
     passwordChangeUrl: OAUTH2_IDP_PUBLIC_CHANGE_PASSWORD_URL,
     rootUrl: ROOT_URL,
-    storefrontHomeUrl: PUBLIC_STOREFRONT_HOME_URL
+    storefrontHomeUrl: PUBLIC_STOREFRONT_HOME_URL,
+    invoiceUrl: PUBLIC_INVOICE_URL
   });
 
   // Main purpose of this right now is to wait to start Meteor app tests
