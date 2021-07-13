@@ -9,7 +9,7 @@ import CartEmptyMessage from "@reactioncommerce/components/CartEmptyMessage/v1";
 import { StripeProvider } from "react-stripe-elements";
 import CheckoutActions from "components/CheckoutActions";
 import CheckoutSummary from "components/CheckoutSummary";
-import Layout from "components/Layout";
+import Layout from "components/CustomLayout";
 import PageLoading from "components/PageLoading";
 import { withApollo } from "lib/apollo/withApollo";
 import useCart from "hooks/cart/useCart";
@@ -26,11 +26,17 @@ import fetchTranslations from "staticUtils/translations/fetchTranslations";
 const useStyles = makeStyles((theme) => ({
   checkoutActions: {
     width: "100%",
-    maxWidth: "1440px",
+    maxWidth: "800px",
     alignSelf: "center",
-    [theme.breakpoints.up("md")]: {
-      paddingRight: "2rem"
+    paddingLeft:'auto',
+    paddingRight:'auto',
+    [theme.breakpoints.down("md")]:{
+      paddingLeft:theme.spacing(2),
+      paddingRight:theme.spacing(2)
     }
+    // [theme.breakpoints.up("md")]: {
+    //   paddingRight: "2rem"
+    // }
   },
   cartSummary: {
     maxWidth: "400px",
@@ -74,16 +80,34 @@ const useStyles = makeStyles((theme) => ({
     borderBottom: `solid 5px ${theme.palette.reaction.reactionBlue200}`
   },
   main: {
-    flex: "1 1 auto",
-    maxWidth: theme.layout.mainLoginMaxWidth,
-    minHeight: "calc(100vh - 135px)",
-    margin: "0 auto",
-    padding: `${theme.spacing(3)}px ${theme.spacing(3)}px 0`,
-    [theme.breakpoints.up("md")]: {
-      padding: `${theme.spacing(10)}px ${theme.spacing(3)}px 0`
+    display:'flex',
+    flexFlow:'column'
+  },
+  root: {},
+  checkoutSummary:{
+    width: "100%",
+    maxWidth:'350px',
+    paddingLeft:'auto',
+    paddingRight:'auto',
+    paddingTop:theme.spacing(5),
+    alignSelf: "center",
+    [theme.breakpoints.down("md")]:{
+      paddingLeft:theme.spacing(2),
+      paddingRight:theme.spacing(2)
     }
   },
-  root: {}
+  flexSummary:{
+    background:theme.palette.background.checkout,
+    flex:'1 1 auto',
+    height:'100%',
+    display:'flex',
+    flexDirection:'column'
+  },
+  flexContent:{
+    height:'100%',
+    display:'flex',
+    flexDirection:'column'
+  },
 }));
 
 const Checkout = ({ router }) => {
@@ -163,12 +187,10 @@ const Checkout = ({ router }) => {
         !!availablePaymentMethods.find((availableMethod) => availableMethod.name === method.name));
 
       return (
-          <div className={classes.checkoutContentContainer}>
-            <div className={classes.checkoutContent}>
-              <Grid container spacing={3}>
-                <Grid item xs={12} md={5}>
-                  <div className={classes.flexContainer}>
-                    <div className={classes.cartSummary}>
+              <Grid container style={{minHeight:'100vh'}}>
+                <Grid item xs={12} md={4}>
+                   <div className={classes.flexSummary}>
+                   <div className={classes.checkoutSummary}>
                       <CheckoutSummary
                         cart={cart}
                         hasMoreCartItems={hasMoreCartItems}
@@ -177,11 +199,11 @@ const Checkout = ({ router }) => {
                         onLoadMoreCartItems={loadMoreCartItems}
                       />
                     </div>
-                  </div>
+                   </div>
                 </Grid>
-                <Grid item xs={12} md={7}>
-                  <div className={classes.flexContainer}>
-                    <div className={classes.checkoutActions}>
+                <Grid item xs={12} md={8}>
+                  <div className={classes.flexContent}>
+                  <div className={classes.checkoutActions}>
                       <CheckoutActions
                         apolloClient={apolloClient}
                         cart={cart}
@@ -196,8 +218,6 @@ const Checkout = ({ router }) => {
                   </div>
                 </Grid>
               </Grid>
-            </div>
-          </div>
       );
     }
 
@@ -214,7 +234,7 @@ const Checkout = ({ router }) => {
   }
 
   return (
-    <Layout shop={shop}>
+    <Layout shop={shop} noMaxwidth>
       <Head>
         <title>{pageTitle}</title>
         <meta name="description" content={shop && shop.description} />

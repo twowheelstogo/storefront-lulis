@@ -5,17 +5,30 @@ import Footer from "components/CustomFooter";
 import PropTypes from "prop-types";
 const styles = (theme) => ({
     root: {
-      minHeight: "100vh"
+      minHeight: "100vh",
+      display:'flex',
+      flexFlow:'column',
+      height:'100%'
     },
     main: {
       flex: "1 1 auto",
       maxWidth: theme.layout.mainContentMaxWidth,
       marginLeft: "auto",
       marginRight: "auto",
-      paddingTop:"70px"
+      paddingTop:"70px",
+      width:'100%',
+    },
+    mainNoMaxwidth:{
+      flex: "1 1 auto",
+      // maxWidth: theme.layout.mainContentMaxWidth,
+      marginLeft: "auto",
+      marginRight: "auto",
+      paddingTop:"70px",
+      width:'100%',
+      minHeight:'100vh'
     },
     article: {
-      padding: theme.spacing(0)
+      padding: theme.spacing(0),
     }
   });
 class CustomLayout extends Component{
@@ -37,15 +50,16 @@ class CustomLayout extends Component{
     };
   
     render(){
-        const {classes,children,shop,viewer,title,subtitle,background,type} = this.props;
+        const {classes,children,shop,viewer,title,subtitle,background,type,noMaxwidth} = this.props;
         const sliderProps={
           title,subtitle,background,type
         }
+        console.log(noMaxwidth);
         return (
             <React.Fragment>
                 <div className={classes.root}>
                 <Header shop={shop} viewer={viewer} noScrollAction/>
-                <main className={classes.main}>
+                <main className={noMaxwidth?classes.mainNoMaxwidth:classes.main}>
                     <article className={classes.article}>{children}</article>
                 </main>
           <Footer />

@@ -24,7 +24,8 @@ const theme = createMuiTheme({
     },
     background: {
       default: "#ffffff",
-      cards:'#F1F1F1'
+      cards:'#F1F1F1',
+      checkout:'#F1F1F1'
     },
     error: {
       light: "#E54F5D",
