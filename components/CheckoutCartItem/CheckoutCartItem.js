@@ -66,20 +66,32 @@ const ItemContent = styled.div`
 `;
 class CheckoutCartItem extends Component{
     render(){
-        const {classes} = this.props;
+        const {classes,product,item: {
+            attributes,
+            compareAtPrice,
+            currentQuantity,
+            productSlug,
+            productVendor,
+            title,
+            quantity,
+            isLowQuantity,
+            price: { displayAmount: displayPrice },
+            subtotal
+          }} = this.props;
+          const { displayAmount: displaySubtotal } = subtotal || {};
         return(
             <React.Fragment>
                 <Item className={classes.root}>
                     <ItemBody>
                         <ItemLeading>
-                        <img className={classes.image} src={imageUrl} width={70} height={70}></img>
+                        <img className={classes.image} src={imageUrl} width={60} height={60}></img>
                         </ItemLeading>
                         <ItemContent>
-                            <ItemTitle>{"6 mini chocochip"}</ItemTitle>
-                            <ItemSubtitle>{"2 x Q15.00"}</ItemSubtitle>
+                            <ItemTitle>{title}</ItemTitle>
+                            <ItemSubtitle>{`${quantity} x ${displayPrice}`}</ItemSubtitle>
                         </ItemContent>
                         <ItemTrailing>
-                            <ItemTitle>{"Q30.00"}</ItemTitle>
+                            <ItemTitle>{displaySubtotal}</ItemTitle>
                         </ItemTrailing>
                     </ItemBody>
                 </Item>

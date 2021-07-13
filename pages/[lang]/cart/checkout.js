@@ -86,14 +86,15 @@ const useStyles = makeStyles((theme) => ({
   root: {},
   checkoutSummary:{
     width: "100%",
-    maxWidth:'350px',
+    maxWidth:'325px',
     paddingLeft:'auto',
     paddingRight:'auto',
     paddingTop:theme.spacing(5),
     alignSelf: "center",
     [theme.breakpoints.down("md")]:{
       paddingLeft:theme.spacing(2),
-      paddingRight:theme.spacing(2)
+      paddingRight:theme.spacing(2),
+      maxWidth:'100%'
     }
   },
   flexSummary:{
@@ -101,7 +102,10 @@ const useStyles = makeStyles((theme) => ({
     flex:'1 1 auto',
     height:'100%',
     display:'flex',
-    flexDirection:'column'
+    flexDirection:'column',
+    [theme.breakpoints.down("sm")]:{
+      background:'white'
+    }
   },
   flexContent:{
     height:'100%',

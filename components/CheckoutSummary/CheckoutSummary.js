@@ -1,5 +1,5 @@
 import CartItems from "components/CartItems";
-import CartSummary from "@reactioncommerce/components/CartSummary/v1";
+import CartSummary from "components/CartSummary";
 import Grid from "@material-ui/core/Grid";
 import PropTypes from "prop-types";
 import React, { Component } from "react";
@@ -19,6 +19,11 @@ const styles = (theme) => ({
     borderTop:theme.palette.borders.secondary,
     width: '100%',
     opacity:'25%'
+  },
+  customSize:{
+  [theme.breakpoints.down("md")]:{
+    fontSize: '24px'
+  } 
   }
 });
 const StyledTitle = styled.div`
@@ -134,7 +139,7 @@ class CheckoutSummary extends Component {
     return (
       <aside>
         <Grid container>
-          <StyledTitle>{"Revisa tu orden"}</StyledTitle>
+          <StyledTitle className={classes.customSize}>{"Revisa tu orden"}</StyledTitle>
           <Divider className={classes.divider}/>
           {this.renderCartItems()}
           {this.renderCartSummary()}
