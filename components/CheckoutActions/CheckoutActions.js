@@ -3,8 +3,9 @@ import React, { Fragment, Component } from "react";
 import PropTypes from "prop-types";
 import { isEqual } from "lodash";
 import styled from "styled-components";
-import Actions from "@reactioncommerce/components/CheckoutActions/v1";
+import Actions from "components/Actions";
 import ShippingAddressCheckoutAction from "components/ShippingAddressCheckoutAction";
+import BillingCheckoutAction from "components/BillingCheckoutAction";
 import FulfillmentOptionsCheckoutAction from "@reactioncommerce/components/FulfillmentOptionsCheckoutAction/v1";
 import PaymentsCheckoutAction from "@reactioncommerce/components/PaymentsCheckoutAction/v1";
 import FinalReviewCheckoutAction from "@reactioncommerce/components/FinalReviewCheckoutAction/v1";
@@ -289,11 +290,11 @@ class CheckoutActions extends Component {
     const actions = [
       {
         id: "1",
-        activeLabel: "Select a shipping address",
+        activeLabel: "Datos de facturación",
         completeLabel: "Shipping address",
         incompleteLabel: "Shipping address",
         status: fulfillmentGroup.type !== "shipping" || fulfillmentGroup.shippingAddress ? "complete" : "incomplete",
-        component: ShippingAddressCheckoutAction,
+        component: BillingCheckoutAction,
         onSubmit: this.setShippingAddress,
         props: {
           addressValidationResults,
@@ -305,6 +306,22 @@ class CheckoutActions extends Component {
       },
       {
         id: "2",
+        activeLabel: "Select a shipping address",
+        completeLabel: "Shipping address",
+        incompleteLabel: "Shipping address",
+        status: fulfillmentGroup.type !== "shipping" || fulfillmentGroup.shippingAddress ? "complete" : "incomplete",
+        component: ShippingAddressCheckoutAction,
+        onSubmit: this.setShippingAddress,
+        props: {
+          addressValidationResults,
+          authStore,
+          alert: actionAlerts["2"],
+          fulfillmentGroup,
+          onAddressValidation: addressValidation
+        }
+      },
+      {
+        id: "3",
         activeLabel: "Choose a shipping method",
         completeLabel: "Shipping method",
         incompleteLabel: "Shipping method",
@@ -312,12 +329,12 @@ class CheckoutActions extends Component {
         component: FulfillmentOptionsCheckoutAction,
         onSubmit: this.setShippingMethod,
         props: {
-          alert: actionAlerts["2"],
+          alert: actionAlerts["3"],
           fulfillmentGroup
         }
       },
       {
-        id: "3",
+        id: "4",
         activeLabel: "Enter payment information",
         completeLabel: "Payment information",
         incompleteLabel: "Payment information",
@@ -326,7 +343,7 @@ class CheckoutActions extends Component {
         onSubmit: this.handlePaymentSubmit,
         props: {
           addresses,
-          alert: actionAlerts["3"],
+          alert: actionAlerts["4"],
           onReset: this.handlePaymentsReset,
           payments,
           paymentMethods,
@@ -334,7 +351,7 @@ class CheckoutActions extends Component {
         }
       },
       {
-        id: "4",
+        id: "5",
         activeLabel: "Review and place order",
         completeLabel: "Review and place order",
         incompleteLabel: "Review and place order",
@@ -342,17 +359,90 @@ class CheckoutActions extends Component {
         component: FinalReviewCheckoutAction,
         onSubmit: this.buildOrder,
         props: {
-          alert: actionAlerts["4"],
+          alert: actionAlerts["5"],
           checkoutSummary,
           productURLPath: "/api/detectLanguage/product/"
         }
       }
     ];
-
+    const customActions = [
+      {
+        id: "1",
+        activeLabel: "Elige un método de entrega",
+        completeLabel: "Método de entrega",
+        incompleteLabel: "Método de entrega",
+        status: fulfillmentGroup.type !== "shipping" || fulfillmentGroup.shippingAddress ? "complete" : "incomplete",
+        component: BillingCheckoutAction,
+        onSubmit: this.setShippingAddress,
+        props: {
+          alert: actionAlerts["1"],
+        }
+      },
+      {
+        id: "2",
+        activeLabel: "A dónde llevaremos tu orden?",
+        completeLabel: "Shipping address",
+        incompleteLabel: "Shipping address",
+        status: fulfillmentGroup.type !== "shipping" || fulfillmentGroup.shippingAddress ? "complete" : "incomplete",
+        component: BillingCheckoutAction,
+        onSubmit: this.setShippingAddress,
+        props: {
+          alert: actionAlerts["2"],
+        }
+      },
+      {
+        id: "3",
+        activeLabel: "Elige un método de envío",
+        completeLabel: "Shipping address",
+        incompleteLabel: "Shipping address",
+        status: fulfillmentGroup.type !== "shipping" || fulfillmentGroup.shippingAddress ? "complete" : "incomplete",
+        component: BillingCheckoutAction,
+        onSubmit: this.setShippingAddress,
+        props: {
+          alert: actionAlerts["3"],
+        }
+      },
+      {
+        id: "4",
+        activeLabel: "Elige cómo pagarás tu orden",
+        completeLabel: "payment method",
+        incompleteLabel: "payment method",
+        status: fulfillmentGroup.selectedFulfillmentOption ? "complete" : "incomplete",
+        component: BillingCheckoutAction,
+        onSubmit: this.setShippingMethod,
+        props: {
+          alert: actionAlerts["4"],
+        }
+      },
+      {
+        id: "5",
+        activeLabel: "Datos de facturación",
+        completeLabel: "Datos de facturación",
+        incompleteLabel: "Datos de facturación",
+        status: remainingAmountDue === 0 && !hasPaymentError ? "complete" : "incomplete",
+        component: BillingCheckoutAction,
+        onSubmit: this.handlePaymentSubmit,
+        props: {
+          alert: actionAlerts["5"],
+        }
+      },
+      {
+        id: "6",
+        activeLabel: "Datos de regalo",
+        completeLabel: "Datos de regalo",
+        incompleteLabel: "Datos de regalo",
+        status: "incomplete",
+        component: BillingCheckoutAction,
+        onSubmit: this.buildOrder,
+        props: {
+          alert: actionAlerts["6"],
+        }
+      }
+    ];
     return (
       <Fragment>
         {this.renderPlacingOrderOverlay()}
-        <Actions actions={actions} />
+        <Actions actions={customActions} />
       </Fragment>
     );
   }

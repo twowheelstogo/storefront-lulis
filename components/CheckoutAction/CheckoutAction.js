@@ -11,15 +11,15 @@ const CompleteActionWrapper = styled.div`
   padding-top: ${applyTheme("CheckoutActionComplete.paddingTop")};
 `;
 const StyledTitle = styled.div`
-  fontSize: 24px;
-  fontWeight: 600;
+  font-size: 18px;
+  font-weight: 700;
   color: #000025;
 `;
 const styles = theme => ({
   root:{
   },
   main:{
-    padding:theme.spacing(2)
+    padding:theme.spacing(0)
   }
 });
 class CheckoutAction extends Component {
@@ -71,14 +71,14 @@ class CheckoutAction extends Component {
   };
 
   render() {
-      const {component,activeStepElement,activeLabel,stepNumber,classes} = this.props;
+      const {activeStepElement,activeLabel,stepNumber,classes} = this.props;
       const label = (activeStepElement.props && activeStepElement.props.label) || activeLabel;
-      const stepNumber = (activeStepElement.props && activeStepElement.props.stepNumber) || stepNumber;
+      const step = (activeStepElement.props && activeStepElement.props.stepNumber) || stepNumber;
       return (
         <React.Fragment>
-          <StyledTitle>{`${stepNumber}. ${label}`}</StyledTitle>
+          <StyledTitle>{`${label}`}</StyledTitle>
           <section className={classes.main}>
-            {React.cloneElement(component)}
+            {React.cloneElement(activeStepElement)}
           </section>
         </React.Fragment>
       );

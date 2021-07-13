@@ -30,6 +30,7 @@ const useStyles = makeStyles((theme) => ({
     alignSelf: "center",
     paddingLeft:'auto',
     paddingRight:'auto',
+    paddingTop:theme.spacing(5),
     [theme.breakpoints.down("md")]:{
       paddingLeft:theme.spacing(2),
       paddingRight:theme.spacing(2)
@@ -91,6 +92,8 @@ const useStyles = makeStyles((theme) => ({
     paddingRight:'auto',
     paddingTop:theme.spacing(5),
     alignSelf: "center",
+    position:'sticky',
+    top:'70px',
     [theme.breakpoints.down("md")]:{
       paddingLeft:theme.spacing(2),
       paddingRight:theme.spacing(2),
