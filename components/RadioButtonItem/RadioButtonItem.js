@@ -36,11 +36,17 @@ const ItemTitle = styled.div`
     font-size: 18px;
     font-weight: 600;
     color: black;
+    display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;  
 `;
 const ItemSubtitle = styled.div`
     font-size: 12px;
     font-weight: 600;
     color: #565656;
+    display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;  
 `;
 class RadioButtonItem extends React.Component{
     static propTypes = {
@@ -48,7 +54,10 @@ class RadioButtonItem extends React.Component{
         description: PropTypes.string,
         trailing: CustomPropTypes.component.isRequired,
         isSelected: PropTypes.bool,
-        handleChange:PropTypes.func.isRequired
+        handleChange:PropTypes.func.isRequired,
+        components:PropTypes.shape({
+            CustomTrailing:CustomPropTypes.component
+        })
     }
     render(){
         const {
@@ -57,7 +66,8 @@ class RadioButtonItem extends React.Component{
             trailing,
             handleChange,
             id,
-            isSelected
+            isSelected,
+            trailingProps
         } = this.props
         return(
             <Item>
@@ -75,7 +85,8 @@ class RadioButtonItem extends React.Component{
                     <ItemSubtitle>{description}</ItemSubtitle>
                 </ItemContent>
                 <ItemTrailing>
-                    {React.cloneElement(trailing,{...this.props})}
+                    {React.cloneElement(trailing,{...trailingProps})}
+                    {/* <CustomTrailing/> */}
                 </ItemTrailing>
             </Item>
         );

@@ -11,27 +11,15 @@ const Items = styled.div`
     justify-content: flex-start;
     align-items: flex-start;
 `;
-class AddressList extends Component{
-    constructor(props){
-        super(props);
-        this.state ={
-            menuOpen:null
-        }
-    }
-    handleOpen(){
-        this.setState({
-            menuOpen:true
-        })
-    }   
-    handleClose(){
-        this.setState({
-            menuOpen:null
-        })
-    }
-    renderControls(address){
+const Controls = (props) => {
+    const {menuOpen,handleClose,handleOpen} = props;
+
         return(
             <div>
-                <IconButton onClick={this.handleOpen}>
+                <IconButton 
+                onClick={handleOpen} 
+                aria-controls="opt-menu" 
+                aria-haspopup="true">
                     <MoreVertIcon/>
                 </IconButton>
                 <Menu
@@ -39,22 +27,45 @@ class AddressList extends Component{
                 keepMounted
                 anchorEl={menuOpen}
                 open={Boolean(menuOpen)}
-                onClose={this.handleClose}>
+                onClose={handleClose}>
                     <MenuItem>Editar</MenuItem>
                     <MenuItem>Eliminar</MenuItem>
                 </Menu>
             </div>
         );
+}
+class AddressList extends Component{
+    constructor(props){
+        super(props);
+        this.state ={
+            menuOpen:null
+        }
+    }
+    handleOpen =(event)=>{
+        console.log("currentTarget: ",event.currentTarget)
+        this.setState({
+            menuOpen:event.currentTarget
+        })
+    }   
+    handleClose = () => {
+        this.setState({
+            menuOpen:null
+        })
     }
     render(){
         const {account:{addressBook},components:{RadioButtonItem}} = this.props;
         return(
             <Items>
-                {addressBook.map((address)=>(
+                {(addressBook).map((address)=>(
                     <RadioButtonItem 
                     title="Casa"
-                    description="test"
-                    trailing={this.renderControls()}
+                    description="7av 8-68 zona 9, Guatemala, Guatemala"
+                    trailing={<Controls/>}
+                    trailingProps={{
+                        menuOpen:this.state.menuOpen,
+                        handleOpen:this.handleOpen,
+                        handleClose:this.handleClose
+                    }}
                     handleChange={()=>{}}
                     />
                 ))}
