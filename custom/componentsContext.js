@@ -53,6 +53,7 @@ import CheckoutActionIncomplete from "@reactioncommerce/components/CheckoutActio
 import ErrorsBlock from "@reactioncommerce/components/ErrorsBlock/v1";
 // import Field from "@reactioncommerce/components/Field/v1";
 import Field from "components/Field";
+import FulfillmentList from "components/FulfillmentList";
 import InPageMenuItem from "@reactioncommerce/components/InPageMenuItem/v1";
 import InlineAlert from "@reactioncommerce/components/InlineAlert/v1";
 import InventoryStatus from "@reactioncommerce/components/InventoryStatus/v1";
@@ -106,6 +107,7 @@ export default {
   CheckoutActionIncomplete,
   ErrorsBlock,
   Field,
+  FulfillmentList,
   InlineAlert,
   InventoryStatus,
   Link,

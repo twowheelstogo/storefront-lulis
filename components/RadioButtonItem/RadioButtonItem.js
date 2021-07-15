@@ -23,7 +23,8 @@ const ItemContent = styled.div`
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    flex: 1 0 auto;
+    justify-content: center;
+    width: 100%;
 `;
 const ItemTrailing = styled.div`
     width: auto;
@@ -39,14 +40,16 @@ const ItemTitle = styled.div`
     display: -webkit-box;
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;  
+  overflow: hidden;
 `;
 const ItemSubtitle = styled.div`
-    font-size: 12px;
+    font-size: 14px;
     font-weight: 600;
     color: #565656;
     display: -webkit-box;
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;  
+  overflow: hidden;
 `;
 class RadioButtonItem extends React.Component{
     static propTypes = {

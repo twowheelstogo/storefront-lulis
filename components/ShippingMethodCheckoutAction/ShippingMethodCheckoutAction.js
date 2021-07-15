@@ -1,10 +1,14 @@
 import React from "react";
-
+import { withComponents } from "@reactioncommerce/components-context";
 class ShippingMethodCheckoutAction extends React.Component{
+    renderfulfillmentList(){
+        const {components:{FulfillmentList}} = this.props;
+        return <FulfillmentList items={[{},{},{}]}/>
+    }
     render(){
         return <React.Fragment>
-            ShippingMethodCheckoutAction
+            {this.renderfulfillmentList()}
         </React.Fragment>
     }
 }
-export default ShippingMethodCheckoutAction;
+export default withComponents(ShippingMethodCheckoutAction);
