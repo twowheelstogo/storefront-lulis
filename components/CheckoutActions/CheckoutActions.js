@@ -16,7 +16,8 @@ import PageLoading from "components/PageLoading";
 import Router from "translations/i18nRouter";
 import calculateRemainderDue from "lib/utils/calculateRemainderDue";
 import { placeOrderMutation } from "../../hooks/orders/placeOrder.gql";
-
+import DeliveryOptionsCheckoutAction from "components/DeliveryOptionsCheckoutAction";
+import deliveryMethods from "custom/deliveryMethods";
 const MessageDiv = styled.div`
   ${addTypographyStyles("NoPaymentMethodsMessage", "bodyText")}
 `;
@@ -372,36 +373,18 @@ class CheckoutActions extends Component {
         completeLabel: "Método de entrega",
         incompleteLabel: "Método de entrega",
         status: fulfillmentGroup.type !== "shipping" || fulfillmentGroup.shippingAddress ? "complete" : "incomplete",
-        component: BillingCheckoutAction,
+        component: DeliveryOptionsCheckoutAction,
         onSubmit: this.setShippingAddress,
         props: {
           alert: actionAlerts["1"],
+          deliveryMethods,
+          actionAlerts: {
+            "2":actionAlerts["2"],
+            "3":actionAlerts["3"]
+          }
         }
       },
-      {
-        id: "2",
-        activeLabel: "A dónde llevaremos tu orden?",
-        completeLabel: "Shipping address",
-        incompleteLabel: "Shipping address",
-        status: fulfillmentGroup.type !== "shipping" || fulfillmentGroup.shippingAddress ? "complete" : "incomplete",
-        component: BillingCheckoutAction,
-        onSubmit: this.setShippingAddress,
-        props: {
-          alert: actionAlerts["2"],
-        }
-      },
-      {
-        id: "3",
-        activeLabel: "Elige un método de envío",
-        completeLabel: "Shipping address",
-        incompleteLabel: "Shipping address",
-        status: fulfillmentGroup.type !== "shipping" || fulfillmentGroup.shippingAddress ? "complete" : "incomplete",
-        component: BillingCheckoutAction,
-        onSubmit: this.setShippingAddress,
-        props: {
-          alert: actionAlerts["3"],
-        }
-      },
+      
       {
         id: "4",
         activeLabel: "Elige cómo pagarás tu orden",

@@ -30,11 +30,14 @@ import Address from "@reactioncommerce/components/Address/v1";
 import AddressCapture from "@reactioncommerce/components/AddressCapture/v1";
 import AddressChoice from "@reactioncommerce/components/AddressChoice/v1";
 import AddressForm from "components/AddressForm";
+import AddressList from "components/AddressList";
 import BillingForm from "components/BillingForm";
 // import AddressForm from "@reactioncommerce/components/AddressForm/v1";
 import AddressReview from "@reactioncommerce/components/AddressReview/v1";
 import BadgeOverlay from "@reactioncommerce/components/BadgeOverlay/v1";
 import Button from "@reactioncommerce/components/Button/v1";
+import CardItems from "components/CardItemList";
+import CardItemSelect from "components/CardItemSelect";
 // import CartItem from "@reactioncommerce/components/CartItem/v1";
 import CartItem from "components/CustomCartItem";
 import CartItemDetail from "@reactioncommerce/components/CartItemDetail/v1";
@@ -61,6 +64,7 @@ import Price from "@reactioncommerce/components/Price/v1";
 import ProfileImage from "@reactioncommerce/components/ProfileImage/v1";
 import ProgressiveImage from "components/ProgressiveImage";
 import QuantityInput from "@reactioncommerce/components/QuantityInput/v1";
+import RadioButtonItem from "components/RadioButtonItem";
 import RegionInput from "@reactioncommerce/components/RegionInput/v1";
 // import Select from "@reactioncommerce/components/Select/v1";
 import Select from "components/CustomSelect";
@@ -84,9 +88,12 @@ export default {
   AddressChoice,
   AddressForm: AddressFormWithLocales,
   AddressReview,
+  AddressList,
   BadgeOverlay,
   BillingForm,
   Button,
+  CardItems,
+  CardItemSelect,
   CartItem,
   CartItemDetail,
   CartItems,
@@ -119,6 +126,7 @@ export default {
   ProfileImage,
   ProgressiveImage,
   QuantityInput,
+  RadioButtonItem,
   RegionInput,
   Select,
   spinner,
