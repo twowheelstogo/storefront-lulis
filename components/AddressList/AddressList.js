@@ -81,10 +81,14 @@ class AddressList extends Component{
         const {account:{addressBook},components:{RadioButtonItem}} = this.props;
         return(
             <Items>
-                {([{},{}]).map((address)=>(
+                {addressBook.map(({
+                    description,
+                    address,
+                    reference,
+                })=>(
                     <RadioButtonItem 
-                    title="Casa"
-                    description="7av 8-68 zona 9, Guatemala, Guatemala"
+                    title={description}
+                    description={address}
                     trailing={<Controls/>}
                     trailingProps={{
                         menuOpen:this.state.menuOpen,

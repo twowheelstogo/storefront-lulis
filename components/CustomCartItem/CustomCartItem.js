@@ -181,5 +181,5 @@ class CustomCartItem extends React.Component{
         );
     }
 }
-const imageUrl = "http://localhost:3000/assets/files/Media/BZWZs8T8eXBK3Zwou/large/Empanada dip alcachofa 1.jpg";
+const imageUrl = "http://localhost:3000/assets/files/Media/dsia87CQqKqJtLueo/small/6%20mini%20cranberry.png";
 export default withStyles(styles)(withComponents(CustomCartItem));

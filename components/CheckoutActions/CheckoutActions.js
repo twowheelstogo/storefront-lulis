@@ -378,9 +378,10 @@ class CheckoutActions extends Component {
         props: {
           alert: actionAlerts["1"],
           deliveryMethods,
+          fulfillmentGroup,
           actionAlerts: {
             "2":actionAlerts["2"],
-            "3":actionAlerts["3"]
+            "3":actionAlerts["3"],
           }
         }
       },
