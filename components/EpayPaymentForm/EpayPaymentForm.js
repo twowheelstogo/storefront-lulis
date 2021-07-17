@@ -4,7 +4,7 @@ import {useReactoForm} from "reacto-form";
 import {uniqueId} from "lodash";
 import {withComponents} from "@reactioncommerce/components-context";
 import {CustomPropTypes,applyTheme } from "@reactioncommerce/components/utils";
-import { Field,Form } from "react-final-form";
+import { Field as Input,Form } from "react-final-form";
 import { formatCVC,formatCreditCardNumber,formatExpirationDate } from "../utils/index";
 import {makeStyles} from "@material-ui/core";
 
@@ -14,8 +14,11 @@ const useStyles = makeStyles((theme)=>({
   },
   textInput:{
     width:'100%',
-    border: '1px solid #95d2de',
-    height:'25px'
+    border: 'none',
+    borderRadius: '5px',
+    height:'40px',
+    background: "#F4F1F1",
+
   }
 }))
 import styled from "styled-components";
@@ -23,11 +26,14 @@ const Grid = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+  @media (min-width: ${applyTheme("sm", "breakpoints")}px) {
+    gap: 0px;
+  }
 `;
 
 const ColFull = styled.div`
   flex: 1 1 100%;
-  padding:2px;
+  padding: 0px;
 `;
 
 const ColHalf = styled.div`
@@ -56,8 +62,9 @@ function EpayPaymentForm(props,ref){
     className,
     components: {
       ErrorsBlock,
-      // Field,
-      TextInput
+      // Input,
+      TextInput,
+      Field
     },
     isSaving,
     onChange,
@@ -105,6 +112,10 @@ function EpayPaymentForm(props,ref){
       submitForm();
     }
   }));
+  const cardNumberInputId = `cardNumber_${uniqueInstanceIdentifier}`;
+  const postalCodeInputId = `postalCode_${uniqueInstanceIdentifier}`;
+  const cardExpiryInputId = `cardExpiry_${uniqueInstanceIdentifier}`;
+  const cardCVVInputId = `cardCVV_${uniqueInstanceIdentifier}`;
     return(
       <Form
       onSubmit={submitForm}
@@ -123,46 +134,58 @@ function EpayPaymentForm(props,ref){
           <form className={className}>
           <Grid>
           <ColFull>
-              <Field
+              <Field name="cardNumber" label={"Número de Tarjeta"} labelFor={cardNumberInputId}>
+              <Input
               className={classes.textInput}
                 name="cardNumber"
                 component="input"
                 type="text"
+                id={cardNumberInputId}
                 pattern="[\d| ]{16,22}"
                 placeholder="Número de tarjeta"
                 format={formatCreditCardNumber}
               />
+              </Field>
             </ColFull>
             <ColFull>
-              <Field
+              <Field name="postalCode" label={"Código Postal"} labelFor={postalCodeInputId}>
+              <Input
               className={classes.textInput}
+                id={postalCodeInputId}
                 name="postalCode"
                 component="input"
                 type="text"
                 placeholder="Nombre de la tarjeta"
               />
+              </Field>
             </ColFull>
               <ColHalf>
-              <Field
+              <Field name="cardExpiry" label={"Fecha de Vencimiento"} labelFor={cardExpiryInputId}>
+              <Input
               className={classes.textInput}
                 name="cardExpiry"
+                id={cardExpiryInputId}
                 component="input"
                 type="text"
                 pattern="\d\d/\d\d"
                 placeholder="Fecha de expiración"
                 format={formatExpirationDate}
               />
+              </Field>
               </ColHalf>
               <ColHalf>
-              <Field
+              <Field name={"cardCVV"} label={"Còdigo de seguridad"} labelFor={cardCVVInputId}>
+              <Input
               className={classes.textInput}
                 name="cardCVV"
                 component="input"
                 type="text"
+                id={cardCVVInputId}
                 pattern="\d{3,4}"
                 placeholder="CVV/CVC"
                 format={formatCVC}
               />
+              </Field>
               </ColHalf>
             </Grid> 
         </form>
@@ -194,10 +217,10 @@ EpayPaymentForm.propTypes = {
        */
       ErrorsBlock: CustomPropTypes.component.isRequired,
       /**
-       * Pass either the Reaction Field component or your own component that
+       * Pass either the Reaction Input component or your own component that
        * accepts compatible props.
        */
-      Field: CustomPropTypes.component.isRequired,
+      Input: CustomPropTypes.component.isRequired,
       /**
        * Pass either the Reaction TextInput component or your own component that
        * accepts compatible props.
@@ -206,11 +229,11 @@ EpayPaymentForm.propTypes = {
     }),
     /**
      * Pass true while the input data is in the process of being saved.
-     * While true, the form fields are disabled.
+     * While true, the form Inputs are disabled.
      */
     isSaving: PropTypes.bool,
     /**
-     * Called as the form fields are changed
+     * Called as the form Inputs are changed
      */
     onChange: PropTypes.func,
     /**

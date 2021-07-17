@@ -30,12 +30,12 @@ class FulfillmentList extends React.Component{
         const {components:{RadioButtonItem},items} = this.props;
         return(
             <Items>
-                {(items).map((item)=>(
+                {(items).map(({label,detail})=>(
                     <RadioButtonItem
-                    description="Zona 17 (Centra Norte),Zona 18, Villa Nueva, Villa Canales, San Lucas,Boca Del Monte"
+                    description={label}
                     isSelected={false}
                     handleChange={()=>{}}
-                    trailing={<ItemSubtitle>{"Q45.00"}</ItemSubtitle>}
+                    trailing={<ItemSubtitle>{detail}</ItemSubtitle>}
                     />
                 ))}
             </Items>

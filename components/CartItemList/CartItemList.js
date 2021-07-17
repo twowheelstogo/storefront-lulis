@@ -76,7 +76,6 @@ class CartItems extends Component {
 
   render() {
     const { className, items, components: { CartItem,CustomCartItem, ...components }, ...props } = this.props;
-    console.log(CustomCartItem)
     if(CustomCartItem) 
     {
       console.log("custom")

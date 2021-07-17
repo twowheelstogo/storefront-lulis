@@ -18,6 +18,7 @@ import calculateRemainderDue from "lib/utils/calculateRemainderDue";
 import { placeOrderMutation } from "../../hooks/orders/placeOrder.gql";
 import DeliveryOptionsCheckoutAction from "components/DeliveryOptionsCheckoutAction";
 import deliveryMethods from "custom/deliveryMethods";
+import PaymentMethodCheckoutAction from "components/PaymentMethodCheckoutAction";
 const MessageDiv = styled.div`
   ${addTypographyStyles("NoPaymentMethodsMessage", "bodyText")}
 `;
@@ -392,10 +393,15 @@ class CheckoutActions extends Component {
         completeLabel: "payment method",
         incompleteLabel: "payment method",
         status: fulfillmentGroup.selectedFulfillmentOption ? "complete" : "incomplete",
-        component: BillingCheckoutAction,
+        component: PaymentMethodCheckoutAction,
         onSubmit: this.setShippingMethod,
         props: {
+          addresses,
           alert: actionAlerts["4"],
+          onReset: this.handlePaymentsReset,
+          payments,
+          paymentMethods,
+          remainingAmountDue
         }
       },
       {

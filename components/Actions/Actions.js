@@ -303,7 +303,6 @@ class CheckoutActions extends Component {
           activeLabel={activeLabel}
           activeStepElement={this.renderActiveAction(action)}
           completeLabel={completeLabel}
-          completeStepElement={this.renderCompleteAction(action)}
           incompleteLabel={incompleteLabel}
           incompleteStepElement={<CheckoutActionIncomplete />}
           status={actionStatus}
