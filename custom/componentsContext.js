@@ -61,6 +61,7 @@ import Link from "components/Link";
 import MiniCartSummary from "@reactioncommerce/components/MiniCartSummary/v1";
 // import PhoneNumberInput from "@reactioncommerce/components/PhoneNumberInput/v1";
 import PhoneNumberInput from "components/PhoneNumberInput";
+import PickupForm from "components/PickupForm";
 import Price from "@reactioncommerce/components/Price/v1";
 import ProfileImage from "@reactioncommerce/components/ProfileImage/v1";
 import ProgressiveImage from "components/ProgressiveImage";
@@ -124,6 +125,7 @@ export default {
   InPageMenuItem,
   MiniCartSummary,
   PhoneNumberInput,
+  PickupForm,
   Price,
   ProfileImage,
   ProgressiveImage,
