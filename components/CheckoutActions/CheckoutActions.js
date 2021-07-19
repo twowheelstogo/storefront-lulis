@@ -9,6 +9,7 @@ import BillingCheckoutAction from "components/BillingCheckoutAction";
 import FulfillmentOptionsCheckoutAction from "@reactioncommerce/components/FulfillmentOptionsCheckoutAction/v1";
 import PaymentsCheckoutAction from "@reactioncommerce/components/PaymentsCheckoutAction/v1";
 import FinalReviewCheckoutAction from "@reactioncommerce/components/FinalReviewCheckoutAction/v1";
+import GiftCheckoutAction from "../GiftCheckoutAction";
 import { addTypographyStyles } from "@reactioncommerce/components/utils";
 import withAddressValidation from "containers/address/withAddressValidation";
 import Dialog from "@material-ui/core/Dialog";
@@ -422,7 +423,7 @@ class CheckoutActions extends Component {
         completeLabel: "Datos de regalo",
         incompleteLabel: "Datos de regalo",
         status: "incomplete",
-        component: BillingCheckoutAction,
+        component: GiftCheckoutAction,
         onSubmit: this.buildOrder,
         props: {
           alert: actionAlerts["6"],

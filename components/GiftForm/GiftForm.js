@@ -28,12 +28,13 @@ class BillingFormAction extends Component{
     static defaultProps = {
         placeholderProps:"Ingrese...",
         isOnDarkBackground: false,
-        nitBillingLabelText: 'Nit',
-        nameBillingLabelText: 'Nombre de la facturación',
-        addresBillingLabelText: 'Dirección de facturación'
+        giftofLabelText: 'De',
+        giftForLabelText: 'Para',
+        giftMessageLabelText: 'Mensaje',
+        messageGitplaceholder: 'Escriba aquí...'
     }
 
-    uniqueInstanceIdentifier = uniqueId("BillingForm_");
+    uniqueInstanceIdentifier = uniqueId("GiftForm_");
 
     render(){
 
@@ -42,24 +43,25 @@ class BillingFormAction extends Component{
             isReadOnly,
             isSaving,
             placeholderProps,
+            messageGitplaceholder, 
             isOnDarkBackground,
-            nameBillingLabelText,
-            nitBillingLabelText,
-            addresBillingLabelText
+            giftForLabelText,
+            giftofLabelText,
+            giftMessageLabelText
         } = this.props;
 
-        const nitbillingForm = `nitbilling_${this.uniqueInstanceIdentifier}`;
-        const namebillingForm = `namebiiling_${this.uniqueInstanceIdentifier}`;
-        const addresbillingForm = `addresbilling_${this.uniqueInstanceIdentifier}`
+        const giftofForm = `nitbilling_${this.uniqueInstanceIdentifier}`;
+        const gitftForForm = `namebiiling_${this.uniqueInstanceIdentifier}`;
+        const gitfMessageForm = `addresbilling_${this.uniqueInstanceIdentifier}`
 
         return(
             <Fragment>
                 <Grid>
                     <ColHalf>
-                        <Field name = "nit" label = {nitBillingLabelText} labelFor = {nitbillingForm} isOptional>
+                        <Field name = "De" label = {giftofLabelText} labelFor = {giftofForm} isOptional>
                             <TextInput
-                                id = {nitbillingForm}
-                                name = 'nit'
+                                id = {giftofForm}
+                                name = 'De'
                                 placeholder = {placeholderProps}
                                 isOnDarkBackground = {isOnDarkBackground}
                                 isReadOnly ={isSaving || isReadOnly}
@@ -67,10 +69,10 @@ class BillingFormAction extends Component{
                         </Field>
                     </ColHalf>
                     <ColHalf>
-                        <Field name = "name" label = {nameBillingLabelText} labelFor = {namebillingForm} isOptional>
+                        <Field name = "Para" label = {giftForLabelText} labelFor = {giftForLabelText} isOptional>
                             <TextInput
-                                id = {namebillingForm}
-                                name = 'name'
+                                id = {giftForLabelText}
+                                name = 'Para'
                                 placeholder = {placeholderProps}
                                 isOnDarkBackground = {isOnDarkBackground}
                                 isReadOnly ={isSaving || isReadOnly}
@@ -78,11 +80,11 @@ class BillingFormAction extends Component{
                         </Field>
                     </ColHalf>
                     <ColFull>
-                        <Field name = "addres" label = {addresBillingLabelText} labelFor = {addresbillingForm} isOptional>
+                        <Field name = "Mensaje" label = {giftMessageLabelText} labelFor = {messageGitplaceholder} isOptional>
                             <TextInput
-                                id = {addresbillingForm}
-                                name = 'address'
-                                placeholder = {placeholderProps}
+                                id = {messageGitplaceholder}
+                                name = 'Mensaje'
+                                placeholder = {messageGitplaceholder}
                                 isOnDarkBackground = {isOnDarkBackground}
                                 isReadOnly ={isSaving || isReadOnly}
                             />

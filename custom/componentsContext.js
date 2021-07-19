@@ -54,6 +54,7 @@ import ErrorsBlock from "@reactioncommerce/components/ErrorsBlock/v1";
 // import Field from "@reactioncommerce/components/Field/v1";
 import Field from "components/Field";
 import FulfillmentList from "components/FulfillmentList";
+import GiftForm from "../components/GiftForm";
 import InPageMenuItem from "@reactioncommerce/components/InPageMenuItem/v1";
 import InlineAlert from "@reactioncommerce/components/InlineAlert/v1";
 import InventoryStatus from "@reactioncommerce/components/InventoryStatus/v1";
@@ -109,6 +110,7 @@ export default {
   ErrorsBlock,
   Field,
   FulfillmentList,
+  GiftForm,
   InlineAlert,
   InventoryStatus,
   Link,
