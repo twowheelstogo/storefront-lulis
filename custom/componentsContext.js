@@ -29,7 +29,7 @@ import AddressBook from "@reactioncommerce/components/AddressBook/v1";
 import Address from "@reactioncommerce/components/Address/v1";
 import AddressCapture from "@reactioncommerce/components/AddressCapture/v1";
 import AddressChoice from "@reactioncommerce/components/AddressChoice/v1";
-import AddressForm from "components/AddressForm";
+import AddressForm from "components/AddressForm/v2";
 import AddressList from "components/AddressList";
 import BillingForm from "components/BillingForm";
 // import AddressForm from "@reactioncommerce/components/AddressForm/v1";

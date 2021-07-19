@@ -8,8 +8,8 @@ const Item = styled.div`
     display: flex;
     flex-grow: 1;
     flex-direction: row;
-    padding: 10px;
-    min-height: 65px;
+    padding: 5px;
+    min-height: 50px;
     width: 100%;
     border-radius: 14px;
 `;

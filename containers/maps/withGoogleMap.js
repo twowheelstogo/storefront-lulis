@@ -8,7 +8,7 @@ const enhance = compose(
       googleMapURL:
         "https://maps.googleapis.com/maps/api/js?key=AIzaSyBsbuaZ4GRNZkquHV2W2wyo9Zume7N_hzc&v=3.exp&libraries=geometry,drawing,places",
       loadingElement: <div style={{ height: `100%` }} />,
-      containerElement: <div style={{ height: `400px` }} />,
+      containerElement: <div style={{ height: `100%` }} />,
       mapElement:<div style={{ height: `100%` }} />
     }),
     withState('refs','setRefs',{}),
@@ -21,10 +21,19 @@ const enhance = compose(
           searchBox:ref
         }))
       },
+      onMapMounted:(({setRefs})=>ref=>{
+        setRefs(prev=>({
+          ...prev,
+          map:ref
+        }))
+      }),
       onPlacesChanged:({setPlaces,setLocation,refs})=> () => {
         const places = refs.searchBox.getPlaces();
         setPlaces(places);
-        const locationRef = `${places[0].geometry.location.lat()},${places[0].geometry.location.lng()}`;
+        const locationRef = {
+          latitude: places[0].geometry.location.lat(),
+          longitude: places[0].geometry.location.lng() 
+        };
         setLocation(locationRef);
       }
     }),

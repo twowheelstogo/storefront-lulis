@@ -25,7 +25,8 @@ const styles = (theme) => ({
         display:'flex',
         flexDirection:'row',
         justifyContent:'space-between',
-        alignItems:'center'
+        alignItems:'center',
+        cursor:'pointer'
     },
     leading:{
     },
@@ -43,7 +44,7 @@ const RoundedButton = props => {
     const {classes,onClick,buttonTitle,buttonSubtitle} = props;
     return(
         <React.Fragment>
-           <div className={classes.root}>
+           <div className={classes.root} onClick={onClick}>
                <div className={classes.leading}>
                    <div className={classes.title}>
                        {buttonTitle}
