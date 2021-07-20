@@ -13,7 +13,7 @@ import Layout from "components/CustomLayout";
 import PageLoading from "components/PageLoading";
 import { withApollo } from "lib/apollo/withApollo";
 import useCart from "hooks/cart/useCart";
-import  useAuthStore from "hooks/globalStores/useAuthStore";
+import useAuthStore from "hooks/globalStores/useAuthStore";
 import useStores from "hooks/useStores";
 import useShop from "hooks/shop/useShop";
 import useAvailablePaymentMethods from "hooks/availablePaymentMethods/useAvailablePaymentMethods";
@@ -28,12 +28,13 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
     maxWidth: "800px",
     alignSelf: "center",
-    paddingLeft:'auto',
-    paddingRight:'auto',
-    paddingTop:theme.spacing(5),
-    [theme.breakpoints.down("md")]:{
-      paddingLeft:theme.spacing(2),
-      paddingRight:theme.spacing(2)
+    paddingLeft: 'auto',
+    paddingRight: 'auto',
+    paddingBottom: theme.spacing(5),
+    paddingTop: theme.spacing(5),
+    [theme.breakpoints.down("md")]: {
+      paddingLeft: theme.spacing(2),
+      paddingRight: theme.spacing(2)
     }
     // [theme.breakpoints.up("md")]: {
     //   paddingRight: "2rem"
@@ -81,39 +82,39 @@ const useStyles = makeStyles((theme) => ({
     borderBottom: `solid 5px ${theme.palette.reaction.reactionBlue200}`
   },
   main: {
-    display:'flex',
-    flexFlow:'column'
+    display: 'flex',
+    flexFlow: 'column'
   },
   root: {},
-  checkoutSummary:{
+  checkoutSummary: {
     width: "100%",
-    maxWidth:'325px',
-    paddingLeft:'auto',
-    paddingRight:'auto',
-    paddingTop:theme.spacing(5),
+    maxWidth: '325px',
+    paddingLeft: 'auto',
+    paddingRight: 'auto',
+    paddingTop: theme.spacing(5),
     alignSelf: "center",
-    position:'sticky',
-    top:'70px',
-    [theme.breakpoints.down("md")]:{
-      paddingLeft:theme.spacing(2),
-      paddingRight:theme.spacing(2),
-      maxWidth:'100%'
+    position: 'sticky',
+    top: '70px',
+    [theme.breakpoints.down("md")]: {
+      paddingLeft: theme.spacing(2),
+      paddingRight: theme.spacing(2),
+      maxWidth: '100%'
     }
   },
-  flexSummary:{
-    background:theme.palette.background.checkout,
-    flex:'1 1 auto',
-    height:'100%',
-    display:'flex',
-    flexDirection:'column',
-    [theme.breakpoints.down("sm")]:{
-      background:'white'
+  flexSummary: {
+    background: theme.palette.background.checkout,
+    flex: '1 1 auto',
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    [theme.breakpoints.down("sm")]: {
+      background: 'white'
     }
   },
-  flexContent:{
-    height:'100%',
-    display:'flex',
-    flexDirection:'column'
+  flexContent: {
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'column'
   },
 }));
 
@@ -194,37 +195,37 @@ const Checkout = ({ router }) => {
         !!availablePaymentMethods.find((availableMethod) => availableMethod.name === method.name));
 
       return (
-              <Grid container style={{minHeight:'100vh'}}>
-                <Grid item xs={12} md={4}>
-                   <div className={classes.flexSummary}>
-                   <div className={classes.checkoutSummary}>
-                      <CheckoutSummary
-                        cart={cart}
-                        hasMoreCartItems={hasMoreCartItems}
-                        onRemoveCartItems={onRemoveCartItems}
-                        onChangeCartItemsQuantity={onChangeCartItemsQuantity}
-                        onLoadMoreCartItems={loadMoreCartItems}
-                      />
-                    </div>
-                   </div>
-                </Grid>
-                <Grid item xs={12} md={8}>
-                  <div className={classes.flexContent}>
-                  <div className={classes.checkoutActions}>
-                      <CheckoutActions
-                        apolloClient={apolloClient}
-                        cart={cart}
-                        cartStore={cartStore}
-                        authStore={authStore}
-                        checkoutMutations={checkoutMutations}
-                        clearAuthenticatedUsersCart={clearAuthenticatedUsersCart}
-                        orderEmailAddress={orderEmailAddress}
-                        paymentMethods={paymentMethods}
-                      />
-                    </div>
-                  </div>
-                </Grid>
-              </Grid>
+        <Grid container style={{ minHeight: '100vh' }}>
+          <Grid item xs={12} md={4}>
+            <div className={classes.flexSummary}>
+              <div className={classes.checkoutSummary}>
+                <CheckoutSummary
+                  cart={cart}
+                  hasMoreCartItems={hasMoreCartItems}
+                  onRemoveCartItems={onRemoveCartItems}
+                  onChangeCartItemsQuantity={onChangeCartItemsQuantity}
+                  onLoadMoreCartItems={loadMoreCartItems}
+                />
+              </div>
+            </div>
+          </Grid>
+          <Grid item xs={12} md={8}>
+            <div className={classes.flexContent}>
+              <div className={classes.checkoutActions}>
+                <CheckoutActions
+                  apolloClient={apolloClient}
+                  cart={cart}
+                  cartStore={cartStore}
+                  authStore={authStore}
+                  checkoutMutations={checkoutMutations}
+                  clearAuthenticatedUsersCart={clearAuthenticatedUsersCart}
+                  orderEmailAddress={orderEmailAddress}
+                  paymentMethods={paymentMethods}
+                />
+              </div>
+            </div>
+          </Grid>
+        </Grid>
       );
     }
 
@@ -264,24 +265,24 @@ export async function getStaticProps({ params: { lang } }) {
   const primaryShop = await fetchPrimaryShop(lang);
   const translations = await fetchTranslations(lang, ["common"]);
   if (!primaryShop) {
-		return {
-			props: {
-			shop: null,
-			...translations
-			},
-			// eslint-disable-next-line camelcase
-			unstable_revalidate: 1 // Revalidate immediately
-		};
-	}
+    return {
+      props: {
+        shop: null,
+        ...translations
+      },
+      // eslint-disable-next-line camelcase
+      unstable_revalidate: 1 // Revalidate immediately
+    };
+  }
 
-	return {
-		props: {
-			...primaryShop,
-			...translations
-		},
-		// eslint-disable-next-line camelcase
-		unstable_revalidate: 120 // Revalidate each two minutes
-	};
+  return {
+    props: {
+      ...primaryShop,
+      ...translations
+    },
+    // eslint-disable-next-line camelcase
+    unstable_revalidate: 120 // Revalidate each two minutes
+  };
 }
 
 /**

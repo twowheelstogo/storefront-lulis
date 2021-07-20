@@ -14,7 +14,7 @@ const paymentMethods = [
   {
     displayName: "Efectivo",
     InputComponent: ExampleIOUPaymentForm,
-    name: "iou_example",
+    name: "payments_cash",
     shouldCollectBillingAddress: true,
     icon: cashIcon
   }

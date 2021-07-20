@@ -14,17 +14,13 @@ fragment OrderCommon on Order {
       ... on ShippingOrderFulfillmentGroupData {
         shippingAddress {
           _id
-          address1
-          address2
-          city
-          company
-          country
-          fullName
-          isCommercial
-          isShippingDefault
-          phone
-          postal
-          region
+          address
+          description
+          reference
+          geolocation{
+            latitude
+            longitude
+          }
         }
       }
     }

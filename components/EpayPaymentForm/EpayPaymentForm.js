@@ -3,11 +3,10 @@ import PropTypes from "prop-types";
 import {useReactoForm} from "reacto-form";
 import {uniqueId} from "lodash";
 import {withComponents} from "@reactioncommerce/components-context";
-import {CustomPropTypes,applyTheme } from "@reactioncommerce/components/utils";
+import {CustomPropTypes,applyTheme,addTypographyStyles } from "@reactioncommerce/components/utils";
 import { Field as Input,Form } from "react-final-form";
 import { formatCVC,formatCreditCardNumber,formatExpirationDate } from "../utils/index";
 import {makeStyles} from "@material-ui/core";
-
 const useStyles = makeStyles((theme)=>({
   root:{
 
@@ -18,6 +17,7 @@ const useStyles = makeStyles((theme)=>({
     borderRadius: '5px',
     height:'40px',
     background: "#F4F1F1",
+    padding:'10px'
 
   }
 }))
@@ -30,24 +30,48 @@ const Grid = styled.div`
     gap: 0px;
   }
 `;
+const SecureCaption = styled.div`
+  ${addTypographyStyles("StripePaymentInputCaption", "captionText")}
+`;
+const IconLockSpan = styled.span`
+  display: inline-block;
+  height: 20px;
+  width: 20px;
+`;
 
+const Span = styled.span`
+  vertical-align: super;
+`;
+const CardSpan = styled.span`
+  margin-left: 5px;
+`;
+const AcceptedPaymentMethods = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  margin: 20px 0;
+`;
 const ColFull = styled.div`
   flex: 1 1 100%;
   padding: 0px;
 `;
 
 const ColHalf = styled.div`
-  flex: 1 1 100%;
+  flex: 0 1 calc(50% - 2px);
   padding:2px;
   @media (min-width: ${applyTheme("sm", "breakpoints")}px) {
     flex: 0 1 calc(50% - 9px);
   }
 `;
+const renderIcons = (ccIcons) => (
+  <div>
+    {ccIcons.map((icon, index) => <CardSpan key={index}>{icon}</CardSpan>)}
+  </div >
+);
 function EpayPaymentForm(props,ref){
     const lastDocRef = useRef();
   const isReadyRef = useRef();
   const classes = useStyles();
-
+  let _form = null;
   const [uniqueInstanceIdentifier, setUniqueInstanceIdentifier] = useState();
   if (!uniqueInstanceIdentifier) {
     setUniqueInstanceIdentifier(uniqueId("EpayPaymentForm"));
@@ -64,7 +88,8 @@ function EpayPaymentForm(props,ref){
       ErrorsBlock,
       // Input,
       TextInput,
-      Field
+      Field,
+      iconLock
     },
     isSaving,
     onChange,
@@ -74,7 +99,8 @@ function EpayPaymentForm(props,ref){
   const {
     getErrors,
     getInputProps,
-    submitForm
+    submitForm,
+    
   } = useReactoForm({
     isReadOnly: isSaving,
     onChange(formData) {
@@ -116,10 +142,20 @@ function EpayPaymentForm(props,ref){
   const postalCodeInputId = `postalCode_${uniqueInstanceIdentifier}`;
   const cardExpiryInputId = `cardExpiry_${uniqueInstanceIdentifier}`;
   const cardCVVInputId = `cardCVV_${uniqueInstanceIdentifier}`;
+  const ccIcons = [
+    props.components.iconVisa,
+    props.components.iconAmericanExpress,
+    props.components.iconMastercard,
+    props.components.iconDiscover
+  ];
     return(
-      <Form
+      <div>
+        <AcceptedPaymentMethods>
+          {renderIcons(ccIcons)}
+        </AcceptedPaymentMethods>
+        <Form
       onSubmit={submitForm}
-      
+      ref={(formEl)=>_form=formEl}
       render={({
         handleSubmit,
         form,
@@ -193,6 +229,10 @@ function EpayPaymentForm(props,ref){
         );
       }}
       />
+      <SecureCaption>
+          <IconLockSpan>{iconLock}</IconLockSpan> <Span>{"Su información es privada y segura"}</Span>
+        </SecureCaption>
+      </div>
     );
 }
 EpayPaymentForm = withComponents(forwardRef(EpayPaymentForm));

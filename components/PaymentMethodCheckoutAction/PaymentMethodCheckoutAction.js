@@ -29,6 +29,8 @@ class PaymentMethodCheckoutAction extends Component{
         })
     }
     setSelectedPaymentMethodName = (method) => {
+        const {onReset} = this.props;
+        onReset();
         this.setState({
             selectedPaymentMethodName: method.name
         })
@@ -36,7 +38,7 @@ class PaymentMethodCheckoutAction extends Component{
     renderPaymentMethods(){
         const {
             paymentMethods,
-            components:{CardItems}
+            components:{CardItems},
         } = this.props;
         const {
             selectedPaymentMethodName
