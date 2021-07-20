@@ -13,7 +13,8 @@ class ShippingAddressCheckoutAction extends React.Component{
         const {
             authStore:{account:{addressBook}},
             components:{AddressList},
-            onSubmit
+            onSubmit,
+            fulfillmentGroup:{shippingAddress}
         } = this.props;
         // Use relayConnectionToArray to remove edges / nodes levels from addressBook object
     const addresses = (addressBook && relayConnectionToArray(addressBook)) || [];
@@ -26,6 +27,7 @@ class ShippingAddressCheckoutAction extends React.Component{
             onAddressDeleted={this.handleDeleteAddress}
             account={accountAddressBook}
             onSelect={onSubmit}
+            currentAddress={shippingAddress}
              />
         );
     }

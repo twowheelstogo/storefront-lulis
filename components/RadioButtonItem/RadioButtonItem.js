@@ -64,8 +64,6 @@ class RadioButtonItem extends React.Component{
     }
     onChange = () =>{
         const {handleChange,item} = this.props;
-        console.log("on change",this.props)
-        delete item._id;
          handleChange(item); 
     }
     render(){

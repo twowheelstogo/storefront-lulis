@@ -101,8 +101,7 @@ class AddressList extends Component{
         window.location.href = `${origin}/en/address?redirect=${encodeURIComponent(href)}`;
     }
     render(){
-        const {account:{addressBook},components:{RadioButtonItem},onAddressDeleted,onSelect} = this.props;
-        console.log(this.props)
+        const {account:{addressBook},components:{RadioButtonItem},onAddressDeleted,onSelect,currentAddress} = this.props;
         return(
             <Items>
                 {addressBook.map(({
@@ -115,6 +114,7 @@ class AddressList extends Component{
                     <RadioButtonItem 
                     title={description}
                     description={address}
+                    isSelected={currentAddress &&currentAddress._id==_id}
                     item = {{_id,
                         description,
                         address,

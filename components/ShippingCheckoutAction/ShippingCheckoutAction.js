@@ -69,7 +69,6 @@ class ShippingCheckoutAction extends Component{
     }
     renderActions(){
         const {actionAlerts,fulfillmentGroup,onSubmit,onSubmitShippingAddress} = this.props;
-        console.log(this.props);
         const actions = [
             {
                 id: "2",
@@ -81,6 +80,7 @@ class ShippingCheckoutAction extends Component{
                 onSubmit: onSubmit,
                 props: {
                   alert: actionAlerts["2"],
+                  fulfillmentGroup
                 }
               },
               {
