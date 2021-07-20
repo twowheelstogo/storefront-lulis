@@ -37,7 +37,7 @@ const CustomButtonText = styled.div`
     font-height: 400;
 `;
 const Controls = (props) => {
-    const {id} = props;
+    const {id,onAddressDeleted} = props;
     const [state,setState] = useState({
         menuOpen:null
     })
@@ -55,6 +55,10 @@ const Controls = (props) => {
         let href = window.location.href;
         window.location.href = `${origin}/en/address/${id}?redirect=${encodeURIComponent(href)}`;
     }
+    const handleDelete = () =>{
+        handleClose();
+        onAddressDeleted(id);
+    }
         return(
             <div>
                 <IconButton 
@@ -70,7 +74,7 @@ const Controls = (props) => {
                 open={Boolean(state.menuOpen)}
                 onClose={handleClose}>
                     <MenuItem onClick={editAddress}>Editar</MenuItem>
-                    <MenuItem>Eliminar</MenuItem>
+                    <MenuItem onClick={handleDelete}>Eliminar</MenuItem>
                 </Menu>
             </div>
         );
@@ -97,7 +101,8 @@ class AddressList extends Component{
         window.location.href = `${origin}/en/address?redirect=${encodeURIComponent(href)}`;
     }
     render(){
-        const {account:{addressBook},components:{RadioButtonItem}} = this.props;
+        const {account:{addressBook},components:{RadioButtonItem},onAddressDeleted,onSelect} = this.props;
+        console.log(this.props)
         return(
             <Items>
                 {addressBook.map(({
@@ -105,20 +110,27 @@ class AddressList extends Component{
                     description,
                     address,
                     reference,
+                    geolocation
                 })=>(
                     <RadioButtonItem 
                     title={description}
                     description={address}
+                    item = {{_id,
+                        description,
+                        address,
+                        reference,
+                        geolocation}}
+                    handleChange={onSelect}
                     trailing={
                     <Controls
                     id= {_id}
+                    onAddressDeleted={onAddressDeleted}
                      />}
                     trailingProps={{
                         menuOpen:this.state.menuOpen,
                         handleOpen:this.handleOpen,
                         handleClose:this.handleClose
                     }}
-                    handleChange={()=>{}}
                     />
                 ))}
                 <CustomRoundedButton onClick={this.createAddress}>

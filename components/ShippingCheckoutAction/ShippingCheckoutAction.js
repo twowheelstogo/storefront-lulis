@@ -68,7 +68,8 @@ class ShippingCheckoutAction extends Component{
         );
     }
     renderActions(){
-        const {actionAlerts,fulfillmentGroup} = this.props;
+        const {actionAlerts,fulfillmentGroup,onSubmit,onSubmitShippingAddress} = this.props;
+        console.log(this.props);
         const actions = [
             {
                 id: "2",
@@ -77,7 +78,7 @@ class ShippingCheckoutAction extends Component{
                 incompleteLabel: "Shipping address",
                 // status: fulfillmentGroup.type !== "shipping" || fulfillmentGroup.shippingAddress ? "complete" : "incomplete",
                 component: ShippingAddressCheckoutAction,
-                onSubmit: ()=>{},
+                onSubmit: onSubmit,
                 props: {
                   alert: actionAlerts["2"],
                 }
@@ -89,7 +90,7 @@ class ShippingCheckoutAction extends Component{
                 incompleteLabel: "Shipping address",
                 // status: fulfillmentGroup.type !== "shipping" || fulfillmentGroup.shippingAddress ? "complete" : "incomplete",
                 component: ShippingMethodCheckoutAction,
-                onSubmit: ()=>{},
+                onSubmit: onSubmitShippingAddress,
                 props: {
                   alert: actionAlerts["3"],
                   fulfillmentGroup

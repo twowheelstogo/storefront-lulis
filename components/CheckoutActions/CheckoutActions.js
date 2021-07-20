@@ -103,6 +103,7 @@ class CheckoutActions extends Component {
   }
 
   setShippingAddress = async (address) => {
+    console.log("shipping address: ",address);
     const { checkoutMutations: { onSetShippingAddress } } = this.props;
     delete address.isValid;
     const { data, error } = await onSetShippingAddress(address);
@@ -304,7 +305,8 @@ class CheckoutActions extends Component {
           authStore,
           alert: actionAlerts["1"],
           fulfillmentGroup,
-          onAddressValidation: addressValidation
+          onAddressValidation: addressValidation,
+          onSubmitShippingAddress:this.setShippingAddress
         }
       },
       {
@@ -384,6 +386,9 @@ class CheckoutActions extends Component {
           actionAlerts: {
             "2":actionAlerts["2"],
             "3":actionAlerts["3"],
+          },
+          submits:{
+            onSubmitShippingAddress:this.setShippingAddress
           }
         }
       },

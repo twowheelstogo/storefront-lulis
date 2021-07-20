@@ -62,6 +62,12 @@ class RadioButtonItem extends React.Component{
             CustomTrailing:CustomPropTypes.component
         })
     }
+    onChange = () =>{
+        const {handleChange,item} = this.props;
+        console.log("on change",this.props)
+        delete item._id;
+         handleChange(item); 
+    }
     render(){
         const {
             title,
@@ -77,7 +83,7 @@ class RadioButtonItem extends React.Component{
                 <ItemLeading>
                     <Radio
                     checked={isSelected}
-                    onChange={handleChange}
+                    onChange={this.onChange}
                     value="a"
                     name="radio-button-demo"
                     inputProps={{ 'aria-label': 'A' }}

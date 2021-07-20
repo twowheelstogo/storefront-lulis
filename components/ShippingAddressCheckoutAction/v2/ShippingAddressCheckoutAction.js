@@ -5,20 +5,28 @@ import relayConnectionToArray from "lib/utils/relayConnectionToArray";
 import { addressToString, CustomPropTypes } from "@reactioncommerce/components/utils";
 import { withComponents } from "@reactioncommerce/components-context";
 class ShippingAddressCheckoutAction extends React.Component{
+    handleDeleteAddress = async (id) => { 
+        const {onAddressDeleted} = this.props;
+        await onAddressDeleted(id);
+    }
     renderAddressList(){
         const {
             authStore:{account:{addressBook}},
-            components:{AddressList}
+            components:{AddressList},
+            onSubmit
         } = this.props;
         // Use relayConnectionToArray to remove edges / nodes levels from addressBook object
     const addresses = (addressBook && relayConnectionToArray(addressBook)) || [];
-
     // Create data object to pass to AddressBook component
     const accountAddressBook = {
       addressBook: addresses
     };
         return(
-            <AddressList account={accountAddressBook}/>
+            <AddressList
+            onAddressDeleted={this.handleDeleteAddress}
+            account={accountAddressBook}
+            onSelect={onSubmit}
+             />
         );
     }
     render(){
