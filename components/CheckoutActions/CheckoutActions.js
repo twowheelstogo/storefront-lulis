@@ -387,7 +387,8 @@ class CheckoutActions extends Component {
             "3":actionAlerts["3"],
           },
           submits:{
-            onSubmitShippingAddress:this.setShippingAddress
+            onSubmitShippingAddress:this.setShippingAddress,
+            onSetShippingMethod:this.setShippingMethod
           }
         }
       },

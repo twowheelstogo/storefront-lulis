@@ -1,5 +1,4 @@
-import React,{Component,Fragment, useState} from "react";
-import PropTypes from "prop-types";
+import React, { Component, useState } from "react";
 import { withComponents } from "@reactioncommerce/components-context";
 import styled from "styled-components";
 import { Menu, MenuItem, IconButton } from "@material-ui/core";
@@ -37,72 +36,72 @@ const CustomButtonText = styled.div`
     font-height: 400;
 `;
 const Controls = (props) => {
-    const {id,onAddressDeleted} = props;
-    const [state,setState] = useState({
-        menuOpen:null
+    const { id, onAddressDeleted } = props;
+    const [state, setState] = useState({
+        menuOpen: null
     })
-    const handleOpen =(event)=>{
+    const handleOpen = (event) => {
         setState({
-            menuOpen:event.currentTarget
+            menuOpen: event.currentTarget
         })
-    }   
+    }
     const handleClose = () => {
         setState({
-            menuOpen:null
+            menuOpen: null
         })
     }
     const editAddress = () => {
         let href = window.location.href;
         window.location.href = `${origin}/en/address/${id}?redirect=${encodeURIComponent(href)}`;
     }
-    const handleDelete = () =>{
+    const handleDelete = () => {
         handleClose();
         onAddressDeleted(id);
     }
-        return(
-            <div>
-                <IconButton 
-                onClick={handleOpen} 
+    return (
+        <div>
+            <IconButton
+                onClick={handleOpen}
                 aria-controls={id}
                 aria-haspopup="true">
-                    <MoreVertIcon/>
-                </IconButton>
-                <Menu
+                <MoreVertIcon />
+            </IconButton>
+            <Menu
                 id={id}
                 keepMounted
                 anchorEl={state.menuOpen}
                 open={Boolean(state.menuOpen)}
                 onClose={handleClose}>
-                    <MenuItem onClick={editAddress}>Editar</MenuItem>
-                    <MenuItem onClick={handleDelete}>Eliminar</MenuItem>
-                </Menu>
-            </div>
-        );
+                <MenuItem onClick={editAddress}>Editar</MenuItem>
+                <MenuItem onClick={handleDelete}>Eliminar</MenuItem>
+            </Menu>
+        </div>
+    );
 }
-class AddressList extends Component{
-    constructor(props){
+class AddressList extends Component {
+    constructor(props) {
         super(props);
-        this.state ={
-            menuOpen:null
+        this.state = {
+            menuOpen: null
         }
     }
-    handleOpen =(event)=>{
+    handleOpen = (event) => {
         this.setState({
-            menuOpen:event.currentTarget
+            menuOpen: event.currentTarget
         })
-    }   
+    }
     handleClose = () => {
         this.setState({
-            menuOpen:null
+            menuOpen: null
         })
     }
     createAddress = () => {
         let href = window.location.href;
         window.location.href = `${origin}/en/address?redirect=${encodeURIComponent(href)}`;
     }
-    render(){
-        const {account:{addressBook},components:{RadioButtonItem},onAddressDeleted,onSelect,currentAddress} = this.props;
-        return(
+    render() {
+        const { account: { addressBook }, components: { RadioButtonItem }, onAddressDeleted, onSelect, currentAddress } = this.props;
+        return (
             <Items>
                 {addressBook.map(({
                     _id,
@@ -110,32 +109,34 @@ class AddressList extends Component{
                     address,
                     reference,
                     geolocation
-                })=>(
-                    <RadioButtonItem 
-                    title={description}
-                    description={address}
-                    isSelected={currentAddress &&currentAddress._id==_id}
-                    item = {{_id,
-                        description,
-                        address,
-                        reference,
-                        geolocation}}
-                    handleChange={onSelect}
-                    trailing={
-                    <Controls
-                    id= {_id}
-                    onAddressDeleted={onAddressDeleted}
-                     />}
-                    trailingProps={{
-                        menuOpen:this.state.menuOpen,
-                        handleOpen:this.handleOpen,
-                        handleClose:this.handleClose
-                    }}
+                }) => (
+                    <RadioButtonItem
+                        title={description}
+                        description={address}
+                        isSelected={currentAddress && currentAddress._id == _id}
+                        value={{
+                            _id,
+                            description,
+                            address,
+                            reference,
+                            geolocation
+                        }}
+                        handleChange={onSelect}
+                        trailing={
+                            <Controls
+                                id={_id}
+                                onAddressDeleted={onAddressDeleted}
+                            />}
+                        trailingProps={{
+                            menuOpen: this.state.menuOpen,
+                            handleOpen: this.handleOpen,
+                            handleClose: this.handleClose
+                        }}
                     />
                 ))}
                 <CustomRoundedButton onClick={this.createAddress}>
                     <CustomButtonText>{"Agregar otra dirección"}</CustomButtonText>
-                    <AddIcon/>
+                    <AddIcon />
                 </CustomRoundedButton>
             </Items>
         );

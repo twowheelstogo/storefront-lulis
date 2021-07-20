@@ -9,10 +9,25 @@ class ShippingMethodCheckoutAction extends React.Component{
         detail: option.price.displayAmount,
         value: option.fulfillmentMethod._id
       }));
+      handleSubmit=async({id})=>{
+        const { fulfillmentGroup: { availableFulfillmentOptions } } = this.props;
+    // We get the ID, but we want to pass the whole fulfillment option to onSubmit
+        const selectedFulfillmentOption = availableFulfillmentOptions.find((option) => option.fulfillmentMethod._id === id);
+
+        const { onSubmit } = this.props;
+        await onSubmit({ selectedFulfillmentOption });
+        }
     renderfulfillmentList(){
         const {components:{FulfillmentList},
-        fulfillmentGroup:{availableFulfillmentOptions}} = this.props;
-        return <FulfillmentList items={this.mapFulfillmentOptions(availableFulfillmentOptions)}/>
+        fulfillmentGroup:{
+         availableFulfillmentOptions,
+         selectedFulfillmentOption:{fulfillmentMethod}
+        },
+    } = this.props;
+        return <FulfillmentList 
+        handleChange={this.handleSubmit}
+        selectedItem = {fulfillmentMethod}    
+        items={this.mapFulfillmentOptions(availableFulfillmentOptions)}/>
     }
 
     render(){

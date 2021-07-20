@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { withComponents } from "@reactioncommerce/components-context";
 import PropTypes from "prop-types";
-import {CustomPropTypes } from "@reactioncommerce/components/utils";
+import { CustomPropTypes } from "@reactioncommerce/components/utils";
 
 const Items = styled.div`
     display: flex;
@@ -19,23 +19,25 @@ const ItemSubtitle = styled.div`
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;  
 `;
-class FulfillmentList extends React.Component{
+class FulfillmentList extends React.Component {
     static propTypes = {
         items: PropTypes.object.isRequired,
-        components:PropTypes.shape({
+        components: PropTypes.shape({
             RadioButtonItem: CustomPropTypes.component.isRequired
         })
     }
-    render(){
-        const {components:{RadioButtonItem},items} = this.props;
-        return(
+    render() {
+        const { components: { RadioButtonItem }, items, selectedItem, handleChange } = this.props;
+        console.log(selectedItem)
+        return (
             <Items>
-                {(items).map(({label,detail})=>(
+                {(items).map(({ label, detail, id }) => (
                     <RadioButtonItem
-                    description={label}
-                    isSelected={false}
-                    handleChange={()=>{}}
-                    trailing={<ItemSubtitle>{detail}</ItemSubtitle>}
+                        description={label}
+                        value={{ label, detail, id }}
+                        isSelected={selectedItem && selectedItem._id == id}
+                        handleChange={handleChange}
+                        trailing={<ItemSubtitle>{detail}</ItemSubtitle>}
                     />
                 ))}
             </Items>

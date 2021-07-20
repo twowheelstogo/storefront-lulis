@@ -63,8 +63,8 @@ class RadioButtonItem extends React.Component{
         })
     }
     onChange = () =>{
-        const {handleChange,item} = this.props;
-         handleChange(item); 
+        const {handleChange,value} = this.props;
+         handleChange(value); 
     }
     render(){
         const {
@@ -74,7 +74,7 @@ class RadioButtonItem extends React.Component{
             handleChange,
             id,
             isSelected,
-            trailingProps
+            trailingProps,value
         } = this.props
         return(
             <Item>
@@ -82,7 +82,7 @@ class RadioButtonItem extends React.Component{
                     <Radio
                     checked={isSelected}
                     onChange={this.onChange}
-                    value="a"
+                    value={value}
                     name="radio-button-demo"
                     inputProps={{ 'aria-label': 'A' }}
                 />
