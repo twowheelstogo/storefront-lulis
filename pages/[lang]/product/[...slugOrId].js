@@ -88,7 +88,6 @@ function ProductDetailPage({ addItemsToCart, product, isLoadingProduct, shop,cat
 
   if (isLoadingProduct || router.isFallback) return <PageLoading />;
   if (!product || !shop) return <Typography>Not Found</Typography>;
-  console.log("Related Products: ",catalogItems)
   return (
     <Layout shop={shop}>
       <Helmet

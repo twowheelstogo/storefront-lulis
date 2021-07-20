@@ -54,7 +54,6 @@ class CustomLayout extends Component{
         const sliderProps={
           title,subtitle,background,type
         }
-        console.log(noMaxwidth);
         return (
             <React.Fragment>
                 <div className={classes.root}>

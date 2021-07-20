@@ -1,4 +1,4 @@
-import React,{Component,Fragment} from "react";
+import React,{Component,Fragment, useState} from "react";
 import PropTypes from "prop-types";
 import { withComponents } from "@reactioncommerce/components-context";
 import styled from "styled-components";
@@ -37,23 +37,39 @@ const CustomButtonText = styled.div`
     font-height: 400;
 `;
 const Controls = (props) => {
-    const {menuOpen,handleClose,handleOpen} = props;
-
+    const {id} = props;
+    const [state,setState] = useState({
+        menuOpen:null
+    })
+    const handleOpen =(event)=>{
+        setState({
+            menuOpen:event.currentTarget
+        })
+    }   
+    const handleClose = () => {
+        setState({
+            menuOpen:null
+        })
+    }
+    const editAddress = () => {
+        let href = window.location.href;
+        window.location.href = `${origin}/en/address/${id}?redirect=${encodeURIComponent(href)}`;
+    }
         return(
             <div>
                 <IconButton 
                 onClick={handleOpen} 
-                aria-controls="opt-menu" 
+                aria-controls={id}
                 aria-haspopup="true">
                     <MoreVertIcon/>
                 </IconButton>
                 <Menu
-                id="opt-menu"
+                id={id}
                 keepMounted
-                anchorEl={menuOpen}
-                open={Boolean(menuOpen)}
+                anchorEl={state.menuOpen}
+                open={Boolean(state.menuOpen)}
                 onClose={handleClose}>
-                    <MenuItem>Editar</MenuItem>
+                    <MenuItem onClick={editAddress}>Editar</MenuItem>
                     <MenuItem>Eliminar</MenuItem>
                 </Menu>
             </div>
@@ -67,7 +83,6 @@ class AddressList extends Component{
         }
     }
     handleOpen =(event)=>{
-        console.log("currentTarget: ",event.currentTarget)
         this.setState({
             menuOpen:event.currentTarget
         })
@@ -77,11 +92,16 @@ class AddressList extends Component{
             menuOpen:null
         })
     }
+    createAddress = () => {
+        let href = window.location.href;
+        window.location.href = `${origin}/en/address?redirect=${encodeURIComponent(href)}`;
+    }
     render(){
         const {account:{addressBook},components:{RadioButtonItem}} = this.props;
         return(
             <Items>
                 {addressBook.map(({
+                    _id,
                     description,
                     address,
                     reference,
@@ -89,7 +109,10 @@ class AddressList extends Component{
                     <RadioButtonItem 
                     title={description}
                     description={address}
-                    trailing={<Controls/>}
+                    trailing={
+                    <Controls
+                    id= {_id}
+                     />}
                     trailingProps={{
                         menuOpen:this.state.menuOpen,
                         handleOpen:this.handleOpen,
@@ -98,7 +121,7 @@ class AddressList extends Component{
                     handleChange={()=>{}}
                     />
                 ))}
-                <CustomRoundedButton>
+                <CustomRoundedButton onClick={this.createAddress}>
                     <CustomButtonText>{"Agregar otra dirección"}</CustomButtonText>
                     <AddIcon/>
                 </CustomRoundedButton>

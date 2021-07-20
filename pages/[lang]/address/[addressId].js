@@ -1,4 +1,4 @@
-import React,{ Component, Fragment, useState } from "react";
+import React,{ Component, Fragment, useEffect, useState } from "react";
 import Layout from "components/CustomLayout";
 import fetchPrimaryShop from "staticUtils/shop/fetchPrimaryShop";
 import fetchTranslations from "staticUtils/translations/fetchTranslations";
@@ -18,6 +18,12 @@ import { StandaloneSearchBox } from "react-google-maps/lib/components/places/Sta
 import { SearchBox } from "react-google-maps/lib/components/places/SearchBox";
 import withAddressBook from "containers/address/withAddressBook";
 import LocationSearchingIcon from '@material-ui/icons/LocationSearching';
+import inject from "hocs/inject";
+import relayConnectionToArray from "lib/utils/relayConnectionToArray";
+import PageLoading from "components/PageLoading";
+import Router from "translations/i18nRouter";
+import { useRouter } from "next/router";
+
 
 const PlacesWithStandaloneSearchBox = (props)=>
 {
@@ -105,20 +111,46 @@ const RenderedForm = styled.div`
 const CreateAddress = props =>{
     const shop = useShop();
     const theme = useTheme();
+    const [currentAddressBook,setCurrentAddressBook] = useState(null);
+    const [loading, setLoading] = useState(true);
     const pageTitle = `Address | New | ${shop && shop.name}`;
     const matches= useMediaQuery(theme.breakpoints.down("sm"));
+    const router = useRouter();
     const handleAddAddress = async(value) => {
-        const {onAddressAdded} = props;
+        const {onAddressAdded,onAddressEdited} = props;
+        const {query:redirect} = router 
         let meta=value;
+        delete value._id;
         if(props.googleProps.locationRef.latitude!=undefined){
             meta = {
                 ...value,
                 geolocation:props.googleProps.locationRef
             }
         }
-        console.log(meta);
-        await onAddressAdded(meta)
+        if(addressBookId!=null){
+            await onAddressEdited(addressBookId,meta);
+        }else{
+            await onAddressAdded(meta);
+        }
+        window.location.href = decodeURIComponent(redirect.redirect);
     }
+
+    useEffect(()=>{
+        const {
+            authStore:{account:{addressBook}},
+            addressBookId
+        } = props;
+        if(router.query.addressId==undefined) {
+            setLoading(false);
+            return;
+        };
+        const addresses = (addressBook && relayConnectionToArray(addressBook)) || [];
+        let current = addresses.find((item)=>item._id==addressBookId);
+        setCurrentAddressBook(current);
+        if(current!=undefined) setLoading(false);
+    },[]);
+    const {addressBookId} = props;
+    if(loading) return <PageLoading/>
     return(
         <Layout shop={shop} noMaxwidth>
              <Head>
@@ -127,9 +159,11 @@ const CreateAddress = props =>{
             </Head>
             {!matches && <RenderWeb {...props} 
                 handleAddAddress={handleAddAddress}
+                value={currentAddressBook}
              />}
             {matches && <RenderMobile {...props}
                 handleAddAddress={handleAddAddress}
+                value={currentAddressBook}
             />}
         </Layout>
     );
@@ -138,9 +172,21 @@ const RenderMobile = withStyles(styles)((props) => {
     const [current,setCurrent] = useState(0);
     const {googleProps,
            classes,
-           components:{TextInput,AddressForm}
+           components:{TextInput,AddressForm},
+           value,
+           addressBookId
         } = props;
         let form = null;
+        const [state,setState] = useState({
+            address:value?value.address:'ninguna',
+            description:value?value.description:'ninguna'
+        })
+        const handleChange = (event) =>{
+            setState({
+                description:event.description?event.description:'',
+                address:event.address?event.address:''
+            })
+        }
     return (
         <Fragment>
             {current==0 &&(
@@ -158,7 +204,7 @@ const RenderMobile = withStyles(styles)((props) => {
                             </PlacesWithStandaloneSearchBox>
                         </div>
                         <div style={{height:'500px'}}>
-                        <GoogleMapComponent {...googleProps}/>
+                        <GoogleMapComponent {...googleProps} location={value && value?.geolocation}/>
                         </div>
                     </div>
                             <div style={{paddingBottom:'20px',
@@ -167,7 +213,6 @@ const RenderMobile = withStyles(styles)((props) => {
                                 <RoundedButton
                                 onClick={()=>{setCurrent(1)}}
                                 buttonTitle={"Guardar y continuar"}
-                                buttonSubtitle = {"oficina - 5av 5-55 Europlaza Guatemala"}
                                 />
                             </div>
                 </div>
@@ -180,7 +225,7 @@ const RenderMobile = withStyles(styles)((props) => {
                     <div className={classes.flexForm}>
                         <div className={classes.form}>
                             <div className={classes.addressItems}>
-                            <CustomTitle style={{fontSize:'30px'}}>Crea tu dirección</CustomTitle>
+                            <CustomTitle style={{fontSize:'30px'}}>{addressBookId?"Editar Dirección":"Crear Dirección"}</CustomTitle>
                             <Divider style={{width:'80%'}}/>
                             <Button variant="outlined"
                                 size="small"
@@ -192,14 +237,16 @@ const RenderMobile = withStyles(styles)((props) => {
                                 ref={(formEl)=>{
                                     form = formEl;
                                 }}
+                                onChange={handleChange}
+                                value={value}
                                 onSubmit={props.handleAddAddress}/>
                             </RenderedForm>
                             </div>
                             <div>
                                 <RoundedButton
                                 onClick={()=>{form.submit()}}
-                                buttonTitle={"Crear Dirección"}
-                                buttonSubtitle = {"oficina - 5av 5-55 Europlaza Guatemala"}
+                                buttonTitle={"Guardar Cambios"}
+                                buttonSubtitle = {`${state.description} - ${state.address}`}
                                 />
                             </div>
                         </div>
@@ -215,8 +262,18 @@ const RenderWeb = withStyles(styles)((props) => {
         AddressForm,
         Field,
         TextInput
-    },googleProps} = props;
+    },googleProps,value,addressBookId} = props;
+    const [state,setState] = useState({
+        address:value?value.address:'ninguna',
+        description:value?value.description:'ninguna'
+    })
     let form = null;
+    const handleChange = (event) =>{
+        setState({
+            description:event.description?event.description:'',
+            address:event.address?event.address:''
+        })
+    }
     return(
         <Fragment>
             <Grid container style={{minHeight:'calc(100vh - 70px)'}}>
@@ -224,13 +281,15 @@ const RenderWeb = withStyles(styles)((props) => {
                     <div className={classes.flexForm}>
                         <div className={classes.form}>
                             <div>
-                            <CustomTitle>Crea tu dirección</CustomTitle>
+                            <CustomTitle>{addressBookId?"Editar Dirección":"Crear Dirección"}</CustomTitle>
                             <Divider/>
                             <RenderedForm>
                             <AddressForm
                             ref = {(ref)=>{
                               form = ref;
                             }}
+                            onChange={handleChange}
+                            value={value}
                             onSubmit = {props.handleAddAddress}
 
                             />
@@ -239,8 +298,8 @@ const RenderWeb = withStyles(styles)((props) => {
                             <div>
                                 <RoundedButton
                                 onClick={()=>{form.submit()}}
-                                buttonTitle={"Crear Dirección"}
-                                buttonSubtitle = {"oficina - 5av 5-55 Europlaza Guatemala"}
+                                buttonTitle={"Guardar Cambios"}
+                                buttonSubtitle = {`${state.description} - ${state.address}`}
                                 />
                             </div>
                         </div>
@@ -251,6 +310,7 @@ const RenderWeb = withStyles(styles)((props) => {
                         <div className={classes.map}>
                             <GoogleMapComponent 
                             {...googleProps}
+                            location={value && value?.geolocation}
                             SearchBox = {
                                 <PlacesWithSearchBox
                                 {...googleProps}>
@@ -268,15 +328,17 @@ const RenderWeb = withStyles(styles)((props) => {
         </Fragment>
     );
 });
-export async function getStaticProps({ params: { lang } }) {
+export async function getStaticProps({ params: { lang,addressId }}) {
     const primaryShop = await fetchPrimaryShop(lang);
     const translations = await fetchTranslations(lang, ["common"]);
+    let addressBookId = addressId && addressId;
     if (!primaryShop) {
           return {
               props: {
               shop: null,
               ...translations
               },
+              addressBookId:null,
               // eslint-disable-next-line camelcase
               unstable_revalidate: 1 // Revalidate immediately
           };
@@ -285,7 +347,8 @@ export async function getStaticProps({ params: { lang } }) {
       return {
           props: {
               ...primaryShop,
-              ...translations
+              ...translations,
+              addressBookId,
           },
           // eslint-disable-next-line camelcase
           unstable_revalidate: 120 // Revalidate each two minutes
@@ -299,9 +362,9 @@ export async function getStaticProps({ params: { lang } }) {
    */
   export async function getStaticPaths() {
     return {
-      paths: locales.map((locale) => ({ params: { lang: locale } })),
-      fallback: false
+      paths: locales.map((locale) => ({ params: { lang: locale, addressId:"-" } })),
+      fallback: true
     };
   }
   
-export default withApollo()(withGoogleMaps(withAddressBook(CreateAddress)));
+export default withApollo()(withGoogleMaps(withAddressBook(inject("routingStore","authStore")(CreateAddress))));

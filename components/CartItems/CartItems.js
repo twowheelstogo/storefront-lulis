@@ -73,7 +73,6 @@ class CartItems extends Component {
       onLoadMoreCartItems,
       components
     } = this.props;
-    console.log(components);
     return (
       <Fragment>
         <CartItemsList

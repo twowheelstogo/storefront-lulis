@@ -78,7 +78,6 @@ class CartItems extends Component {
     const { className, items, components: { CartItem,CustomCartItem, ...components }, ...props } = this.props;
     if(CustomCartItem) 
     {
-      console.log("custom")
       return (
         <BorderedItems className={className}>
           {items.map((item) => <CustomCartItem key={item._id} item={item} components={components} {...props} />)}

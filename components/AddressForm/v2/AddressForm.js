@@ -38,6 +38,7 @@ class AddressForm extends Component{
     submit = () =>{
         this._form.submit();
     }
+    getValue = () => this._form.getValue();
     render(){
         const {
             components:{
