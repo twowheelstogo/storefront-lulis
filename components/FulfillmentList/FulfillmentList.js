@@ -28,7 +28,6 @@ class FulfillmentList extends React.Component {
     }
     render() {
         const { components: { RadioButtonItem }, items, selectedItem, handleChange } = this.props;
-        console.log(selectedItem)
         return (
             <Items>
                 {(items).map(({ label, detail, id }) => (

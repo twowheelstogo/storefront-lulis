@@ -79,7 +79,7 @@ function EpayPaymentForm(props,ref){
   function buildResult({ cardNumber = null, cardExpiry = null,cardCVV=null,postalCode=null }) {
     return {
       data: { cardNumber, cardExpiry,cardCVV,postalCode },
-      displayName: 'Test displayName for ePay'
+      displayName: 'Tarjeta de crédito'
     };
    }
   const {
@@ -132,6 +132,7 @@ function EpayPaymentForm(props,ref){
       onReadyForSaveChange(isReady);
     }
     isReadyRef.current = isReady;
+    onSubmit(resultDoc);
   }
   useImperativeHandle(ref, () => ({
     submit() {

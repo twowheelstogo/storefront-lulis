@@ -140,18 +140,6 @@ fragment OrderCommon on Order {
     amount {
       displayAmount
     }
-    billingAddress {
-      address1
-      address2
-      city
-      company
-      country
-      fullName
-      isCommercial
-      phone
-      postal
-      region
-    }
     displayName
     method {
       name

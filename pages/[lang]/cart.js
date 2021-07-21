@@ -79,6 +79,7 @@ class CartPage extends Component {
   };
 
   handleClick = () => Router.push("/");
+  handleCheckout = () => Router.push("/cart/checkout");
 
   handleItemQuantityChange = (quantity, cartItemId) => {
     const { onChangeCartItemsQuantity } = this.props;
@@ -135,6 +136,7 @@ class CartPage extends Component {
       </Grid>
     );
   }
+  
   renderCartSummary() {
     const { cart, classes } = this.props;
 
@@ -155,7 +157,8 @@ class CartPage extends Component {
           <div className={classes.checkoutButtonsContainer}>
             {/* <CheckoutButtons primaryButtonText={"Proceder a la compra"}/> */}
             <RoundedButton buttonTitle="Proceder a la compra"
-            buttonSubtitle={total && `Total: ${total.displayAmount}`}/>
+            buttonSubtitle={total && `Total: ${total.displayAmount}`}
+            onClick={this.handleCheckout}/>
           </div>
         </Grid>
       );

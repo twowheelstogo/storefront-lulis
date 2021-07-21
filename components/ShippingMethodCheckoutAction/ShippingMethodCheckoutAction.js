@@ -21,12 +21,12 @@ class ShippingMethodCheckoutAction extends React.Component{
         const {components:{FulfillmentList},
         fulfillmentGroup:{
          availableFulfillmentOptions,
-         selectedFulfillmentOption:{fulfillmentMethod}
+         selectedFulfillmentOption
         },
     } = this.props;
         return <FulfillmentList 
         handleChange={this.handleSubmit}
-        selectedItem = {fulfillmentMethod}    
+        selectedItem = {selectedFulfillmentOption&& selectedFulfillmentOption.fulfillmentMethod}    
         items={this.mapFulfillmentOptions(availableFulfillmentOptions)}/>
     }
 

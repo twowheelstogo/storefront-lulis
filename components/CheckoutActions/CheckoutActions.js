@@ -68,9 +68,17 @@ class CheckoutActions extends Component {
       4: null
     },
     hasPaymentError: false,
-    isPlacingOrder: false
+    isPlacingOrder: false,
+    paymentInputs:{}
   };
-
+  setPaymentInputs=(inputs)=>{
+    this.setState(prev=>({
+      paymentInputs:{
+        ...prev.paymentInputs,
+        ...inputs
+      }
+    }))
+  }
   componentDidUpdate({ addressValidationResults: prevAddressValidationResults }) {
     const { addressValidationResults } = this.props;
     if (
@@ -121,7 +129,30 @@ class CheckoutActions extends Component {
       });
     }
   };
+  handleInputComponentSubmit = async () => {
+    const {paymentInputs:{data,displayName,billingAddress,selectedPaymentMethodName,amount=null}} = this.state;
+    const {paymentMethods, remainingAmountDue } = this.props;
+    let addresses = this.getAddresses;
+    let bAddress = billingAddress || addresses && addresses[0] ? addresses[0]: null;
+    const selectedPaymentMethod = paymentMethods.find((method) => method.name === selectedPaymentMethodName);
+    console.log(bAddress);
+    console.log("payment methods",paymentMethods);
+    console.log("selected",selectedPaymentMethod);
+    let cappedPaymentAmount = amount;
+    if (cappedPaymentAmount && typeof remainingAmountDue === "number") {
+      cappedPaymentAmount = Math.min(cappedPaymentAmount, remainingAmountDue);
+    }
 
+    this.handlePaymentSubmit({
+      displayName: displayName,
+      payment: {
+        amount: cappedPaymentAmount,
+        billingAddress:bAddress,
+        data,
+        method: selectedPaymentMethodName
+      }
+    });
+  }
   handleValidationErrors() {
     const { addressValidationResults } = this.props;
     const { validationErrors } = addressValidationResults || [];
@@ -147,7 +178,7 @@ class CheckoutActions extends Component {
 
   handlePaymentSubmit = (paymentInput) => {
     this.props.cartStore.addCheckoutPayment(paymentInput);
-
+    console.log("payment handled",paymentInput)
     this.setState({
       hasPaymentError: false,
       actionAlerts: {
@@ -164,7 +195,7 @@ class CheckoutActions extends Component {
     const { cart, cartStore, orderEmailAddress } = this.props;
     const cartId = cartStore.hasAccountCart ? cartStore.accountCartId : cartStore.anonymousCartId;
     const { checkout } = cart;
-
+    await this.handleInputComponentSubmit();
     const fulfillmentGroups = checkout.fulfillmentGroups.map((group) => {
       const { data } = group;
       const { selectedFulfillmentOption } = group;
@@ -228,10 +259,11 @@ class CheckoutActions extends Component {
       cartStore.resetCheckoutPayments();
 
       const { placeOrder: { orders, token } } = data;
-
+      console.log(orders);
       // Send user to order confirmation page
       Router.push(`/checkout/order?orderId=${orders[0].referenceId}${token ? `&token=${token}` : ""}`);
     } catch (error) {
+      console.log(error);
       if (this._isMounted) {
         this.setState({
           hasPaymentError: true,
@@ -257,7 +289,17 @@ class CheckoutActions extends Component {
       </Dialog>
     );
   };
-
+  get getAddresses(){
+    const {
+      cart
+    } = this.props;
+    const { checkout: { fulfillmentGroups, summary }, items } = cart;
+    const addresses = fulfillmentGroups.reduce((list, group) => {
+      if (group.shippingAddress) list.push(group.shippingAddress);
+      return list;
+    }, []);
+    return addresses;
+  }
   render() {
     const {
       addressValidation,
@@ -287,7 +329,6 @@ class CheckoutActions extends Component {
       if (group.shippingAddress) list.push(group.shippingAddress);
       return list;
     }, []);
-
     const payments = cartStore.checkoutPayments.slice();
     const remainingAmountDue = calculateRemainderDue(payments, total.amount);
 
@@ -412,7 +453,8 @@ class CheckoutActions extends Component {
           onReset: this.handlePaymentsReset,
           payments,
           paymentMethods,
-          remainingAmountDue
+          remainingAmountDue,
+          onChange: this.setPaymentInputs,
         }
       },
       {
