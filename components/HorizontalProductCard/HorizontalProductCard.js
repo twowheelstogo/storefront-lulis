@@ -110,13 +110,15 @@ class HorizontalProductCard extends React.Component{
         const {classes,product} = this.props;
         const {slug} = product;
         const quantity = product.cartItem!=undefined?product.cartItem.quantity:0
+        const displayPrice = Array.isArray(product.pricing)?product.pricing[0].displayPrice:product.pricing.displayPrice;
+        const media = (product.primaryImage && product.primaryImage.URLs.small)||`http://localhost:3000${product.media[0].URLs.small}`
         return(
             <React.Fragment>
                 <Badge badgeContent={quantity}
                  classes={{ badge: classes.badge }}>
                 <div className={classes.root}>
                     <div className={classes.leading}>
-                        <img className={classes.image} src={product.primaryImage.URLs.small} width={95} height={95}/>
+                        <img className={classes.image} src={media} width={95} height={95}/>
                     </div>
                     <div className={classes.content}>
                     <Link
@@ -127,7 +129,7 @@ class HorizontalProductCard extends React.Component{
                     </Link>
                     </div>
                     <div className={classes.trailing}>
-                        <div className= {classes.title} style={{display:'flex',justifyContent:'flex-end'}}>{product.pricing[0].displayPrice}</div>
+                        <div className= {classes.title} style={{display:'flex',justifyContent:'flex-end'}}>{displayPrice}</div>
                         <div className={classes.controls}>
                             <IconButton size="small" color="primary" disabled={product.cartItem==undefined} onClick={()=>this.HandleRemoveItemToCart(this.props)}>
                             <RemoveIcon/>

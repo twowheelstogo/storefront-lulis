@@ -50,10 +50,12 @@ import Checkbox from "@reactioncommerce/components/Checkbox/v1";
 import CheckoutAction from "components/CheckoutAction";
 import CheckoutActionComplete from "@reactioncommerce/components/CheckoutActionComplete/v1";
 import CheckoutActionIncomplete from "@reactioncommerce/components/CheckoutActionIncomplete/v1";
+import CustomProductCard from "components/CustomProductCard";
 import ErrorsBlock from "@reactioncommerce/components/ErrorsBlock/v1";
 // import Field from "@reactioncommerce/components/Field/v1";
 import Field from "components/Field";
 import FulfillmentList from "components/FulfillmentList";
+import HorizontalProductCard from "components/HorizontalProductCard";
 import GiftForm from "../components/GiftForm";
 import InPageMenuItem from "@reactioncommerce/components/InPageMenuItem/v1";
 import InlineAlert from "@reactioncommerce/components/InlineAlert/v1";
@@ -70,6 +72,7 @@ import QuantityInput from "@reactioncommerce/components/QuantityInput/v1";
 import RadioButtonItem from "components/RadioButtonItem";
 import RegionInput from "@reactioncommerce/components/RegionInput/v1";
 // import Select from "@reactioncommerce/components/Select/v1";
+import SearchInput from "components/SearchInput";
 import Select from "components/CustomSelect";
 import SelectableItem from "@reactioncommerce/components/SelectableItem/v1";
 import SelectableList from "@reactioncommerce/components/SelectableList/v1";
@@ -107,10 +110,12 @@ export default {
   CheckoutAction,
   CheckoutActionComplete,
   CheckoutActionIncomplete,
+  CustomProductCard,
   ErrorsBlock,
   Field,
   FulfillmentList,
   GiftForm,
+  HorizontalProductCard,
   InlineAlert,
   InventoryStatus,
   Link,
@@ -134,6 +139,7 @@ export default {
   QuantityInput,
   RadioButtonItem,
   RegionInput,
+  SearchInput,
   Select,
   spinner,
   SelectableItem,

@@ -5,6 +5,8 @@ import {IconButton} from "@material-ui/core";
 import {Add as AddIcon, Remove as RemoveIcon} from "@material-ui/icons";
 import Badge from "@material-ui/core/Badge";
 import priceByCurrencyCode from "lib/utils/priceByCurrencyCode";
+import { applyTheme, CustomPropTypes, getRequiredValidator } from "@reactioncommerce/components/utils";
+
 const StyledContent = styled.div`
 display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -15,9 +17,12 @@ display: -webkit-box;
   color: "#7A6240";
 `;
 const StyledTitle = styled.div`
-font-size:18px;
+font-size:16px;
 font-weight:700;
 color:#000025;
+@media (min-width: ${applyTheme("sm", "breakpoints")}px) {
+    font-size: 18px;
+  }
 display: -webkit-box;
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;  
@@ -88,6 +93,8 @@ const CustomProductCard = props => {
         openCartWithTimeout(3000);
     }
     const quantity = product.cartItem!=undefined?product.cartItem.quantity:0
+    const displayPrice = Array.isArray(product.pricing)?product.pricing[0].displayPrice:product.pricing.displayPrice;
+    const media = (product.primaryImage && product.primaryImage.URLs.small)||`http://localhost:3000${product.media[0].URLs.small}`
     return(
         <React.Fragment>
             <Badge badgeContent={quantity}
@@ -99,7 +106,7 @@ const CustomProductCard = props => {
             onClick={HandleRemoveItemToCart}>
             <RemoveIcon/>
             </IconButton>
-            <img className={classes.image} src={product.primaryImage.URLs.small} width={75} height={75}/>
+            <img className={classes.image} src={media} width={75} height={75}/>
             <IconButton size="small" color="primary"
             onClick={HandleAddItemToCart}>
             <AddIcon/>
@@ -107,7 +114,7 @@ const CustomProductCard = props => {
             </div>
                 <StyledTitle>{product.title}</StyledTitle>
                 <StyledContent>{product.description}</StyledContent>
-                <StyledTitle>{product.pricing[0].displayPrice}</StyledTitle>
+                <StyledTitle>{displayPrice}</StyledTitle>
             </div>
             </Badge>
         </React.Fragment>
