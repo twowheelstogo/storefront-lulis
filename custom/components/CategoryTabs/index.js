@@ -48,19 +48,29 @@ const CategoryTabs = props =>  {
         setPageSize,
         setSortBy,
         sortBy,
-        tags
+        tags,
+        cart,
+        addItemsToCart,
+        onChangeCartItemsQuantity
     } = props;
-    console.log(tags);
     return(
         <Fragment>
             {/* <ProductGrid products = {products} />  */}
             {(tags||[]).map(item=>{
                 const products = (catalogItems||[]).filter((element)=>{
                     return element.node.product.tagIds.find((ids)=>ids==item._id)!=undefined;
-                }).map((value)=>value.node.product);
+                }).map((value)=>{
+                    const productInCart = (cart?.items||[]).find((cartItem)=>cartItem.productSlug==value.node.product.slug);
+                        return{
+                            ...value.node.product,
+                            cartItem:productInCart
+                        }
+                });
                 return products.length>0?<CategoryLayout 
                 title={item.displayTitle}
-                products={products}/>:<div></div>
+                products={products}
+                addItemsToCart={addItemsToCart}
+                onChangeCartItemsQuantity={onChangeCartItemsQuantity}/>:<div></div>
             })}
         </Fragment>
     );

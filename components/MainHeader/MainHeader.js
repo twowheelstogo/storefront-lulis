@@ -12,6 +12,7 @@ import { toPairs } from "lodash";
 import MiniCart from "components/MiniCart";
 import AccountDropdown from "components/AccountDropdown";
 import inject from "hocs/inject";
+import Link from "components/Link";
 
 const styles = (theme)=>({
     root:{
@@ -22,12 +23,13 @@ const styles = (theme)=>({
     },
     scrolledAppBar:{
         background:'white',
-        color:"#0095b3"
+        color:"#000025",
+        borderBottom: '1px solid #f1f1f1'
     },
     logo:{
-        marginLeft: theme.spacing(1),
-        width: 95,
-        height: 'auto'
+        // marginLeft: theme.spacing(1),
+        width: 'auto',
+        height: '70px'
     },    
     controls: {
         alignItems: "inherit",
@@ -58,7 +60,7 @@ function ElevationScroll(props) {
     });
   
     return React.cloneElement(children, {
-      elevation: trigger ? 4 : 0,
+      elevation: 0,
       className: trigger ? scrolledAppBar:appBar
     });
   }
@@ -77,7 +79,33 @@ class MainHeader extends React.Component{
 };
 
     render(){
-        const {classes:{logo,controls,toolbar}} = this.props;
+        const {classes:{logo,controls,toolbar,scrolledAppBar},noScrollAction} = this.props;
+        if(noScrollAction) return(
+            <React.Fragment>
+            <CssBaseline />
+                   <AppBar position="fixed" className={scrolledAppBar} elevation={0}>
+                    <Toolbar className={toolbar}>
+                        <Hidden mdUp>
+                                <NavigationToggleMobile onClick={this.handleNavigationToggleClick} />
+                            </Hidden>
+                   <Link route="/" className={logo}>
+                   <img
+                    src = 'https://firebasestorage.googleapis.com/v0/b/twowheelstogo-572d7.appspot.com/o/resources%2FArtboard%201%402x.png?alt=media&token=6cb86848-7fe8-426d-b087-772f99392f9d'
+                    className = { logo }
+                />
+                   </Link>
+                <div className={controls}>
+                <Hidden xsDown initialWidth={"md"}>
+                                    <NavigationDesktop />
+                                </Hidden>
+                </div>
+                <AccountDropdown />
+                            <MiniCart/>
+                    </Toolbar>
+                    <NavigationMobile/>
+                    </AppBar>
+            </React.Fragment>
+        );
         return(
             <React.Fragment>
             <CssBaseline />
@@ -87,18 +115,19 @@ class MainHeader extends React.Component{
                         <Hidden mdUp>
                                 <NavigationToggleMobile onClick={this.handleNavigationToggleClick} />
                             </Hidden>
-                    <img
-                    // src = 'https://firebasestorage.googleapis.com/v0/b/twg-rrhh.appspot.com/o/company-logos%2Flulis-logo%20(2).png?alt=media&token=50e9772a-81c8-43d8-ba5d-29c70ed918c4'
-                    src = 'https://firebasestorage.googleapis.com/v0/b/twowheelstogo-572d7.appspot.com/o/resources%2Fwhite_logo_with_background.png?alt=media&token=a6d8f959-79e7-4d2e-a588-e8655a6aa266'
+                            <Link route="/" className={logo}>
+                   <img
+                    src = 'https://firebasestorage.googleapis.com/v0/b/twowheelstogo-572d7.appspot.com/o/resources%2FArtboard%201%402x.png?alt=media&token=6cb86848-7fe8-426d-b087-772f99392f9d'
                     className = { logo }
                 />
+                   </Link>
                 <div className={controls}>
                 <Hidden xsDown initialWidth={"md"}>
                                     <NavigationDesktop />
                                 </Hidden>
                 </div>
                 <AccountDropdown />
-                            <MiniCart />
+                            <MiniCart/>
                     </Toolbar>
                     <NavigationMobile/>
                     </AppBar>

@@ -213,10 +213,7 @@ class ShippingAddressCheckoutAction extends Component {
       onAddressValidation
     } = this.props;
     const { formErrors } = this.state;
-    console.log("inEdit: ",this.inEdit);
-    console.log("getSubmittedAddress: ",this.getSubmittedAddress);
-    console.log("getShippingAddress: ",this.getShippingAddress);
-    const captureProps = {
+   const captureProps = {
       addressFormProps: {
         onChange: this.handleChange,
         shouldShowIsCommercialField: true,
@@ -255,8 +252,6 @@ class ShippingAddressCheckoutAction extends Component {
     const accountAddressBook = {
         addressBook: addresses
       };
-      console.log("authStore: ",this.props.authStore);
-      console.log("addressBook: ",addressBook);
     return (
       <Fragment>
         <Title>
@@ -269,13 +264,10 @@ class ShippingAddressCheckoutAction extends Component {
           onAddressAdded={async(values)=>{
             await onAddressAdded(values);
             await onSubmit(values);
-            console.log("New Address Added");
           }}
           onAddressEdited={async(id,values)=>{
-            console.log("onAddressEdited: ",values)
             await onAddressEdited(id,values);
             await onSubmit(values);
-            console.log("form submitted");
           }}
           onAddressDeleted={onAddressDeleted}
           />

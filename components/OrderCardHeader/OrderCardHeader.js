@@ -8,7 +8,7 @@ import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import ChevronDownIcon from "mdi-material-ui/ChevronDown";
 import ChevronUpIcon from "mdi-material-ui/ChevronUp";
-import Address from "@reactioncommerce/components/Address/v1";
+import Address from "components/Address";
 import OrderCardStatusBadge from "components/OrderCardStatusBadge";
 
 const styles = (theme) => ({
@@ -139,7 +139,7 @@ class OrderCardHeader extends Component {
                     variant="caption"
                     className={classnames(classes.orderCardInfoTextBold, classes.orderCardExpandedInfoHeaderText)}
                   >
-                    Payment Method{payments.length !== 1 ? "s" : null}:
+                    Método{payments.length !== 1 ? "s" : null} de pago:
                   </Typography>
                   {this.renderOrderPayments()}
                 </Grid>
@@ -148,7 +148,7 @@ class OrderCardHeader extends Component {
                     variant="caption"
                     className={classnames(classes.orderCardInfoTextBold, classes.orderCardExpandedInfoHeaderText)}
                   >
-                    Shipping Method{fulfillmentGroups.length !== 1 ? "s" : null}:
+                    Método{fulfillmentGroups.length !== 1 ? "s" : null} de envío:
                   </Typography>
                   {this.renderOrderShipments()}
                 </Grid>
@@ -159,7 +159,7 @@ class OrderCardHeader extends Component {
                     variant="caption"
                     className={classnames(classes.orderCardInfoTextBold, classes.orderCardInfoHeader)}
                   >
-                    Shipping Address:
+                    Dirección de entrega:
                   </Typography>
                   <Address address={shippingAddress} className={classes.orderAddressText} />
                 </Grid>

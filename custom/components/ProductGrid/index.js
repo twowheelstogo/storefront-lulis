@@ -5,16 +5,16 @@ import {
     
 } from '@material-ui/core';
 
-import ProductCard from '../ProductCard';
+import ProductCard from 'components/HorizontalProductCard';
 
 const useStyles = makeStyles( theme => ({
     grid: {
-        margin: theme.spacing(2, 0)
+        margin: theme.spacing(0, 0)
     }
 }));
 
 const ProductGrid = props => {
-    const { products } = props;
+    const { products,addItemsToCart,onChangeCartItemsQuantity } = props;
     const classes = useStyles();
 
     return (
@@ -23,19 +23,21 @@ const ProductGrid = props => {
                 container
                 direction = 'row'
                 justify = 'flex-start'
-                alignItems = 'stretch'
                 alignContent = 'center'
+                spacing={1}
             >
                 {
                     products.map( product => 
                         <Grid
                             item
-                            lg = { 4 }
+                            lg = { 3 }
                             md = { 4 }
+                            sm={6}
                             xs = { 12 }
                             className = { classes.grid }
                         >
-                            <ProductCard product = { product } />
+                            <ProductCard product = { product } addItemsToCart={addItemsToCart}
+                            onChangeCartItemsQuantity={onChangeCartItemsQuantity}/>
                         </Grid>    
                     )
                 }

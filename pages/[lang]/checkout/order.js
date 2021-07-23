@@ -5,7 +5,7 @@ import Grid from "@material-ui/core/Grid";
 import { withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import PageLoading from "components/PageLoading";
-import Layout from "components/Layout";
+import Layout from "components/CustomLayout";
 import withOrder from "containers/order/withOrder";
 import OrderCard from "components/OrderCard";
 import { withApollo } from "lib/apollo/withApollo";
@@ -73,12 +73,12 @@ class CheckoutComplete extends Component {
           <Grid item xs={false} md={3} /> {/* MUI grid doesn't have an offset. Use blank grid item instead. */}
           <Grid item xs={12} md={6}>
             <Grid item className={classes.orderThankYou} xs={12} md={12}>
-              <Typography className={classes.title} variant="h6">Thank you for your order</Typography>
+              <Typography className={classes.title} variant="h6">Gracias por tu compra</Typography>
               <Typography variant="body1">
-                {"Your order ID is:"} <strong>{order.referenceId}</strong>
+                {"El ID de tu orden es:"} <strong>{order.referenceId}</strong>
               </Typography>
               <Typography variant="body1">
-                {"We've sent a confirmation email to:"} <strong>{order.email}</strong>
+                {"Te enviamos un correo de confirmación a:"} <strong>{order.email}</strong>
               </Typography>
             </Grid>
             <Grid item xs={12} md={12}>

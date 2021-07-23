@@ -86,6 +86,7 @@ const Store = props => {
 				setPageSize={ setPageSize }
 				setSortBy={ setSortBy }
 				sortBy={ sortBy }
+				cart={{items:[]}}
 			/>
         </Layout>
 	);

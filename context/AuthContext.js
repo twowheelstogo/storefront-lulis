@@ -45,7 +45,6 @@ export const AuthProvider = ({ children }) => {
   }, [tokenData]);
 
   const setAccount = (newAccount) => {
-    console.log("setAccount: ",newAccount);
     if (newAccount) {
       setAccountId(newAccount._id) || null;
       _setAccount({ ...splitNames(newAccount), ...newAccount });

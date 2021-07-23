@@ -132,7 +132,6 @@ class TagGridPage extends Component {
         </MainLayout>
       );
     }
-    console.log("tag properties: ",tag);
     return (
       <MainLayout shop={shop}
       title={`${tag.displayTitle|| "Sin etiqueta"}`}

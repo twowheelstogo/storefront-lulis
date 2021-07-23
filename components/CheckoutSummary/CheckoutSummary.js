@@ -1,16 +1,37 @@
 import CartItems from "components/CartItems";
-import CartSummary from "@reactioncommerce/components/CartSummary/v1";
+import CartSummary from "components/CartSummary";
 import Grid from "@material-ui/core/Grid";
 import PropTypes from "prop-types";
 import React, { Component } from "react";
 import { withStyles } from "@material-ui/core/styles";
-
+import styled from "styled-components";
+import {Divider} from "@material-ui/core";
+import CheckoutCartItem from "components/CheckoutCartItem";
 const styles = (theme) => ({
   summary: {
     borderTop: theme.palette.borders.default
+  },
+  cartItems:{
+    paddingTop:theme.spacing(2),
+  },
+  divider:{
+    color:theme.palette.secondary.main,
+    borderTop:theme.palette.borders.secondary,
+    width: '100%',
+    opacity:'25%'
+  },
+  customSize:{
+  [theme.breakpoints.down("md")]:{
+    fontSize: '24px'
+  } 
   }
 });
-
+const StyledTitle = styled.div`
+  color:#7A6240;
+  font-size: 36px;
+  font-weight: 700;
+  margin: auto;
+`;
 class CheckoutSummary extends Component {
   static propTypes = {
     cart: PropTypes.shape({
@@ -55,11 +76,12 @@ class CheckoutSummary extends Component {
   }
 
   renderCartItems() {
-    const { cart, hasMoreCartItems, loadMoreCartItems } = this.props;
+    const { cart, hasMoreCartItems, loadMoreCartItems,classes } = this.props;
 
     if (cart && Array.isArray(cart.items)) {
       return (
         <Grid item xs={12}>
+       <div className={classes.cartItems}>
           <CartItems
             isMiniCart
             isReadOnly
@@ -68,7 +90,13 @@ class CheckoutSummary extends Component {
             items={cart.items}
             onChangeCartItemQuantity={this.handleItemQuantityChange}
             onRemoveItemFromCart={this.handleRemoveItem}
+            components={{
+              CustomCartItem:(cartItemProps)=>(
+                <CheckoutCartItem {...cartItemProps}/>
+              )
+            }}
           />
+       </div>
         </Grid>
       );
     }
@@ -107,9 +135,12 @@ class CheckoutSummary extends Component {
   }
 
   render() {
+    const {classes} = this.props;
     return (
       <aside>
-        <Grid container spacing={3}>
+        <Grid container>
+          <StyledTitle className={classes.customSize}>{"Revisa tu orden"}</StyledTitle>
+          <Divider className={classes.divider}/>
           {this.renderCartItems()}
           {this.renderCartSummary()}
         </Grid>

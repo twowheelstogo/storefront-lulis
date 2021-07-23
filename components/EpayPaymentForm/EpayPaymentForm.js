@@ -3,19 +3,22 @@ import PropTypes from "prop-types";
 import {useReactoForm} from "reacto-form";
 import {uniqueId} from "lodash";
 import {withComponents} from "@reactioncommerce/components-context";
-import {CustomPropTypes,applyTheme } from "@reactioncommerce/components/utils";
-import { Field,Form } from "react-final-form";
+import {CustomPropTypes,applyTheme,addTypographyStyles } from "@reactioncommerce/components/utils";
+import { Field as Input,Form } from "react-final-form";
 import { formatCVC,formatCreditCardNumber,formatExpirationDate } from "../utils/index";
 import {makeStyles} from "@material-ui/core";
-
 const useStyles = makeStyles((theme)=>({
   root:{
 
   },
   textInput:{
     width:'100%',
-    border: '1px solid #95d2de',
-    height:'25px'
+    border: 'none',
+    borderRadius: '5px',
+    height:'40px',
+    background: "#F4F1F1",
+    padding:'10px'
+
   }
 }))
 import styled from "styled-components";
@@ -23,25 +26,52 @@ const Grid = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+  @media (min-width: ${applyTheme("sm", "breakpoints")}px) {
+    gap: 0px;
+  }
+`;
+const SecureCaption = styled.div`
+  ${addTypographyStyles("StripePaymentInputCaption", "captionText")}
+`;
+const IconLockSpan = styled.span`
+  display: inline-block;
+  height: 20px;
+  width: 20px;
 `;
 
+const Span = styled.span`
+  vertical-align: super;
+`;
+const CardSpan = styled.span`
+  margin-left: 5px;
+`;
+const AcceptedPaymentMethods = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  margin: 20px 0;
+`;
 const ColFull = styled.div`
   flex: 1 1 100%;
-  padding:2px;
+  padding: 0px;
 `;
 
 const ColHalf = styled.div`
-  flex: 1 1 100%;
+  flex: 0 1 calc(50% - 2px);
   padding:2px;
   @media (min-width: ${applyTheme("sm", "breakpoints")}px) {
     flex: 0 1 calc(50% - 9px);
   }
 `;
+const renderIcons = (ccIcons) => (
+  <div>
+    {ccIcons.map((icon, index) => <CardSpan key={index}>{icon}</CardSpan>)}
+  </div >
+);
 function EpayPaymentForm(props,ref){
     const lastDocRef = useRef();
   const isReadyRef = useRef();
   const classes = useStyles();
-
+  let _form = null;
   const [uniqueInstanceIdentifier, setUniqueInstanceIdentifier] = useState();
   if (!uniqueInstanceIdentifier) {
     setUniqueInstanceIdentifier(uniqueId("EpayPaymentForm"));
@@ -49,15 +79,17 @@ function EpayPaymentForm(props,ref){
   function buildResult({ cardNumber = null, cardExpiry = null,cardCVV=null,postalCode=null }) {
     return {
       data: { cardNumber, cardExpiry,cardCVV,postalCode },
-      displayName: 'Test displayName for ePay'
+      displayName: 'Tarjeta de crédito'
     };
    }
   const {
     className,
     components: {
       ErrorsBlock,
-      // Field,
-      TextInput
+      // Input,
+      TextInput,
+      Field,
+      iconLock
     },
     isSaving,
     onChange,
@@ -67,7 +99,8 @@ function EpayPaymentForm(props,ref){
   const {
     getErrors,
     getInputProps,
-    submitForm
+    submitForm,
+    
   } = useReactoForm({
     isReadOnly: isSaving,
     onChange(formData) {
@@ -99,16 +132,31 @@ function EpayPaymentForm(props,ref){
       onReadyForSaveChange(isReady);
     }
     isReadyRef.current = isReady;
+    onSubmit(resultDoc);
   }
   useImperativeHandle(ref, () => ({
     submit() {
       submitForm();
     }
   }));
+  const cardNumberInputId = `cardNumber_${uniqueInstanceIdentifier}`;
+  const postalCodeInputId = `postalCode_${uniqueInstanceIdentifier}`;
+  const cardExpiryInputId = `cardExpiry_${uniqueInstanceIdentifier}`;
+  const cardCVVInputId = `cardCVV_${uniqueInstanceIdentifier}`;
+  const ccIcons = [
+    props.components.iconVisa,
+    props.components.iconAmericanExpress,
+    props.components.iconMastercard,
+    props.components.iconDiscover
+  ];
     return(
-      <Form
+      <div>
+        <AcceptedPaymentMethods>
+          {renderIcons(ccIcons)}
+        </AcceptedPaymentMethods>
+        <Form
       onSubmit={submitForm}
-      
+      ref={(formEl)=>_form=formEl}
       render={({
         handleSubmit,
         form,
@@ -123,46 +171,58 @@ function EpayPaymentForm(props,ref){
           <form className={className}>
           <Grid>
           <ColFull>
-              <Field
+              <Field name="cardNumber" label={"Número de Tarjeta"} labelFor={cardNumberInputId}>
+              <Input
               className={classes.textInput}
                 name="cardNumber"
                 component="input"
                 type="text"
+                id={cardNumberInputId}
                 pattern="[\d| ]{16,22}"
                 placeholder="Número de tarjeta"
                 format={formatCreditCardNumber}
               />
+              </Field>
             </ColFull>
             <ColFull>
-              <Field
+              <Field name="postalCode" label={"Código Postal"} labelFor={postalCodeInputId}>
+              <Input
               className={classes.textInput}
+                id={postalCodeInputId}
                 name="postalCode"
                 component="input"
                 type="text"
                 placeholder="Nombre de la tarjeta"
               />
+              </Field>
             </ColFull>
               <ColHalf>
-              <Field
+              <Field name="cardExpiry" label={"Fecha de Vencimiento"} labelFor={cardExpiryInputId}>
+              <Input
               className={classes.textInput}
                 name="cardExpiry"
+                id={cardExpiryInputId}
                 component="input"
                 type="text"
                 pattern="\d\d/\d\d"
                 placeholder="Fecha de expiración"
                 format={formatExpirationDate}
               />
+              </Field>
               </ColHalf>
               <ColHalf>
-              <Field
+              <Field name={"cardCVV"} label={"Còdigo de seguridad"} labelFor={cardCVVInputId}>
+              <Input
               className={classes.textInput}
                 name="cardCVV"
                 component="input"
                 type="text"
+                id={cardCVVInputId}
                 pattern="\d{3,4}"
                 placeholder="CVV/CVC"
                 format={formatCVC}
               />
+              </Field>
               </ColHalf>
             </Grid> 
         </form>
@@ -170,6 +230,10 @@ function EpayPaymentForm(props,ref){
         );
       }}
       />
+      <SecureCaption>
+          <IconLockSpan>{iconLock}</IconLockSpan> <Span>{"Su información es privada y segura"}</Span>
+        </SecureCaption>
+      </div>
     );
 }
 EpayPaymentForm = withComponents(forwardRef(EpayPaymentForm));
@@ -194,10 +258,10 @@ EpayPaymentForm.propTypes = {
        */
       ErrorsBlock: CustomPropTypes.component.isRequired,
       /**
-       * Pass either the Reaction Field component or your own component that
+       * Pass either the Reaction Input component or your own component that
        * accepts compatible props.
        */
-      Field: CustomPropTypes.component.isRequired,
+      Input: CustomPropTypes.component.isRequired,
       /**
        * Pass either the Reaction TextInput component or your own component that
        * accepts compatible props.
@@ -206,11 +270,11 @@ EpayPaymentForm.propTypes = {
     }),
     /**
      * Pass true while the input data is in the process of being saved.
-     * While true, the form fields are disabled.
+     * While true, the form Inputs are disabled.
      */
     isSaving: PropTypes.bool,
     /**
-     * Called as the form fields are changed
+     * Called as the form Inputs are changed
      */
     onChange: PropTypes.func,
     /**

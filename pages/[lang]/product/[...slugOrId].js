@@ -5,8 +5,9 @@ import { useRouter } from "next/router";
 import Typography from "@material-ui/core/Typography";
 import withCart from "containers/cart/withCart";
 import ProductDetail from "components/ProductDetail";
+import CustomProductDetails from "components/CustomProductDetails";
 import PageLoading from "components/PageLoading";
-import Layout from "components/Layout";
+import Layout from "components/CustomLayout";
 import { withApollo } from "lib/apollo/withApollo";
 
 import { locales } from "translations/config";
@@ -14,6 +15,7 @@ import fetchPrimaryShop from "staticUtils/shop/fetchPrimaryShop";
 import fetchCatalogProduct from "staticUtils/catalog/fetchCatalogProduct";
 import fetchAllTags from "staticUtils/tags/fetchAllTags";
 import fetchTranslations from "staticUtils/translations/fetchTranslations";
+import withCatalogItems from "containers/catalog/withCatalogItems";
 
 /**
  *
@@ -74,7 +76,7 @@ function buildJSONLd(product, shop) {
  * @param {Object} shop - the shop this product belong to
  * @return {React.Component} The product detail page
  */
-function ProductDetailPage({ addItemsToCart, product, isLoadingProduct, shop }) {
+function ProductDetailPage({ addItemsToCart, product, isLoadingProduct, shop,catalogItems,cart,onChangeCartItemsQuantity }) {
   const router = useRouter();
   const currencyCode = (shop && shop.currency.code) || "USD";
   const JSONLd = useMemo(() => {
@@ -86,7 +88,6 @@ function ProductDetailPage({ addItemsToCart, product, isLoadingProduct, shop }) 
 
   if (isLoadingProduct || router.isFallback) return <PageLoading />;
   if (!product || !shop) return <Typography>Not Found</Typography>;
-
   return (
     <Layout shop={shop}>
       <Helmet
@@ -94,11 +95,20 @@ function ProductDetailPage({ addItemsToCart, product, isLoadingProduct, shop }) 
         meta={[{ name: "description", content: product && product.description }]}
         script={[{ type: "application/ld+json", innerHTML: JSONLd }]}
       />
-      <ProductDetail
+      {/* <ProductDetail
         addItemsToCart={addItemsToCart}
         currencyCode={currencyCode}
         product={product}
         shop={shop}
+      /> */}
+      <CustomProductDetails
+      addItemsToCart={addItemsToCart}
+      currencyCode={currencyCode}
+      product={product}
+      relatedProducts={(catalogItems||[])}
+      shop={shop}
+      cart={cart}
+      onChangeCartItemsQuantity={onChangeCartItemsQuantity}
       />
     </Layout>
   );
@@ -133,26 +143,31 @@ ProductDetailPage.propTypes = {
 export async function getStaticProps({ params: { slugOrId, lang } }) {
   const productSlug = slugOrId && slugOrId[0];
   const primaryShop = await fetchPrimaryShop(lang);
-
+  const catalogProduct = await fetchCatalogProduct(productSlug);
+  const tag = (catalogProduct && catalogProduct.product)?{tag:{
+    _id:catalogProduct?.product.tagIds[0]
+  }}:null;
   if (!primaryShop) {
     return {
       props: {
         shop: null,
         translations: null,
         products: null,
-        tags: null
+        tags: null,
+        tag:undefined,
+        catalogItems:[]
       },
       // eslint-disable-next-line camelcase
       unstable_revalidate: 1 // Revalidate immediately
     };
   }
-  console.log("productSlug: ",productSlug);
   return {
     props: {
       ...primaryShop,
       ...await fetchTranslations(lang, ["common", "productDetail"]),
-      ...await fetchCatalogProduct(productSlug),
-      ...await fetchAllTags(lang)
+      ...await catalogProduct,
+      ...await fetchAllTags(lang),
+      ...tag
     },
     // eslint-disable-next-line camelcase
     unstable_revalidate: 120 // Revalidate each two minutes
@@ -171,4 +186,4 @@ export async function getStaticPaths() {
   };
 }
 
-export default withApollo()(withCart(ProductDetailPage));
+export default withApollo()(withCart(withCatalogItems(ProductDetailPage)));
