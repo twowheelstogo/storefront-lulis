@@ -134,10 +134,10 @@ class TagGridPage extends Component {
     }
     return (
       <MainLayout shop={shop}
-      title={`${tag.displayTitle|| "Sin etiqueta"}`}
+      title={`${ (tag && tag.displayTitle)|| "Sin etiqueta"}`}
       subtitle=""
       type="image"
-      background={this.getMediaUrl(tag.heroMediaUrl)}>
+      background={this.getMediaUrl((tag && tag.heroMediaUrl)|| "https://twowheelstogo-572d7.firebaseapp.com/static/media/largelogo.8d49925d.png")}>
       <Helmet
           title={`${tag && tag.name} | ${shop && shop.name}`}
           meta={
