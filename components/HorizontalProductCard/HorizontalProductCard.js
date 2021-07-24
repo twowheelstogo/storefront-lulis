@@ -83,7 +83,7 @@ class HorizontalProductCard extends React.Component{
     async HandleAddItemToCart(props){
         const {product,addItemsToCart} = props;
         const currentVariant = product.variants[0];
-        const price = priceByCurrencyCode("USD",currentVariant.pricing);
+        const price =Array.isArray(currentVariant.pricing)? priceByCurrencyCode("USD",currentVariant.pricing):currentVariant.pricing;
         await addItemsToCart([
             {
                 price:{
@@ -91,8 +91,8 @@ class HorizontalProductCard extends React.Component{
                 currencyCode:"USD",
                 },
                 productConfiguration:{
-                    productId:product.productId,
-                    productVariantId:currentVariant.variantId
+                    productId:(product.productId && product.productId) || product._id,
+                    productVariantId:(currentVariant.variantId && currentVariant.variantId) || currentVariant._id
                 },
                 quantity:1
             }

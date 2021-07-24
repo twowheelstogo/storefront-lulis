@@ -38,6 +38,7 @@ query Products(
       _id
       title
       description
+      slug
       media{
         URLs{
           large
@@ -65,6 +66,9 @@ query Products(
       variants {
         _id
         title
+        pricing{
+          price
+        }
         options {
           _id
           title

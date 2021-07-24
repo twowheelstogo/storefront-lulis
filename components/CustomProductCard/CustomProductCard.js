@@ -6,6 +6,7 @@ import {Add as AddIcon, Remove as RemoveIcon} from "@material-ui/icons";
 import Badge from "@material-ui/core/Badge";
 import priceByCurrencyCode from "lib/utils/priceByCurrencyCode";
 import { applyTheme, CustomPropTypes, getRequiredValidator } from "@reactioncommerce/components/utils";
+import Link from "components/Link";
 
 const StyledContent = styled.div`
 display: -webkit-box;
@@ -68,7 +69,7 @@ const CustomProductCard = props => {
     const HandleAddItemToCart = async () => {
         const {product,addItemsToCart,uiStore:{openCartWithTimeout}} = props;
         const currentVariant = product.variants[0];
-        const price = priceByCurrencyCode("USD",currentVariant.pricing);
+        const price =Array.isArray(currentVariant.pricing)? priceByCurrencyCode("USD",currentVariant.pricing):currentVariant.pricing;
         await addItemsToCart([
             {
                 price:{
@@ -76,8 +77,8 @@ const CustomProductCard = props => {
                 currencyCode:"USD",
                 },
                 productConfiguration:{
-                    productId:product.productId,
-                    productVariantId:currentVariant.variantId
+                    productId:(product.productId && product.productId) || product._id,
+                    productVariantId:(currentVariant.variantId && currentVariant.variantId) || currentVariant._id
                 },
                 quantity:1
             }
@@ -94,7 +95,8 @@ const CustomProductCard = props => {
     }
     const quantity = product.cartItem!=undefined?product.cartItem.quantity:0
     const displayPrice = Array.isArray(product.pricing)?product.pricing[0].displayPrice:product.pricing.displayPrice;
-    const media = (product.primaryImage && product.primaryImage.URLs.small)||`http://localhost:3000${product.media[0].URLs.small}`
+    const media = (product.primaryImage && product.primaryImage.URLs.small)||`http://localhost:3000${product.media[0].URLs.small}`;
+    const {slug} = product;
     return(
         <React.Fragment>
             <Badge badgeContent={quantity}
@@ -112,8 +114,12 @@ const CustomProductCard = props => {
             <AddIcon/>
             </IconButton>
             </div>
-                <StyledTitle>{product.title}</StyledTitle>
-                <StyledContent>{product.description}</StyledContent>
+            <Link
+                    href = "/product/[...slugOrId]"
+                    as = {`/product/${slug}`}>
+                    <StyledTitle>{product.title}</StyledTitle>
+                    <StyledContent>{product.description}</StyledContent>
+                    </Link>
                 <StyledTitle>{displayPrice}</StyledTitle>
             </div>
             </Badge>

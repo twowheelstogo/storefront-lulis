@@ -12,7 +12,10 @@ class SearchProductListMobile extends Component{
         const {
             items,
             uiStore,
-            components:{CustomProductCard}
+            components:{CustomProductCard},
+            addItemsToCart,
+            onChangeCartItemsQuantity,
+            cart
         } = this.props;
         return(
             <Grid container spacing={2}>
@@ -20,11 +23,19 @@ class SearchProductListMobile extends Component{
                 <CustomText2>{`${items.length} coincidencia${items.length==1?"":"s"}`}</CustomText2>
             
                 </Grid>
-                {items.map((product)=>(
+                {(items||[]).map((item)=>{
+                    const productInCart = (cart?.items||[]).find((cartItem)=>cartItem.productSlug==item.slug);
+                    return{
+                        ...item,
+                        cartItem:productInCart
+                    }
+                }).map((product)=>(
                     <Grid item xs={6} md={4}>
                     <CustomProductCard
                         product={product}
                         uiStore={uiStore}
+                        addItemsToCart={addItemsToCart}
+                        onChangeCartItemsQuantity={onChangeCartItemsQuantity}
                     />
                     </Grid>
                 ))}

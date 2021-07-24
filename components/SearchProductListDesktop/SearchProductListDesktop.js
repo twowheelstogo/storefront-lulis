@@ -22,14 +22,26 @@ class SearchProductListDesktop extends Component{
     render(){
         const {
             items,
-            components:{HorizontalProductCard}
+            components:{HorizontalProductCard},
+            addItemsToCart,
+            onChangeCartItemsQuantity,
+            cart
         } = this.props;
         return(
             <Items>
             <CustomText2>{`${items.length} coincidencia${items.length==1?"":"s"}`}</CustomText2>
-                {(items||[]).map((item)=>(
+                {(items||[]).map((item)=>{
+                    const productInCart = (cart?.items||[]).find((cartItem)=>cartItem.productSlug==item.slug);
+                    return{
+                        ...item,
+                        cartItem:productInCart
+                    }
+                })
+                .map((item)=>(
                     <HorizontalProductCard
                         product = {item}
+                        addItemsToCart={addItemsToCart}
+                        onChangeCartItemsQuantity={onChangeCartItemsQuantity}
                     />
                 ))}
             </Items>

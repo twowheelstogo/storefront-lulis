@@ -13,6 +13,9 @@ import MiniCart from "components/MiniCart";
 import AccountDropdown from "components/AccountDropdown";
 import inject from "hocs/inject";
 import Link from "components/Link";
+import { IconButton } from "@material-ui/core";
+import SearchIcon from "@material-ui/icons/Search";
+import Router from "translations/i18nRouter";
 
 const styles = (theme)=>({
     root:{
@@ -77,6 +80,9 @@ class MainHeader extends React.Component{
     handleNavigationToggleClick = () => {
     this.props.uiStore.toggleMenuDrawerOpen();
 };
+    handleSearch = () =>{
+        Router.push("/product/search");
+    }
 
     render(){
         const {classes:{logo,controls,toolbar,scrolledAppBar},noScrollAction} = this.props;
@@ -99,6 +105,9 @@ class MainHeader extends React.Component{
                                     <NavigationDesktop />
                                 </Hidden>
                 </div>
+                <IconButton color="inherit" onClick={this.handleSearch}>
+                    <SearchIcon/>
+                </IconButton>
                 <AccountDropdown />
                             <MiniCart/>
                     </Toolbar>
@@ -126,6 +135,9 @@ class MainHeader extends React.Component{
                                     <NavigationDesktop />
                                 </Hidden>
                 </div>
+                <IconButton color="inherit" onClick={this.handleSearch}>
+                    <SearchIcon/>
+                </IconButton>
                 <AccountDropdown />
                             <MiniCart/>
                     </Toolbar>

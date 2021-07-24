@@ -18,7 +18,7 @@ import Router from "translations/i18nRouter";
 import { Form } from "reacto-form";
 import { getRequiredValidator,applyTheme } from "@reactioncommerce/components/utils";
 import withWidth, { isWidthUp, isWidthDown } from "@material-ui/core/withWidth";
-
+import withCart from "containers/cart/withCart";
 const CustomTitle = styled.div`
     font-size: 36px;
     font-weight: 700;
@@ -141,17 +141,30 @@ class SearchProduct extends Component {
         validator:getRequiredValidator("search")
     };
     renderProducts() {
-        const {products, isLoadingProducts,width,uiStore} = this.props;
+        const {
+            products,
+            width,
+            uiStore,
+            addItemsToCart,
+            onChangeCartItemsQuantity,
+            cart
+        } = this.props;
         console.log(isWidthDown("md",width))
         if(isWidthDown("sm",width)) return(
             <SearchProductListMobile
                 items={products}
                 uiStore={uiStore}
+                addItemsToCart={addItemsToCart}
+                onChangeCartItemsQuantity={onChangeCartItemsQuantity}
+                cart={cart}
             />
         );
         return (
             <SearchProductListDesktop
             items={products}
+            addItemsToCart={addItemsToCart}
+            onChangeCartItemsQuantity={onChangeCartItemsQuantity}
+            cart={cart}
         />
         );
     }
@@ -253,4 +266,4 @@ export async function getStaticPaths() {
         fallback: false
     };
 };
-export default withApollo()(withWidth({initialWidth: "md"})(withStyles(styles)(withProducts(withComponents(SearchProduct)))));
+export default withApollo()(withWidth({initialWidth: "md"})(withStyles(styles)(withProducts(withCart(withComponents(SearchProduct))))));
