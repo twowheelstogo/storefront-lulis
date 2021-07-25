@@ -111,7 +111,7 @@ class HorizontalProductCard extends React.Component{
         const {slug} = product;
         const quantity = product.cartItem!=undefined?product.cartItem.quantity:0
         const displayPrice = Array.isArray(product.pricing)?product.pricing[0].displayPrice:product.pricing.displayPrice;
-        const media = (product.primaryImage && product.primaryImage.URLs.small)||`http://localhost:3000${product.media[0].URLs.small}`
+        const media = (product.primaryImage && product.primaryImage.URLs.small)||`https://api.qbit01.com${product.media[0].URLs.small}`
         return(
             <React.Fragment>
                 <Badge badgeContent={quantity}

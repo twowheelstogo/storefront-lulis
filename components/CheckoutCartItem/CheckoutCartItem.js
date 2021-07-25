@@ -75,10 +75,12 @@ class CheckoutCartItem extends Component{
             title,
             quantity,
             isLowQuantity,
+            imageURLs,
             price: { displayAmount: displayPrice },
             subtotal
           }} = this.props;
           const { displayAmount: displaySubtotal } = subtotal || {};
+          const imageUrl = `http://localhost:3000${imageURLs.original}`;
         return(
             <React.Fragment>
                 <Item className={classes.root}>
@@ -99,5 +101,4 @@ class CheckoutCartItem extends Component{
         );
     }
 }
-const imageUrl = "http://localhost:3000/assets/files/Media/dsia87CQqKqJtLueo/small/6%20mini%20cranberry.png";
 export default withStyles(styles)(CheckoutCartItem);

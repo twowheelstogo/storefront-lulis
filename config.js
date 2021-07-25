@@ -44,7 +44,6 @@ module.exports = envalid.cleanEnv(process.env, {
   STRIPE_PUBLIC_API_KEY: str({ default: "" }),
   SITEMAP_MAX_AGE: num({ default: 43200 }), // 12 hours
   IS_BUILDING_NEXTJS: bool({ default: false }),
-  STOREFRONT_URL:url(),
 }, {
   // disable dotenv processing
   dotEnvPath: null,

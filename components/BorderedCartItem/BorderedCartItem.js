@@ -142,6 +142,7 @@ class BorderedCartItem extends React.Component{
               title,
               quantity,
               isLowQuantity,
+              imageURLs,
               price: { displayAmount: displayPrice },
               subtotal
             },
@@ -151,6 +152,7 @@ class BorderedCartItem extends React.Component{
 
     const { displayAmount: displaySubtotal } = subtotal || {};
     const { displayAmount: displayCompareAtPrice } = compareAtPrice || {};
+    const imageUrl = `http://localhost:3000${imageURLs.original}`;
         return(
             <React.Fragment>
                 <Item className={classes.root}>
@@ -192,5 +194,5 @@ class BorderedCartItem extends React.Component{
         );
     }
 }
-const imageUrl = "http://localhost:3000/assets/files/Media/dsia87CQqKqJtLueo/small/6%20mini%20cranberry.png";
+//const imageUrl = "http://localhost:3000/assets/files/Media/dsia87CQqKqJtLueo/small/6%20mini%20cranberry.png";
 export default withStyles(styles)(withComponents(BorderedCartItem));
