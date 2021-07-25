@@ -52,7 +52,7 @@ const Controls = (props) => {
     }
     const editAddress = () => {
         let href = window.location.href;
-        window.location.href = `${origin}/en/address/${id}?redirect=${encodeURIComponent(href)}`;
+        window.location.href = `${origin}/en/address?addressBookId=${id}&redirect=${encodeURIComponent(href)}`;
     }
     const handleDelete = () => {
         handleClose();
@@ -135,7 +135,7 @@ class AddressList extends Component {
                     />
                 ))}
                 <CustomRoundedButton onClick={this.createAddress}>
-                    <CustomButtonText>{"Agregar otra dirección"}</CustomButtonText>
+                    <CustomButtonText>{addressBook.length>0?"Agregar otra dirección":"Agregar una dirección"}</CustomButtonText>
                     <AddIcon />
                 </CustomRoundedButton>
             </Items>
