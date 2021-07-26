@@ -135,9 +135,6 @@ class CheckoutActions extends Component {
     let addresses = this.getAddresses;
     let bAddress = billingAddress || addresses && addresses[0] ? addresses[0]: null;
     const selectedPaymentMethod = paymentMethods.find((method) => method.name === selectedPaymentMethodName);
-    console.log(bAddress);
-    console.log("payment methods",paymentMethods);
-    console.log("selected",selectedPaymentMethod);
     let cappedPaymentAmount = amount;
     if (cappedPaymentAmount && typeof remainingAmountDue === "number") {
       cappedPaymentAmount = Math.min(cappedPaymentAmount, remainingAmountDue);
@@ -178,11 +175,10 @@ class CheckoutActions extends Component {
 
   handlePaymentSubmit = (paymentInput) => {
     this.props.cartStore.addCheckoutPayment(paymentInput);
-    console.log("payment handled",paymentInput)
     this.setState({
       hasPaymentError: false,
       actionAlerts: {
-        3: {}
+        4: {}
       }
     });
   };
@@ -237,7 +233,6 @@ class CheckoutActions extends Component {
       remainingAmountDue -= amount;
       return { ...payment, amount };
     });
-    console.log(payments);
     try {
       const { data } = await apolloClient.mutate({
         mutation: placeOrderMutation,
@@ -259,17 +254,15 @@ class CheckoutActions extends Component {
       cartStore.resetCheckoutPayments();
 
       const { placeOrder: { orders, token } } = data;
-      console.log(orders);
       // Send user to order confirmation page
       Router.push(`/checkout/order?orderId=${orders[0].referenceId}${token ? `&token=${token}` : ""}`);
     } catch (error) {
-      console.log(error);
       if (this._isMounted) {
         this.setState({
           hasPaymentError: true,
           isPlacingOrder: false,
           actionAlerts: {
-            3: {
+            4: {
               alertType: "error",
               title: "Payment method failed",
               message: error.toString().replace("Error: GraphQL error:", "")

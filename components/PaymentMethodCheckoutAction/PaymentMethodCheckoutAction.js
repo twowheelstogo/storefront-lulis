@@ -98,15 +98,19 @@ class PaymentMethodCheckoutAction extends Component{
     render(){
         const {
             paymentMethods,
-            components:{CardItems}
+            components:{InlineAlert},
+            alert
         } = this.props;
         const {
             selectedPaymentMethodName
         } = this.state;
         const selectedPaymentMethod = paymentMethods.find((item)=>item.name == selectedPaymentMethodName);
+        console.log(alert);
         return(
-            <Fragment>
+            <div id={"payment"}>
                {this.renderPaymentMethods()}
+               <br></br>
+               {alert ? <InlineAlert {...alert}/>:""}
                {!!selectedPaymentMethod && selectedPaymentMethod.InputComponent
                && (
                    <InputContent>
@@ -116,7 +120,7 @@ class PaymentMethodCheckoutAction extends Component{
                    onSubmit={this.handleSubmit}/>
                    </InputContent>
                )}
-            </Fragment>
+            </div>
         );
     }
 }

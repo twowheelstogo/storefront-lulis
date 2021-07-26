@@ -80,7 +80,7 @@ class CheckoutCartItem extends Component{
             subtotal
           }} = this.props;
           const { displayAmount: displaySubtotal } = subtotal || {};
-          const imageUrl = `http://localhost:3000${imageURLs.original}`;
+          const imageUrl = `https://api.qbit01.com${imageURLs && imageURLs.original}`;
         return(
             <React.Fragment>
                 <Item className={classes.root}>

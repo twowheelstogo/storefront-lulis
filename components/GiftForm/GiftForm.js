@@ -1,9 +1,14 @@
-import React,{Component,Fragment} from "react";
+import React, { Component, Fragment } from "react";
 import uniqueId from "lodash.uniqueid";
 import { withComponents } from "@reactioncommerce/components-context";
 import styled from "styled-components";
-import { applyTheme, CustomPropTypes, getRequiredValidator } from "@reactioncommerce/components/utils";
-
+import { applyTheme } from "@reactioncommerce/components/utils";
+import { withStyles } from "@material-ui/core/styles";
+const styles = theme => ({
+    input: {
+        width: "100%"
+    }
+})
 const Grid = styled.div`
   display: flex;
   flex-wrap: wrap;
@@ -11,9 +16,10 @@ const Grid = styled.div`
 `;
 
 const ColHalf = styled.div`
-    flex: 1 1 100%;
+    flex: 0 1 calc(50% - 2px);
+    padding:2px;
     @media (min-width: ${applyTheme("sm", "breakpoints")}px) {
-        flex: 0 1 calc(50% - 9px);
+    flex: 0 1 calc(50% - 9px);
     }
 `;
 
@@ -23,10 +29,10 @@ const ColFull = styled.div`
 
 
 
-class BillingFormAction extends Component{
+class BillingFormAction extends Component {
 
     static defaultProps = {
-        placeholderProps:"Ingrese...",
+        placeholderProps: "Ingrese...",
         isOnDarkBackground: false,
         giftofLabelText: 'De',
         giftForLabelText: 'Para',
@@ -36,57 +42,61 @@ class BillingFormAction extends Component{
 
     uniqueInstanceIdentifier = uniqueId("GiftForm_");
 
-    render(){
+    render() {
 
-        const  {
-            components: {Field,TextInput},
+        const {
+            components: { Field, TextInput },
             isReadOnly,
             isSaving,
             placeholderProps,
-            messageGitplaceholder, 
+            messageGitplaceholder,
             isOnDarkBackground,
             giftForLabelText,
             giftofLabelText,
-            giftMessageLabelText
+            giftMessageLabelText,
+            classes
         } = this.props;
 
         const giftofForm = `nitbilling_${this.uniqueInstanceIdentifier}`;
         const gitftForForm = `namebiiling_${this.uniqueInstanceIdentifier}`;
         const gitfMessageForm = `addresbilling_${this.uniqueInstanceIdentifier}`
 
-        return(
+        return (
             <Fragment>
                 <Grid>
                     <ColHalf>
-                        <Field name = "De" label = {giftofLabelText} labelFor = {giftofForm} isOptional>
+                        <Field name="De" label={giftofLabelText} labelFor={giftofForm} isOptional>
                             <TextInput
-                                id = {giftofForm}
-                                name = 'De'
-                                placeholder = {placeholderProps}
-                                isOnDarkBackground = {isOnDarkBackground}
-                                isReadOnly ={isSaving || isReadOnly}
+                                className={classes.input}
+                                id={giftofForm}
+                                name='De'
+                                placeholder={placeholderProps}
+                                isOnDarkBackground={isOnDarkBackground}
+                                isReadOnly={isSaving || isReadOnly}
                             />
                         </Field>
                     </ColHalf>
                     <ColHalf>
-                        <Field name = "Para" label = {giftForLabelText} labelFor = {giftForLabelText} isOptional>
+                        <Field name="Para" label={giftForLabelText} labelFor={giftForLabelText} isOptional>
                             <TextInput
-                                id = {giftForLabelText}
-                                name = 'Para'
-                                placeholder = {placeholderProps}
-                                isOnDarkBackground = {isOnDarkBackground}
-                                isReadOnly ={isSaving || isReadOnly}
+                                className={classes.input}
+                                id={giftForLabelText}
+                                name='Para'
+                                placeholder={placeholderProps}
+                                isOnDarkBackground={isOnDarkBackground}
+                                isReadOnly={isSaving || isReadOnly}
                             />
                         </Field>
                     </ColHalf>
                     <ColFull>
-                        <Field name = "Mensaje" label = {giftMessageLabelText} labelFor = {messageGitplaceholder} isOptional>
+                        <Field name="Mensaje" label={giftMessageLabelText} labelFor={messageGitplaceholder} isOptional>
                             <TextInput
-                                id = {messageGitplaceholder}
-                                name = 'Mensaje'
-                                placeholder = {messageGitplaceholder}
-                                isOnDarkBackground = {isOnDarkBackground}
-                                isReadOnly ={isSaving || isReadOnly}
+                                id={messageGitplaceholder}
+                                name='Mensaje'
+                                placeholder={messageGitplaceholder}
+                                isOnDarkBackground={isOnDarkBackground}
+                                isReadOnly={isSaving || isReadOnly}
+                                shouldAllowLineBreaks
                             />
                         </Field>
                     </ColFull>
@@ -95,4 +105,4 @@ class BillingFormAction extends Component{
         );
     }
 }
-export default withComponents(BillingFormAction);
+export default withStyles(styles)(withComponents(BillingFormAction));

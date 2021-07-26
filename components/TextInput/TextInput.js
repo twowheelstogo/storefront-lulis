@@ -102,14 +102,13 @@ const Textarea = StyledInput.withComponent("textarea");
 
 const StyledTextarea = styled(Textarea)`
   -webkit-font-smoothing: antialiased;
-  background-color: ${applyThemeVariant("Input.backgroundColor")};
-  border-radius: ${applyTheme("Input.borderRadius")};
-  border: 1px solid ${applyValidationColor("Input.borderColor")};
+  background-color: #F4F1F1;
+  border-radius: 4px;
   color: ${applyValidationColor("Input.color")};
   font-family: ${applyTheme("Input.fontFamily")};
   font-size: ${applyTheme("Input.fontSize")};
   line-height: ${applyTheme("Textarea.lineHeight")};
-  min-height: ${applyTheme("Textarea.height")};
+  min-height: 100px;
   outline: none;
   padding: ${applyTheme("Input.verticalPadding")} ${applyTheme("Input.horizontalPadding")};
   resize: vertical;

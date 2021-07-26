@@ -5,9 +5,9 @@ import {uniqueId} from "lodash";
 import {withComponents} from "@reactioncommerce/components-context";
 import {CustomPropTypes,applyTheme,addTypographyStyles } from "@reactioncommerce/components/utils";
 import { Field as Input,Form } from "react-final-form";
-import { formatCVC,formatCreditCardNumber,formatExpirationDate } from "../utils/index";
+import { formatCVC,formatCreditCardNumber,formatExpirationDate,validateCreditCardNumber } from "../utils/index";
 import {makeStyles} from "@material-ui/core";
-const useStyles = makeStyles((theme)=>({
+const useStyles = makeStyles(()=>({
   root:{
 
   },
@@ -26,9 +26,6 @@ const Grid = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  @media (min-width: ${applyTheme("sm", "breakpoints")}px) {
-    gap: 0px;
-  }
 `;
 const SecureCaption = styled.div`
   ${addTypographyStyles("StripePaymentInputCaption", "captionText")}
@@ -42,6 +39,10 @@ const IconLockSpan = styled.span`
 const Span = styled.span`
   vertical-align: super;
 `;
+const ErrorSpan = styled.div`
+  font-size: 12px;
+  color: red;
+`;
 const CardSpan = styled.span`
   margin-left: 5px;
 `;
@@ -52,7 +53,6 @@ const AcceptedPaymentMethods = styled.div`
 `;
 const ColFull = styled.div`
   flex: 1 1 100%;
-  padding: 0px;
 `;
 
 const ColHalf = styled.div`
@@ -76,18 +76,15 @@ function EpayPaymentForm(props,ref){
   if (!uniqueInstanceIdentifier) {
     setUniqueInstanceIdentifier(uniqueId("EpayPaymentForm"));
   }
-  function buildResult({ cardNumber = null, cardExpiry = null,cardCVV=null,postalCode=null }) {
+  function buildResult({ cardNumber = null, cardExpiry = null,cardCVV=null}) {
     return {
-      data: { cardNumber, cardExpiry,cardCVV,postalCode },
+      data: { cardNumber, cardExpiry,cardCVV },
       displayName: 'Tarjeta de crédito'
     };
    }
   const {
     className,
     components: {
-      ErrorsBlock,
-      // Input,
-      TextInput,
       Field,
       iconLock
     },
@@ -97,8 +94,6 @@ function EpayPaymentForm(props,ref){
     onSubmit
   } = props;
   const {
-    getErrors,
-    getInputProps,
     submitForm,
     
   } = useReactoForm({
@@ -139,8 +134,20 @@ function EpayPaymentForm(props,ref){
       submitForm();
     }
   }));
+  const validateForm = values => {
+    const errors = {};
+    if(!values.cardNumber){
+      errors.cardNumber = "Este campo es requerido";
+    }
+    if(!validateCreditCardNumber((values.cardNumber||"").replace(/ /g,""))){
+      errors.cardNumber = "Ingrese un número de tarjeta válido";
+    }
+    if(!values.cardExpiry) errors.cardExpiry = "Este campo es requerido";
+    if(!values.cardCVV) errors.cardCVV = "Este campo es requerido";
+    console.log(Object.keys(errors).length);
+    return errors;
+  }
   const cardNumberInputId = `cardNumber_${uniqueInstanceIdentifier}`;
-  const postalCodeInputId = `postalCode_${uniqueInstanceIdentifier}`;
   const cardExpiryInputId = `cardExpiry_${uniqueInstanceIdentifier}`;
   const cardCVVInputId = `cardCVV_${uniqueInstanceIdentifier}`;
   const ccIcons = [
@@ -157,14 +164,12 @@ function EpayPaymentForm(props,ref){
         <Form
       onSubmit={submitForm}
       ref={(formEl)=>_form=formEl}
+      validate = {validateForm}
       render={({
         handleSubmit,
-        form,
-        submitting,
-        pristine,
         values,
-        active
-      })=>{
+        errors
+       })=>{
         handleChange(values);
         return (
         <div onSubmit={handleSubmit}>
@@ -173,27 +178,16 @@ function EpayPaymentForm(props,ref){
           <ColFull>
               <Field name="cardNumber" label={"Número de Tarjeta"} labelFor={cardNumberInputId}>
               <Input
-              className={classes.textInput}
-                name="cardNumber"
-                component="input"
-                type="text"
-                id={cardNumberInputId}
-                pattern="[\d| ]{16,22}"
-                placeholder="Número de tarjeta"
-                format={formatCreditCardNumber}
-              />
-              </Field>
-            </ColFull>
-            <ColFull>
-              <Field name="postalCode" label={"Código Postal"} labelFor={postalCodeInputId}>
-              <Input
-              className={classes.textInput}
-                id={postalCodeInputId}
-                name="postalCode"
-                component="input"
-                type="text"
-                placeholder="Nombre de la tarjeta"
-              />
+                className={classes.textInput}
+                  name="cardNumber"
+                  component="input"
+                  type="text"
+                  id={cardNumberInputId}
+                  pattern="[\d| ]{16,16}"
+                  placeholder="Número de tarjeta"
+                  format={formatCreditCardNumber}
+                />
+                {errors.cardNumber && values.cardNumber && <ErrorSpan>{errors.cardNumber}</ErrorSpan>}
               </Field>
             </ColFull>
               <ColHalf>

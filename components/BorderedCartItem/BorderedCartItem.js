@@ -152,7 +152,7 @@ class BorderedCartItem extends React.Component{
 
     const { displayAmount: displaySubtotal } = subtotal || {};
     const { displayAmount: displayCompareAtPrice } = compareAtPrice || {};
-    const imageUrl = `http://localhost:3000${imageURLs.original}`;
+    const imageUrl = `https://api.qbit01.com${imageURLs && imageURLs.original}`;
         return(
             <React.Fragment>
                 <Item className={classes.root}>
