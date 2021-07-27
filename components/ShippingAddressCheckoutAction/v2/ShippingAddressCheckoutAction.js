@@ -32,13 +32,9 @@ class ShippingAddressCheckoutAction extends React.Component{
         );
     }
     render(){
-        const {
-            authStore:{account:{addressBook}},
-        } = this.props;
-        
         return(
             <React.Fragment>
-              {addressBook && this.renderAddressList()}  
+              {this.renderAddressList()}  
             </React.Fragment>
         );
     }

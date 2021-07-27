@@ -28,7 +28,7 @@ import withCatalogItems from "containers/catalog/withCatalogItems";
 function buildJSONLd(product, shop) {
   if (!product || !shop) return "";
 
-  const currencyCode = shop.currency.code || "USD";
+  const currencyCode = shop.currency.code || "GTQ";
   const priceData = product.pricing[0];
   const images = product.media.map((image) => image.URLs.original);
 
@@ -78,7 +78,7 @@ function buildJSONLd(product, shop) {
  */
 function ProductDetailPage({ addItemsToCart, product, isLoadingProduct, shop,catalogItems,cart,onChangeCartItemsQuantity }) {
   const router = useRouter();
-  const currencyCode = (shop && shop.currency.code) || "USD";
+  const currencyCode = (shop && shop.currency.code) || "GTQ";
   const JSONLd = useMemo(() => {
     if (product && shop) {
       return buildJSONLd(product, shop);

@@ -132,7 +132,10 @@ class CartPage extends Component {
 
     return (
       <Grid item xs={12} className={classes.cartEmptyMessageContainer}>
-        <CartEmptyMessage onClick={this.handleClick} />
+        <CartEmptyMessage
+          messageText = {"Tu Carrito está vacío"}
+          buttonText = {"Continuar comprando"}
+           onClick={this.handleClick} />
       </Grid>
     );
   }

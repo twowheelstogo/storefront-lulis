@@ -25,7 +25,8 @@ class SearchProductListDesktop extends Component{
             components:{HorizontalProductCard},
             addItemsToCart,
             onChangeCartItemsQuantity,
-            cart
+            cart,
+            currencyCode
         } = this.props;
         return(
             <Items>
@@ -39,6 +40,7 @@ class SearchProductListDesktop extends Component{
                 })
                 .map((item)=>(
                     <HorizontalProductCard
+                        currencyCode = {currencyCode}
                         product = {item}
                         addItemsToCart={addItemsToCart}
                         onChangeCartItemsQuantity={onChangeCartItemsQuantity}

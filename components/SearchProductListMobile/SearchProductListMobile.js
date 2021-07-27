@@ -15,7 +15,8 @@ class SearchProductListMobile extends Component{
             components:{CustomProductCard},
             addItemsToCart,
             onChangeCartItemsQuantity,
-            cart
+            cart,
+            currencyCode
         } = this.props;
         return(
             <Grid container spacing={2}>
@@ -32,6 +33,7 @@ class SearchProductListMobile extends Component{
                 }).map((product)=>(
                     <Grid item xs={6} md={4}>
                     <CustomProductCard
+                        currencyCode = {currencyCode}
                         product={product}
                         uiStore={uiStore}
                         addItemsToCart={addItemsToCart}

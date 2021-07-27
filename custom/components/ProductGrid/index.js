@@ -14,7 +14,7 @@ const useStyles = makeStyles( theme => ({
 }));
 
 const ProductGrid = props => {
-    const { products,addItemsToCart,onChangeCartItemsQuantity } = props;
+    const { products,addItemsToCart,onChangeCartItemsQuantity,currencyCode } = props;
     const classes = useStyles();
 
     return (
@@ -36,7 +36,9 @@ const ProductGrid = props => {
                             xs = { 12 }
                             className = { classes.grid }
                         >
-                            <ProductCard product = { product } addItemsToCart={addItemsToCart}
+                            <ProductCard
+                            currencyCode = {currencyCode}
+                            product = { product } addItemsToCart={addItemsToCart}
                             onChangeCartItemsQuantity={onChangeCartItemsQuantity}/>
                         </Grid>    
                     )

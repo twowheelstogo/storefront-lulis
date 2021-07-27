@@ -24,7 +24,7 @@ class CategoryLayout extends React.Component{
         products:PropTypes.array.isRequired 
     }
     render(){
-        const {classes,title,products,addItemsToCart,onChangeCartItemsQuantity} = this.props;
+        const {classes,title,products,addItemsToCart,onChangeCartItemsQuantity,currencyCode} = this.props;
         return(
             <React.Fragment>
                 <div className={classes.title}>
@@ -32,7 +32,9 @@ class CategoryLayout extends React.Component{
                 <hr className={classes.divider}></hr>
                 </div>
                 <div className={classes.content}>
-                    <ProductGrid products={products} addItemsToCart={addItemsToCart}
+                    <ProductGrid 
+                    currencyCode = {currencyCode}
+                    products={products} addItemsToCart={addItemsToCart}
                     onChangeCartItemsQuantity={onChangeCartItemsQuantity}/>
                 </div>
             </React.Fragment>

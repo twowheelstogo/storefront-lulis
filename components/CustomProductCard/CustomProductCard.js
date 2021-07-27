@@ -67,14 +67,14 @@ const styles = (theme) => ({
 const CustomProductCard = props => {
     const {product,classes} = props;
     const HandleAddItemToCart = async () => {
-        const {product,addItemsToCart,uiStore:{openCartWithTimeout}} = props;
+        const {product,addItemsToCart,uiStore:{openCartWithTimeout},currencyCode} = props;
         const currentVariant = product.variants[0];
-        const price =Array.isArray(currentVariant.pricing)? priceByCurrencyCode("USD",currentVariant.pricing):currentVariant.pricing;
+        const price =Array.isArray(currentVariant.pricing)? priceByCurrencyCode(currencyCode,currentVariant.pricing):currentVariant.pricing;
         await addItemsToCart([
             {
                 price:{
                 amount:price.price,
-                currencyCode:"USD",
+                currencyCode:currencyCode,
                 },
                 productConfiguration:{
                     productId:(product.productId && product.productId) || product._id,

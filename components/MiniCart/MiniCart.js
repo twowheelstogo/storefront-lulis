@@ -154,7 +154,10 @@ class MiniCart extends Component {
     return (
       <div className={classes.emptyCart}>
         <div>
-          <CartEmptyMessage onClick={this.handleClick} />
+          <CartEmptyMessage 
+          messageText = {"Tu Carrito está vacío"}
+          buttonText = {"Continuar comprando"}
+          onClick={this.handleClick} />
         </div>
       </div>
     );

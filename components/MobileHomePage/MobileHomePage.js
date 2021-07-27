@@ -17,7 +17,8 @@ const MobileHomePage = (props)=>{
             classes,
             cart,
             addItemsToCart,
-            onChangeCartItemsQuantity
+            onChangeCartItemsQuantity,
+            currencyCode
         } = props;
         const [selected,SetSelected] = useState(tags[0]||null);
         const products = catalogItems.filter((element=>{
@@ -33,7 +34,9 @@ const MobileHomePage = (props)=>{
             <React.Fragment>
                 <CatalogNavItems tags={tags} selected={selected} SetSelected={SetSelected}/>
                 <div className={classes.productList}>
-                <ProductGrid products ={products} addItemsToCart={addItemsToCart} onChangeCartItemsQuantity={onChangeCartItemsQuantity}/>
+                <ProductGrid 
+                currencyCode = {currencyCode}
+                products ={products} addItemsToCart={addItemsToCart} onChangeCartItemsQuantity={onChangeCartItemsQuantity}/>
                 </div>
             </React.Fragment>
         );

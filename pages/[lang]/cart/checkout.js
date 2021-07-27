@@ -166,7 +166,9 @@ const Checkout = ({ router }) => {
         <div className={classes.emptyCartContainer}>
           <div className={classes.emptyCart}>
             <div>
-              <CartEmptyMessage onClick={() => Router.push("/")} messageText="Ihr Warenkorb ist leer." buttonText="Weiter einkaufen" />
+              <CartEmptyMessage onClick={() => Router.push("/")} 
+          messageText = {"Tu Carrito está vacío"}
+          buttonText = {"Continuar comprando"} />
             </div>
           </div>
         </div>
@@ -179,7 +181,9 @@ const Checkout = ({ router }) => {
           <div className={classes.emptyCartContainer}>
             <div className={classes.emptyCart}>
               <div>
-                <CartEmptyMessage onClick={() => Router.push("/")} messageText="Ihr Warenkorb ist leer." buttonText="Weiter einkaufen" />
+                <CartEmptyMessage onClick={() => Router.push("/")} 
+          messageText = {"Tu Carrito está vacío"}
+          buttonText = {"Continuar comprando"} />
               </div>
             </div>
           </div>

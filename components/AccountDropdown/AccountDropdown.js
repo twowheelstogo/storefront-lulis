@@ -74,13 +74,13 @@ const AccountDropdown = () => {
               <div className={classes.marginBottom}>
                 <Link href="/profile/address">
                   <Button color="secondary" fullWidth className = { classes.regularButton }>
-                    Profile
+                    Mi perfil
                   </Button>
                 </Link>
               </div>
               <div className={classes.marginBottom}>
                 <Button color="secondary" fullWidth href={`/change-password?email=${encodeURIComponent(viewer.emailRecords[0].address)}`} className = { classes.regularButton }>
-                  Change Password
+                  Cambiar contraseña
                 </Button>
               </div>
               <Button color="secondary" fullWidth href="/logout" className = { classes.underlinedButton }>
@@ -91,11 +91,11 @@ const AccountDropdown = () => {
             <Fragment>
               <div className={classes.authContent}>
                 <Button color="primary" fullWidth href="/signin" className = { classes.underlinedButton }>
-                  Sign In
+                  Iniciar Sesión
                 </Button>
               </div>
               <Button color="primary" fullWidth href="/signup" className = { classes.regularButton }>
-                Create Account
+                Crear Cuenta
               </Button>
             </Fragment>
           }

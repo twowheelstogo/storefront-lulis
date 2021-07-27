@@ -7,7 +7,7 @@ export default (req, res) => {
     _parsedUrl
   } = req;
 
-  const fallback = "de";
+  const fallback = "es";
   const allowedLocales = [
     { name: "de-DE", locale: "de" },
     { name: "de", locale: "de" },
@@ -18,7 +18,8 @@ export default (req, res) => {
     { name: "en-US", locale: "en" },
     { name: "en-ZA", locale: "en" },
     { name: "en-GB", locale: "en" },
-    { name: "en", locale: "en" }
+    { name: "en", locale: "en" },
+    { name: "es", locale: "es" }
   ];
 
   const detections = headerLanguage(req);

@@ -19,7 +19,7 @@ const styles = (theme) => ({
     }
 });
 const RelatedProducts = props => {
-    const {classes,relatedProducts,product,cart,onChangeCartItemsQuantity,addItemsToCart,uiStore} = props;
+    const {classes,relatedProducts,product,cart,onChangeCartItemsQuantity,addItemsToCart,uiStore,currencyCode} = props;
     const products = relatedProducts.filter((item)=>item.node.product.productId!=product.productId)
     .map((item)=>{
         const productInCart = (cart?.items||[]).find((cartItem)=>cartItem.productSlug==item.node.product.slug);
@@ -36,7 +36,8 @@ const RelatedProducts = props => {
             <div className={classes.productList}>
                 {/* {relatedProducts.filter((item)=>item.node.product.productId!=product.productId)
                 .map((item)=>< CustomProductCard product={item.node.product}/>)} */}
-                {products.map((item)=><CustomProductCard product={item} 
+                {products.map((item)=><CustomProductCard product={item}
+                currencyCode = {currencyCode} 
                 addItemsToCart={addItemsToCart}
                 onChangeCartItemsQuantity={onChangeCartItemsQuantity}
                 uiStore={uiStore}/>)}

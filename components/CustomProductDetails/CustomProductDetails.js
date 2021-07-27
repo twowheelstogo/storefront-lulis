@@ -109,8 +109,8 @@ const CustomProductDetails = props => {
     const [quantity,setQuantity] = useState(1);
     const { classes,
             product,
-            relatedProducts,cart,addItemsToCart,onChangeCartItemsQuantity,uiStore} = props;
-    const relatedProps = {product,relatedProducts,cart,addItemsToCart,onChangeCartItemsQuantity,uiStore};
+            relatedProducts,cart,addItemsToCart,onChangeCartItemsQuantity,uiStore,currencyCode} = props;
+    const relatedProps = {product,relatedProducts,cart,addItemsToCart,onChangeCartItemsQuantity,uiStore,currencyCode};
     delete relatedProducts.classes;
     useEffect(()=>{
         const { product, uiStore } = props;

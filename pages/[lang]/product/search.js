@@ -147,13 +147,16 @@ class SearchProduct extends Component {
             uiStore,
             addItemsToCart,
             onChangeCartItemsQuantity,
-            cart
+            cart,
+            shop
         } = this.props;
+        const currencyCode = (shop && shop.currency.code) || "GTQ";
         console.log(isWidthDown("md",width))
         if(isWidthDown("sm",width)) return(
             <SearchProductListMobile
                 items={products}
                 uiStore={uiStore}
+                currencyCode = {currencyCode}
                 addItemsToCart={addItemsToCart}
                 onChangeCartItemsQuantity={onChangeCartItemsQuantity}
                 cart={cart}
@@ -162,6 +165,7 @@ class SearchProduct extends Component {
         return (
             <SearchProductListDesktop
             items={products}
+            currencyCode = {currencyCode}
             addItemsToCart={addItemsToCart}
             onChangeCartItemsQuantity={onChangeCartItemsQuantity}
             cart={cart}

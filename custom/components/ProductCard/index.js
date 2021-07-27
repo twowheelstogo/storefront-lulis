@@ -91,7 +91,7 @@ const ProductCard = props => {
     const handleOnClick = async () =>{
         const {addItemsToCart,shop,
         uiStore:{openCartWithTimeout}} = props;
-        const currencyCode = (shop && shop.currency.code) || "USD";
+        const currencyCode = (shop && shop.currency.code) || "GTQ";
         const price = priceByCurrencyCode(currencyCode, product.pricing);
         await addItemsToCart([
             {

@@ -86,6 +86,7 @@ const Home = props => {
     } else {
       pageTitle = "Storefront";
     }
+	const currencyCode = (shop && shop.currency.code) || "GTQ";
 
 	return(
 		<MainLayout shop = { shop } title="YUM NOM NOM :)"
@@ -115,6 +116,7 @@ const Home = props => {
 			)}
 			{matches &&(
 				<MobileHomePage
+				currencyCode = {currencyCode}
 				 catalogItems = {catalogItems}
 				 tags = {tags}
 				 cart={cart}

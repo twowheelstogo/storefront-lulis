@@ -16,6 +16,7 @@ import Link from "components/Link";
 import { IconButton } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
 import Router from "translations/i18nRouter";
+import LocaleDropdown from "components/LocaleDropdown";
 
 const styles = (theme)=>({
     root:{
@@ -135,6 +136,7 @@ class MainHeader extends React.Component{
                                     <NavigationDesktop />
                                 </Hidden>
                 </div>
+                <LocaleDropdown />
                 <IconButton color="inherit" onClick={this.handleSearch}>
                     <SearchIcon/>
                 </IconButton>
