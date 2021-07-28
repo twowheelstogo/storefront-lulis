@@ -3,6 +3,9 @@ import {withStyles} from "@material-ui/core/styles";
 import Header from "components/MainHeader";
 import Footer from "components/CustomFooter";
 import PropTypes from "prop-types";
+import withCart from "containers/cart/withTempCart";
+import inject from "hocs/inject";
+
 const styles = (theme) => ({
     root: {
       minHeight: "100vh",
@@ -51,14 +54,14 @@ class CustomLayout extends Component{
     };
   
     render(){
-        const {classes,children,shop,viewer,title,subtitle,background,type,noMaxwidth} = this.props;
+        const {classes,children,shop,viewer,title,subtitle,background,type,noMaxwidth,cart} = this.props;
         const sliderProps={
           title,subtitle,background,type
         }
         return (
             <React.Fragment>
                 <div className={classes.root}>
-                <Header shop={shop} viewer={viewer} noScrollAction/>
+                <Header shop={shop} viewer={viewer} noScrollAction cart={cart}/>
                 <main className={noMaxwidth?classes.mainNoMaxwidth:classes.main}>
                     <article className={classes.article}>{children}</article>
                 </main>
@@ -68,4 +71,4 @@ class CustomLayout extends Component{
         );
     }
 }
-export default withStyles(styles)(CustomLayout);
+export default withStyles(styles)(withCart(inject("uiStore")(CustomLayout)));

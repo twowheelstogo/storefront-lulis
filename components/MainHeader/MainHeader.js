@@ -86,7 +86,7 @@ class MainHeader extends React.Component{
     }
 
     render(){
-        const {classes:{logo,controls,toolbar,scrolledAppBar},noScrollAction} = this.props;
+        const {classes:{logo,controls,toolbar,scrolledAppBar},noScrollAction,cart} = this.props;
         if(noScrollAction) return(
             <React.Fragment>
             <CssBaseline />
@@ -110,7 +110,7 @@ class MainHeader extends React.Component{
                     <SearchIcon/>
                 </IconButton>
                 <AccountDropdown />
-                            <MiniCart/>
+                            <MiniCart {...cart}/>
                     </Toolbar>
                     <NavigationMobile/>
                     </AppBar>
@@ -141,7 +141,7 @@ class MainHeader extends React.Component{
                     <SearchIcon/>
                 </IconButton>
                 <AccountDropdown />
-                            <MiniCart/>
+                            <MiniCart {...cart}/>
                     </Toolbar>
                     <NavigationMobile/>
                     </AppBar>

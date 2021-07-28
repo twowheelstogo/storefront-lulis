@@ -97,25 +97,59 @@ const Home = props => {
 				<meta name="description" content={shop && shop.description} />
 			</Helmet>
 			{!matches &&(
-				<main className={classes.content}>
+				<RenderHomePage {...props}/>
+			)}
+			{matches &&(
+				<RenderMobilePage {...props}/>
+			)}
+        </MainLayout>
+	);
+};
+const RenderHomePage = props => {
+	const {
+		catalogItems,
+		catalogItemsPageInfo,
+		isLoadingCatalogItems,
+		routingStore: { query },
+		shop,
+		tags,
+		uiStore,
+		cart,
+		addItemsToCart,
+		onChangeCartItemsQuantity
+	} = props;
+	const classes = useStyles();
+	return (
+		<main className={classes.content}>
 				<HomePage 
 					catalogItems={ catalogItems }
 					currencyCode={ (shop && shop.currency && shop.currency.code) || "GTQ" }
 					isLoadingCatalogItems={ isLoadingCatalogItems }
 					pageInfo={ catalogItemsPageInfo }
-					pageSize={ pageSize }
 					tags={tags}
-					setPageSize={ setPageSize }
-					setSortBy={ setSortBy }
-					sortBy={ sortBy }
 					cart={cart}
 					addItemsToCart={addItemsToCart}
 					onChangeCartItemsQuantity={onChangeCartItemsQuantity}
 				/>
 				</main>
-			)}
-			{matches &&(
-				<MobileHomePage
+	);
+}
+const RenderMobilePage = props => {
+	const {
+		catalogItems,
+		catalogItemsPageInfo,
+		isLoadingCatalogItems,
+		routingStore: { query },
+		shop,
+		tags,
+		uiStore,
+		cart,
+		addItemsToCart,
+		onChangeCartItemsQuantity
+	} = props;
+	const currencyCode = (shop && shop.currency.code) || "GTQ";
+	return(
+		<MobileHomePage
 				currencyCode = {currencyCode}
 				 catalogItems = {catalogItems}
 				 tags = {tags}
@@ -123,11 +157,8 @@ const Home = props => {
 				 addItemsToCart={addItemsToCart}
 				 onChangeCartItemsQuantity={onChangeCartItemsQuantity}
 				/>
-			)}
-        </MainLayout>
 	);
-};
-
+}
 /**
 *  Static props for the main layout
 *
@@ -175,4 +206,4 @@ export async function getStaticPaths() {
 	};
 }
   
-export default withApollo()(withCatalogItems(withCart(inject("routingStore", "uiStore")(Home))));
+export default withApollo()(withCatalogItems(inject("routingStore", "uiStore")(Home)));
