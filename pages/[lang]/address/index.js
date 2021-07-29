@@ -141,13 +141,9 @@ const CreateAddress = props =>{
             setLoading(false);
             return;
         };
-        console.log(addressBookId)
-        console.log(addressBook)
         const addresses = (addressBook && relayConnectionToArray(addressBook)) || [];
         let current = addresses.find((item)=>item._id==addressBookId);
         setCurrentAddressBook(current);
-        console.log(addresses)
-        console.log(current)
         if(current!=undefined) setLoading(false);
     },[addressBook]);
     const {query: {addressBookId}} = router;

@@ -18,7 +18,7 @@ class ShippingMethodCheckoutAction extends React.Component{
         await onSubmit({ selectedFulfillmentOption });
         }
     renderfulfillmentList(){
-        const {components:{FulfillmentList},
+        const {components:{FulfillmentList,},
         fulfillmentGroup:{
          availableFulfillmentOptions,
          selectedFulfillmentOption
@@ -31,7 +31,12 @@ class ShippingMethodCheckoutAction extends React.Component{
     }
 
     render(){
+        const {
+            components:{InlineAlert},
+            alert
+        } = this.props;
         return <React.Fragment>
+            {alert ? <InlineAlert {...alert}/>:""}
             {this.renderfulfillmentList()}
         </React.Fragment>
     }

@@ -159,6 +159,7 @@ class TagGridPage extends Component {
               [{ name: "description", content: shop && shop.description }]
           }
         />
+        <div>
         <br></br>
         <CustomProductGrid
         currencyCode = {currencyCode}
@@ -167,6 +168,7 @@ class TagGridPage extends Component {
 				 onChangeCartItemsQuantity={onChangeCartItemsQuantity}
          products={products}
         />
+        </div>
       </MainLayout>
     );
   }

@@ -151,7 +151,6 @@ class SearchProduct extends Component {
             shop
         } = this.props;
         const currencyCode = (shop && shop.currency.code) || "GTQ";
-        console.log(isWidthDown("md",width))
         if(isWidthDown("sm",width)) return(
             <SearchProductListMobile
                 items={products}

@@ -33,7 +33,13 @@ const ButtonContent = styled.div`
 const NoPaymentMethodsMessage = () => <MessageDiv>No payment methods available</MessageDiv>;
 
 NoPaymentMethodsMessage.renderComplete = () => "";
-
+class CheckoutError{
+  constructor(props){
+    this.actionCode=props.actionCode;
+    this.message=props.message;
+    this.title=props.title;
+  }
+}
 class CheckoutActions extends Component {
   static propTypes = {
     addressValidation: PropTypes.func.isRequired,
@@ -139,7 +145,14 @@ class CheckoutActions extends Component {
     if (cappedPaymentAmount && typeof remainingAmountDue === "number") {
       cappedPaymentAmount = Math.min(cappedPaymentAmount, remainingAmountDue);
     }
-
+    Object.keys(data).forEach((key)=>{
+      if(data[key]==null) throw new CheckoutError({
+        actionCode:4,
+        title:"Error de pago",
+        message:"Asegúrate de haber llenado todos los campos de pago"
+      });
+    })
+    
     this.handlePaymentSubmit({
       displayName: displayName,
       payment: {
@@ -191,7 +204,8 @@ class CheckoutActions extends Component {
     const { cart, cartStore, orderEmailAddress } = this.props;
     const cartId = cartStore.hasAccountCart ? cartStore.accountCartId : cartStore.anonymousCartId;
     const { checkout } = cart;
-    await this.handleInputComponentSubmit();
+    try {
+      await this.handleInputComponentSubmit();
     const fulfillmentGroups = checkout.fulfillmentGroups.map((group) => {
       const { data } = group;
       const { selectedFulfillmentOption } = group;
@@ -202,6 +216,13 @@ class CheckoutActions extends Component {
         productConfiguration: item.productConfiguration,
         quantity: item.quantity
       }));
+      if(!selectedFulfillmentOption||selectedFulfillmentOption==null){
+        throw new Error({
+          message:"Debes seleccionar un método y dirección de envío",
+          actionCode:3,
+          title:"Error de envío"
+        });
+      }
       return {
         data,
         items,
@@ -221,6 +242,19 @@ class CheckoutActions extends Component {
     };
 
     return this.setState({ isPlacingOrder: true }, () => this.placeOrder(order));
+    } catch (error) {
+      this.setState({
+        hasPaymentError: true,
+          isPlacingOrder: false,
+        actionAlerts: {
+          [error.actionCode]: {
+            alertType: "error",
+            title: error.title,
+            message: error.message
+          }
+        }
+      })
+    }
   };
 
   placeOrder = async (order) => {

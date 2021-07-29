@@ -29,7 +29,7 @@ class DeliveryOptionsCheckoutAction extends Component{
         const {deliveryMethods,components:{CardItems}} = this.props;
         const {selectedDeliveryMethodName} = this.state;
         return <CardItems
-               items={deliveryMethods}
+               items={deliveryMethods.filter((method)=>method.enabled)}
                onSelect = {this.setSelectedDeliveryMethodName}
                itemSelected={deliveryMethods.find((item)=>item.name==selectedDeliveryMethodName)}/>;
     }

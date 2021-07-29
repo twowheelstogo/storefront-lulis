@@ -105,7 +105,6 @@ class PaymentMethodCheckoutAction extends Component{
             selectedPaymentMethodName
         } = this.state;
         const selectedPaymentMethod = paymentMethods.find((item)=>item.name == selectedPaymentMethodName);
-        console.log(alert);
         return(
             <div id={"payment"}>
                {this.renderPaymentMethods()}

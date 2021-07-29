@@ -8,14 +8,16 @@ const deliveryMethods = [
         name:"shipping",
         InputComponent:ShippingCheckoutAction,
         displayName:"Delivery",
-        icon:shippingImage
+        icon:shippingImage,
+        enabled:true
     },
     {
         id:2,
         name:"pickup",
         InputComponent:PickupCheckoutAction,
         displayName:"Pickup",
-        icon:pickupImage
+        icon:pickupImage,
+        enabled:false
     }
 ];
 export default deliveryMethods;

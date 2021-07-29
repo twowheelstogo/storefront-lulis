@@ -46,7 +46,7 @@ class MainLayout extends Component{
         const sliderProps={
           title,subtitle,background,type
         }
-        const childrens = children.filter(child=>this.isObject(child));
+        const childrens =Array.isArray(children) ?(children||[]).filter(child=>this.isObject(child)):[];
         return (
             <React.Fragment>
                 <div className={classes.root}>

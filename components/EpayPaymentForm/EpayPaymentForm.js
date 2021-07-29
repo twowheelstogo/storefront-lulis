@@ -144,7 +144,6 @@ function EpayPaymentForm(props,ref){
     }
     if(!values.cardExpiry) errors.cardExpiry = "Este campo es requerido";
     if(!values.cardCVV) errors.cardCVV = "Este campo es requerido";
-    console.log(Object.keys(errors).length);
     return errors;
   }
   const cardNumberInputId = `cardNumber_${uniqueInstanceIdentifier}`;
