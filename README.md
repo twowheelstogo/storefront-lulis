@@ -1,4 +1,4 @@
-# Example Storefront
+# Storefront LULIS from Reaction Commerce
 
 [Reaction Commerce](http://reactioncommerce.com) is an API-first, headless commerce platform built using Node.js, React, and GraphQL. It plays nicely with npm, Docker and Kubernetes.
 
