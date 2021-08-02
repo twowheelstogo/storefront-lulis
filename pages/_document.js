@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 import Document, { Html, Head, Main, NextScript } from "next/document";
 import { ServerStyleSheet as StyledComponentSheets } from "styled-components";
-import { ServerStyleSheets as MaterialUiServerStyleSheets } from "@material-ui/styles";
+import { ServerStyleSheets as MaterialUiServerStyleSheets } from "@material-ui/core/styles";
 import favicons from "custom/favicons";
 import theme from "custom/reactionTheme";
 import definedPaymentMethods from "custom/paymentMethods";
