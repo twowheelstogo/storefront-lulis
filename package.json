@@ -33,7 +33,33 @@
       "react": {
         "version": "detect"
       }
-    }
+    },
+    "overrides": [
+      {
+        "files": [
+          "*.ts",
+          "*.tsx",
+          "*.js"
+        ],
+        "rules": {
+          "comma-dangle": "off",
+          "max-len": "off",
+          "quote-props": "off",
+          "react/prop-types": "off",
+          "react/jsx-max-props-per-line": "off"
+        },
+        "parser": "babel-eslint",
+        "parserOptions": {
+          "ecmaVersion": 6,
+          "sourceType": "module",
+          "ecmaFeatures": {
+            "jsx": true,
+            "modules": true,
+            "experimentalObjectRestSpread": true
+          }
+        }
+      }
+    ]
   },
   "dependencies": {
     "@apollo/client": "^3.0.0-beta.41",
@@ -100,7 +126,7 @@
     "eslint-plugin-jest": "~21.27.2",
     "eslint-plugin-jsx-a11y": "~6.2.1",
     "eslint-plugin-promise": "~3.8.0",
-    "eslint-plugin-react": "~7.12.4",
+    "eslint-plugin-react": "^7.24.0",
     "husky": "^5.0.8",
     "is-ci": "^2.0.0",
     "is-docker": "^2.1.1",

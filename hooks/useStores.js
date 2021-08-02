@@ -9,10 +9,10 @@ import useRoutingStore from "hooks/globalStores/useRoutingStore";
  * @returns {Object} the UI stores
  */
 export default function useStores() {
-  const authStore = useAuthStore();
-  const cartStore = useCartStore();
-  const routingStore = useRoutingStore();
-  const uiStore = useUIStore();
+	const authStore = useAuthStore();
+	const cartStore = useCartStore();
+	const routingStore = useRoutingStore();
+	const uiStore = useUIStore();
 
-  return { uiStore, routingStore, authStore, cartStore };
+	return { uiStore, routingStore, authStore, cartStore };
 }

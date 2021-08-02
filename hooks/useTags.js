@@ -7,6 +7,6 @@ import { TagsContext } from "context/TagsContext";
  * @returns {Object} the tags React context
  */
 export default function useTags() {
-  const tagsContext = useContext(TagsContext);
-  return tagsContext;
+	const tagsContext = useContext(TagsContext);
+	return tagsContext;
 }

@@ -3,12 +3,12 @@ import styled from "styled-components";
 import { withStyles } from "@material-ui/core/styles";
 
 const styles = theme => ({
-    root:{
-        padding:theme.spacing(0)
-    },
-    image:{
-        borderRadius: '10px'
-    }
+	root:{
+		padding:theme.spacing(0)
+	},
+	image:{
+		borderRadius: "10px"
+	}
 });
 const Item = styled.div`
     display: flex;
@@ -65,40 +65,40 @@ const ItemContent = styled.div`
     justify-content: center;
 `;
 class CheckoutCartItem extends Component{
-    render(){
-        const {classes,product,item: {
-            attributes,
-            compareAtPrice,
-            currentQuantity,
-            productSlug,
-            productVendor,
-            title,
-            quantity,
-            isLowQuantity,
-            imageURLs,
-            price: { displayAmount: displayPrice },
-            subtotal
-          }} = this.props;
-          const { displayAmount: displaySubtotal } = subtotal || {};
-          const imageUrl = `https://api.qbit01.com${imageURLs && imageURLs.original}`;
-        return(
-            <React.Fragment>
-                <Item className={classes.root}>
-                    <ItemBody>
-                        <ItemLeading>
-                        <img className={classes.image} src={imageUrl} width={60} height={60}></img>
-                        </ItemLeading>
-                        <ItemContent>
-                            <ItemTitle>{title}</ItemTitle>
-                            <ItemSubtitle>{`${quantity} x ${displayPrice}`}</ItemSubtitle>
-                        </ItemContent>
-                        <ItemTrailing>
-                            <ItemTitle>{displaySubtotal}</ItemTitle>
-                        </ItemTrailing>
-                    </ItemBody>
-                </Item>
-            </React.Fragment>
-        );
-    }
+	render(){
+		const {classes,product,item: {
+			attributes,
+			compareAtPrice,
+			currentQuantity,
+			productSlug,
+			productVendor,
+			title,
+			quantity,
+			isLowQuantity,
+			imageURLs,
+			price: { displayAmount: displayPrice },
+			subtotal
+		}} = this.props;
+		const { displayAmount: displaySubtotal } = subtotal || {};
+		const imageUrl = `https://api.qbit01.com${imageURLs && imageURLs.original}`;
+		return(
+			<React.Fragment>
+				<Item className={classes.root}>
+					<ItemBody>
+						<ItemLeading>
+							<img className={classes.image} src={imageUrl} width={60} height={60}></img>
+						</ItemLeading>
+						<ItemContent>
+							<ItemTitle>{title}</ItemTitle>
+							<ItemSubtitle>{`${quantity} x ${displayPrice}`}</ItemSubtitle>
+						</ItemContent>
+						<ItemTrailing>
+							<ItemTitle>{displaySubtotal}</ItemTitle>
+						</ItemTrailing>
+					</ItemBody>
+				</Item>
+			</React.Fragment>
+		);
+	}
 }
 export default withStyles(styles)(CheckoutCartItem);

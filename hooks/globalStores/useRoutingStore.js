@@ -7,6 +7,6 @@ import { RoutingContext } from "context/RoutingContext";
  * @returns {Object} the React context for routing store
  */
 export default function useRoutingStore() {
-  const routingContext = useContext(RoutingContext);
-  return routingContext;
+	const routingContext = useContext(RoutingContext);
+	return routingContext;
 }

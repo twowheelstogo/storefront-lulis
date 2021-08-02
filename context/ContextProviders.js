@@ -9,32 +9,32 @@ import { UIProvider } from "context/UIContext";
 import { LocaleProvider } from "context/LocaleContext";
 
 export const ContextProviders = ({ children, pageProps }) => {
-  const { tags, shop, lang, translations, namespaces } = pageProps;
+	const { tags, shop, lang, translations, namespaces } = pageProps;
 
-  return (
-    <RoutingProvider>
-      <UIProvider>
-        <AuthProvider>
-          <CartProvider>
-            <LocaleProvider
-              lang={lang}
-              translations={translations}
-              namespaces={namespaces}
-            >
-              <ShopProvider shop={shop}>
-                <TagsProvider tags={tags}>
-                  {children}
-                </TagsProvider>
-              </ShopProvider>
-            </LocaleProvider>
-          </CartProvider>
-        </AuthProvider>
-      </UIProvider>
-    </RoutingProvider>
-  );
+	return (
+		<RoutingProvider>
+			<UIProvider>
+				<AuthProvider>
+					<CartProvider>
+						<LocaleProvider
+							lang={lang}
+							translations={translations}
+							namespaces={namespaces}
+						>
+							<ShopProvider shop={shop}>
+								<TagsProvider tags={tags}>
+									{children}
+								</TagsProvider>
+							</ShopProvider>
+						</LocaleProvider>
+					</CartProvider>
+				</AuthProvider>
+			</UIProvider>
+		</RoutingProvider>
+	);
 };
 
 ContextProviders.propTypes = {
-  children: PropTypes.node,
-  pageProps: PropTypes.object
+	children: PropTypes.node,
+	pageProps: PropTypes.object
 };

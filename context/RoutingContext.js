@@ -5,26 +5,26 @@ import { useRouter } from "next/router";
 export const RoutingContext = createContext();
 
 export const RoutingProvider = ({ children }) => {
-  const [currentAsPath, setCurrentAsPath] = useState();
-  const [currentRoute, setCurrentRoute] = useState();
-  const [prevAsPath, setPrevAsPath] = useState();
-  const [queryString, setQueryString] = useState(""); // eslint-disable-line no-unused-vars
+	const [currentAsPath, setCurrentAsPath] = useState();
+	const [currentRoute, setCurrentRoute] = useState();
+	const [prevAsPath, setPrevAsPath] = useState();
+	const [queryString, setQueryString] = useState(""); // eslint-disable-line no-unused-vars
 
-  const { asPath, route, query, pathname } = useRouter();
+	const { asPath, route, query, pathname } = useRouter();
 
-  const [tagId, setTagId] = useState();
+	const [tagId, setTagId] = useState();
 
-  // We need asPath to have all details, but only change when route changes
-  useEffect(() => {
-    if (route !== currentRoute) {
-      setPrevAsPath(currentAsPath);
-      setCurrentAsPath(asPath);
-      setCurrentRoute(route);
-    }
-  }, [route, currentRoute, asPath]);
+	// We need asPath to have all details, but only change when route changes
+	useEffect(() => {
+		if (route !== currentRoute) {
+			setPrevAsPath(currentAsPath);
+			setCurrentAsPath(asPath);
+			setCurrentRoute(route);
+		}
+	}, [route, currentRoute, asPath]);
 
-  const setSearch = (search) => { // eslint-disable-line no-unused-vars
-    /*
+	const setSearch = (search) => { // eslint-disable-line no-unused-vars
+		/*
     const _query = { ...toJS(this.query), ...search };
     const _slug = _query.slug;
     const _limit = parseInt(_query.limit, 10);
@@ -69,25 +69,25 @@ export const RoutingProvider = ({ children }) => {
 
     return path;
     */
-  };
+	};
 
-  return (
-    <RoutingContext.Provider value={{
-      queryString,
-      tagId,
-      prevAsPath,
-      setTagId,
-      setSearch,
-      query,
-      route,
-      pathname
-    }}
-    >
-      {children}
-    </RoutingContext.Provider>
-  );
+	return (
+		<RoutingContext.Provider value={{
+			queryString,
+			tagId,
+			prevAsPath,
+			setTagId,
+			setSearch,
+			query,
+			route,
+			pathname
+		}}
+		>
+			{children}
+		</RoutingContext.Provider>
+	);
 };
 
 RoutingProvider.propTypes = {
-  children: PropTypes.node
+	children: PropTypes.node
 };

@@ -11,24 +11,24 @@ import availablePaymentMethodsQuery from "./availablePaymentMethods.gql";
  * @returns {Array} A list of available payment methods
  */
 export default function useAvailablePaymentMethods() {
-  const shop = useShop();
-  const [viewer, isLoadingViewer] = useViewer();
+	const shop = useShop();
+	const [viewer, isLoadingViewer] = useViewer();
 
-  const { loading, data, refetch } = useQuery(availablePaymentMethodsQuery, {
-    skip: !shop || isLoadingViewer,
-    variables: {
-      shopId: shop && shop._id
-    }
-  });
+	const { loading, data, refetch } = useQuery(availablePaymentMethodsQuery, {
+		skip: !shop || isLoadingViewer,
+		variables: {
+			shopId: shop && shop._id
+		}
+	});
 
-  useEffect(() => {
-    refetch();
-  }, [viewer]);
+	useEffect(() => {
+		refetch();
+	}, [viewer]);
 
-  const availablePaymentMethods = data && data.availablePaymentMethods && data.availablePaymentMethods.filter((method) => method.isEnabled);
+	const availablePaymentMethods = data && data.availablePaymentMethods && data.availablePaymentMethods.filter((method) => method.isEnabled);
 
-  return [
-    availablePaymentMethods,
-    loading
-  ];
+	return [
+		availablePaymentMethods,
+		loading
+	];
 }

@@ -15,9 +15,9 @@ import useAuthStore from "hooks/globalStores/useAuthStore";
 import Link from "components/Link";
 
 const useStyles = makeStyles((theme) => ({
-  accountProfileInfoContainer: {
-    marginBottom: theme.spacing(4)
-  }
+	accountProfileInfoContainer: {
+		marginBottom: theme.spacing(4)
+	}
 }));
 
 /**
@@ -26,60 +26,60 @@ const useStyles = makeStyles((theme) => ({
  * @returns {React.Component} The profile view react component
  */
 function ProfileMenu() {
-  const classes = useStyles();
-  const { account } = useAuthStore();
-  const { asPath } = useRouter();
+	const classes = useStyles();
+	const { account } = useAuthStore();
+	const { asPath } = useRouter();
 
-  const menuItems = [
-    {
-      href: "/profile/address",
-      route: "/profile/address",
-      label: "Address Book",
-      isSelected: asPath.includes("/profile/address"),
-      icon: <AddressbookIcon/>
-    },
-    {
-      href: "/profile/orders",
-      route: "/profile/orders",
-      label: "Orders",
-      isSelected: asPath.includes("/profile/orders"),
-      icon: <OrderIcon/>
-    }
-  ];
+	const menuItems = [
+		{
+			href: "/profile/address",
+			route: "/profile/address",
+			label: "Address Book",
+			isSelected: asPath.includes("/profile/address"),
+			icon: <AddressbookIcon/>
+		},
+		{
+			href: "/profile/orders",
+			route: "/profile/orders",
+			label: "Orders",
+			isSelected: asPath.includes("/profile/orders"),
+			icon: <OrderIcon/>
+		}
+	];
 
-  return (
-    <section>
-      <div className={classes.accountProfileInfoContainer}>
-        <AccountProfileInfo viewer={account} />
-      </div>
-      <div className={classes.inPageMenuItemLink}>
-        <List component="nav">
-          {menuItems.map((menuItem, index) => (
-            <Link href={menuItem.href} key={menuItem.id || `item-${index}`}>
-              <ListItem
-                button
-                component="a"
-                selected={menuItem.isSelected}
+	return (
+		<section>
+			<div className={classes.accountProfileInfoContainer}>
+				<AccountProfileInfo viewer={account} />
+			</div>
+			<div className={classes.inPageMenuItemLink}>
+				<List component="nav">
+					{menuItems.map((menuItem, index) => (
+						<Link href={menuItem.href} key={menuItem.id || `item-${index}`}>
+							<ListItem
+								button
+								component="a"
+								selected={menuItem.isSelected}
 
-              >
-                <ListItemIcon>
-                  {menuItem.icon}
-                </ListItemIcon>
-                <ListItemText primary={menuItem.label} />
-                <ListItemSecondaryAction>
-                  <ChevronRightIcon />
-                </ListItemSecondaryAction>
-              </ListItem>
-            </Link>
-          ))}
-        </List>
-      </div>
-    </section>
-  );
+							>
+								<ListItemIcon>
+									{menuItem.icon}
+								</ListItemIcon>
+								<ListItemText primary={menuItem.label} />
+								<ListItemSecondaryAction>
+									<ChevronRightIcon />
+								</ListItemSecondaryAction>
+							</ListItem>
+						</Link>
+					))}
+				</List>
+			</div>
+		</section>
+	);
 }
 
 ProfileMenu.propTypes = {
-  router: PropTypes.object.isRequired
+	router: PropTypes.object.isRequired
 };
 
 export default ProfileMenu;

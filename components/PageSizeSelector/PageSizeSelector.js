@@ -12,37 +12,37 @@ import useTranslation from "hooks/useTranslation";
  * @returns {React.Component} The page size selector
  */
 function PageSizeSelector({ pageSize, onChange }) {
-  const { t } = useTranslation("common"); // eslint-disable-line id-length
+	const { t } = useTranslation("common"); // eslint-disable-line id-length
 
-  return (
-    <Select
-      value={pageSize}
-      options={[
-        {
-          name: `20 ${t("products")}`,
-          value: PAGE_SIZES._20
-        },
-        {
-          name: `60 ${t("products")}`,
-          value: PAGE_SIZES._60
-        },
-        {
-          name: `100 ${t("products")}`,
-          value: PAGE_SIZES._100
-        }
-      ]}
-      inputProps={{
-        name: "pageSize",
-        id: "page-size"
-      }}
-      onChange={(event) => onChange(event.target.value)}
-    />
-  );
+	return (
+		<Select
+			value={pageSize}
+			options={[
+				{
+					name: `20 ${t("products")}`,
+					value: PAGE_SIZES._20
+				},
+				{
+					name: `60 ${t("products")}`,
+					value: PAGE_SIZES._60
+				},
+				{
+					name: `100 ${t("products")}`,
+					value: PAGE_SIZES._100
+				}
+			]}
+			inputProps={{
+				name: "pageSize",
+				id: "page-size"
+			}}
+			onChange={(event) => onChange(event.target.value)}
+		/>
+	);
 }
 
 PageSizeSelector.propTypes = {
-  onChange: PropTypes.func.isRequired,
-  pageSize: PropTypes.number.isRequired
+	onChange: PropTypes.func.isRequired,
+	pageSize: PropTypes.number.isRequired
 };
 
 export default PageSizeSelector;

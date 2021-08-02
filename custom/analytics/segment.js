@@ -9,12 +9,12 @@ import * as snippet from "@segment/snippet";
  * @returns {undefined} No Return
  */
 export function dispatch(data) {
-  // Workaround for not being able to use object rest spread
-  const newData = Object.assign({}, data);
-  const { action } = newData;
-  delete newData.action;
+	// Workaround for not being able to use object rest spread
+	const newData = Object.assign({}, data);
+	const { action } = newData;
+	delete newData.action;
 
-  window && window.analytics && window.analytics.track(action, newData);
+	window && window.analytics && window.analytics.track(action, newData);
 }
 
 /**
@@ -22,14 +22,14 @@ export function dispatch(data) {
  * @returns {String} String script to be included in the document head
  */
 export function renderScript() {
-  const opts = {
-    apiKey: process.env.SEGMENT_ANALYTICS_WRITE_KEY,
-    page: true // Set this to `false` if you want to manually fire `analytics.page()` from within your pages.
-  };
+	const opts = {
+		apiKey: process.env.SEGMENT_ANALYTICS_WRITE_KEY,
+		page: true // Set this to `false` if you want to manually fire `analytics.page()` from within your pages.
+	};
 
-  if (process.env.SEGMENT_ANALYTICS_SKIP_MINIMIZE === true) {
-    return snippet.max(opts);
-  }
+	if (process.env.SEGMENT_ANALYTICS_SKIP_MINIMIZE === true) {
+		return snippet.max(opts);
+	}
 
-  return snippet.min(opts);
+	return snippet.min(opts);
 }

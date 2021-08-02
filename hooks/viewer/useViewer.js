@@ -9,26 +9,26 @@ import viewerQuery from "./viewer.gql";
  * @returns {Array} the viewer's data
  */
 export default function useViewer() {
-  const { authStore } = useStores();
-  const { account, setAccount, accessToken } = authStore;
-  const { loading, data, refetch } = useQuery(viewerQuery, {
-    skip: !accessToken
-  });
+	const { authStore } = useStores();
+	const { account, setAccount, accessToken } = authStore;
+	const { loading, data, refetch } = useQuery(viewerQuery, {
+		skip: !accessToken
+	});
 
-  const viewer = data && data.viewer;
-  useEffect(() => {
-    if (!viewer && accessToken) {
-      refetch();
-    }
-  }, [accessToken, viewer]);
+	const viewer = data && data.viewer;
+	useEffect(() => {
+		if (!viewer && accessToken) {
+			refetch();
+		}
+	}, [accessToken, viewer]);
 
-  useEffect(() => {
-    if (viewer) setAccount(viewer);
-  }, [viewer]);
+	useEffect(() => {
+		if (viewer) setAccount(viewer);
+	}, [viewer]);
 
-  return [
-    account,
-    loading,
-    refetch
-  ];
+	return [
+		account,
+		loading,
+		refetch
+	];
 }

@@ -138,7 +138,7 @@ export default function useCart() {
         const { cart: cartPayload } = mutationData.removeCartItems;
 
         if (cartPayload) {
-        // Update Apollo cache
+          // Update Apollo cache
           cache.writeQuery({
             query: cartPayload.account ? accountCartByAccountIdQuery : anonymousCartByCartIdQuery,
             data: { cart: cartPayload }
@@ -276,7 +276,7 @@ export default function useCart() {
         return response;
       },
       onSetShippingAddress: async (address) => {
-        let addressId = address._id;
+        const addressId = address._id;
         delete address._id;
         const response = await apolloClient.mutate({
           mutation: setShippingAddressCartMutation,

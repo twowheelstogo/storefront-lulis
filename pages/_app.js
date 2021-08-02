@@ -8,26 +8,26 @@ import components from "custom/componentsContext";
 import theme from "custom/reactionTheme";
 
 export default class App extends NextApp {
-  componentDidMount() {
-    // Remove the server-side injected CSS.
-    const jssStyles = document.querySelector("#jss-server-side");
-    if (jssStyles && jssStyles.parentNode) {
-      jssStyles.parentNode.removeChild(jssStyles);
-    }
-  }
+	componentDidMount() {
+		// Remove the server-side injected CSS.
+		const jssStyles = document.querySelector("#jss-server-side");
+		if (jssStyles && jssStyles.parentNode) {
+			jssStyles.parentNode.removeChild(jssStyles);
+		}
+	}
 
-  render() {
-    const { Component, pageProps, ...rest } = this.props;
+	render() {
+		const { Component, pageProps, ...rest } = this.props;
 
-    return (
-      <ContextProviders pageProps={pageProps}>
-        <ComponentsProvider value={components}>
-          <MuiThemeProvider theme={theme}>
-            <CssBaseline />
-            <Component {...rest} {...pageProps} />
-          </MuiThemeProvider>
-        </ComponentsProvider>
-      </ContextProviders>
-    );
-  }
+		return (
+			<ContextProviders pageProps={pageProps}>
+				<ComponentsProvider value={components}>
+					<MuiThemeProvider theme={theme}>
+						<CssBaseline />
+						<Component {...rest} {...pageProps} />
+					</MuiThemeProvider>
+				</ComponentsProvider>
+			</ContextProviders>
+		);
+	}
 }

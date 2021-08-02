@@ -8,21 +8,21 @@ const Grid = styled.div`
     gap: 10px;
 `;
 class PickupCheckoutAction extends Component{
-    renderPickupLocations(){
-        return(
-            <div>PickupLocations</div>
-        );
-    }
-    render(){
-        const {components:{PickupForm}} = this.props;
-        return(
-            <Fragment>
-                <Grid>
-                <PickupForm/>
-                {this.renderPickupLocations()}
-                </Grid>
-            </Fragment>
-        );
-    }
+	renderPickupLocations(){
+		return(
+			<div>PickupLocations</div>
+		);
+	}
+	render(){
+		const {components:{PickupForm}} = this.props;
+		return(
+			<Fragment>
+				<Grid>
+					<PickupForm/>
+					{this.renderPickupLocations()}
+				</Grid>
+			</Fragment>
+		);
+	}
 }
 export default withComponents(PickupCheckoutAction);

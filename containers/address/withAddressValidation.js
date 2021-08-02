@@ -8,19 +8,19 @@ import useAddressValidation from "hooks/address/useAddressValidation";
  * @returns {React.Component} Higher order component
  */
 export default function withAddressValidation(Component) {
-  function WithAddressValidation(props) { // eslint-disable-line require-jsdoc
-    const [addressValidation, addressValidationResults] = useAddressValidation();
+	function WithAddressValidation(props) { // eslint-disable-line require-jsdoc
+		const [addressValidation, addressValidationResults] = useAddressValidation();
 
-    return (
-      <Component
-        {...props}
-        addressValidation={addressValidation}
-        addressValidationResults={addressValidationResults}
-      />
-    );
-  }
+		return (
+			<Component
+				{...props}
+				addressValidation={addressValidation}
+				addressValidationResults={addressValidationResults}
+			/>
+		);
+	}
 
-  hoistNonReactStatic(WithAddressValidation, Component);
+	hoistNonReactStatic(WithAddressValidation, Component);
 
-  return WithAddressValidation;
+	return WithAddressValidation;
 }

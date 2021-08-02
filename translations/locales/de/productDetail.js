@@ -1,4 +1,4 @@
 export default {
-  addToCart: "Zum Warenkorb hinzufügen",
-  quantity: "Menge"
+	addToCart: "Zum Warenkorb hinzufügen",
+	quantity: "Menge"
 };

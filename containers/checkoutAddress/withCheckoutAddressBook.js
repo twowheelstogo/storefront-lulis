@@ -10,23 +10,23 @@ import { withComponents } from "@reactioncommerce/components-context";
  * @return {React.Component} Wrapped component
  */
 export default function withCheckoutAddressBook(Component) {
-  const WithCheckoutAddressBook = React.forwardRef((props,ref)=>{
-    const [addAccountAddressBookEntry] = useAddAccountAddressBookEntry();
-    const [updateAccountAddressBookEntry] = useUpdateAccountAddressBookEntry();
-    const [removeAccountAddressBookEntry] = useRemoveAccountAddressBookEntry();
+	const WithCheckoutAddressBook = React.forwardRef((props,ref)=>{
+		const [addAccountAddressBookEntry] = useAddAccountAddressBookEntry();
+		const [updateAccountAddressBookEntry] = useUpdateAccountAddressBookEntry();
+		const [removeAccountAddressBookEntry] = useRemoveAccountAddressBookEntry();
 
-    return (
-      <Component
-        {...props}
-        ref={ref}
-        onAddressAdded={addAccountAddressBookEntry}
-        onAddressEdited={updateAccountAddressBookEntry}
-        onAddressDeleted={removeAccountAddressBookEntry}
-      />
-    );
-  })
+		return (
+			<Component
+				{...props}
+				ref={ref}
+				onAddressAdded={addAccountAddressBookEntry}
+				onAddressEdited={updateAccountAddressBookEntry}
+				onAddressDeleted={removeAccountAddressBookEntry}
+			/>
+		);
+	});
 
-  hoistNonReactStatic(WithCheckoutAddressBook, Component);
+	hoistNonReactStatic(WithCheckoutAddressBook, Component);
 
-  return withComponents(WithCheckoutAddressBook);
+	return withComponents(WithCheckoutAddressBook);
 }

@@ -11,32 +11,32 @@ import { ordersByAccountIdQuery } from "./queries.gql";
  * @returns {Object} the user's orders context
  */
 export default function useOrders() {
-  const { authStore, uiStore } = useStores();
-  const shop = useShop();
-  const { query } = useRouter();
-  const { accountId } = authStore;
+	const { authStore, uiStore } = useStores();
+	const shop = useShop();
+	const { query } = useRouter();
+	const { accountId } = authStore;
 
-  const { loading, data, fetchMore } = useQuery(ordersByAccountIdQuery, {
-    skip: !shop || !shop._id || !accountId,
-    variables: {
-      accountId,
-      language: uiStore.language,
-      orderStatus: uiStore.orderStatusQuery,
-      shopIds: shop && [shop._id],
-      ...paginationVariablesFromUrlParams(query, { defaultPageLimit: uiStore.orderQueryLimit })
-    }
-  });
+	const { loading, data, fetchMore } = useQuery(ordersByAccountIdQuery, {
+		skip: !shop || !shop._id || !accountId,
+		variables: {
+			accountId,
+			language: uiStore.language,
+			orderStatus: uiStore.orderStatusQuery,
+			shopIds: shop && [shop._id],
+			...paginationVariablesFromUrlParams(query, { defaultPageLimit: uiStore.orderQueryLimit })
+		}
+	});
 
-  const orders = data && data.orders;
+	const orders = data && data.orders;
 
-  return [
-    orders,
-    loading,
-    pagination({
-      fetchMore,
-      data,
-      queryName: "orders",
-      limit: uiStore.orderQueryLimit
-    })
-  ];
+	return [
+		orders,
+		loading,
+		pagination({
+			fetchMore,
+			data,
+			queryName: "orders",
+			limit: uiStore.orderQueryLimit
+		})
+	];
 }

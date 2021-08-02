@@ -7,6 +7,6 @@ import { AuthContext } from "context/AuthContext";
  * @returns {Object} the React context fro the auth store
  */
 export default function useAuthStore() {
-  const authContext = useContext(AuthContext);
-  return authContext;
+	const authContext = useContext(AuthContext);
+	return authContext;
 }

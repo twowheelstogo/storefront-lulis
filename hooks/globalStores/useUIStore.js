@@ -7,6 +7,6 @@ import { UIContext } from "context/UIContext";
  * @returns {Object} React context for UI store
  */
 export default function useUIStore() {
-  const uiContext = useContext(UIContext);
-  return uiContext;
+	const uiContext = useContext(UIContext);
+	return uiContext;
 }

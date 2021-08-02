@@ -13,62 +13,62 @@ const fetcher = (url) => fetch(url).then((response) => response.json());
  * @returns {Object} users first and last name as object properties
  */
 function splitNames(account) {
-  let firstName = "";
-  let lastName = "";
-  const { name } = account;
-  const nameParts = name && name.split(" ");
-  if (Array.isArray(nameParts)) {
-    [firstName, lastName] = nameParts;
-  }
+	let firstName = "";
+	let lastName = "";
+	const { name } = account;
+	const nameParts = name && name.split(" ");
+	if (Array.isArray(nameParts)) {
+		[firstName, lastName] = nameParts;
+	}
 
-  return {
-    firstName,
-    lastName
-  };
+	return {
+		firstName,
+		lastName
+	};
 }
 
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [accountId, setAccountId] = useState(null);
-  const [accessToken, setAccessToken] = useState(null);
-  const [account, _setAccount] = useState({});
+	const [accountId, setAccountId] = useState(null);
+	const [accessToken, setAccessToken] = useState(null);
+	const [account, _setAccount] = useState({});
 
-  const { data: tokenData } = useSWR("/api/account/token", fetcher);
+	const { data: tokenData } = useSWR("/api/account/token", fetcher);
 
-  useEffect(() => {
-    const fetchedToken = tokenData && tokenData.accessToken;
-    if (fetchedToken) {
-      setAccessToken(fetchedToken);
-      setApolloToken(fetchedToken);
-    }
-  }, [tokenData]);
+	useEffect(() => {
+		const fetchedToken = tokenData && tokenData.accessToken;
+		if (fetchedToken) {
+			setAccessToken(fetchedToken);
+			setApolloToken(fetchedToken);
+		}
+	}, [tokenData]);
 
-  const setAccount = (newAccount) => {
-    if (newAccount) {
-      setAccountId(newAccount._id) || null;
-      _setAccount({ ...splitNames(newAccount), ...newAccount });
-    } else {
-      setAccountId(null);
-      _setAccount({});
-    }
-  };
+	const setAccount = (newAccount) => {
+		if (newAccount) {
+			setAccountId(newAccount._id) || null;
+			_setAccount({ ...splitNames(newAccount), ...newAccount });
+		} else {
+			setAccountId(null);
+			_setAccount({});
+		}
+	};
 
-  return (
-    <AuthContext.Provider value={{
-      accountId,
-      account,
-      accessToken,
-      setAccount,
-      setAccessToken,
-      isAuthenticated: !!accountId
-    }}
-    >
-      {children}
-    </AuthContext.Provider>
-  );
+	return (
+		<AuthContext.Provider value={{
+			accountId,
+			account,
+			accessToken,
+			setAccount,
+			setAccessToken,
+			isAuthenticated: !!accountId
+		}}
+		>
+			{children}
+		</AuthContext.Provider>
+	);
 };
 
 AuthProvider.propTypes = {
-  children: PropTypes.node
+	children: PropTypes.node
 };

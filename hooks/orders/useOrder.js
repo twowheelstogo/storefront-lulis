@@ -11,25 +11,25 @@ import { orderByReferenceId } from "./queries.gql";
  * @returns {Object} the user order React context
  */
 export default function useOrder() {
-  const { uiStore } = useStores();
-  const shop = useShop();
-  const [viewer] = useViewer();
-  const { query } = useRouter();
+	const { uiStore } = useStores();
+	const shop = useShop();
+	const [viewer] = useViewer();
+	const { query } = useRouter();
 
-  const { loading, data } = useQuery(orderByReferenceId, {
-    skip: !shop || !shop._id || !query.orderId || (!query.token && (!viewer || !viewer._id)),
-    variables: {
-      id: query.orderId,
-      language: uiStore.language,
-      shopId: shop && shop._id,
-      token: query.token || null
-    }
-  });
+	const { loading, data } = useQuery(orderByReferenceId, {
+		skip: !shop || !shop._id || !query.orderId || (!query.token && (!viewer || !viewer._id)),
+		variables: {
+			id: query.orderId,
+			language: uiStore.language,
+			shopId: shop && shop._id,
+			token: query.token || null
+		}
+	});
 
-  const order = data && data.order;
+	const order = data && data.order;
 
-  return [
-    order,
-    loading
-  ];
+	return [
+		order,
+		loading
+	];
 }

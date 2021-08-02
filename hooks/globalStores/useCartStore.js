@@ -7,6 +7,6 @@ import { CartContext } from "context/CartContext";
  * @returns {Object} the React context for the cart store
  */
 export default function useCartStore() {
-  const cartContext = useContext(CartContext);
-  return cartContext;
+	const cartContext = useContext(CartContext);
+	return cartContext;
 }

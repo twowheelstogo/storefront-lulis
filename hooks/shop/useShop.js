@@ -7,6 +7,6 @@ import { ShopContext } from "context/ShopContext";
  * @returns {Object} the shop React context
  */
 export default function useShop() {
-  const shopContext = useContext(ShopContext);
-  return shopContext;
+	const shopContext = useContext(ShopContext);
+	return shopContext;
 }

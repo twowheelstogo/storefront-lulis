@@ -7,5 +7,5 @@ import { locales } from "./config";
  * @returns {Boolean} Whether passed in string is a supported locale
  */
 export default function isLocale(inputLocale) {
-  return locales.some((locale) => locale === inputLocale);
+	return locales.some((locale) => locale === inputLocale);
 }

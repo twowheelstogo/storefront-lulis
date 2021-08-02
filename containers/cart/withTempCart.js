@@ -10,15 +10,15 @@ import hoistNonReactStatic from "hoist-non-react-statics";
  * @returns {React.Component} - Component with `cart` props and callbacks
  */
 export default function withCart(Component) {
-  function WithCart(props) { // eslint-disable-line require-jsdoc
-    const cart = useCart();
+	function WithCart(props) { // eslint-disable-line require-jsdoc
+		const cart = useCart();
 
-    return (
-      <Component {...props} cart = {cart}/>
-    );
-  }
+		return (
+			<Component {...props} cart = {cart}/>
+		);
+	}
 
-  hoistNonReactStatic(WithCart, Component);
+	hoistNonReactStatic(WithCart, Component);
 
-  return WithCart;
+	return WithCart;
 }

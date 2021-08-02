@@ -10,22 +10,22 @@ import useUpdateAccountAddressBookEntry from "hooks/address/useUpdateAccountAddr
  * @return {React.Component} Wrapped component
  */
 export default function withAddressBook(Component) {
-  function WithAddressBook(props) { // eslint-disable-line require-jsdoc
-    const [addAccountAddressBookEntry] = useAddAccountAddressBookEntry();
-    const [updateAccountAddressBookEntry] = useUpdateAccountAddressBookEntry();
-    const [removeAccountAddressBookEntry] = useRemoveAccountAddressBookEntry();
+	function WithAddressBook(props) { // eslint-disable-line require-jsdoc
+		const [addAccountAddressBookEntry] = useAddAccountAddressBookEntry();
+		const [updateAccountAddressBookEntry] = useUpdateAccountAddressBookEntry();
+		const [removeAccountAddressBookEntry] = useRemoveAccountAddressBookEntry();
 
-    return (
-      <Component
-        {...props}
-        onAddressAdded={addAccountAddressBookEntry}
-        onAddressEdited={updateAccountAddressBookEntry}
-        onAddressDeleted={removeAccountAddressBookEntry}
-      />
-    );
-  }
+		return (
+			<Component
+				{...props}
+				onAddressAdded={addAccountAddressBookEntry}
+				onAddressEdited={updateAccountAddressBookEntry}
+				onAddressDeleted={removeAccountAddressBookEntry}
+			/>
+		);
+	}
 
-  hoistNonReactStatic(WithAddressBook, Component);
+	hoistNonReactStatic(WithAddressBook, Component);
 
-  return WithAddressBook;
+	return WithAddressBook;
 }

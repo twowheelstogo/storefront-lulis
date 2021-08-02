@@ -10,12 +10,12 @@ export const TagsContext = createContext();
  * @returns {React.node} The tags provider
  */
 export const TagsProvider = ({ tags, children }) => (
-  <TagsContext.Provider value={tags}>
-    {children}
-  </TagsContext.Provider>
+	<TagsContext.Provider value={tags}>
+		{children}
+	</TagsContext.Provider>
 );
 
 TagsProvider.propTypes * {
-  children: PropTypes.node,
-  tags: PropTypes.arrayOf(PropTypes.object)
+	children: PropTypes.node,
+	tags: PropTypes.arrayOf(PropTypes.object)
 };
