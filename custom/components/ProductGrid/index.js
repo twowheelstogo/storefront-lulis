@@ -6,7 +6,7 @@ import {
 } from '@material-ui/core';
 
 import ProductCard from 'components/HorizontalProductCard';
-
+import inject from "hocs/inject";
 const useStyles = makeStyles( theme => ({
     grid: {
         margin: theme.spacing(0, 0)
@@ -14,7 +14,7 @@ const useStyles = makeStyles( theme => ({
 }));
 
 const ProductGrid = props => {
-    const { products,addItemsToCart,onChangeCartItemsQuantity,currencyCode } = props;
+    const { products,addItemsToCart,onChangeCartItemsQuantity,currencyCode,uiStore } = props;
     const classes = useStyles();
 
     return (
@@ -38,6 +38,7 @@ const ProductGrid = props => {
                         >
                             <ProductCard
                             currencyCode = {currencyCode}
+                            uiStore = {uiStore}
                             product = { product } addItemsToCart={addItemsToCart}
                             onChangeCartItemsQuantity={onChangeCartItemsQuantity}/>
                         </Grid>    
@@ -48,4 +49,4 @@ const ProductGrid = props => {
     );
 };
 
-export default ProductGrid;
+export default inject("uiStore")(ProductGrid);

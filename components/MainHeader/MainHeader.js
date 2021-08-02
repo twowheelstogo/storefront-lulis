@@ -136,7 +136,7 @@ class MainHeader extends React.Component{
                                     <NavigationDesktop />
                                 </Hidden>
                 </div>
-                <LocaleDropdown />
+                {/* <LocaleDropdown /> */}
                 <IconButton color="inherit" onClick={this.handleSearch}>
                     <SearchIcon/>
                 </IconButton>

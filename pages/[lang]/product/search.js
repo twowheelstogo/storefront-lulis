@@ -164,6 +164,7 @@ class SearchProduct extends Component {
         return (
             <SearchProductListDesktop
             items={products}
+            uiStore={uiStore}
             currencyCode = {currencyCode}
             addItemsToCart={addItemsToCart}
             onChangeCartItemsQuantity={onChangeCartItemsQuantity}

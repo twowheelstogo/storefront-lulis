@@ -81,7 +81,7 @@ class HorizontalProductCard extends React.Component{
 
     }
     async HandleAddItemToCart(props){
-        const {product,addItemsToCart,currencyCode} = props;
+        const {product,addItemsToCart,uiStore:{openCartWithTimeout},currencyCode} = props;
         const currentVariant = product.variants[0];
         const price =Array.isArray(currentVariant.pricing)? priceByCurrencyCode(currencyCode,currentVariant.pricing):currentVariant.pricing;
         await addItemsToCart([
@@ -97,14 +97,16 @@ class HorizontalProductCard extends React.Component{
                 quantity:1
             }
         ])
+        openCartWithTimeout(3000);
 
     }
     HandleRemoveItemToCart(props){
-        const {onChangeCartItemsQuantity,product} = props;
+        const {onChangeCartItemsQuantity,product,uiStore:{openCartWithTimeout}} = props;
         onChangeCartItemsQuantity({
             quantity:product.cartItem.quantity-1,
             cartItemId:product.cartItem._id
         });
+        openCartWithTimeout(3000);
     }
     render(){
         const {classes,product} = this.props;
