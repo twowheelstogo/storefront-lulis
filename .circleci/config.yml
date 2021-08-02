@@ -78,6 +78,9 @@ jobs:
 
   docker-build-push:
     <<: *defaults
+    branches:
+      only:
+        - master
     steps:
       - checkout
       - setup_remote_docker:
