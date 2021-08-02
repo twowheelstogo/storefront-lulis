@@ -85,7 +85,11 @@ jobs:
           version: 19.03.13
       - run:
           name: Build and push production Docker image
-          command: ${CI_SCRIPTS} docker-build-tag-push . ${DOCKER_REPOSITORY}
+          command: |
+            VERSION=$(git describe --tags `git rev-list --tags --max-count=1` | cut -c2-100)
+            docker build -t ${DOCKER_REPOSITORY}:${VERSION} .
+            docker login -u ${DOCKER_USER} -p ${DOCKER_PASS}
+            docker push ${DOCKER_REPOSITORY}:${VERSION}
       
 
   create-gitops-pull-request:
@@ -110,7 +114,7 @@ workflows:
           requires:
             - install-dependencies
       - docker-build-push:
-          context: reaction-publish-docker
+          context: reaction-lulis-publish-docker
           requires:
             # - dockerfile-lint
             # - eslint
