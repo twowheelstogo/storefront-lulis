@@ -8,18 +8,18 @@ import tagsQuery from "./tags.js";
  * @returns {Object[]} Array of all tags on this and all future pages (calls itself recursively)
  */
 async function getTags(variables) {
-  const data = await graphQLRequest(tagsQuery, variables);
+	const data = await graphQLRequest(tagsQuery, variables);
 
-  const { edges, pageInfo } = data.tags;
+	const { edges, pageInfo } = data.tags;
 
-  const tagList = edges.map((edge) => edge.node);
+	const tagList = edges.map((edge) => edge.node);
 
-  if (pageInfo.hasNextPage) {
-    const remainingTags = await getTags({ ...variables, cursor: pageInfo.endCursor });
-    return [...tagList, ...remainingTags];
-  }
+	if (pageInfo.hasNextPage) {
+		const remainingTags = await getTags({ ...variables, cursor: pageInfo.endCursor });
+		return [...tagList, ...remainingTags];
+	}
 
-  return tagList;
+	return tagList;
 }
 
 /**
@@ -28,15 +28,15 @@ async function getTags(variables) {
  * @returns {Object[]} Array of all tags
  */
 export default async function fetchAllTags(lang) {
-  const { shop } = await fetchPrimaryShop(lang);
+	const { shop } = await fetchPrimaryShop(lang);
 
-  if (!shop) {
-    // eslint-disable-next-line no-console
-    console.warn("primaryShop query result was null");
-    return [];
-  }
+	if (!shop) {
+		// eslint-disable-next-line no-console
+		console.warn("primaryShop query result was null");
+		return [];
+	}
 
-  const allTags = await getTags({ shopId: shop._id });
+	const allTags = await getTags({ shopId: shop._id });
 
-  return allTags && { tags: allTags };
+	return allTags && { tags: allTags };
 }

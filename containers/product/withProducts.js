@@ -13,64 +13,64 @@ import productsQuery from "./products.gql";
  * @returns {React.Component} - component decorated with primaryShopId and catalog as props
  */
 export default function withProducts(Component) {
-  class Products extends React.Component {
+	class Products extends React.Component {
     static propTypes = {
-      primaryShopId: PropTypes.string,
-      routingStore: PropTypes.object.isRequired,
-      tag: PropTypes.shape({
-        _id: PropTypes.string.isRequired
-      }),
-      uiStore: PropTypes.object.isRequired
+    	primaryShopId: PropTypes.string,
+    	routingStore: PropTypes.object.isRequired,
+    	tag: PropTypes.shape({
+    		_id: PropTypes.string.isRequired
+    	}),
+    	uiStore: PropTypes.object.isRequired
     };
 
     render() {
-      const { primaryShopId, routingStore, uiStore, tag } = this.props;
-      const {query:{query}} = routingStore;
-      const [sortBy, sortOrder] = uiStore.sortBy.split("-");
-      const tagIds = tag && [tag._id];
-      if (!primaryShopId||!query) {
-        return (
-          <Component
-          awaiting={true}
-            {...this.props}
-          />
-        );
-      }
-      const variables = {
-        shopIds: [primaryShopId],
-        ...paginationVariablesFromUrlParams(routingStore.query, { defaultPageLimit: uiStore.pageSize }),
-        tagIds,
-        sortBy,
-        sortByPriceCurrencyCode: uiStore.sortByCurrencyCode,
-        sortOrder,
-        query
-      };
-      return (
-        <Query errorPolicy="all" query={productsQuery} variables={variables}>
-          {({ data, fetchMore, loading }) => {
-            const { products } = data || {};
-            return (
-              <Component
-                {...this.props}
-                productsPageInfo={pagination({
-                  fetchMore,
-                  routingStore,
-                  data,
-                  queryName: "products",
-                  limit: uiStore.pageSize
-                })}
-                awaiting={false}
-                products={(products && products.nodes) || []}
-                isLoadingProducts={loading}
-              />
-            );
-          }}
-        </Query>
-      );
+    	const { primaryShopId, routingStore, uiStore, tag } = this.props;
+    	const {query:{query}} = routingStore;
+    	const [sortBy, sortOrder] = uiStore.sortBy.split("-");
+    	const tagIds = tag && [tag._id];
+    	if (!primaryShopId||!query) {
+    		return (
+    			<Component
+    				awaiting={true}
+    				{...this.props}
+    			/>
+    		);
+    	}
+    	const variables = {
+    		shopIds: [primaryShopId],
+    		...paginationVariablesFromUrlParams(routingStore.query, { defaultPageLimit: uiStore.pageSize }),
+    		tagIds,
+    		sortBy,
+    		sortByPriceCurrencyCode: uiStore.sortByCurrencyCode,
+    		sortOrder,
+    		query
+    	};
+    	return (
+    		<Query errorPolicy="all" query={productsQuery} variables={variables}>
+    			{({ data, fetchMore, loading }) => {
+    				const { products } = data || {};
+    				return (
+    					<Component
+    						{...this.props}
+    						productsPageInfo={pagination({
+    							fetchMore,
+    							routingStore,
+    							data,
+    							queryName: "products",
+    							limit: uiStore.pageSize
+    						})}
+    						awaiting={false}
+    						products={(products && products.nodes) || []}
+    						isLoadingProducts={loading}
+    					/>
+    				);
+    			}}
+    		</Query>
+    	);
     }
-  }
+	}
 
-  hoistNonReactStatic(Products, Component);
+	hoistNonReactStatic(Products, Component);
 
-  return inject("primaryShopId", "routingStore", "uiStore")(Products);
+	return inject("primaryShopId", "routingStore", "uiStore")(Products);
 }

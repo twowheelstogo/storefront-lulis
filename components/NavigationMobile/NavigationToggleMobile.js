@@ -5,15 +5,15 @@ import MenuIcon from "mdi-material-ui/Menu";
 
 class NavigationToggleMobile extends Component {
   static propTypes = {
-    onClick: PropTypes.func
+  	onClick: PropTypes.func
   };
 
   render() {
-    return (
-      <IconButton color="inherit" onClick={this.props.onClick}>
-        <MenuIcon />
-      </IconButton>
-    );
+  	return (
+  		<IconButton color="inherit" onClick={this.props.onClick}>
+  			<MenuIcon />
+  		</IconButton>
+  	);
   }
 }
 

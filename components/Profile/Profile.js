@@ -4,20 +4,20 @@ import Typography from "@material-ui/core/Typography";
 
 export default class Profile extends Component {
   static propTypes = {
-    viewer: PropTypes.object
+  	viewer: PropTypes.object
   };
 
   static defaultProps = {
-    viewer: {}
+  	viewer: {}
   };
 
   render() {
-    const { viewer } = this.props;
+  	const { viewer } = this.props;
 
-    if (viewer) {
-      return <Typography variant="subtitle1">Hello {viewer.name}</Typography>;
-    }
+  	if (viewer) {
+  		return <Typography variant="subtitle1">Hello {viewer.name}</Typography>;
+  	}
 
-    return null;
+  	return null;
   }
 }

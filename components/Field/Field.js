@@ -13,19 +13,19 @@ import { addTypographyStyles, applyTheme } from "@reactioncommerce/components/ut
  *   value from a custom theme or the default theme.
  */
 function applyValidationColor(themeProp) {
-  return (props) => {
-    let status;
-    if (props.errors && props.errors.length) {
-      status = "error";
-    } else if (props.hasBeenValidated && props.value && props.value.length) {
-      status = "success";
-    } else if (props.inputFocused || props.buttonFocused) {
-      status = "focus";
-    } else {
-      status = "default";
-    }
-    return applyTheme(`${themeProp}_${status}`);
-  };
+	return (props) => {
+		let status;
+		if (props.errors && props.errors.length) {
+			status = "error";
+		} else if (props.hasBeenValidated && props.value && props.value.length) {
+			status = "success";
+		} else if (props.inputFocused || props.buttonFocused) {
+			status = "focus";
+		} else {
+			status = "default";
+		}
+		return applyTheme(`${themeProp}_${status}`);
+	};
 }
 
 const StyledField = styled.div`
@@ -58,64 +58,64 @@ class Field extends Component {
   static isFormField = true;
 
   static propTypes = {
-    children: PropTypes.node.isRequired,
-    className: PropTypes.string,
-    errors: PropTypes.array,
-    helpText: PropTypes.string,
-    isOptional: PropTypes.bool,
-    isRequired: PropTypes.bool,
-    label: PropTypes.node,
-    labelClassName: PropTypes.string,
-    labelFor: PropTypes.string,
-    /**
+  	children: PropTypes.node.isRequired,
+  	className: PropTypes.string,
+  	errors: PropTypes.array,
+  	helpText: PropTypes.string,
+  	isOptional: PropTypes.bool,
+  	isRequired: PropTypes.bool,
+  	label: PropTypes.node,
+  	labelClassName: PropTypes.string,
+  	labelFor: PropTypes.string,
+  	/**
      * The text for the "Optional" label text.
      */
-    optionalLabelText: PropTypes.string
+  	optionalLabelText: PropTypes.string
   };
 
   static defaultProps = {
-    className: undefined,
-    errors: undefined,
-    label: undefined,
-    labelClassName: undefined,
-    labelFor: undefined,
-    isOptional: false,
-    isRequired: false,
-    optionalLabelText: "Optional"
+  	className: undefined,
+  	errors: undefined,
+  	label: undefined,
+  	labelClassName: undefined,
+  	labelFor: undefined,
+  	isOptional: false,
+  	isRequired: false,
+  	optionalLabelText: "Optional"
   };
 
   getClassName() {
-    const { className, errors, isRequired } = this.props;
-    const errorClass = Array.isArray(errors) && errors.length > 0 ? "has-error" : "";
-    const requiredClass = isRequired ? "required" : "";
-    return `${className || ""} ${errorClass} ${requiredClass}`.trim();
+  	const { className, errors, isRequired } = this.props;
+  	const errorClass = Array.isArray(errors) && errors.length > 0 ? "has-error" : "";
+  	const requiredClass = isRequired ? "required" : "";
+  	return `${className || ""} ${errorClass} ${requiredClass}`.trim();
   }
 
   renderLabel() {
-    const { errors, label, labelClassName, labelFor, isOptional, optionalLabelText } = this.props;
+  	const { errors, label, labelClassName, labelFor, isOptional, optionalLabelText } = this.props;
 
-    return (
-      <StyledLabel className={labelClassName} errors={errors} htmlFor={labelFor}>
-        {label}
-        {isOptional ? ` (${optionalLabelText})` : null}
-      </StyledLabel>
-    );
+  	return (
+  		<StyledLabel className={labelClassName} errors={errors} htmlFor={labelFor}>
+  			{label}
+  			{isOptional ? ` (${optionalLabelText})` : null}
+  		</StyledLabel>
+  	);
   }
 
   renderHelpText() {
-    const { helpText } = this.props;
-    return <StyledHelpText>{helpText}</StyledHelpText>;
+  	const { helpText } = this.props;
+  	return <StyledHelpText>{helpText}</StyledHelpText>;
   }
 
   render() {
-    const { children, helpText, label } = this.props;
-    return (
-      <StyledField className={this.getClassName()}>
-        {!isEmpty(label) && this.renderLabel()}
-        {children}
-        {!isEmpty(helpText) && this.renderHelpText()}
-      </StyledField>
-    );
+  	const { children, helpText, label } = this.props;
+  	return (
+  		<StyledField className={this.getClassName()}>
+  			{!isEmpty(label) && this.renderLabel()}
+  			{children}
+  			{!isEmpty(helpText) && this.renderHelpText()}
+  		</StyledField>
+  	);
   }
 }
 

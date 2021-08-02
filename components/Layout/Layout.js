@@ -5,48 +5,48 @@ import Header from "components/Header";
 import Footer from "components/Footer";
 
 const styles = (theme) => ({
-  root: {
-    minHeight: "100vh"
-  },
-  main: {
-    flex: "1 1 auto",
-    maxWidth: theme.layout.mainContentMaxWidth,
-    marginLeft: "auto",
-    marginRight: "auto"
-  },
-  article: {
-    padding: theme.spacing(0)
-  }
+	root: {
+		minHeight: "100vh"
+	},
+	main: {
+		flex: "1 1 auto",
+		maxWidth: theme.layout.mainContentMaxWidth,
+		marginLeft: "auto",
+		marginRight: "auto"
+	},
+	article: {
+		padding: theme.spacing(0)
+	}
 });
 
 class Layout extends Component {
   static propTypes = {
-    children: PropTypes.node,
-    classes: PropTypes.object,
-    shop: PropTypes.shape({
-      name: PropTypes.string.isRequired
-    }),
-    viewer: PropTypes.object
+  	children: PropTypes.node,
+  	classes: PropTypes.object,
+  	shop: PropTypes.shape({
+  		name: PropTypes.string.isRequired
+  	}),
+  	viewer: PropTypes.object
   };
 
   static defaultProps = {
-    classes: {}
+  	classes: {}
   };
 
   render() {
-    const { classes, children, shop, viewer } = this.props;
+  	const { classes, children, shop, viewer } = this.props;
 
-    return (
-      <React.Fragment>
-        <div className={classes.root}>
-          <Header shop={shop} viewer={viewer} />
-          <main className={classes.main}>
-            <article className={classes.article}>{children}</article>
-          </main>
-          <Footer />
-        </div>
-      </React.Fragment>
-    );
+  	return (
+  		<React.Fragment>
+  			<div className={classes.root}>
+  				<Header shop={shop} viewer={viewer} />
+  				<main className={classes.main}>
+  					<article className={classes.article}>{children}</article>
+  				</main>
+  				<Footer />
+  			</div>
+  		</React.Fragment>
+  	);
   }
 }
 

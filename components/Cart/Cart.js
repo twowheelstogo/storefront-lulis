@@ -5,34 +5,34 @@ import { withStyles } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
 
 const styles = () => ({
-  cart: {
-    width: "90vw"
-  }
+	cart: {
+		width: "90vw"
+	}
 });
 
 class Cart extends Component {
   static propTypes = {
-    classes: PropTypes.object,
-    uiStore: PropTypes.shape({
-      closeCart: PropTypes.func
-    }).isRequired
+  	classes: PropTypes.object,
+  	uiStore: PropTypes.shape({
+  		closeCart: PropTypes.func
+  	}).isRequired
   };
 
   static defaultProps = {
-    classes: {}
+  	classes: {}
   };
 
   handleClose = () => {
-    this.props.uiStore.closeCart();
+  	this.props.uiStore.closeCart();
   };
 
   render() {
-    const { classes, uiStore } = this.props;
-    return (
-      <Drawer anchor="right" open={uiStore.isCartOpen} onClose={this.handleClose}>
-        <div className={classes.cart}>Cart Component</div>
-      </Drawer>
-    );
+  	const { classes, uiStore } = this.props;
+  	return (
+  		<Drawer anchor="right" open={uiStore.isCartOpen} onClose={this.handleClose}>
+  			<div className={classes.cart}>Cart Component</div>
+  		</Drawer>
+  	);
   }
 }
 

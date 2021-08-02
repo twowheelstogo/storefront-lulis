@@ -8,11 +8,11 @@ import catalogItemProductQuery from "./catalogItemProduct.js";
  * @returns {Object} product - the fetched product
  */
 export default async function fetchCatalogProduct(slugOrId) {
-  if (!slugOrId) return { product: {} };
+	if (!slugOrId) return { product: {} };
 
-  const data = await graphQLRequest(catalogItemProductQuery, {
-    slugOrId
-  });
+	const data = await graphQLRequest(catalogItemProductQuery, {
+		slugOrId
+	});
 
-  return data && data.catalogItemProduct && { product: data.catalogItemProduct.product };
+	return data && data.catalogItemProduct && { product: data.catalogItemProduct.product };
 }

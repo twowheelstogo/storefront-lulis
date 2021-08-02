@@ -10,15 +10,15 @@ import { StandaloneSearchBox } from "react-google-maps/lib/components/places/Sta
 import withGoogleMaps from "containers/maps/withGoogleMap";
 const PlacesWithStandaloneSearchBox = (props)=>
 {
-  return <div data-standalone-searchbox="">
-  <StandaloneSearchBox
-    ref={props.onSearchBoxMounted}
-    bounds={props.bounds}
-    onPlacesChanged={props.onPlacesChanged}
-  >
-    {props.children}
-  </StandaloneSearchBox>
-  </div>
+	return <div data-standalone-searchbox="">
+		<StandaloneSearchBox
+			ref={props.onSearchBoxMounted}
+			bounds={props.bounds}
+			onPlacesChanged={props.onPlacesChanged}
+		>
+			{props.children}
+		</StandaloneSearchBox>
+	</div>;
 };
 const Grid = styled.div`
   display: flex;
@@ -38,288 +38,288 @@ const ColHalf = styled.div`
 `;
 class AddressForm extends Component {
   static propTypes = {
-    /**
+  	/**
      * The text for the "Address" label text.
      */
-    address1LabelText: PropTypes.string,
-    /**
+  	address1LabelText: PropTypes.string,
+  	/**
      * Place holder for "Address" field.
      */
-    address1PlaceholderText: PropTypes.string,
-    /**
+  	address1PlaceholderText: PropTypes.string,
+  	/**
      * The text for the "Address Line 2" label text.
      */
-    address2LabelText: PropTypes.string,
-    /**
+  	address2LabelText: PropTypes.string,
+  	/**
      * Place holder for "Address Line 2 (Optional)" field.
      */
-    address2PlaceholderText: PropTypes.string,
-    /**
+  	address2PlaceholderText: PropTypes.string,
+  	/**
      * The text for the "Address Name" label text.
      */
-    addressNameLabelText: PropTypes.string,
-    /**
+  	addressNameLabelText: PropTypes.string,
+  	/**
      * Place holder for "Address name" field.
      */
-    addressNamePlaceholder: PropTypes.string,
-    /**
+  	addressNamePlaceholder: PropTypes.string,
+  	/**
      * The text for the "City" label text.
      */
-    cityLabelText: PropTypes.string,
-    /**
+  	cityLabelText: PropTypes.string,
+  	/**
      * Place holder for "City" field.
      */
-    cityPlaceholderText: PropTypes.string,
-    /**
+  	cityPlaceholderText: PropTypes.string,
+  	/**
      * You can provide a `className` prop that will be applied to the outermost DOM element
      * rendered by this component. We do not recommend using this for styling purposes, but
      * it can be useful as a selector in some situations.
      */
-    className: PropTypes.string,
-    /**
+  	className: PropTypes.string,
+  	/**
      * If you've set up a components context using
      * [@reactioncommerce/components-context](https://github.com/reactioncommerce/components-context)
      * (recommended), then this prop will come from there automatically. If you have not
      * set up a components context or you want to override one of the components in a
      * single spot, you can pass in the components prop directly.
     */
-    components: PropTypes.shape({
-      /**
+  	components: PropTypes.shape({
+  		/**
        * Pass either the Reaction Checkbox component or your own component that is
        * compatible with ReactoForm.
        */
-      Checkbox: CustomPropTypes.component.isRequired,
-      /**
+  		Checkbox: CustomPropTypes.component.isRequired,
+  		/**
        * Pass either the Reaction ErrorsBlock component or your own component that is
        * compatible with ReactoForm.
        */
-      ErrorsBlock: CustomPropTypes.component.isRequired,
-      /**
+  		ErrorsBlock: CustomPropTypes.component.isRequired,
+  		/**
        * Pass either the Reaction Field component or your own component that is
        * compatible with ReactoForm.
        */
-      Field: CustomPropTypes.component.isRequired,
-      /**
+  		Field: CustomPropTypes.component.isRequired,
+  		/**
        * Pass either the Reaction TextInput component or your own component that is
        * compatible with ReactoForm.
        */
-      TextInput: CustomPropTypes.component.isRequired,
-      /**
+  		TextInput: CustomPropTypes.component.isRequired,
+  		/**
        * Pass either the Reaction Select component or your own component that is
        * compatible with ReactoForm.
        */
-      Select: CustomPropTypes.component.isRequired,
-      /**
+  		Select: CustomPropTypes.component.isRequired,
+  		/**
        * Pass either the Reaction PhoneNumberInput component or your own component that is
        * compatible with ReactoForm.
        */
-      PhoneNumberInput: CustomPropTypes.component.isRequired,
-      /**
+  		PhoneNumberInput: CustomPropTypes.component.isRequired,
+  		/**
        * Pass either the Reaction RegionInput component or your own component that is
        * compatible with ReactoForm.
        */
-      RegionInput: CustomPropTypes.component.isRequired
-    }).isRequired,
-    /**
+  		RegionInput: CustomPropTypes.component.isRequired
+  	}).isRequired,
+  	/**
      * The text for the "Country" label text.
      */
-    countryLabelText: PropTypes.string,
-    /**
+  	countryLabelText: PropTypes.string,
+  	/**
      * Place holder for "Country" field.
      */
-    countryPlaceholderText: PropTypes.string,
-    /**
+  	countryPlaceholderText: PropTypes.string,
+  	/**
      * Errors array
      */
-    errors: PropTypes.arrayOf(PropTypes.shape({
-      /**
+  	errors: PropTypes.arrayOf(PropTypes.shape({
+  		/**
          * Error message
          */
-      message: PropTypes.string.isRequired,
-      /**
+  		message: PropTypes.string.isRequired,
+  		/**
          * Error name
          */
-      name: PropTypes.string.isRequired
-    })),
-    /**
+  		name: PropTypes.string.isRequired
+  	})),
+  	/**
      * The text for the "This is a commercial address." label text.
     */
-    isCommercialLabelText: PropTypes.string,
-    /**
+  	isCommercialLabelText: PropTypes.string,
+  	/**
      * Enable when using the form on a dark background, disabled by default
      */
-    isOnDarkBackground: PropTypes.bool,
-    /**
+  	isOnDarkBackground: PropTypes.bool,
+  	/**
      * If true, typing in address fields is disabled
      */
-    isReadOnly: PropTypes.bool,
-    /**
+  	isReadOnly: PropTypes.bool,
+  	/**
      * Pass true if the address is in the process of being saved.
      * While true, typing in address fields is disabled.
      */
-    isSaving: PropTypes.bool,
+  	isSaving: PropTypes.bool,
 
-    /**
+  	/**
      * Locale options to populate the forms country and region fields
      */
-    locales: PropTypes.objectOf(PropTypes.shape({
-      name: PropTypes.string,
-      native: PropTypes.string,
-      phone: PropTypes.string,
-      continent: PropTypes.string,
-      capital: PropTypes.string,
-      currency: PropTypes.string,
-      languages: PropTypes.string,
-      states: PropTypes.objectOf(PropTypes.shape({ name: PropTypes.string }))
-    })),
-    /**
+  	locales: PropTypes.objectOf(PropTypes.shape({
+  		name: PropTypes.string,
+  		native: PropTypes.string,
+  		phone: PropTypes.string,
+  		continent: PropTypes.string,
+  		capital: PropTypes.string,
+  		currency: PropTypes.string,
+  		languages: PropTypes.string,
+  		states: PropTypes.objectOf(PropTypes.shape({ name: PropTypes.string }))
+  	})),
+  	/**
      * Form name
      */
-    name: PropTypes.string,
-    /**
+  	name: PropTypes.string,
+  	/**
      * The text for the "Name" label text.
      */
-    nameLabelText: PropTypes.string,
-    /**
+  	nameLabelText: PropTypes.string,
+  	/**
      * Place holder for "Name" field.
      */
-    namePlaceholderText: PropTypes.string,
-    /**
+  	namePlaceholderText: PropTypes.string,
+  	/**
      * Cancel event callback
      */
-    onCancel: PropTypes.func,
-    /**
+  	onCancel: PropTypes.func,
+  	/**
      * OnChange event callback
      */
-    onChange: PropTypes.func,
-    /**
+  	onChange: PropTypes.func,
+  	/**
      * Form submit event callback
      */
-    onSubmit: PropTypes.func,
-    /**
+  	onSubmit: PropTypes.func,
+  	/**
      * The text for the "Phone" label text.
      */
-    phoneLabelText: PropTypes.string,
-    /**
+  	phoneLabelText: PropTypes.string,
+  	/**
      * Place holder for "Phone" field.
      */
-    phonePlaceholderText: PropTypes.string,
-    /**
+  	phonePlaceholderText: PropTypes.string,
+  	/**
      * The text for the "Postal Code" label text.
      */
-    postalLabelText: PropTypes.string,
-    /**
+  	postalLabelText: PropTypes.string,
+  	/**
      * Place holder for "Postal Code" field.
      */
-    postalPlaceholderText: PropTypes.string,
-    /**
+  	postalPlaceholderText: PropTypes.string,
+  	/**
      * The text for the "Region" label text..
      */
-    regionLabelText: PropTypes.string,
-    /**
+  	regionLabelText: PropTypes.string,
+  	/**
      * Place holder for "Region" field.
      */
-    regionPlaceholderText: PropTypes.string,
-    /**
+  	regionPlaceholderText: PropTypes.string,
+  	/**
      * Should the AddressForm show the "Address Names" field.
      */
-    shouldShowAddressNameField: PropTypes.bool,
-    /**
+  	shouldShowAddressNameField: PropTypes.bool,
+  	/**
      * Should the AddressForm show the "Is Commercial Address" field.
      */
-    shouldShowIsCommercialField: PropTypes.bool,
-    /**
+  	shouldShowIsCommercialField: PropTypes.bool,
+  	/**
      * Validator method
      */
-    validator: PropTypes.func,
-    /**
+  	validator: PropTypes.func,
+  	/**
      * Address object to be edited
      */
-    value: CustomPropTypes.address,
-    googleProps:PropTypes.any
+  	value: CustomPropTypes.address,
+  	googleProps:PropTypes.any
   };
 
   static defaultProps = {
-    address1LabelText: "Address",
-    address1PlaceholderText: "Address",
-    address2LabelText: "Address Line 2",
-    address2PlaceholderText: "Address Line 2 (Optional)",
-    addressNameLabelText: "Address Name",
-    addressNamePlaceholder: "Address Name",
-    cityLabelText: "City",
-    cityPlaceholderText: "City",
-    countryLabelText: "Country",
-    countryPlaceholderText: "Country",
-    errors: [],
-    locales: {},
-    isCommercialLabelText: "This is a commercial address.",
-    isOnDarkBackground: false,
-    isReadOnly: false,
-    isSaving: false,
-    name: "address",
-    nameLabelText: "Name",
-    namePlaceholderText: "Name",
-    phoneLabelText: "Phone",
-    phonePlaceholderText: "Phone",
-    postalLabelText: "Postal Code",
-    postalPlaceholderText: "Postal Code",
-    regionLabelText: "Region",
-    regionPlaceholderText: "Region",
-    onCancel() {},
-    onChange() {},
-    onSubmit() {},
-    shouldShowAddressNameField: false,
-    shouldShowIsCommercialField: false,
-    validator: getRequiredValidator("country", "fullName", "address1", "city", "phone", "postal", "region"),
-    value: {
-      addressName: "",
-      address1: "",
-      address2: "",
-      country: "",
-      city: "",
-      fullName: "",
-      postal: "",
-      region: "",
-      phone: "",
-      isCommercial: false,
-      metafields:[
-        {
-          key:"locationRef",
-          value:null
-        }
-      ]
-    }
+  	address1LabelText: "Address",
+  	address1PlaceholderText: "Address",
+  	address2LabelText: "Address Line 2",
+  	address2PlaceholderText: "Address Line 2 (Optional)",
+  	addressNameLabelText: "Address Name",
+  	addressNamePlaceholder: "Address Name",
+  	cityLabelText: "City",
+  	cityPlaceholderText: "City",
+  	countryLabelText: "Country",
+  	countryPlaceholderText: "Country",
+  	errors: [],
+  	locales: {},
+  	isCommercialLabelText: "This is a commercial address.",
+  	isOnDarkBackground: false,
+  	isReadOnly: false,
+  	isSaving: false,
+  	name: "address",
+  	nameLabelText: "Name",
+  	namePlaceholderText: "Name",
+  	phoneLabelText: "Phone",
+  	phonePlaceholderText: "Phone",
+  	postalLabelText: "Postal Code",
+  	postalPlaceholderText: "Postal Code",
+  	regionLabelText: "Region",
+  	regionPlaceholderText: "Region",
+  	onCancel() {},
+  	onChange() {},
+  	onSubmit() {},
+  	shouldShowAddressNameField: false,
+  	shouldShowIsCommercialField: false,
+  	validator: getRequiredValidator("country", "fullName", "address1", "city", "phone", "postal", "region"),
+  	value: {
+  		addressName: "",
+  		address1: "",
+  		address2: "",
+  		country: "",
+  		city: "",
+  		fullName: "",
+  		postal: "",
+  		region: "",
+  		phone: "",
+  		isCommercial: false,
+  		metafields:[
+  			{
+  				key:"locationRef",
+  				value:null
+  			}
+  		]
+  	}
   };
 
   state = {
-    // if the form has a value then try to use the value.country
-    // if that is not set check to see if any locales are provided and use the first one
-    // if no locales use "US"
-    activeCountry:
+  	// if the form has a value then try to use the value.country
+  	// if that is not set check to see if any locales are provided and use the first one
+  	// if no locales use "US"
+  	activeCountry:
       // eslint-disable-next-line
       this.props.value && this.props.value.country !== ""
-        ? this.props.value.country
-        : isEmpty(this.props.locales) ? "US" : Object.keys(this.props.locales)[0]
+      	? this.props.value.country
+      	: isEmpty(this.props.locales) ? "US" : Object.keys(this.props.locales)[0]
   };
 
   componentDidUpdate(prevProps) {
-    const { locales: prevLocales } = prevProps;
-    const { locales: nextLocales, value: nextValue } = this.props;
-    const { activeCountry: prevCountry } = this.state;
+  	const { locales: prevLocales } = prevProps;
+  	const { locales: nextLocales, value: nextValue } = this.props;
+  	const { activeCountry: prevCountry } = this.state;
 
-    // Sometimes the AddressForm will render before locales are provided.
-    // This is often the case when dynamically importing locales via a JSON file.
-    // Once the file loads and the locales are provided the form needs to check
-    // and correct the active country.
-    if (isEmpty(prevLocales) && !isEmpty(nextLocales) && prevLocales !== nextLocales) {
-      const nextCountry = Object.keys(nextLocales)[0];
-      if (nextValue && nextValue.country === prevCountry) {
-        return;
-      } else if (nextCountry !== prevCountry) {
-        // eslint-disable-next-line
+  	// Sometimes the AddressForm will render before locales are provided.
+  	// This is often the case when dynamically importing locales via a JSON file.
+  	// Once the file loads and the locales are provided the form needs to check
+  	// and correct the active country.
+  	if (isEmpty(prevLocales) && !isEmpty(nextLocales) && prevLocales !== nextLocales) {
+  		const nextCountry = Object.keys(nextLocales)[0];
+  		if (nextValue && nextValue.country === prevCountry) {
+  			return;
+  		} else if (nextCountry !== prevCountry) {
+  			// eslint-disable-next-line
         this.setState({ activeCountry: nextCountry });
-      }
-    }
+  		}
+  	}
   }
 
   _form = null;
@@ -327,261 +327,261 @@ class AddressForm extends Component {
   uniqueInstanceIdentifier = uniqueId("AddressForm_");
 
   get countryOptions() {
-    const { locales } = this.props;
-    if (!locales) return [];
-    const options = Object.keys(locales).map((key) => ({ value: key, label: locales[key].name }));
-    return options;
+  	const { locales } = this.props;
+  	if (!locales) return [];
+  	const options = Object.keys(locales).map((key) => ({ value: key, label: locales[key].name }));
+  	return options;
   }
 
   get regionOptions() {
-    const { locales } = this.props;
-    const { activeCountry } = this.state;
-    const options = [];
-    if (locales && locales[activeCountry] && locales[activeCountry].states) {
-      Object.keys(locales[activeCountry].states).forEach((key) => {
-        options.push({ value: key, label: locales[activeCountry].states[key].name });
-      });
-    }
-    return options;
+  	const { locales } = this.props;
+  	const { activeCountry } = this.state;
+  	const options = [];
+  	if (locales && locales[activeCountry] && locales[activeCountry].states) {
+  		Object.keys(locales[activeCountry].states).forEach((key) => {
+  			options.push({ value: key, label: locales[activeCountry].states[key].name });
+  		});
+  	}
+  	return options;
   }
 
   handleCountryChange = (country) => {
-    if (!country) return;
-    this.setState({
-      activeCountry: country
-    });
+  	if (!country) return;
+  	this.setState({
+  		activeCountry: country
+  	});
   };
 
   handleCancel = () => {
-    const { onCancel } = this.props;
-    onCancel();
+  	const { onCancel } = this.props;
+  	onCancel();
   };
 
   getValue = () => this._form.getValue();
 
   submit = () => {
-    this._form.submit();
+  	this._form.submit();
   };
 
   validate = () => this._form.validate();
   concatBeforeSubmit=(formData)=>{
-    var index = formData.metafields.findIndex(element=>element.key=="locationRef");
-    formData.metafields[index].value=this.props.googleProps.locationRef;
-    this.props.onSubmit(formData);
+  	var index = formData.metafields.findIndex(element=>element.key=="locationRef");
+  	formData.metafields[index].value=this.props.googleProps.locationRef;
+  	this.props.onSubmit(formData);
   }
   render() {
-    const {
-      address1LabelText,
-      address1PlaceholderText,
-      address2LabelText,
-      address2PlaceholderText,
-      addressNameLabelText,
-      addressNamePlaceholder,
-      value,
-      className,
-      cityLabelText,
-      cityPlaceholderText,
-      components: { Checkbox, ErrorsBlock, Field, TextInput, Select, PhoneNumberInput, RegionInput},
-      countryLabelText,
-      countryPlaceholderText,
-      errors,
-      isCommercialLabelText,
-      isOnDarkBackground,
-      isReadOnly,
-      isSaving,
-      name,
-      nameLabelText,
-      namePlaceholderText,
-      onChange,
-      phoneLabelText,
-      phonePlaceholderText,
-      postalLabelText,
-      postalPlaceholderText,
-      regionLabelText,
-      regionPlaceholderText,
-      shouldShowAddressNameField,
-      shouldShowIsCommercialField,
-      validator,
-      googleProps
-    } = this.props;
+  	const {
+  		address1LabelText,
+  		address1PlaceholderText,
+  		address2LabelText,
+  		address2PlaceholderText,
+  		addressNameLabelText,
+  		addressNamePlaceholder,
+  		value,
+  		className,
+  		cityLabelText,
+  		cityPlaceholderText,
+  		components: { Checkbox, ErrorsBlock, Field, TextInput, Select, PhoneNumberInput, RegionInput},
+  		countryLabelText,
+  		countryPlaceholderText,
+  		errors,
+  		isCommercialLabelText,
+  		isOnDarkBackground,
+  		isReadOnly,
+  		isSaving,
+  		name,
+  		nameLabelText,
+  		namePlaceholderText,
+  		onChange,
+  		phoneLabelText,
+  		phonePlaceholderText,
+  		postalLabelText,
+  		postalPlaceholderText,
+  		regionLabelText,
+  		regionPlaceholderText,
+  		shouldShowAddressNameField,
+  		shouldShowIsCommercialField,
+  		validator,
+  		googleProps
+  	} = this.props;
 
-    const addressNameInputId = `addressName_${this.uniqueInstanceIdentifier}`;
-    const countryInputId = `country_${this.uniqueInstanceIdentifier}`;
-    const fullNameInputId = `fullName_${this.uniqueInstanceIdentifier}`;
-    const address1InputId = `address1_${this.uniqueInstanceIdentifier}`;
-    const address2InputId = `address2_${this.uniqueInstanceIdentifier}`;
-    const cityInputId = `city_${this.uniqueInstanceIdentifier}`;
-    const regionInputId = `region_${this.uniqueInstanceIdentifier}`;
-    const postalInputId = `postal_${this.uniqueInstanceIdentifier}`;
-    const phoneInputId = `phone_${this.uniqueInstanceIdentifier}`;
-    const isCommercialInputId = `isCommercial_${this.uniqueInstanceIdentifier}`;
+  	const addressNameInputId = `addressName_${this.uniqueInstanceIdentifier}`;
+  	const countryInputId = `country_${this.uniqueInstanceIdentifier}`;
+  	const fullNameInputId = `fullName_${this.uniqueInstanceIdentifier}`;
+  	const address1InputId = `address1_${this.uniqueInstanceIdentifier}`;
+  	const address2InputId = `address2_${this.uniqueInstanceIdentifier}`;
+  	const cityInputId = `city_${this.uniqueInstanceIdentifier}`;
+  	const regionInputId = `region_${this.uniqueInstanceIdentifier}`;
+  	const postalInputId = `postal_${this.uniqueInstanceIdentifier}`;
+  	const phoneInputId = `phone_${this.uniqueInstanceIdentifier}`;
+  	const isCommercialInputId = `isCommercial_${this.uniqueInstanceIdentifier}`;
 
-    return (
-      <Form
-        className={className}
-        ref={(formEl) => {
-          this._form = formEl;
-        }}
-        errors={errors}
-        name={name}
-        onChange={onChange}
-        onSubmit={this.concatBeforeSubmit}
-        validator={validator}
-        revalidateOn="changed"
-        value={value}
-      >
-        <Grid>
-          {shouldShowAddressNameField && (
-            <ColFull>
-              <Field name="addressName" label={addressNameLabelText} labelFor={addressNameInputId} isOptional>
-                <TextInput
-                  id={addressNameInputId}
-                  name="addressName"
-                  // TODO: Replace addressNamePlaceholder to adressNamePlaceholderText
-                  placeholder={addressNamePlaceholder}
-                  isOnDarkBackground={isOnDarkBackground}
-                  isReadOnly={isSaving || isReadOnly}
-                />
-              </Field>
-            </ColFull>
-          )}
+  	return (
+  		<Form
+  			className={className}
+  			ref={(formEl) => {
+  				this._form = formEl;
+  			}}
+  			errors={errors}
+  			name={name}
+  			onChange={onChange}
+  			onSubmit={this.concatBeforeSubmit}
+  			validator={validator}
+  			revalidateOn="changed"
+  			value={value}
+  		>
+  			<Grid>
+  				{shouldShowAddressNameField && (
+  					<ColFull>
+  						<Field name="addressName" label={addressNameLabelText} labelFor={addressNameInputId} isOptional>
+  							<TextInput
+  								id={addressNameInputId}
+  								name="addressName"
+  								// TODO: Replace addressNamePlaceholder to adressNamePlaceholderText
+  								placeholder={addressNamePlaceholder}
+  								isOnDarkBackground={isOnDarkBackground}
+  								isReadOnly={isSaving || isReadOnly}
+  							/>
+  						</Field>
+  					</ColFull>
+  				)}
 
-          <ColFull>
-            <Field name="country" label={countryLabelText} labelFor={countryInputId} isRequired>
-              {this.countryOptions && this.countryOptions.length > 1 ? (
-                <Select
-                  id={countryInputId}
-                  alphabetize
-                  isSearchable
-                  name="country"
-                  onChange={this.handleCountryChange}
-                  options={this.countryOptions}
-                  placeholder={countryPlaceholderText}
-                  isOnDarkBackground={isOnDarkBackground}
-                  isReadOnly={isSaving || isReadOnly}
-                />
-              ) : (
-                <TextInput
-                  id={countryInputId}
-                  name="country"
-                  placeholder={countryPlaceholderText}
-                  isOnDarkBackground={isOnDarkBackground}
-                  isReadOnly={isSaving || isReadOnly}
-                />
-              )}
-              <ErrorsBlock names={["country"]} />
-            </Field>
-          </ColFull>
+  				<ColFull>
+  					<Field name="country" label={countryLabelText} labelFor={countryInputId} isRequired>
+  						{this.countryOptions && this.countryOptions.length > 1 ? (
+  							<Select
+  								id={countryInputId}
+  								alphabetize
+  								isSearchable
+  								name="country"
+  								onChange={this.handleCountryChange}
+  								options={this.countryOptions}
+  								placeholder={countryPlaceholderText}
+  								isOnDarkBackground={isOnDarkBackground}
+  								isReadOnly={isSaving || isReadOnly}
+  							/>
+  						) : (
+  							<TextInput
+  								id={countryInputId}
+  								name="country"
+  								placeholder={countryPlaceholderText}
+  								isOnDarkBackground={isOnDarkBackground}
+  								isReadOnly={isSaving || isReadOnly}
+  							/>
+  						)}
+  						<ErrorsBlock names={["country"]} />
+  					</Field>
+  				</ColFull>
 
-          <ColFull>
-            <Field name="fullName" label={nameLabelText} labelFor={fullNameInputId} isRequired>
-              <TextInput
-                id={fullNameInputId}
-                name="fullName"
-                placeholder={namePlaceholderText}
-                isOnDarkBackground={isOnDarkBackground}
-                isReadOnly={isSaving || isReadOnly}
-              />
-              <ErrorsBlock names={["fullName"]} />
-            </Field>
-          </ColFull>
-          <ColFull>
-            <Field name="address1" label={address1LabelText} labelFor={address1InputId} isRequired>
-              <PlacesWithStandaloneSearchBox {...googleProps}>
-              <TextInput
-                id={address1InputId}
-                name="address1"
-                placeholder={address1PlaceholderText}
-                isOnDarkBackground={isOnDarkBackground}
-                isReadOnly={isSaving || isReadOnly}
-              />
-              </PlacesWithStandaloneSearchBox>
-              <ErrorsBlock names={["address1"]} />
-            </Field>
-          </ColFull>
+  				<ColFull>
+  					<Field name="fullName" label={nameLabelText} labelFor={fullNameInputId} isRequired>
+  						<TextInput
+  							id={fullNameInputId}
+  							name="fullName"
+  							placeholder={namePlaceholderText}
+  							isOnDarkBackground={isOnDarkBackground}
+  							isReadOnly={isSaving || isReadOnly}
+  						/>
+  						<ErrorsBlock names={["fullName"]} />
+  					</Field>
+  				</ColFull>
+  				<ColFull>
+  					<Field name="address1" label={address1LabelText} labelFor={address1InputId} isRequired>
+  						<PlacesWithStandaloneSearchBox {...googleProps}>
+  							<TextInput
+  								id={address1InputId}
+  								name="address1"
+  								placeholder={address1PlaceholderText}
+  								isOnDarkBackground={isOnDarkBackground}
+  								isReadOnly={isSaving || isReadOnly}
+  							/>
+  						</PlacesWithStandaloneSearchBox>
+  						<ErrorsBlock names={["address1"]} />
+  					</Field>
+  				</ColFull>
 
-          <ColFull>
-            <Field name="address2" label={address2LabelText} labelFor={address2InputId} isOptional>
-              <TextInput
-                id={address2InputId}
-                name="address2"
-                placeholder={address2PlaceholderText}
-                isOnDarkBackground={isOnDarkBackground}
-                isReadOnly={isSaving || isReadOnly}
-              />
-            </Field>
-          </ColFull>
+  				<ColFull>
+  					<Field name="address2" label={address2LabelText} labelFor={address2InputId} isOptional>
+  						<TextInput
+  							id={address2InputId}
+  							name="address2"
+  							placeholder={address2PlaceholderText}
+  							isOnDarkBackground={isOnDarkBackground}
+  							isReadOnly={isSaving || isReadOnly}
+  						/>
+  					</Field>
+  				</ColFull>
 
-          <ColFull>
-            <Field name="city" label={cityLabelText} labelFor={cityInputId}>
-              <TextInput
-                id={cityInputId}
-                name="city"
-                placeholder={cityPlaceholderText}
-                isOnDarkBackground={isOnDarkBackground}
-                isReadOnly={isSaving || isReadOnly}
-              />
-              <ErrorsBlock names={["city"]} />
-            </Field>
-          </ColFull>
+  				<ColFull>
+  					<Field name="city" label={cityLabelText} labelFor={cityInputId}>
+  						<TextInput
+  							id={cityInputId}
+  							name="city"
+  							placeholder={cityPlaceholderText}
+  							isOnDarkBackground={isOnDarkBackground}
+  							isReadOnly={isSaving || isReadOnly}
+  						/>
+  						<ErrorsBlock names={["city"]} />
+  					</Field>
+  				</ColFull>
 
-          <ColHalf>
-            <Field name="region" label={regionLabelText} labelFor={regionInputId} isRequired>
-              <RegionInput
-                id={regionInputId}
-                options={this.regionOptions}
-                isOnDarkBackground={isOnDarkBackground}
-                isReadOnly={isSaving || isReadOnly}
-                name="region"
-                placeholder={regionPlaceholderText}
-              />
-              <ErrorsBlock names={["region"]} />
-            </Field>
-          </ColHalf>
-          <ColHalf>
-            <Field name="postal" label={postalLabelText} labelFor={postalInputId} isRequired>
-              <TextInput
-                id={postalInputId}
-                name="postal"
-                placeholder={postalPlaceholderText}
-                isOnDarkBackground={isOnDarkBackground}
-                isReadOnly={isSaving || isReadOnly}
-              />
-              <ErrorsBlock names={["postal"]} />
-            </Field>
-          </ColHalf>
+  				<ColHalf>
+  					<Field name="region" label={regionLabelText} labelFor={regionInputId} isRequired>
+  						<RegionInput
+  							id={regionInputId}
+  							options={this.regionOptions}
+  							isOnDarkBackground={isOnDarkBackground}
+  							isReadOnly={isSaving || isReadOnly}
+  							name="region"
+  							placeholder={regionPlaceholderText}
+  						/>
+  						<ErrorsBlock names={["region"]} />
+  					</Field>
+  				</ColHalf>
+  				<ColHalf>
+  					<Field name="postal" label={postalLabelText} labelFor={postalInputId} isRequired>
+  						<TextInput
+  							id={postalInputId}
+  							name="postal"
+  							placeholder={postalPlaceholderText}
+  							isOnDarkBackground={isOnDarkBackground}
+  							isReadOnly={isSaving || isReadOnly}
+  						/>
+  						<ErrorsBlock names={["postal"]} />
+  					</Field>
+  				</ColHalf>
 
-          <ColFull>
-            <Field name="phone" label={phoneLabelText} labelFor={phoneInputId} isRequired>
-              <PhoneNumberInput
-                id={phoneInputId}
-                name="phone"
-                placeholder={phonePlaceholderText}
-                isOnDarkBackground={isOnDarkBackground}
-                isReadOnly={isSaving || isReadOnly}
-              />
-              <ErrorsBlock names={["phone"]} />
-            </Field>
-          </ColFull>
-                <ColFull>
-                <GoogleMapComponent {...googleProps}/>
-                </ColFull>
-          {shouldShowIsCommercialField && (
-            <ColFull>
-              <Field name="isCommercial" labelFor={isCommercialInputId}>
-                <Checkbox
-                  id={isCommercialInputId}
-                  name="isCommercial"
-                  label={isCommercialLabelText}
-                  isOnDarkBackground={isOnDarkBackground}
-                  isReadOnly={isSaving || isReadOnly}
-                />
-              </Field>
-            </ColFull>
-          )}
-        </Grid>
-      </Form>
-    );
+  				<ColFull>
+  					<Field name="phone" label={phoneLabelText} labelFor={phoneInputId} isRequired>
+  						<PhoneNumberInput
+  							id={phoneInputId}
+  							name="phone"
+  							placeholder={phonePlaceholderText}
+  							isOnDarkBackground={isOnDarkBackground}
+  							isReadOnly={isSaving || isReadOnly}
+  						/>
+  						<ErrorsBlock names={["phone"]} />
+  					</Field>
+  				</ColFull>
+  				<ColFull>
+  					<GoogleMapComponent {...googleProps}/>
+  				</ColFull>
+  				{shouldShowIsCommercialField && (
+  					<ColFull>
+  						<Field name="isCommercial" labelFor={isCommercialInputId}>
+  							<Checkbox
+  								id={isCommercialInputId}
+  								name="isCommercial"
+  								label={isCommercialLabelText}
+  								isOnDarkBackground={isOnDarkBackground}
+  								isReadOnly={isSaving || isReadOnly}
+  							/>
+  						</Field>
+  					</ColFull>
+  				)}
+  			</Grid>
+  		</Form>
+  	);
   }
 }
 

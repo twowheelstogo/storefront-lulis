@@ -8,41 +8,41 @@ const CustomText2= styled.div`
     color: #B8BCCA;
 `;
 class SearchProductListMobile extends Component{
-    render(){
-        const {
-            items,
-            uiStore,
-            components:{CustomProductCard},
-            addItemsToCart,
-            onChangeCartItemsQuantity,
-            cart,
-            currencyCode
-        } = this.props;
-        return(
-            <Grid container spacing={2}>
-                <Grid item xs={12}>
-                <CustomText2>{`${items.length} coincidencia${items.length==1?"":"s"}`}</CustomText2>
+	render(){
+		const {
+			items,
+			uiStore,
+			components:{CustomProductCard},
+			addItemsToCart,
+			onChangeCartItemsQuantity,
+			cart,
+			currencyCode
+		} = this.props;
+		return(
+			<Grid container spacing={2}>
+				<Grid item xs={12}>
+					<CustomText2>{`${items.length} coincidencia${items.length==1?"":"s"}`}</CustomText2>
             
-                </Grid>
-                {(items||[]).map((item)=>{
-                    const productInCart = (cart?.items||[]).find((cartItem)=>cartItem.productSlug==item.slug);
-                    return{
-                        ...item,
-                        cartItem:productInCart
-                    }
-                }).map((product)=>(
-                    <Grid item xs={6} md={4}>
-                    <CustomProductCard
-                        currencyCode = {currencyCode}
-                        product={product}
-                        uiStore={uiStore}
-                        addItemsToCart={addItemsToCart}
-                        onChangeCartItemsQuantity={onChangeCartItemsQuantity}
-                    />
-                    </Grid>
-                ))}
-            </Grid>
-        );
-    }
+				</Grid>
+				{(items||[]).map((item)=>{
+					const productInCart = (cart?.items||[]).find((cartItem)=>cartItem.productSlug==item.slug);
+					return{
+						...item,
+						cartItem:productInCart
+					};
+				}).map((product)=>(
+					<Grid item xs={6} md={4}>
+						<CustomProductCard
+							currencyCode = {currencyCode}
+							product={product}
+							uiStore={uiStore}
+							addItemsToCart={addItemsToCart}
+							onChangeCartItemsQuantity={onChangeCartItemsQuantity}
+						/>
+					</Grid>
+				))}
+			</Grid>
+		);
+	}
 }
 export default withComponents(SearchProductListMobile);

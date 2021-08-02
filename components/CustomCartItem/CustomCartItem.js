@@ -85,24 +85,24 @@ width: auto;
 }
 `;
 const styles = (theme) => ({
-    root:{
-        padding:theme.spacing(2)
-    },
-    removeButton:{
-        background:theme.palette.primary.main,
-        color:'white',
-        borderRadius:'10px',
-        width:'24px',
-        height:'24px'
+	root:{
+		padding:theme.spacing(2)
+	},
+	removeButton:{
+		background:theme.palette.primary.main,
+		color:"white",
+		borderRadius:"10px",
+		width:"24px",
+		height:"24px"
 
-    },
-    addButon:{
-        background:theme.palette.secondary.light,
-        color:'white',
-        borderRadius:'10px',
-        width:'24px',
-        height:'24px'
-    },
+	},
+	addButon:{
+		background:theme.palette.secondary.light,
+		color:"white",
+		borderRadius:"10px",
+		width:"24px",
+		height:"24px"
+	},
 
 });
 const Controls = styled.div`
@@ -114,73 +114,73 @@ const Controls = styled.div`
 `;
 class CustomCartItem extends React.Component{
     handleRemoveItemFromCart = () => {
-        const { onRemoveItemFromCart, item: { _id } } = this.props;
-        onRemoveItemFromCart(_id);
-      };
+    	const { onRemoveItemFromCart, item: { _id } } = this.props;
+    	onRemoveItemFromCart(_id);
+    };
       handleChangeCartItemQuantity = (value) => {
-        const { onChangeCartItemQuantity, item: { _id } } = this.props;
-        onChangeCartItemQuantity(value, _id);
+      	const { onChangeCartItemQuantity, item: { _id } } = this.props;
+      	onChangeCartItemQuantity(value, _id);
       };
-    render(){
-        const {
-            components,
-            isMiniCart,
-            isReadOnly,
-            productURLPath,
-            classes,
-            item: {
-              attributes,
-              compareAtPrice,
-              currentQuantity,
-              productSlug,
-              productVendor,
-              title,
-              quantity,
-              isLowQuantity,
-              imageURLs,
-              price: { displayAmount: displayPrice },
-              subtotal
-            },
-            removeText,
-            totalText
-          } = this.props;
+      render(){
+      	const {
+      		components,
+      		isMiniCart,
+      		isReadOnly,
+      		productURLPath,
+      		classes,
+      		item: {
+      			attributes,
+      			compareAtPrice,
+      			currentQuantity,
+      			productSlug,
+      			productVendor,
+      			title,
+      			quantity,
+      			isLowQuantity,
+      			imageURLs,
+      			price: { displayAmount: displayPrice },
+      			subtotal
+      		},
+      		removeText,
+      		totalText
+      	} = this.props;
 
-    const { displayAmount: displaySubtotal } = subtotal || {};
-    const { displayAmount: displayCompareAtPrice } = compareAtPrice || {};
-    const imageUrl = `https://api.qbit01.com${imageURLs && imageURLs.original}`;
-        return(
-            <React.Fragment>
-                <Item className={classes.root}>
-                    <ItemLeading>
-                        <img src={imageUrl} width={95} height={95}></img>
-                    </ItemLeading>
-                    <ItemContent>
-                        <ItemTitle>{title}</ItemTitle>
-                        <div>
-                        <Controls>
-                        <IconButton className={classes.removeButton}
-                        onClick={()=> this.handleChangeCartItemQuantity(quantity-1)}>
-                                <RemoveIcon/>
-                            </IconButton>
-                            <ItemTitle>{quantity}</ItemTitle>
-                            <IconButton className={classes.addButon}
-                        onClick={()=> this.handleChangeCartItemQuantity(quantity+1)}>
-                                <AddIcon/>
-                            </IconButton>
-                        </Controls>
-                        <ItemRemoveButton onClick={this.handleRemoveItemFromCart}>{"Remover"}</ItemRemoveButton>
-                        </div>
-                    </ItemContent>
-                    <ItemTrailing>
-                        <ItemSubtitle style={{display:'flex',justifyContent:'flex-end'}}>{displayPrice}</ItemSubtitle>
-                        {quantity!=1 && <div>
-                            <ItemSubtitle style={{display:'flex',justifyContent:'flex-end'}}>{`Total: (${quantity})`}</ItemSubtitle>
-                            <ItemSubtitle style={{display:'flex',justifyContent:'flex-end'}}>{displaySubtotal}</ItemSubtitle>
-                        </div>}
-                    </ItemTrailing>
-                </Item>
-            </React.Fragment>
-        );
-    }
+      	const { displayAmount: displaySubtotal } = subtotal || {};
+      	const { displayAmount: displayCompareAtPrice } = compareAtPrice || {};
+      	const imageUrl = `https://api.qbit01.com${imageURLs && imageURLs.original}`;
+      	return(
+      		<React.Fragment>
+      			<Item className={classes.root}>
+      				<ItemLeading>
+      					<img src={imageUrl} width={95} height={95}></img>
+      				</ItemLeading>
+      				<ItemContent>
+      					<ItemTitle>{title}</ItemTitle>
+      					<div>
+      						<Controls>
+      							<IconButton className={classes.removeButton}
+      								onClick={()=> this.handleChangeCartItemQuantity(quantity-1)}>
+      								<RemoveIcon/>
+      							</IconButton>
+      							<ItemTitle>{quantity}</ItemTitle>
+      							<IconButton className={classes.addButon}
+      								onClick={()=> this.handleChangeCartItemQuantity(quantity+1)}>
+      								<AddIcon/>
+      							</IconButton>
+      						</Controls>
+      						<ItemRemoveButton onClick={this.handleRemoveItemFromCart}>{"Remover"}</ItemRemoveButton>
+      					</div>
+      				</ItemContent>
+      				<ItemTrailing>
+      					<ItemSubtitle style={{display:"flex",justifyContent:"flex-end"}}>{displayPrice}</ItemSubtitle>
+      					{quantity!=1 && <div>
+      						<ItemSubtitle style={{display:"flex",justifyContent:"flex-end"}}>{`Total: (${quantity})`}</ItemSubtitle>
+      						<ItemSubtitle style={{display:"flex",justifyContent:"flex-end"}}>{displaySubtotal}</ItemSubtitle>
+      					</div>}
+      				</ItemTrailing>
+      			</Item>
+      		</React.Fragment>
+      	);
+      }
 }
 export default withStyles(styles)(withComponents(CustomCartItem));

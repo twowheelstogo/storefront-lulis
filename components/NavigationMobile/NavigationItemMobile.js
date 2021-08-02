@@ -16,174 +16,174 @@ import { withStyles } from "@material-ui/core/styles";
 import Link from "components/Link";
 
 const styles = (theme) => ({
-  subNav: {
-    marginBottom: theme.spacing(2)
-  },
-  listItemRoot: {
-    paddingTop: 16,
-    paddingBottom: 16
-  },
-  listItemDense: {
-    paddingTop: 4,
-    paddingBottom: 4
-  },
-  listItemTextDense: {
-    fontWeight: 400
-  },
-  listItemGutters: {
-    paddingRight: 0
-  },
-  subMenuList: {
-    paddingBottom: theme.spacing(2)
-  }
+	subNav: {
+		marginBottom: theme.spacing(2)
+	},
+	listItemRoot: {
+		paddingTop: 16,
+		paddingBottom: 16
+	},
+	listItemDense: {
+		paddingTop: 4,
+		paddingBottom: 4
+	},
+	listItemTextDense: {
+		fontWeight: 400
+	},
+	listItemGutters: {
+		paddingRight: 0
+	},
+	subMenuList: {
+		paddingBottom: theme.spacing(2)
+	}
 });
 
 class NavigationItemMobile extends Component {
   static propTypes = {
-    classes: PropTypes.object,
-    isTopLevel: PropTypes.bool,
-    navItem: PropTypes.object,
-    onClick: PropTypes.func,
-    routingStore: PropTypes.object,
-    shouldShowDivider: PropTypes.bool,
-    uiStore: PropTypes.shape({
-      closeMenuDrawer: PropTypes.func.isRequired
-    })
+  	classes: PropTypes.object,
+  	isTopLevel: PropTypes.bool,
+  	navItem: PropTypes.object,
+  	onClick: PropTypes.func,
+  	routingStore: PropTypes.object,
+  	shouldShowDivider: PropTypes.bool,
+  	uiStore: PropTypes.shape({
+  		closeMenuDrawer: PropTypes.func.isRequired
+  	})
   };
 
   static defaultProps = {
-    classes: {},
-    isTopLevel: false,
-    navItem: {},
-    onClick() {},
-    routingStore: {},
-    shouldShowDivider: true
+  	classes: {},
+  	isTopLevel: false,
+  	navItem: {},
+  	onClick() {},
+  	routingStore: {},
+  	shouldShowDivider: true
   };
 
   state = { isSubNavOpen: false };
 
   get linkPath() {
-    const { navItem, routingStore } = this.props;
-    return routingStore.queryString !== ""
-      ? `${navItem.navigationItem.data.url}?${routingStore.queryString}`
-      : `${navItem.navigationItem.data.url}`;
+  	const { navItem, routingStore } = this.props;
+  	return routingStore.queryString !== ""
+  		? `${navItem.navigationItem.data.url}?${routingStore.queryString}`
+  		: `${navItem.navigationItem.data.url}`;
   }
 
   get hasSubNavItems() {
-    const { navItem: { items } } = this.props;
-    return Array.isArray(items) && items.length > 0;
+  	const { navItem: { items } } = this.props;
+  	return Array.isArray(items) && items.length > 0;
   }
 
   onClick = () => {
-    const { navItem, uiStore, isTopLevel } = this.props;
+  	const { navItem, uiStore, isTopLevel } = this.props;
 
-    if (isTopLevel && this.hasSubNavItems) {
-      this.props.onClick(navItem);
-    } else if (this.hasSubNavItems) {
-      this.setState({ isSubNavOpen: !this.state.isSubNavOpen });
-    } else {
-      const path = this.linkPath;
-      Router.push(path, { slug: navItem.slug });
-      uiStore.closeMenuDrawer();
-    }
+  	if (isTopLevel && this.hasSubNavItems) {
+  		this.props.onClick(navItem);
+  	} else if (this.hasSubNavItems) {
+  		this.setState({ isSubNavOpen: !this.state.isSubNavOpen });
+  	} else {
+  		const path = this.linkPath;
+  		Router.push(path, { slug: navItem.slug });
+  		uiStore.closeMenuDrawer();
+  	}
   };
 
   onClose = () => {
-    this.setState({ isSubNavOpen: false });
+  	this.setState({ isSubNavOpen: false });
   };
 
   renderSubNav() {
-    const { classes, isTopLevel, navItem: { items }, uiStore, routingStore } = this.props;
+  	const { classes, isTopLevel, navItem: { items }, uiStore, routingStore } = this.props;
 
-    if (this.hasSubNavItems && !isTopLevel) {
-      return (
-        <Collapse in={this.state.isSubNavOpen} timeout="auto" unmountOnExit>
-          <MenuList className={classes.subMenuList} component="div" disablePadding>
-            {items.map((item, index) => {
-              const { navigationItem: { data: { classNames: navigationItemClassNames, isUrlRelative, shouldOpenInNewWindow } } } = item;
+  	if (this.hasSubNavItems && !isTopLevel) {
+  		return (
+  			<Collapse in={this.state.isSubNavOpen} timeout="auto" unmountOnExit>
+  				<MenuList className={classes.subMenuList} component="div" disablePadding>
+  					{items.map((item, index) => {
+  						const { navigationItem: { data: { classNames: navigationItemClassNames, isUrlRelative, shouldOpenInNewWindow } } } = item;
 
-              return (
-                <Link
-                  className={navigationItemClassNames}
-                  href={this.linkPath}
-                  isUrlAbsolute={!isUrlRelative}
-                  onClick={this.onClick}
-                  shouldOpenInNewWindow={shouldOpenInNewWindow}
-                >
-                  <NavigationItemMobile
-                    key={index}
-                    classes={classes}
-                    navItem={item}
-                    routingStore={routingStore}
-                    shouldShowDivider={false}
-                    uiStore={uiStore}
-                  />
-                </Link>
-              );
-            })}
-          </MenuList>
-        </Collapse>
-      );
-    }
+  						return (
+  							<Link
+  								className={navigationItemClassNames}
+  								href={this.linkPath}
+  								isUrlAbsolute={!isUrlRelative}
+  								onClick={this.onClick}
+  								shouldOpenInNewWindow={shouldOpenInNewWindow}
+  							>
+  								<NavigationItemMobile
+  									key={index}
+  									classes={classes}
+  									navItem={item}
+  									routingStore={routingStore}
+  									shouldShowDivider={false}
+  									uiStore={uiStore}
+  								/>
+  							</Link>
+  						);
+  					})}
+  				</MenuList>
+  			</Collapse>
+  		);
+  	}
 
-    return null;
+  	return null;
   }
 
   renderIcon() {
-    const { classes, isTopLevel } = this.props;
-    const { isSubNavOpen } = this.state;
-    let icon = null;
+  	const { classes, isTopLevel } = this.props;
+  	const { isSubNavOpen } = this.state;
+  	let icon = null;
 
-    if (this.hasSubNavItems) {
-      if (isTopLevel) {
-        icon = <ChevronRightIcon />;
-      } else if (isSubNavOpen) {
-        icon = <ChevronUpIcon />;
-      } else {
-        icon = <ChevronDownIcon />;
-      }
-    }
+  	if (this.hasSubNavItems) {
+  		if (isTopLevel) {
+  			icon = <ChevronRightIcon />;
+  		} else if (isSubNavOpen) {
+  			icon = <ChevronUpIcon />;
+  		} else {
+  			icon = <ChevronDownIcon />;
+  		}
+  	}
 
-    if (icon) {
-      return <ListItemIcon className={classes.icon}>{icon}</ListItemIcon>;
-    }
+  	if (icon) {
+  		return <ListItemIcon className={classes.icon}>{icon}</ListItemIcon>;
+  	}
 
-    return null;
+  	return null;
   }
 
   render() {
-    const { classes, navItem: { navigationItem: { data } }, shouldShowDivider } = this.props;
+  	const { classes, navItem: { navigationItem: { data } }, shouldShowDivider } = this.props;
 
-    const listItemClasses = classNames(
-      data.classNames,
-      {
-        root: classes.listItemRoot,
-        dense: classes.listItemDense,
-        gutters: classes.listItemGutters
-      }
-    );
+  	const listItemClasses = classNames(
+  		data.classNames,
+  		{
+  			root: classes.listItemRoot,
+  			dense: classes.listItemDense,
+  			gutters: classes.listItemGutters
+  		}
+  	);
 
-    return (
-      <Fragment>
-        <ListItem
-          button
-          classes={listItemClasses}
-          color="inherit"
-          dense={!shouldShowDivider}
-          onClick={this.onClick}
-        >
-          <ListItemText
-            classes={{
-              textDense: classes.listItemTextDense
-            }}
-            primary={data.contentForLanguage}
-          />
-          {this.renderIcon()}
-        </ListItem>
-        {this.renderSubNav()}
-        {shouldShowDivider && <Divider />}
-      </Fragment>
-    );
+  	return (
+  		<Fragment>
+  			<ListItem
+  				button
+  				classes={listItemClasses}
+  				color="inherit"
+  				dense={!shouldShowDivider}
+  				onClick={this.onClick}
+  			>
+  				<ListItemText
+  					classes={{
+  						textDense: classes.listItemTextDense
+  					}}
+  					primary={data.contentForLanguage}
+  				/>
+  				{this.renderIcon()}
+  			</ListItem>
+  			{this.renderSubNav()}
+  			{shouldShowDivider && <Divider />}
+  		</Fragment>
+  	);
   }
 }
 

@@ -5,15 +5,15 @@ import CartIcon from "mdi-material-ui/Cart";
 
 class CartToggle extends Component {
   static propTypes = {
-    onClick: PropTypes.func
+  	onClick: PropTypes.func
   };
 
   render() {
-    return (
-      <IconButton color="inherit" onClick={this.props.onClick}>
-        <CartIcon />
-      </IconButton>
-    );
+  	return (
+  		<IconButton color="inherit" onClick={this.props.onClick}>
+  			<CartIcon />
+  		</IconButton>
+  	);
   }
 }
 

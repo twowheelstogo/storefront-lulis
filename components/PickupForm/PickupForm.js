@@ -23,10 +23,10 @@ const ColHalf = styled.div`
 `;
 class PickupForm extends Component{
     static propTypes = {
-        components: PropTypes.shape({
-            Field: CustomPropTypes.component.isRequired,
-            TextInput: CustomPropTypes.component.isRequired
-        })
+    	components: PropTypes.shape({
+    		Field: CustomPropTypes.component.isRequired,
+    		TextInput: CustomPropTypes.component.isRequired
+    	})
     }
 
     _form = null;
@@ -39,65 +39,65 @@ class PickupForm extends Component{
 
     }
     static defaultProps = {
-        name: "pickup",
-        onChange: () => {},
-        onSubmit: () => {},
-        value: {
-            pickupDate: "20210721",
-            pickupTime: ""
-        }
+    	name: "pickup",
+    	onChange: () => {},
+    	onSubmit: () => {},
+    	value: {
+    		pickupDate: "20210721",
+    		pickupTime: ""
+    	}
     } 
     render(){
-        const {
-            components:{
-                Field,
-                TextInput
-            },
-            value,
-            onChange,
-            onSubmit,
-            name
-        } = this.props;
-        const pickupDateInputId = `pickupDate_${this.uniqueInstanceIdentifier}`;
-        const pickupTimeInputId = `pickupTime_${this.uniqueInstanceIdentifier}`;
-        return(
-            <Form
-            ref = {(formEl) => {
-                this._form = formEl;
-            }}
-            onChange = {onChange}
-            onSubmit = {onSubmit}
-            name = {name}
-            value = {value}
-            revalidateOn = "changed"
-            >
-                <Grid>
-                    <ColHalf>
-                    <Field name="pickupDate" label="Fecha de recogida" labelFor={pickupDateInputId} isRequired>
-                    <TextInput
-                        id={pickupDateInputId}
-                        name="pickupDate"
-                        placeholder={"Fecha"}
-                        type={"date"}
-                        onChange = {(input) => console.log(input)}
-                        // isReadOnly={isSaving || isReadOnly}
-                    />
-                    </Field>
-                    </ColHalf>
-                    <ColHalf>
-                    <Field name="pickupTime" label="Hora de recogida" labelFor={pickupTimeInputId} isRequired>
-                    <TextInput
-                        id={pickupTimeInputId}
-                        name="pickupTime"
-                        placeholder={"Hora"}
-                        type={"time"}
-                        // isReadOnly={isSaving || isReadOnly}
-                    />
-                    </Field>
-                    </ColHalf>
-                </Grid>
-            </Form>
-        );
+    	const {
+    		components:{
+    			Field,
+    			TextInput
+    		},
+    		value,
+    		onChange,
+    		onSubmit,
+    		name
+    	} = this.props;
+    	const pickupDateInputId = `pickupDate_${this.uniqueInstanceIdentifier}`;
+    	const pickupTimeInputId = `pickupTime_${this.uniqueInstanceIdentifier}`;
+    	return(
+    		<Form
+    			ref = {(formEl) => {
+    				this._form = formEl;
+    			}}
+    			onChange = {onChange}
+    			onSubmit = {onSubmit}
+    			name = {name}
+    			value = {value}
+    			revalidateOn = "changed"
+    		>
+    			<Grid>
+    				<ColHalf>
+    					<Field name="pickupDate" label="Fecha de recogida" labelFor={pickupDateInputId} isRequired>
+    						<TextInput
+    							id={pickupDateInputId}
+    							name="pickupDate"
+    							placeholder={"Fecha"}
+    							type={"date"}
+    							onChange = {(input) => console.log(input)}
+    							// isReadOnly={isSaving || isReadOnly}
+    						/>
+    					</Field>
+    				</ColHalf>
+    				<ColHalf>
+    					<Field name="pickupTime" label="Hora de recogida" labelFor={pickupTimeInputId} isRequired>
+    						<TextInput
+    							id={pickupTimeInputId}
+    							name="pickupTime"
+    							placeholder={"Hora"}
+    							type={"time"}
+    							// isReadOnly={isSaving || isReadOnly}
+    						/>
+    					</Field>
+    				</ColHalf>
+    			</Grid>
+    		</Form>
+    	);
     }
 }
 export default withComponents(PickupForm);

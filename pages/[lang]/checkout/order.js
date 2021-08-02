@@ -15,80 +15,80 @@ import fetchPrimaryShop from "staticUtils/shop/fetchPrimaryShop";
 import fetchTranslations from "staticUtils/translations/fetchTranslations";
 
 const styles = (theme) => ({
-  orderThankYou: {
-    marginBottom: theme.spacing(3)
-  },
-  title: {
-    marginBottom: theme.spacing(3)
-  }
+	orderThankYou: {
+		marginBottom: theme.spacing(3)
+	},
+	title: {
+		marginBottom: theme.spacing(3)
+	}
 });
 
 class CheckoutComplete extends Component {
   static propTypes = {
-    classes: PropTypes.object,
-    isLoadingOrder: PropTypes.bool,
-    order: PropTypes.shape({
-      email: PropTypes.string.isRequired,
-      referenceId: PropTypes.string.isRequired
-    }),
-    shop: PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      description: PropTypes.string
-    }),
-    theme: PropTypes.object.isRequired
+  	classes: PropTypes.object,
+  	isLoadingOrder: PropTypes.bool,
+  	order: PropTypes.shape({
+  		email: PropTypes.string.isRequired,
+  		referenceId: PropTypes.string.isRequired
+  	}),
+  	shop: PropTypes.shape({
+  		name: PropTypes.string.isRequired,
+  		description: PropTypes.string
+  	}),
+  	theme: PropTypes.object.isRequired
   };
 
   render() {
-    const { classes, isLoadingOrder, order, shop } = this.props;
+  	const { classes, isLoadingOrder, order, shop } = this.props;
 
-    if (isLoadingOrder) {
-      return (
-        <Layout shop={shop}>
-          <PageLoading message="Loading order details..." />
-        </Layout>
-      );
-    }
+  	if (isLoadingOrder) {
+  		return (
+  			<Layout shop={shop}>
+  				<PageLoading message="Loading order details..." />
+  			</Layout>
+  		);
+  	}
 
-    if (!order) {
-      return (
-        <Layout shop={shop}>
-          <div className={classes.checkoutContentContainer}>
-            <div className={classes.orderDetails}>
-              <section className={classes.section}>
-                <Typography className={classes.title} variant="h6">Order not found</Typography>
-              </section>
-            </div>
-          </div>
-        </Layout>
-      );
-    }
+  	if (!order) {
+  		return (
+  			<Layout shop={shop}>
+  				<div className={classes.checkoutContentContainer}>
+  					<div className={classes.orderDetails}>
+  						<section className={classes.section}>
+  							<Typography className={classes.title} variant="h6">Order not found</Typography>
+  						</section>
+  					</div>
+  				</div>
+  			</Layout>
+  		);
+  	}
 
-    return (
-      <Layout shop={shop}>
-        <Helmet>
-          <title>{shop && shop.name} | Checkout</title>
-          <meta name="description" content={shop && shop.description} />
-        </Helmet>
-        <Grid container>
-          <Grid item xs={false} md={3} /> {/* MUI grid doesn't have an offset. Use blank grid item instead. */}
-          <Grid item xs={12} md={6}>
-            <Grid item className={classes.orderThankYou} xs={12} md={12}>
-              <Typography className={classes.title} variant="h6">Gracias por tu compra</Typography>
-              <Typography variant="body1">
-                {"El ID de tu orden es:"} <strong>{order.referenceId}</strong>
-              </Typography>
-              <Typography variant="body1">
-                {"Te enviamos un correo de confirmación a:"} <strong>{order.email}</strong>
-              </Typography>
-            </Grid>
-            <Grid item xs={12} md={12}>
-              <OrderCard isExpanded={true} order={order} />
-            </Grid>
-          </Grid>
-          <Grid item xs={false} md={3} /> {/* MUI grid doesn't have an offset. Use blank grid item instead. */}
-        </Grid>
-      </Layout>
-    );
+  	return (
+  		<Layout shop={shop}>
+  			<Helmet>
+  				<title>{shop && shop.name} | Checkout</title>
+  				<meta name="description" content={shop && shop.description} />
+  			</Helmet>
+  			<Grid container>
+  				<Grid item xs={false} md={3} /> {/* MUI grid doesn't have an offset. Use blank grid item instead. */}
+  				<Grid item xs={12} md={6}>
+  					<Grid item className={classes.orderThankYou} xs={12} md={12}>
+  						<Typography className={classes.title} variant="h6">Gracias por tu compra</Typography>
+  						<Typography variant="body1">
+  							{"El ID de tu orden es:"} <strong>{order.referenceId}</strong>
+  						</Typography>
+  						<Typography variant="body1">
+  							{"Te enviamos un correo de confirmación a:"} <strong>{order.email}</strong>
+  						</Typography>
+  					</Grid>
+  					<Grid item xs={12} md={12}>
+  						<OrderCard isExpanded={true} order={order} />
+  					</Grid>
+  				</Grid>
+  				<Grid item xs={false} md={3} /> {/* MUI grid doesn't have an offset. Use blank grid item instead. */}
+  			</Grid>
+  		</Layout>
+  	);
   }
 }
 
@@ -97,14 +97,14 @@ class CheckoutComplete extends Component {
  *
  * @returns {Object} the props
  */
- export async function getStaticProps({ params: { lang } }) {
-  const primaryShop = await fetchPrimaryShop(lang);
-  const translations = await fetchTranslations(lang, ["common"]);
-  if (!primaryShop) {
+export async function getStaticProps({ params: { lang } }) {
+	const primaryShop = await fetchPrimaryShop(lang);
+	const translations = await fetchTranslations(lang, ["common"]);
+	if (!primaryShop) {
 		return {
 			props: {
-			shop: null,
-			...translations
+				shop: null,
+				...translations
 			},
 			// eslint-disable-next-line camelcase
 			unstable_revalidate: 1 // Revalidate immediately
@@ -127,10 +127,10 @@ class CheckoutComplete extends Component {
  * @returns {Object} the props
  */
 export async function getStaticPaths() {
-  return {
-    paths: locales.map((locale) => ({ params: { lang: locale } })),
-    fallback: true
-  };
+	return {
+		paths: locales.map((locale) => ({ params: { lang: locale } })),
+		fallback: true
+	};
 }
 
 export default withApollo()(withOrder(withStyles(styles, { withTheme: true })(CheckoutComplete)));

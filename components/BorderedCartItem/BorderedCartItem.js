@@ -5,7 +5,7 @@ import {withStyles} from "@material-ui/core/styles";
 import Divider from "@material-ui/core/Divider";
 import IconButton from "@material-ui/core/IconButton";
 import AddIcon from "@material-ui/icons/Add";
-import CloseIcon from "@material-ui/icons/Close"
+import CloseIcon from "@material-ui/icons/Close";
 import RemoveIcon from "@material-ui/icons/Remove";import { addTypographyStyles, applyTheme, CustomPropTypes } from "@reactioncommerce/components/utils";
 const Item = styled.div`
     display: flex;
@@ -81,34 +81,34 @@ width: auto;
 }
 `;
 const styles = (theme) => ({
-    root:{
-        padding:theme.spacing(2)
-    },
-    removeButton:{
-        background:theme.palette.primary.main,
-        color:'white',
-        borderRadius:'10px',
-        width:'24px',
-        height:'24px'
+	root:{
+		padding:theme.spacing(2)
+	},
+	removeButton:{
+		background:theme.palette.primary.main,
+		color:"white",
+		borderRadius:"10px",
+		width:"24px",
+		height:"24px"
 
-    },
-    addButon:{
-        background:theme.palette.secondary.light,
-        color:'white',
-        borderRadius:'10px',
-        width:'24px',
-        height:'24px'
-    },
-    closeButton:{
-        background:"#C4C4C4",
-        color:'black',
-        borderRadius:'10px',
-        width:'24px',
-        height:'24px',
-    },
-    image:{
-        borderRadius: '10px'
-    }
+	},
+	addButon:{
+		background:theme.palette.secondary.light,
+		color:"white",
+		borderRadius:"10px",
+		width:"24px",
+		height:"24px"
+	},
+	closeButton:{
+		background:"#C4C4C4",
+		color:"black",
+		borderRadius:"10px",
+		width:"24px",
+		height:"24px",
+	},
+	image:{
+		borderRadius: "10px"
+	}
 });
 const Controls = styled.div`
     display: flex;
@@ -119,80 +119,80 @@ const Controls = styled.div`
 `;
 class BorderedCartItem extends React.Component{
     handleRemoveItemFromCart = () => {
-        const { onRemoveItemFromCart, item: { _id } } = this.props;
-        onRemoveItemFromCart(_id);
-      };
+    	const { onRemoveItemFromCart, item: { _id } } = this.props;
+    	onRemoveItemFromCart(_id);
+    };
       handleChangeCartItemQuantity = (value) => {
-        const { onChangeCartItemQuantity, item: { _id } } = this.props;
-        onChangeCartItemQuantity(value, _id);
+      	const { onChangeCartItemQuantity, item: { _id } } = this.props;
+      	onChangeCartItemQuantity(value, _id);
       };
-    render(){
-        const {
-            components,
-            isMiniCart,
-            isReadOnly,
-            productURLPath,
-            classes,
-            item: {
-              attributes,
-              compareAtPrice,
-              currentQuantity,
-              productSlug,
-              productVendor,
-              title,
-              quantity,
-              isLowQuantity,
-              imageURLs,
-              price: { displayAmount: displayPrice },
-              subtotal
-            },
-            removeText,
-            totalText
-          } = this.props;
+      render(){
+      	const {
+      		components,
+      		isMiniCart,
+      		isReadOnly,
+      		productURLPath,
+      		classes,
+      		item: {
+      			attributes,
+      			compareAtPrice,
+      			currentQuantity,
+      			productSlug,
+      			productVendor,
+      			title,
+      			quantity,
+      			isLowQuantity,
+      			imageURLs,
+      			price: { displayAmount: displayPrice },
+      			subtotal
+      		},
+      		removeText,
+      		totalText
+      	} = this.props;
 
-    const { displayAmount: displaySubtotal } = subtotal || {};
-    const { displayAmount: displayCompareAtPrice } = compareAtPrice || {};
-    const imageUrl = `https://api.qbit01.com${imageURLs && imageURLs.original}`;
-        return(
-            <React.Fragment>
-                <Item className={classes.root}>
-                    <ItemBody>
-                    <ItemLeading>
-                        <img className={classes.image} src={imageUrl} width={70} height={70}></img>
-                    </ItemLeading>
-                    <ItemContent>
-                        <ItemTitle>{title}</ItemTitle>
-                        <ItemTitle>{displayPrice}</ItemTitle>
-                    </ItemContent>
-                    <ItemTrailing>
-                        {/* <ItemSubtitle style={{display:'flex',justifyContent:'flex-end'}}>{displayPrice}</ItemSubtitle> */}
-                        {quantity!=1 && <div>
-                            <ItemSubtitle style={{display:'flex',justifyContent:'flex-end'}}>{`Total: (${quantity})`}</ItemSubtitle>
-                            <ItemSubtitle style={{display:'flex',justifyContent:'flex-end'}}>{displaySubtotal}</ItemSubtitle>
-                        </div>}
-                    </ItemTrailing>
-                    </ItemBody>
-                    <ItemActions>
-                        <IconButton className={classes.closeButton}
-                        onClick={this.handleRemoveItemFromCart}>
-                                <CloseIcon fontSize="small"/>
-                            </IconButton>
-                        <Controls>
-                        <IconButton className={classes.removeButton}
-                        onClick={()=> this.handleChangeCartItemQuantity(quantity-1)}>
-                                <RemoveIcon/>
-                            </IconButton>
-                            <ItemTitle>{quantity}</ItemTitle>
-                            <IconButton className={classes.addButon}
-                        onClick={()=> this.handleChangeCartItemQuantity(quantity+1)}>
-                                <AddIcon/>
-                            </IconButton>
-                        </Controls>
-                        </ItemActions>
-                </Item>
-            </React.Fragment>
-        );
-    }
+      	const { displayAmount: displaySubtotal } = subtotal || {};
+      	const { displayAmount: displayCompareAtPrice } = compareAtPrice || {};
+      	const imageUrl = `https://api.qbit01.com${imageURLs && imageURLs.original}`;
+      	return(
+      		<React.Fragment>
+      			<Item className={classes.root}>
+      				<ItemBody>
+      					<ItemLeading>
+      						<img className={classes.image} src={imageUrl} width={70} height={70}></img>
+      					</ItemLeading>
+      					<ItemContent>
+      						<ItemTitle>{title}</ItemTitle>
+      						<ItemTitle>{displayPrice}</ItemTitle>
+      					</ItemContent>
+      					<ItemTrailing>
+      						{/* <ItemSubtitle style={{display:'flex',justifyContent:'flex-end'}}>{displayPrice}</ItemSubtitle> */}
+      						{quantity!=1 && <div>
+      							<ItemSubtitle style={{display:"flex",justifyContent:"flex-end"}}>{`Total: (${quantity})`}</ItemSubtitle>
+      							<ItemSubtitle style={{display:"flex",justifyContent:"flex-end"}}>{displaySubtotal}</ItemSubtitle>
+      						</div>}
+      					</ItemTrailing>
+      				</ItemBody>
+      				<ItemActions>
+      					<IconButton className={classes.closeButton}
+      						onClick={this.handleRemoveItemFromCart}>
+      						<CloseIcon fontSize="small"/>
+      					</IconButton>
+      					<Controls>
+      						<IconButton className={classes.removeButton}
+      							onClick={()=> this.handleChangeCartItemQuantity(quantity-1)}>
+      							<RemoveIcon/>
+      						</IconButton>
+      						<ItemTitle>{quantity}</ItemTitle>
+      						<IconButton className={classes.addButon}
+      							onClick={()=> this.handleChangeCartItemQuantity(quantity+1)}>
+      							<AddIcon/>
+      						</IconButton>
+      					</Controls>
+      				</ItemActions>
+      			</Item>
+      		</React.Fragment>
+      	);
+      }
 }
 //const imageUrl = "http://localhost:3000/assets/files/Media/dsia87CQqKqJtLueo/small/6%20mini%20cranberry.png";
 export default withStyles(styles)(withComponents(BorderedCartItem));

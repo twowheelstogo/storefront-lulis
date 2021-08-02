@@ -13,64 +13,64 @@ import catalogItemsQuery from "./catalogItems.gql";
  * @returns {React.Component} - component decorated with primaryShopId and catalog as props
  */
 export default function withCatalogItems(Component) {
-  class CatalogItems extends React.Component {
+	class CatalogItems extends React.Component {
     static propTypes = {
-      primaryShopId: PropTypes.string,
-      routingStore: PropTypes.object.isRequired,
-      tag: PropTypes.shape({
-        _id: PropTypes.string.isRequired
-      }),
-      uiStore: PropTypes.object.isRequired
+    	primaryShopId: PropTypes.string,
+    	routingStore: PropTypes.object.isRequired,
+    	tag: PropTypes.shape({
+    		_id: PropTypes.string.isRequired
+    	}),
+    	uiStore: PropTypes.object.isRequired
     };
 
     render() {
-      const { primaryShopId, routingStore, uiStore, tag } = this.props;
-      const [sortBy, sortOrder] = uiStore.sortBy.split("-");
-      const tagIds = tag && [tag._id];
+    	const { primaryShopId, routingStore, uiStore, tag } = this.props;
+    	const [sortBy, sortOrder] = uiStore.sortBy.split("-");
+    	const tagIds = tag && [tag._id];
 
-      if (!primaryShopId) {
-        return (
-          <Component
-            {...this.props}
-          />
-        );
-      }
+    	if (!primaryShopId) {
+    		return (
+    			<Component
+    				{...this.props}
+    			/>
+    		);
+    	}
 
-      const variables = {
-        shopId: primaryShopId,
-        ...paginationVariablesFromUrlParams(routingStore.query, { defaultPageLimit: uiStore.pageSize }),
-        tagIds,
-        sortBy,
-        sortByPriceCurrencyCode: uiStore.sortByCurrencyCode,
-        sortOrder
-      };
+    	const variables = {
+    		shopId: primaryShopId,
+    		...paginationVariablesFromUrlParams(routingStore.query, { defaultPageLimit: uiStore.pageSize }),
+    		tagIds,
+    		sortBy,
+    		sortByPriceCurrencyCode: uiStore.sortByCurrencyCode,
+    		sortOrder
+    	};
 
-      return (
-        <Query errorPolicy="all" query={catalogItemsQuery} variables={variables}>
-          {({ data, fetchMore, loading }) => {
-            const { catalogItems } = data || {};
+    	return (
+    		<Query errorPolicy="all" query={catalogItemsQuery} variables={variables}>
+    			{({ data, fetchMore, loading }) => {
+    				const { catalogItems } = data || {};
 
-            return (
-              <Component
-                {...this.props}
-                catalogItemsPageInfo={pagination({
-                  fetchMore,
-                  routingStore,
-                  data,
-                  queryName: "catalogItems",
-                  limit: uiStore.pageSize
-                })}
-                catalogItems={(catalogItems && catalogItems.edges) || []}
-                isLoadingCatalogItems={loading}
-              />
-            );
-          }}
-        </Query>
-      );
+    				return (
+    					<Component
+    						{...this.props}
+    						catalogItemsPageInfo={pagination({
+    							fetchMore,
+    							routingStore,
+    							data,
+    							queryName: "catalogItems",
+    							limit: uiStore.pageSize
+    						})}
+    						catalogItems={(catalogItems && catalogItems.edges) || []}
+    						isLoadingCatalogItems={loading}
+    					/>
+    				);
+    			}}
+    		</Query>
+    	);
     }
-  }
+	}
 
-  hoistNonReactStatic(CatalogItems, Component);
+	hoistNonReactStatic(CatalogItems, Component);
 
-  return inject("primaryShopId", "routingStore", "uiStore")(CatalogItems);
+	return inject("primaryShopId", "routingStore", "uiStore")(CatalogItems);
 }

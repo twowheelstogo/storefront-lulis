@@ -38,8 +38,7 @@
       {
         "files": [
           "*.ts",
-          "*.tsx",
-          "*.js"
+          "*.tsx"
         ],
         "rules": {
           "comma-dangle": "off",
@@ -47,16 +46,6 @@
           "quote-props": "off",
           "react/prop-types": "off",
           "react/jsx-max-props-per-line": "off"
-        },
-        "parser": "babel-eslint",
-        "parserOptions": {
-          "ecmaVersion": 6,
-          "sourceType": "module",
-          "ecmaFeatures": {
-            "jsx": true,
-            "modules": true,
-            "experimentalObjectRestSpread": true
-          }
         }
       }
     ]

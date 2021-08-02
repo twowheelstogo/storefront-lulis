@@ -76,107 +76,107 @@ const LIST = "list";
 
 class AccordionFormList extends Component {
   static propTypes = {
-    /**
+  	/**
      * Text to show on the button for adding a new item to the list
      */
-    addNewItemButtonText: PropTypes.string,
-    /**
+  	addNewItemButtonText: PropTypes.string,
+  	/**
      * The text for the "Cancel" text, if it is shown.
      */
-    cancelButtonText: PropTypes.string,
-    /**
+  	cancelButtonText: PropTypes.string,
+  	/**
      * You can provide a `className` prop that will be applied to the outermost DOM element
      * rendered by this component. We do not recommend using this for styling purposes, but
      * it can be useful as a selector in some situations.
      */
-    className: PropTypes.string,
-    /**
+  	className: PropTypes.string,
+  	/**
      * If you've set up a components context using @reactioncommerce/components-context
      * (recommended), then this prop will come from there automatically. If you have not
      * set up a components context or you want to override one of the components in a
      * single spot, you can pass in the components prop directly.
      */
-    components: PropTypes.shape({
-      /**
+  	components: PropTypes.shape({
+  		/**
        * Pass either the Reaction Accordion component or your own component that
        * accepts compatible props.
        */
-      Accordion: CustomPropTypes.component.isRequired,
-      /**
+  		Accordion: CustomPropTypes.component.isRequired,
+  		/**
        * Pass either the Reaction iconPlus component or your own component that
        * accepts compatible props.
        */
-      iconPlus: PropTypes.node.isRequired,
-      /**
+  		iconPlus: PropTypes.node.isRequired,
+  		/**
        * The form component to render when adding a new item. It must have a
        * "submit" method on the instance or forward "ref" to a component that does.
        */
-      ItemAddForm: CustomPropTypes.component.isRequired,
-      /**
+  		ItemAddForm: CustomPropTypes.component.isRequired,
+  		/**
        * The form component to render when editing an item. It must have a
        * "submit" method on the instance or forward "ref" to a component that does.
        */
-      ItemEditForm: CustomPropTypes.component.isRequired
-    }).isRequired,
-    /**
+  		ItemEditForm: CustomPropTypes.component.isRequired
+  	}).isRequired,
+  	/**
      * Text to show on the button for deleting an item from the list
      */
-    deleteItemButtonText: PropTypes.string,
-    /**
+  	deleteItemButtonText: PropTypes.string,
+  	/**
      * Text to show on the button for submitting the new item entry form
      */
-    entryFormSubmitButtonText: PropTypes.string,
-    /**
+  	entryFormSubmitButtonText: PropTypes.string,
+  	/**
      * Is some async operation happening? Puts buttons into waiting state
      */
-    isWaiting: PropTypes.bool,
-    /**
+  	isWaiting: PropTypes.bool,
+  	/**
      * Arbitrary props to pass to ItemAddForm instance
      */
-    itemAddFormProps: PropTypes.object,
-    /**
+  	itemAddFormProps: PropTypes.object,
+  	/**
      * The list of items to show accordion edit forms for
      */
-    items: PropTypes.arrayOf(PropTypes.shape({
-      /**
+  	items: PropTypes.arrayOf(PropTypes.shape({
+  		/**
        * Accordion detail
        */
-      detail: PropTypes.string,
-      /**
+  		detail: PropTypes.string,
+  		/**
        * A unique ID
        */
-      id: PropTypes.string.isRequired,
-      /**
+  		id: PropTypes.string.isRequired,
+  		/**
        * Arbitrary props to pass to ItemEditForm instance
        */
-      itemEditFormProps: PropTypes.object,
-      /**
+  		itemEditFormProps: PropTypes.object,
+  		/**
        * Accordion label
        */
-      label: PropTypes.string.isRequired
-    })),
-    /**
+  		label: PropTypes.string.isRequired
+  	})),
+  	/**
      * Handles item deletion from list
      */
-    onItemDeleted: PropTypes.func,
-    /**
+  	onItemDeleted: PropTypes.func,
+  	/**
      * The text for the "Save" text, if it is shown.
      */
-    saveButtonText: PropTypes.string
+  	saveButtonText: PropTypes.string
   };
 
   static defaultProps = {
-    addNewItemButtonText: "Add an item",
-    deleteItemButtonText: "Delete this item",
-    entryFormSubmitButtonText: "Add item",
-    cancelButtonText: "Cancel",
-    saveButtonText: "Save Changes",
-    isWaiting: false,
-    onItemDeleted() {}
+  	addNewItemButtonText: "Add an item",
+  	deleteItemButtonText: "Delete this item",
+  	entryFormSubmitButtonText: "Add item",
+  	cancelButtonText: "Cancel",
+  	saveButtonText: "Save Changes",
+  	isWaiting: false,
+  	onItemDeleted() {}
   };
 
   state = {
-    status: LIST
+  	status: LIST
   };
 
   _refs = {};
@@ -185,128 +185,128 @@ class AccordionFormList extends Component {
   // Handler Methods
   //
   handleDeleteItem = (itemId) => {
-    const { onItemDeleted } = this.props;
-    onItemDeleted(itemId);
+  	const { onItemDeleted } = this.props;
+  	onItemDeleted(itemId);
   };
 
   handleAddClick = () => {
-    this.showEntryForm();
+  	this.showEntryForm();
   };
 
   handleEntryFormCancel = () => {
-    this.showList();
+  	this.showList();
   };
 
   showEntryForm() {
-    this.setState({ status: ENTRY });
+  	this.setState({ status: ENTRY });
   }
 
   showList() {
-    this.setState({ status: LIST });
+  	this.setState({ status: LIST });
   }
 
   toggleAccordionForItem(itemId) {
-    this._refs[`accordion_${itemId}`].toggle();
+  	this._refs[`accordion_${itemId}`].toggle();
   }
 
   //
   // Render Methods
   //
   renderAccordion() {
-    const {
-      addNewItemButtonText,
-      cancelButtonText,
-      components: { Accordion, Button, iconPlus, ItemEditForm },
-      deleteItemButtonText,
-      isWaiting,
-      items,
-      saveButtonText
-    } = this.props;
-    return (
-      <Fragment>
-        {items && items.map(({ detail, id, itemEditFormProps, label }) => (
-          <Accordion
-            key={id}
-            label={label}
-            detail={detail}
-            ref={(el) => {
-              this._refs[`accordion_${id}`] = el;
-            }}
-          >
-            <ItemEditForm
-              {...itemEditFormProps}
-              ref={(el) => {
-                this._refs[`editForm_${id}`] = el;
-              }}
-            />
-            <FormActions>
-              <FormActionDelete>
-                <Button
-                  actionType="secondaryDanger"
-                  isTextOnlyNoPadding
-                  isShortHeight
-                  onClick={() => {
-                    this.handleDeleteItem(id);
-                  }}
-                >
-                  {deleteItemButtonText}
-                </Button>
-              </FormActionDelete>
-              <Button
-                actionType="secondary"
-                isShortHeight
-                onClick={() => {
-                  this.toggleAccordionForItem(id);
-                }}
-              >
-                {cancelButtonText}
-              </Button>
-              <Button onClick={() => this._refs[`editForm_${id}`].submit()} isShortHeight isWaiting={isWaiting}>
-                {saveButtonText}
-              </Button>
-            </FormActions>
-          </Accordion>
-        ))}
-        <AddNewItemAction listCount={items && items.length}>
-          <AddNewItemActionButton onClick={this.handleAddClick} tabIndex={0}>
-            <AddNewItemActionIcon>{iconPlus}</AddNewItemActionIcon>
-            {addNewItemButtonText}
-          </AddNewItemActionButton>
-        </AddNewItemAction>
-      </Fragment>
-    );
+  	const {
+  		addNewItemButtonText,
+  		cancelButtonText,
+  		components: { Accordion, Button, iconPlus, ItemEditForm },
+  		deleteItemButtonText,
+  		isWaiting,
+  		items,
+  		saveButtonText
+  	} = this.props;
+  	return (
+  		<Fragment>
+  			{items && items.map(({ detail, id, itemEditFormProps, label }) => (
+  				<Accordion
+  					key={id}
+  					label={label}
+  					detail={detail}
+  					ref={(el) => {
+  						this._refs[`accordion_${id}`] = el;
+  					}}
+  				>
+  					<ItemEditForm
+  						{...itemEditFormProps}
+  						ref={(el) => {
+  							this._refs[`editForm_${id}`] = el;
+  						}}
+  					/>
+  					<FormActions>
+  						<FormActionDelete>
+  							<Button
+  								actionType="secondaryDanger"
+  								isTextOnlyNoPadding
+  								isShortHeight
+  								onClick={() => {
+  									this.handleDeleteItem(id);
+  								}}
+  							>
+  								{deleteItemButtonText}
+  							</Button>
+  						</FormActionDelete>
+  						<Button
+  							actionType="secondary"
+  							isShortHeight
+  							onClick={() => {
+  								this.toggleAccordionForItem(id);
+  							}}
+  						>
+  							{cancelButtonText}
+  						</Button>
+  						<Button onClick={() => this._refs[`editForm_${id}`].submit()} isShortHeight isWaiting={isWaiting}>
+  							{saveButtonText}
+  						</Button>
+  					</FormActions>
+  				</Accordion>
+  			))}
+  			<AddNewItemAction listCount={items && items.length}>
+  				<AddNewItemActionButton onClick={this.handleAddClick} tabIndex={0}>
+  					<AddNewItemActionIcon>{iconPlus}</AddNewItemActionIcon>
+  					{addNewItemButtonText}
+  				</AddNewItemActionButton>
+  			</AddNewItemAction>
+  		</Fragment>
+  	);
   }
 
   renderEntryForm() {
-    const { cancelButtonText, components: { Button, ItemAddForm }, entryFormSubmitButtonText, isWaiting, itemAddFormProps } = this.props;
-    return (
-      <Fragment>
-        <ItemAddForm
-          {...itemAddFormProps}
-          ref={(el) => {
-            this._addItemForm = el;
-          }}
-        />
-        <FormActions>
-          <Button actionType="secondary" onClick={this.handleEntryFormCancel}>
-            {cancelButtonText}
-          </Button>
-          <Button onClick={() => this._addItemForm.submit()} isWaiting={isWaiting}>
-            {entryFormSubmitButtonText}
-          </Button>
-        </FormActions>
-      </Fragment>
-    );
+  	const { cancelButtonText, components: { Button, ItemAddForm }, entryFormSubmitButtonText, isWaiting, itemAddFormProps } = this.props;
+  	return (
+  		<Fragment>
+  			<ItemAddForm
+  				{...itemAddFormProps}
+  				ref={(el) => {
+  					this._addItemForm = el;
+  				}}
+  			/>
+  			<FormActions>
+  				<Button actionType="secondary" onClick={this.handleEntryFormCancel}>
+  					{cancelButtonText}
+  				</Button>
+  				<Button onClick={() => this._addItemForm.submit()} isWaiting={isWaiting}>
+  					{entryFormSubmitButtonText}
+  				</Button>
+  			</FormActions>
+  		</Fragment>
+  	);
   }
 
   render() {
-    const { className } = this.props;
-    const { status } = this.state;
-    return (
-      <div className={className}>
-        {status === LIST ? this.renderAccordion() : this.renderEntryForm()}
-      </div>
-    );
+  	const { className } = this.props;
+  	const { status } = this.state;
+  	return (
+  		<div className={className}>
+  			{status === LIST ? this.renderAccordion() : this.renderEntryForm()}
+  		</div>
+  	);
   }
 }
 

@@ -26,45 +26,45 @@ import withCatalogItems from "containers/catalog/withCatalogItems";
  * @return {String} Stringified product jsonld
  */
 function buildJSONLd(product, shop) {
-  if (!product || !shop) return "";
+	if (!product || !shop) return "";
 
-  const currencyCode = shop.currency.code || "GTQ";
-  const priceData = product.pricing[0];
-  const images = product.media.map((image) => image.URLs.original);
+	const currencyCode = shop.currency.code || "GTQ";
+	const priceData = product.pricing[0];
+	const images = product.media.map((image) => image.URLs.original);
 
-  let productAvailability = "http://schema.org/InStock";
-  if (product.isLowQuantity) {
-    productAvailability = "http://schema.org/LimitedAvailability";
-  }
-  if (product.isBackorder && product.isSoldOut) {
-    productAvailability = "http://schema.org/PreOrder";
-  }
-  if (!product.isBackorder && product.isSoldOut) {
-    productAvailability = "http://schema.org/SoldOut";
-  }
+	let productAvailability = "http://schema.org/InStock";
+	if (product.isLowQuantity) {
+		productAvailability = "http://schema.org/LimitedAvailability";
+	}
+	if (product.isBackorder && product.isSoldOut) {
+		productAvailability = "http://schema.org/PreOrder";
+	}
+	if (!product.isBackorder && product.isSoldOut) {
+		productAvailability = "http://schema.org/SoldOut";
+	}
 
-  // Recommended data from https://developers.google.com/search/docs/data-types/product
-  const productJSON = {
-    "@context": "http://schema.org/",
-    "@type": "Product",
-    "brand": product.vendor,
-    "description": product.description,
-    "image": images,
-    "name": product.title,
-    "sku": product.sku,
-    "offers": {
-      "@type": "Offer",
-      "priceCurrency": currencyCode,
-      "price": priceData.minPrice,
-      "availability": productAvailability,
-      "seller": {
-        "@type": "Organization",
-        "name": shop.name
-      }
-    }
-  };
+	// Recommended data from https://developers.google.com/search/docs/data-types/product
+	const productJSON = {
+		"@context": "http://schema.org/",
+		"@type": "Product",
+		"brand": product.vendor,
+		"description": product.description,
+		"image": images,
+		"name": product.title,
+		"sku": product.sku,
+		"offers": {
+			"@type": "Offer",
+			"priceCurrency": currencyCode,
+			"price": priceData.minPrice,
+			"availability": productAvailability,
+			"seller": {
+				"@type": "Organization",
+				"name": shop.name
+			}
+		}
+	};
 
-  return JSON.stringify(productJSON);
+	return JSON.stringify(productJSON);
 }
 
 /**
@@ -77,62 +77,62 @@ function buildJSONLd(product, shop) {
  * @return {React.Component} The product detail page
  */
 function ProductDetailPage({ addItemsToCart, product, isLoadingProduct, shop,catalogItems,cart,onChangeCartItemsQuantity }) {
-  const router = useRouter();
-  const currencyCode = (shop && shop.currency.code) || "GTQ";
-  const JSONLd = useMemo(() => {
-    if (product && shop) {
-      return buildJSONLd(product, shop);
-    }
-    return null;
-  }, [product, shop]);
+	const router = useRouter();
+	const currencyCode = (shop && shop.currency.code) || "GTQ";
+	const JSONLd = useMemo(() => {
+		if (product && shop) {
+			return buildJSONLd(product, shop);
+		}
+		return null;
+	}, [product, shop]);
 
-  if (isLoadingProduct || router.isFallback) return <PageLoading />;
-  if (!product || !shop) return <Typography>Not Found</Typography>;
-  return (
-    <Layout shop={shop}>
-      <Helmet
-        title={`${product && product.title} | ${shop && shop.name}`}
-        meta={[{ name: "description", content: product && product.description }]}
-        script={[{ type: "application/ld+json", innerHTML: JSONLd }]}
-      />
-      {/* <ProductDetail
+	if (isLoadingProduct || router.isFallback) return <PageLoading />;
+	if (!product || !shop) return <Typography>Not Found</Typography>;
+	return (
+		<Layout shop={shop}>
+			<Helmet
+				title={`${product && product.title} | ${shop && shop.name}`}
+				meta={[{ name: "description", content: product && product.description }]}
+				script={[{ type: "application/ld+json", innerHTML: JSONLd }]}
+			/>
+			{/* <ProductDetail
         addItemsToCart={addItemsToCart}
         currencyCode={currencyCode}
         product={product}
         shop={shop}
       /> */}
-      <CustomProductDetails
-      addItemsToCart={addItemsToCart}
-      currencyCode={currencyCode}
-      product={product}
-      relatedProducts={(catalogItems||[])}
-      shop={shop}
-      cart={cart}
-      onChangeCartItemsQuantity={onChangeCartItemsQuantity}
-      />
-    </Layout>
-  );
+			<CustomProductDetails
+				addItemsToCart={addItemsToCart}
+				currencyCode={currencyCode}
+				product={product}
+				relatedProducts={(catalogItems||[])}
+				shop={shop}
+				cart={cart}
+				onChangeCartItemsQuantity={onChangeCartItemsQuantity}
+			/>
+		</Layout>
+	);
 }
 
 ProductDetailPage.propTypes = {
-  /**
+	/**
    * Function to add items to a cart, usually using the addItemsToCart from @withCart decorator.
    *
    * @example addItemsToCart(CartItemInput)
    * @type function
    */
-  addItemsToCart: PropTypes.func,
-  isLoadingProduct: PropTypes.bool,
-  /**
+	addItemsToCart: PropTypes.func,
+	isLoadingProduct: PropTypes.bool,
+	/**
    * Catalog Product item
    */
-  product: PropTypes.object,
-  shop: PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    currency: PropTypes.shape({
-      code: PropTypes.string.isRequired
-    })
-  })
+	product: PropTypes.object,
+	shop: PropTypes.shape({
+		name: PropTypes.string.isRequired,
+		currency: PropTypes.shape({
+			code: PropTypes.string.isRequired
+		})
+	})
 };
 
 /**
@@ -141,37 +141,37 @@ ProductDetailPage.propTypes = {
  * @returns {Object} the props
  */
 export async function getStaticProps({ params: { slugOrId, lang } }) {
-  const productSlug = slugOrId && slugOrId[0];
-  const primaryShop = await fetchPrimaryShop(lang);
-  const catalogProduct = await fetchCatalogProduct(productSlug);
-  const tag = (catalogProduct && catalogProduct.product)?{tag:{
-    _id:catalogProduct?.product.tagIds[0]
-  }}:null;
-  if (!primaryShop) {
-    return {
-      props: {
-        shop: null,
-        translations: null,
-        products: null,
-        tags: null,
-        tag:undefined,
-        catalogItems:[]
-      },
-      // eslint-disable-next-line camelcase
-      unstable_revalidate: 1 // Revalidate immediately
-    };
-  }
-  return {
-    props: {
-      ...primaryShop,
-      ...await fetchTranslations(lang, ["common", "productDetail"]),
-      ...await catalogProduct,
-      ...await fetchAllTags(lang),
-      ...tag
-    },
-    // eslint-disable-next-line camelcase
-    unstable_revalidate: 120 // Revalidate each two minutes
-  };
+	const productSlug = slugOrId && slugOrId[0];
+	const primaryShop = await fetchPrimaryShop(lang);
+	const catalogProduct = await fetchCatalogProduct(productSlug);
+	const tag = (catalogProduct && catalogProduct.product)?{tag:{
+		_id:catalogProduct?.product.tagIds[0]
+	}}:null;
+	if (!primaryShop) {
+		return {
+			props: {
+				shop: null,
+				translations: null,
+				products: null,
+				tags: null,
+				tag:undefined,
+				catalogItems:[]
+			},
+			// eslint-disable-next-line camelcase
+			unstable_revalidate: 1 // Revalidate immediately
+		};
+	}
+	return {
+		props: {
+			...primaryShop,
+			...await fetchTranslations(lang, ["common", "productDetail"]),
+			...await catalogProduct,
+			...await fetchAllTags(lang),
+			...tag
+		},
+		// eslint-disable-next-line camelcase
+		unstable_revalidate: 120 // Revalidate each two minutes
+	};
 }
 
 /**
@@ -180,10 +180,10 @@ export async function getStaticProps({ params: { slugOrId, lang } }) {
  * @returns {Object} the paths
  */
 export async function getStaticPaths() {
-  return {
-    paths: locales.map((locale) => ({ params: { lang: locale, slugOrId: ["-"] } })),
-    fallback: true
-  };
+	return {
+		paths: locales.map((locale) => ({ params: { lang: locale, slugOrId: ["-"] } })),
+		fallback: true
+	};
 }
 
 export default withApollo()(withCart(withCatalogItems(ProductDetailPage)));

@@ -8,104 +8,104 @@ import ShippingMethodCheckoutAction from "components/ShippingMethodCheckoutActio
 import Actions from "components/Actions";
 class ShippingCheckoutAction extends Component{
     static propTypes = {
-        components: PropTypes.shape({
-            /**
+    	components: PropTypes.shape({
+    		/**
              * Pass either the Reaction Checkbox component or your own component that is
              * compatible with ReactoForm.
              */
-            Checkbox: CustomPropTypes.component.isRequired,
-            /**
+    		Checkbox: CustomPropTypes.component.isRequired,
+    		/**
              * Pass either the Reaction ErrorsBlock component or your own component that is
              * compatible with ReactoForm.
              */
-            ErrorsBlock: CustomPropTypes.component.isRequired,
-            /**
+    		ErrorsBlock: CustomPropTypes.component.isRequired,
+    		/**
              * Pass either the Reaction Field component or your own component that is
              * compatible with ReactoForm.
              */
-            Field: CustomPropTypes.component.isRequired,
-            /**
+    		Field: CustomPropTypes.component.isRequired,
+    		/**
              * Pass either the Reaction TextInput component or your own component that is
              * compatible with ReactoForm.
              */
-            TextInput: CustomPropTypes.component.isRequired,
-            /**
+    		TextInput: CustomPropTypes.component.isRequired,
+    		/**
              * Pass either the Reaction Select component or your own component that is
              * compatible with ReactoForm.
              */
-            Select: CustomPropTypes.component.isRequired,
-            /**
+    		Select: CustomPropTypes.component.isRequired,
+    		/**
              * Pass either the Reaction PhoneNumberInput component or your own component that is
              * compatible with ReactoForm.
              */
-            PhoneNumberInput: CustomPropTypes.component.isRequired,
-            /**
+    		PhoneNumberInput: CustomPropTypes.component.isRequired,
+    		/**
              * Pass either the Reaction RegionInput component or your own component that is
              * compatible with ReactoForm.
              */
-            RegionInput: CustomPropTypes.component.isRequired
-          }).isRequired,
+    		RegionInput: CustomPropTypes.component.isRequired
+    	}).isRequired,
     }
     renderForm(){
-        const {components:
+    	const {components:
             {Field,Select},
-            className,
-            errors,
-            name,
-            onChange,
-            onSubmit,
-            validator,
-            value} = this.props;
-        return(
-            <Form
-                className={className}
-                ref={(formEl)=>{
-                    this._dateForm=formEl;
-                }}
+    	className,
+    	errors,
+    	name,
+    	onChange,
+    	onSubmit,
+    	validator,
+    	value} = this.props;
+    	return(
+    		<Form
+    			className={className}
+    			ref={(formEl)=>{
+    				this._dateForm=formEl;
+    			}}
 
-            >
-            </Form>
-        );
+    		>
+    		</Form>
+    	);
     }
     renderActions(){
-        const {actionAlerts,fulfillmentGroup,onSubmit,onSubmitShippingAddress,submits} = this.props;
-        const actions = [
-            {
-                id: "2",
-                activeLabel: "A dónde llevaremos tu orden?",
-                completeLabel: "Shipping address",
-                incompleteLabel: "Shipping address",
-                // status: fulfillmentGroup.type !== "shipping" || fulfillmentGroup.shippingAddress ? "complete" : "incomplete",
-                component: ShippingAddressCheckoutAction,
-                onSubmit: submits.onSubmitShippingAddress,
-                props: {
-                  alert: actionAlerts["2"],
-                  fulfillmentGroup
-                }
-              },
-              {
-                id: "3",
-                activeLabel: "Elige un método de envío",
-                completeLabel: "Shipping address",
-                incompleteLabel: "Shipping address",
-                // status: fulfillmentGroup.type !== "shipping" || fulfillmentGroup.shippingAddress ? "complete" : "incomplete",
-                component: ShippingMethodCheckoutAction,
-                onSubmit: submits.onSetShippingMethod,
-                props: {
-                  alert: actionAlerts["3"],
-                  fulfillmentGroup
-                }
-              },
-        ];
-        return <Actions actions={actions}/>
+    	const {actionAlerts,fulfillmentGroup,onSubmit,onSubmitShippingAddress,submits} = this.props;
+    	const actions = [
+    		{
+    			id: "2",
+    			activeLabel: "A dónde llevaremos tu orden?",
+    			completeLabel: "Shipping address",
+    			incompleteLabel: "Shipping address",
+    			// status: fulfillmentGroup.type !== "shipping" || fulfillmentGroup.shippingAddress ? "complete" : "incomplete",
+    			component: ShippingAddressCheckoutAction,
+    			onSubmit: submits.onSubmitShippingAddress,
+    			props: {
+    				alert: actionAlerts["2"],
+    				fulfillmentGroup
+    			}
+    		},
+    		{
+    			id: "3",
+    			activeLabel: "Elige un método de envío",
+    			completeLabel: "Shipping address",
+    			incompleteLabel: "Shipping address",
+    			// status: fulfillmentGroup.type !== "shipping" || fulfillmentGroup.shippingAddress ? "complete" : "incomplete",
+    			component: ShippingMethodCheckoutAction,
+    			onSubmit: submits.onSetShippingMethod,
+    			props: {
+    				alert: actionAlerts["3"],
+    				fulfillmentGroup
+    			}
+    		},
+    	];
+    	return <Actions actions={actions}/>;
     }
     render(){
-        const {components:{Field}} = this.props;
-        return(
-            <Fragment>
-                {this.renderActions()}
-            </Fragment>
-        );
+    	const {components:{Field}} = this.props;
+    	return(
+    		<Fragment>
+    			{this.renderActions()}
+    		</Fragment>
+    	);
     }
 }
 export default withComponents(ShippingCheckoutAction);

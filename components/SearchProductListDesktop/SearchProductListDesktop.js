@@ -14,42 +14,42 @@ const CustomText2= styled.div`
 `;
 class SearchProductListDesktop extends Component{
     static propTypes = {
-        items:PropTypes.array.isRequired,
-        components: PropTypes.shape({
-            HorizontalProductCard: CustomPropTypes.component.isRequired
-        })
+    	items:PropTypes.array.isRequired,
+    	components: PropTypes.shape({
+    		HorizontalProductCard: CustomPropTypes.component.isRequired
+    	})
     }
     render(){
-        const {
-            items,
-            components:{HorizontalProductCard},
-            addItemsToCart,
-            onChangeCartItemsQuantity,
-            cart,
-            currencyCode,
-            uiStore
-        } = this.props;
-        return(
-            <Items>
-            <CustomText2>{`${items.length} coincidencia${items.length==1?"":"s"}`}</CustomText2>
-                {(items||[]).map((item)=>{
-                    const productInCart = (cart?.items||[]).find((cartItem)=>cartItem.productSlug==item.slug);
-                    return{
-                        ...item,
-                        cartItem:productInCart
-                    }
-                })
-                .map((item)=>(
-                    <HorizontalProductCard
-                        currencyCode = {currencyCode}
-                        product = {item}
-                        uiStore={uiStore}
-                        addItemsToCart={addItemsToCart}
-                        onChangeCartItemsQuantity={onChangeCartItemsQuantity}
-                    />
-                ))}
-            </Items>
-        );
+    	const {
+    		items,
+    		components:{HorizontalProductCard},
+    		addItemsToCart,
+    		onChangeCartItemsQuantity,
+    		cart,
+    		currencyCode,
+    		uiStore
+    	} = this.props;
+    	return(
+    		<Items>
+    			<CustomText2>{`${items.length} coincidencia${items.length==1?"":"s"}`}</CustomText2>
+    			{(items||[]).map((item)=>{
+    				const productInCart = (cart?.items||[]).find((cartItem)=>cartItem.productSlug==item.slug);
+    				return{
+    					...item,
+    					cartItem:productInCart
+    				};
+    			})
+    				.map((item)=>(
+    					<HorizontalProductCard
+    						currencyCode = {currencyCode}
+    						product = {item}
+    						uiStore={uiStore}
+    						addItemsToCart={addItemsToCart}
+    						onChangeCartItemsQuantity={onChangeCartItemsQuantity}
+    					/>
+    				))}
+    		</Items>
+    	);
     }
 }
 export default withComponents(SearchProductListDesktop);

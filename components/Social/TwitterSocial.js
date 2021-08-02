@@ -9,27 +9,27 @@ import Helmet from "react-helmet";
  * @returns  {Array} - Array of objects with metadata properties.
  */
 function getTwitterMeta(meta) {
-  const metadata = [
-    { property: "twitter:card", content: "summary" },
-    { property: "twitter:site", content: meta.siteName },
-    { property: "twitter:title", content: meta.title },
-    { property: "twitter:description", content: meta.description }
-  ];
+	const metadata = [
+		{ property: "twitter:card", content: "summary" },
+		{ property: "twitter:site", content: meta.siteName },
+		{ property: "twitter:title", content: meta.title },
+		{ property: "twitter:description", content: meta.description }
+	];
 
-  if (meta.media) {
-    let media;
+	if (meta.media) {
+		let media;
 
-    if (!/^http(s?):\/\/+/.test(meta.media)) {
-      media = location.origin + meta.media;
-    }
+		if (!/^http(s?):\/\/+/.test(meta.media)) {
+			media = location.origin + meta.media;
+		}
 
-    metadata.push({
-      property: "twitter:image",
-      content: media
-    });
-  }
+		metadata.push({
+			property: "twitter:image",
+			content: media
+		});
+	}
 
-  return metadata;
+	return metadata;
 }
 
 /**
@@ -38,14 +38,14 @@ function getTwitterMeta(meta) {
  */
 export default class TwitterSocial extends Component {
   static propTypes = {
-    meta: PropTypes.object
+  	meta: PropTypes.object
   }
 
   render() {
-    return (
-      <Helmet
-        meta={getTwitterMeta(this.props.meta)}
-      />
-    );
+  	return (
+  		<Helmet
+  			meta={getTwitterMeta(this.props.meta)}
+  		/>
+  	);
   }
 }

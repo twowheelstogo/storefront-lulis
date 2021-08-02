@@ -5,9 +5,9 @@ import styled from "styled-components";
 import { applyTheme } from "@reactioncommerce/components/utils";
 
 const imageContainerQueries = {
-  isLargeWidth: {
-    minWidth: 301 // Use medium image (600px) until container width is greater than image width / 2 (up to 2x scaling)
-  }
+	isLargeWidth: {
+		minWidth: 301 // Use medium image (600px) until container width is greater than image width / 2 (up to 2x scaling)
+	}
 };
 
 /**
@@ -40,75 +40,75 @@ const Img = styled.img`
   transform: translate(-50%, -50%);
 
   ${({ isLoading, isLoaded, isHidden }) => {
-    let styles = "";
+		let styles = "";
 
-    if (isLoading) {
-      styles += `
+		if (isLoading) {
+			styles += `
         filter: blur(8px);
         z-index: 1100;`;
-    }
-    if (isLoaded) {
-      styles += "z-index: 1000;";
-    }
-    if (isHidden) {
-      styles += "opacity: 0;";
-    }
+		}
+		if (isLoaded) {
+			styles += "z-index: 1000;";
+		}
+		if (isHidden) {
+			styles += "opacity: 0;";
+		}
 
-    return styles;
-  }}
+		return styles;
+	}}
 `;
 
 class ProgressiveImage extends Component {
   static propTypes = {
-    /**
+  	/**
      * Image text alternative - https://www.w3.org/TR/WCAG20-TECHS/H37.html
      */
-    altText: PropTypes.string,
-    /**
+  	altText: PropTypes.string,
+  	/**
      * You can provide a `className` prop that will be applied to the outermost DOM element
      * rendered by this component. We do not recommend using this for styling purposes, but
      * it can be useful as a selector in some situations.
      */
-    className: PropTypes.string,
-    /**
+  	className: PropTypes.string,
+  	/**
      * How the image should fit its container. "contain" (100% width, auto-scaled height, no clipping),
      * or "cover" (100% height, auto-scaled width centered horizontally, with clipping). Both options maintain the image's original aspect ratio.
      */
-    fit: PropTypes.string,
-    /**
+  	fit: PropTypes.string,
+  	/**
      * Pre load image source: Provide a tiny version of the image to create a medium like progressive loading effect
      */
-    presrc: PropTypes.string,
-    /**
+  	presrc: PropTypes.string,
+  	/**
      * Image source
      */
-    src: PropTypes.string,
-    /**
+  	src: PropTypes.string,
+  	/**
      * Image sources - used to create a responsive image via the picture tag
      */
-    srcs: PropTypes.shape({
-      large: PropTypes.string,
-      medium: PropTypes.string,
-      small: PropTypes.string
-    })
+  	srcs: PropTypes.shape({
+  		large: PropTypes.string,
+  		medium: PropTypes.string,
+  		small: PropTypes.string
+  	})
   };
 
   static defaultProps = {
-    altText: "",
-    fit: "contain"
+  	altText: "",
+  	fit: "contain"
   };
 
   state = { ready: false };
 
   componentDidMount() {
-    this._mounted = true;
-    if (typeof window !== "undefined") {
-      this.lazyLoad();
-    }
+  	this._mounted = true;
+  	if (typeof window !== "undefined") {
+  		this.lazyLoad();
+  	}
   }
 
   componentWillUnmount() {
-    this._mounted = false;
+  	this._mounted = false;
   }
 
   /**
@@ -128,10 +128,10 @@ class ProgressiveImage extends Component {
    * @return {Boolean} - `true` if `IntersectionObserver` is supported by browser
    */
   get supportIntersectionObserver() {
-    if (typeof window === "undefined") {
-      return false;
-    }
-    return "IntersectionObserver" in window;
+  	if (typeof window === "undefined") {
+  		return false;
+  	}
+  	return "IntersectionObserver" in window;
   }
 
   /**
@@ -144,22 +144,22 @@ class ProgressiveImage extends Component {
    * @return {Undefined} Nothing
    */
   lazyLoad() {
-    if (this.supportIntersectionObserver) {
-      const viewportIntersection = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (entry.intersectionRatio > 0 && !this.state.ready) {
-              this.loadImage();
-            }
-          });
-        },
-        { root: null, rootMargin: "50px 0px", threshold: 0.01 }
-      );
+  	if (this.supportIntersectionObserver) {
+  		const viewportIntersection = new IntersectionObserver(
+  			(entries) => {
+  				entries.forEach((entry) => {
+  					if (entry.intersectionRatio > 0 && !this.state.ready) {
+  						this.loadImage();
+  					}
+  				});
+  			},
+  			{ root: null, rootMargin: "50px 0px", threshold: 0.01 }
+  		);
 
-      viewportIntersection.observe(this._wrapper);
-    } else {
-      this.loadImage();
-    }
+  		viewportIntersection.observe(this._wrapper);
+  	} else {
+  		this.loadImage();
+  	}
   }
 
   /**
@@ -171,12 +171,12 @@ class ProgressiveImage extends Component {
    * @return {Undefined} Nothing
    */
   loadImage() {
-    const { src, srcs } = this.props;
-    const buffer = new Image();
-    buffer.onload = () => {
-      this._mounted && this.setState({ ready: true });
-    };
-    buffer.src = src || (srcs && srcs.medium);
+  	const { src, srcs } = this.props;
+  	const buffer = new Image();
+  	buffer.onload = () => {
+  		this._mounted && this.setState({ ready: true });
+  	};
+  	buffer.src = src || (srcs && srcs.medium);
   }
 
   /**
@@ -187,29 +187,29 @@ class ProgressiveImage extends Component {
    * @return {Element} - `picture`
    */
   renderResponsiveImage() {
-    const { altText, fit, srcs } = this.props;
-    const { medium, large } = srcs;
+  	const { altText, fit, srcs } = this.props;
+  	const { medium, large } = srcs;
 
-    return (
-      <ContainerQuery query={imageContainerQueries}>
-        {(params) => {
-          let src = medium;
-          const { isLargeWidth } = params;
-          if (isLargeWidth) {
-            src = large;
-          }
+  	return (
+  		<ContainerQuery query={imageContainerQueries}>
+  			{(params) => {
+  				let src = medium;
+  				const { isLargeWidth } = params;
+  				if (isLargeWidth) {
+  					src = large;
+  				}
 
-          return (
-            <Img
-              src={src}
-              isLoaded={true}
-              alt={altText}
-              fit={fit}
-            />
-          );
-        }}
-      </ContainerQuery>
-    );
+  				return (
+  					<Img
+  						src={src}
+  						isLoaded={true}
+  						alt={altText}
+  						fit={fit}
+  					/>
+  				);
+  			}}
+  		</ContainerQuery>
+  	);
   }
 
   /**
@@ -219,8 +219,8 @@ class ProgressiveImage extends Component {
    * @return {Element} - `img`
    */
   renderImg() {
-    const { altText, fit, src } = this.props;
-    return <Img src={src} isLoaded={true} alt={altText} fit={fit} />;
+  	const { altText, fit, src } = this.props;
+  	return <Img src={src} isLoaded={true} alt={altText} fit={fit} />;
   }
 
   /**
@@ -230,8 +230,8 @@ class ProgressiveImage extends Component {
    * @return {Element} - `picture` or `img`
    */
   renderImage() {
-    const { src } = this.props;
-    return src ? this.renderImg() : this.renderResponsiveImage();
+  	const { src } = this.props;
+  	return src ? this.renderImg() : this.renderResponsiveImage();
   }
 
   /**
@@ -242,28 +242,28 @@ class ProgressiveImage extends Component {
    * @return {Element} - `img`
    */
   renderLoadingImage() {
-    const { fit, presrc } = this.props;
-    const { ready } = this.state;
-    return (
-      <Img
-        src={presrc}
-        isLoading={true}
-        isHidden={ready}
-        alt=""
-        fit={fit}
-      />
-    );
+  	const { fit, presrc } = this.props;
+  	const { ready } = this.state;
+  	return (
+  		<Img
+  			src={presrc}
+  			isLoading={true}
+  			isHidden={ready}
+  			alt=""
+  			fit={fit}
+  		/>
+  	);
   }
 
   render() {
-    const { className, presrc } = this.props;
-    const { ready } = this.state;
-    return (
-      <ImageWrapper className={className} ref={(wrapper) => { this._wrapper = wrapper; }}>
-        {ready ? this.renderImage() : null}
-        {presrc && this.renderLoadingImage()}
-      </ImageWrapper>
-    );
+  	const { className, presrc } = this.props;
+  	const { ready } = this.state;
+  	return (
+  		<ImageWrapper className={className} ref={(wrapper) => { this._wrapper = wrapper; }}>
+  			{ready ? this.renderImage() : null}
+  			{presrc && this.renderLoadingImage()}
+  		</ImageWrapper>
+  	);
   }
 }
 

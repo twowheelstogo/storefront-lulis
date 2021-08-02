@@ -5,51 +5,51 @@ import Router from "translations/i18nRouter";
 
 export default class CheckoutButtons extends Component {
   static propTypes = {
-    /**
+  	/**
      * Set to `true` to prevent the button from calling `onClick` when clicked
      */
-    isDisabled: PropTypes.bool,
-    /**
+  	isDisabled: PropTypes.bool,
+  	/**
      * The NextJS route name for the primary checkout button.
      */
-    primaryButtonRoute: PropTypes.string,
-    /**
+  	primaryButtonRoute: PropTypes.string,
+  	/**
      * Text to display inside the button
      */
-    primaryButtonText: PropTypes.string,
-    /**
+  	primaryButtonText: PropTypes.string,
+  	/**
      * className for primary checkout button
      */
-    primaryClassName: PropTypes.string
+  	primaryClassName: PropTypes.string
   }
 
   static defaultProps = {
-    primaryButtonRoute: "/cart/checkout",
-    primaryButtonText: "Checkout"
+  	primaryButtonRoute: "/cart/checkout",
+  	primaryButtonText: "Checkout"
   };
 
   handleOnClick = () => {
-    const { primaryButtonRoute } = this.props;
-    Router.push(primaryButtonRoute);
+  	const { primaryButtonRoute } = this.props;
+  	Router.push(primaryButtonRoute);
   }
 
   render() {
-    const {
-      isDisabled,
-      primaryClassName,
-      primaryButtonText
-    } = this.props;
+  	const {
+  		isDisabled,
+  		primaryClassName,
+  		primaryButtonText
+  	} = this.props;
 
-    return (
-      <Button
-        actionType="important"
-        className={primaryClassName}
-        isDisabled={isDisabled}
-        isFullWidth
-        onClick={this.handleOnClick}
-      >
-        {primaryButtonText}
-      </Button>
-    );
+  	return (
+  		<Button
+  			actionType="important"
+  			className={primaryClassName}
+  			isDisabled={isDisabled}
+  			isFullWidth
+  			onClick={this.handleOnClick}
+  		>
+  			{primaryButtonText}
+  		</Button>
+  	);
   }
 }

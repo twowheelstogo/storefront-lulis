@@ -26,22 +26,22 @@ const CardTitle = styled.div`
 `;
 class CardItemSelect extends Component{
     selectCurrentOption=()=>{
-        const {onSelect,method} = this.props;
-        if(onSelect) onSelect(method);
+    	const {onSelect,method} = this.props;
+    	if(onSelect) onSelect(method);
     }
     render(){
-        const {method:{
-            icon,displayName
-        },selected,actionAlerts} = this.props;
+    	const {method:{
+    		icon,displayName
+    	},selected,actionAlerts} = this.props;
         
-        return(
-            <Card selected={selected} onClick={this.selectCurrentOption}>
-              <CardIcon>
-                  <img src={icon} height={30}/>
-              </CardIcon>  
-              <CardTitle>{displayName}</CardTitle>
-            </Card>
-        );
+    	return(
+    		<Card selected={selected} onClick={this.selectCurrentOption}>
+    			<CardIcon>
+    				<img src={icon} height={30}/>
+    			</CardIcon>  
+    			<CardTitle>{displayName}</CardTitle>
+    		</Card>
+    	);
     } 
 }
 export default CardItemSelect;

@@ -8,7 +8,7 @@ import primaryShopQuery from "./primaryShop.js";
  * @returns {Object} The primary shop
  */
 export default async function fetchPrimaryShop(language) {
-  const data = await graphQLRequest(primaryShopQuery, { language });
+	const data = await graphQLRequest(primaryShopQuery, { language });
 
-  return (data && data.primaryShop && { shop: data.primaryShop }) || { shop: null };
+	return (data && data.primaryShop && { shop: data.primaryShop }) || { shop: null };
 }

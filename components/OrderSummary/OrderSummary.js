@@ -18,92 +18,92 @@ export const OrderSummaryContainer = styled.div`
 `;
 
 const styles = (theme) => ({
-  summary: {
-    border: theme.palette.borders.default
-  },
-  header: {
-    padding: theme.spacing(1, 2)
-  },
-  title: {
-    flex: "1 0 auto"
-  },
-  paymentMethod: {
-    flex: "2 0 auto"
-  },
-  subtitle2: theme.typography.subtitle2
+	summary: {
+		border: theme.palette.borders.default
+	},
+	header: {
+		padding: theme.spacing(1, 2)
+	},
+	title: {
+		flex: "1 0 auto"
+	},
+	paymentMethod: {
+		flex: "2 0 auto"
+	},
+	subtitle2: theme.typography.subtitle2
 });
 
 class OrderSummary extends Component {
   static propTypes = {
-    classes: PropTypes.object,
-    fulfillmentGroup: PropTypes.shape({
-      summary: PropTypes.shape({
-        itemTotal: PropTypes.shape({
-          displayAmount: PropTypes.string
-        }),
-        taxTotal: PropTypes.shape({
-          displayAmount: PropTypes.string
-        })
-      })
-    }),
-    payments: PropTypes.arrayOf(PropTypes.shape({
-      amount: PropTypes.shape({
-        displayAmount: PropTypes.string.isRequired
-      }),
-      displayName: PropTypes.string.isRequired
-    }))
+  	classes: PropTypes.object,
+  	fulfillmentGroup: PropTypes.shape({
+  		summary: PropTypes.shape({
+  			itemTotal: PropTypes.shape({
+  				displayAmount: PropTypes.string
+  			}),
+  			taxTotal: PropTypes.shape({
+  				displayAmount: PropTypes.string
+  			})
+  		})
+  	}),
+  	payments: PropTypes.arrayOf(PropTypes.shape({
+  		amount: PropTypes.shape({
+  			displayAmount: PropTypes.string.isRequired
+  		}),
+  		displayName: PropTypes.string.isRequired
+  	}))
   }
 
   renderSummary() {
-    const { fulfillmentGroup } = this.props;
+  	const { fulfillmentGroup } = this.props;
 
-    if (fulfillmentGroup && fulfillmentGroup.summary) {
-      const {
-        fulfillmentTotal,
-        itemTotal,
-        surchargeTotal,
-        taxTotal,
-        total
-      } = fulfillmentGroup.summary;
+  	if (fulfillmentGroup && fulfillmentGroup.summary) {
+  		const {
+  			fulfillmentTotal,
+  			itemTotal,
+  			surchargeTotal,
+  			taxTotal,
+  			total
+  		} = fulfillmentGroup.summary;
 
-      return (
-        <OrderSummaryContainer>
-          <CartSummary
-            isDense
-            displayShipping={fulfillmentTotal && fulfillmentTotal.displayAmount}
-            displaySubtotal={itemTotal && itemTotal.displayAmount}
-            displaySurcharge={surchargeTotal && surchargeTotal.displayAmount}
-            displayTax={taxTotal && taxTotal.displayAmount}
-            displayTotal={total && total.displayAmount}
-          />
-        </OrderSummaryContainer>
-      );
-    }
+  		return (
+  			<OrderSummaryContainer>
+  				<CartSummary
+  					isDense
+  					displayShipping={fulfillmentTotal && fulfillmentTotal.displayAmount}
+  					displaySubtotal={itemTotal && itemTotal.displayAmount}
+  					displaySurcharge={surchargeTotal && surchargeTotal.displayAmount}
+  					displayTax={taxTotal && taxTotal.displayAmount}
+  					displayTotal={total && total.displayAmount}
+  				/>
+  			</OrderSummaryContainer>
+  		);
+  	}
 
-    return null;
+  	return null;
   }
 
   render() {
-    const { classes, payments } = this.props;
+  	const { classes, payments } = this.props;
 
-    return (
-      <div className={classes.summary}>
-        <div className={classes.header}>
-          <Grid container spacing={3}>
-            <Grid item xs={3}>
-              <Typography className={classes.subtitle2} variant="subtitle1">{"Payment Method"}</Typography>
-            </Grid>
-            <Grid item>
-              {(payments || []).map((payment) => (
-                <Typography key={payment._id} variant="body2">{payment.displayName} ({payment.amount.displayAmount})</Typography>
-              ))}
-            </Grid>
-          </Grid>
-        </div>
-        <Divider />
-        {this.renderSummary()}
-      </div>
-    );
+  	return (
+  		<div className={classes.summary}>
+  			<div className={classes.header}>
+  				<Grid container spacing={3}>
+  					<Grid item xs={3}>
+  						<Typography className={classes.subtitle2} variant="subtitle1">{"Payment Method"}</Typography>
+  					</Grid>
+  					<Grid item>
+  						{(payments || []).map((payment) => (
+  							<Typography key={payment._id} variant="body2">{payment.displayName} ({payment.amount.displayAmount})</Typography>
+  						))}
+  					</Grid>
+  				</Grid>
+  			</div>
+  			<Divider />
+  			{this.renderSummary()}
+  		</div>
+  	);
   }
 }
 

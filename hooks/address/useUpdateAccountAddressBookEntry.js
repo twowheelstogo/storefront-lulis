@@ -8,30 +8,30 @@ import { updateAccountAddressBookEntryMutation } from "./mutations.gql";
  * @returns {Array} A list of updated address book entries
  */
 export default function useUpdateAccountAddressBookEntry() {
-  const [viewer, , refetchViewer] = useViewer();
+	const [viewer, , refetchViewer] = useViewer();
 
-  const [updateAccountAddressBookEntryFunc, { loading }] = useMutation(updateAccountAddressBookEntryMutation, {
-    onCompleted() {
-      refetchViewer();
-    }
-  });
+	const [updateAccountAddressBookEntryFunc, { loading }] = useMutation(updateAccountAddressBookEntryMutation, {
+		onCompleted() {
+			refetchViewer();
+		}
+	});
 
-  const updateAccountAddressBookEntry = async (addressId, updates) => {
-    const data = await updateAccountAddressBookEntryFunc({
-      variables: {
-        input: {
-          addressId,
-          accountId: viewer && viewer._id,
-          updates
-        }
-      }
-    });
+	const updateAccountAddressBookEntry = async (addressId, updates) => {
+		const data = await updateAccountAddressBookEntryFunc({
+			variables: {
+				input: {
+					addressId,
+					accountId: viewer && viewer._id,
+					updates
+				}
+			}
+		});
 
-    return data;
-  };
+		return data;
+	};
 
-  return [
-    updateAccountAddressBookEntry,
-    loading
-  ];
+	return [
+		updateAccountAddressBookEntry,
+		loading
+	];
 }

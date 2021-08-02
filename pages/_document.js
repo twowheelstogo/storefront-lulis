@@ -13,81 +13,81 @@ import analyticsProviders from "custom/analytics";
  * Event handlers like onClick can't be added to this file.
  */
 class HTMLDocument extends Document {
-  render() {
-    const links = [
-      { rel: "canonical", href: process.env.CANONICAL_URL },
-      { rel: "stylesheet", href: "https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,700" },
-      ...favicons
-    ];
-    const meta = [
-      // Use minimum-scale=1 to enable GPU rasterization
-      {
-        name: "viewport",
-        content: "user-scalable=0, initial-scale=1 minimum-scale=1, width=device-width, height=device-height"
-      },
-      // PWA primary color
-      {
-        name: "theme-color",
-        content: theme.palette.primary.main
-      }
-    ];
+	render() {
+		const links = [
+			{ rel: "canonical", href: process.env.CANONICAL_URL },
+			{ rel: "stylesheet", href: "https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,700" },
+			...favicons
+		];
+		const meta = [
+			// Use minimum-scale=1 to enable GPU rasterization
+			{
+				name: "viewport",
+				content: "user-scalable=0, initial-scale=1 minimum-scale=1, width=device-width, height=device-height"
+			},
+			// PWA primary color
+			{
+				name: "theme-color",
+				content: theme.palette.primary.main
+			}
+		];
 
-    // Analytics & Stripe Elements scripts
-    const scripts = [
-      ...analyticsProviders.map((provider) => ({
-        type: "text/javascript",
-        innerHTML: provider.renderScript()
-      }))
-    ];
-    definedPaymentMethods
-      .some((method) => method.name === "stripe_card")
+		// Analytics & Stripe Elements scripts
+		const scripts = [
+			...analyticsProviders.map((provider) => ({
+				type: "text/javascript",
+				innerHTML: provider.renderScript()
+			}))
+		];
+		definedPaymentMethods
+			.some((method) => method.name === "stripe_card")
         && scripts.push({
-          type: "text/javascript",
-          src: "https://js.stripe.com/v3/"
+        	type: "text/javascript",
+        	src: "https://js.stripe.com/v3/"
         });
 
-    return (
-      <Html lang="en">
-        <Head>
-          {meta.map((tag, index) => <meta key={index} {...tag} />)}
-          {links.map((link, index) => <link key={index} {...link} />)}
-        </Head>
-        <body>
-          <Main />
-          <NextScript />
-          {scripts.map((script, index) => (script.innerHTML ? /* eslint-disable-next-line */
+		return (
+			<Html lang="en">
+				<Head>
+					{meta.map((tag, index) => <meta key={index} {...tag} />)}
+					{links.map((link, index) => <link key={index} {...link} />)}
+				</Head>
+				<body>
+					<Main />
+					<NextScript />
+					{scripts.map((script, index) => (script.innerHTML ? /* eslint-disable-next-line */
             <script async key={index} type={script.type} dangerouslySetInnerHTML={{ __html: script.innerHTML }} /> : <script async key={index} {...script} />))}
-        </body>
-      </Html>
-    );
-  }
+				</body>
+			</Html>
+		);
+	}
 }
 
 HTMLDocument.getInitialProps = async (ctx) => {
-  const styledComponentSheet = new StyledComponentSheets();
-  const materialUiSheets = new MaterialUiServerStyleSheets();
-  const originalRenderPage = ctx.renderPage;
+	const styledComponentSheet = new StyledComponentSheets();
+	const materialUiSheets = new MaterialUiServerStyleSheets();
+	const originalRenderPage = ctx.renderPage;
 
-  try {
-    ctx.renderPage = () => originalRenderPage({
-      enhanceApp: (App) => (props) => (
-        styledComponentSheet.collectStyles(materialUiSheets.collect(<App {...props} />))
-      )
-    });
-    const initialProps = await Document.getInitialProps(ctx);
-    return {
-      ...initialProps,
-      styles: (
-        <Fragment key="styles">
-          {initialProps.styles}
-          {materialUiSheets.getStyleElement()}
-          {styledComponentSheet.getStyleElement()}
-        </Fragment>
-      )
-    };
-  } finally {
-    styledComponentSheet.seal();
-  }
+	try {
+		ctx.renderPage = () => originalRenderPage({
+			enhanceApp: (App) => (props) => (
+				styledComponentSheet.collectStyles(materialUiSheets.collect(<App {...props} />))
+			)
+		});
+		const initialProps = await Document.getInitialProps(ctx);
+		return {
+			...initialProps,
+			styles: (
+				<Fragment key="styles">
+					{initialProps.styles}
+					{materialUiSheets.getStyleElement()}
+					{styledComponentSheet.getStyleElement()}
+				</Fragment>
+			)
+		};
+	} finally {
+		styledComponentSheet.seal();
+	}
 };
 
 export default HTMLDocument;

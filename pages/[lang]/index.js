@@ -1,38 +1,38 @@
-import React, { Component, Fragment } from 'react';
-import PropTypes from 'prop-types';
+import React, { Component, Fragment } from "react";
+import PropTypes from "prop-types";
 import inject from "hocs/inject";
-import Helmet from 'react-helmet';
+import Helmet from "react-helmet";
 import { inPageSizes } from "lib/utils/pageSizes";
 import { withApollo } from "lib/apollo/withApollo";
 import withCatalogItems from "containers/catalog/withCatalogItems";
 import withCart from "containers/cart/withCart";
 
-import MainLayout from 'components/MainLayout';
-import HomePage from 'custom/homePage';
+import MainLayout from "components/MainLayout";
+import HomePage from "custom/homePage";
 
 import { locales } from "translations/config";
 import fetchPrimaryShop from "staticUtils/shop/fetchPrimaryShop";
 import fetchTranslations from "staticUtils/translations/fetchTranslations";
 import fetchAllTags from "staticUtils/tags/fetchAllTags";
-import CategoryLayout from 'components/CategoryLayout';
+import CategoryLayout from "components/CategoryLayout";
 import {makeStyles} from "@material-ui/core";
-import { useTheme } from '@material-ui/core/styles';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
+import { useTheme } from "@material-ui/core/styles";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
 import MobileHomePage from "components/MobileHomePage";
 // @inject("routingStore")
 // @observer
 const useStyles = makeStyles((theme)=>({
 	root:{
-		display:'flex'
+		display:"flex"
 	},
 	content:{
 		padding:theme.spacing(2)
 	}
-}))
+}));
 const Home = props => {
 	const classes = useStyles();
 	const theme = useTheme();
-	const matches = useMediaQuery(theme.breakpoints.down('sm'));
+	const matches = useMediaQuery(theme.breakpoints.down("sm"));
 	const propTypes = {
 		catalogItems: PropTypes.array,
     	catalogItemsPageInfo: PropTypes.object,
@@ -45,10 +45,10 @@ const Home = props => {
 		}),
 		tag: PropTypes.object,
 		uiStore: PropTypes.shape({
-		pageSize: PropTypes.number.isRequired,
-		setPageSize: PropTypes.func.isRequired,
-		setSortBy: PropTypes.func.isRequired,
-		sortBy: PropTypes.string.isRequired
+			pageSize: PropTypes.number.isRequired,
+			setPageSize: PropTypes.func.isRequired,
+			setSortBy: PropTypes.func.isRequired,
+			sortBy: PropTypes.string.isRequired
 		})
 	};
 
@@ -56,13 +56,13 @@ const Home = props => {
 	routingStore.setTagId(null);
 	
 	const setPageSize = (pageSize) => {
-	this.props.routingStore.setSearch({ limit: pageSize });
-	this.props.uiStore.setPageSize(pageSize);
+		this.props.routingStore.setSearch({ limit: pageSize });
+		this.props.uiStore.setPageSize(pageSize);
 	};
 
 	const setSortBy = (sortBy) => {
-	this.props.routingStore.setSearch({ sortby: sortBy });
-	this.props.uiStore.setSortBy(sortBy);
+		this.props.routingStore.setSearch({ sortby: sortBy });
+		this.props.uiStore.setSortBy(sortBy);
 	};
 
 	const {
@@ -78,20 +78,20 @@ const Home = props => {
 		onChangeCartItemsQuantity
 	} = props;
 	const pageSize = query && inPageSizes(query.limit) ? parseInt(query.limit, 10) : uiStore.pageSize;
-    const sortBy = query && query.sortby ? query.sortby : uiStore.sortBy;
+	const sortBy = query && query.sortby ? query.sortby : uiStore.sortBy;
 	let pageTitle;
-    if (shop) {
-      pageTitle = shop.name;
-      if (shop.description) pageTitle = `${pageTitle} | ${shop.description}`;
-    } else {
-      pageTitle = "Storefront";
-    }
+	if (shop) {
+		pageTitle = shop.name;
+		if (shop.description) pageTitle = `${pageTitle} | ${shop.description}`;
+	} else {
+		pageTitle = "Storefront";
+	}
 	const currencyCode = (shop && shop.currency.code) || "GTQ";
 
 	return(
 		<MainLayout shop = { shop } title="YUM NOM NOM :)"
-		subtitle="" background="https://firebasestorage.googleapis.com/v0/b/twowheelstogo-572d7.appspot.com/o/resources%2Fprincipal.png?alt=media&token=f54afab0-0e72-4590-a711-20f72204938f"
-		type="image">
+			subtitle="" background="https://firebasestorage.googleapis.com/v0/b/twowheelstogo-572d7.appspot.com/o/resources%2Fprincipal.png?alt=media&token=f54afab0-0e72-4590-a711-20f72204938f"
+			type="image">
 			<Helmet>
 				<title>{shop && shop.name}</title>
 				<meta name="description" content={shop && shop.description} />
@@ -102,7 +102,7 @@ const Home = props => {
 			{matches &&(
 				<RenderMobilePage {...props}/>
 			)}
-        </MainLayout>
+		</MainLayout>
 	);
 };
 const RenderHomePage = props => {
@@ -121,19 +121,19 @@ const RenderHomePage = props => {
 	const classes = useStyles();
 	return (
 		<main className={classes.content}>
-				<HomePage 
-					catalogItems={ catalogItems }
-					currencyCode={ (shop && shop.currency && shop.currency.code) || "GTQ" }
-					isLoadingCatalogItems={ isLoadingCatalogItems }
-					pageInfo={ catalogItemsPageInfo }
-					tags={tags}
-					cart={cart}
-					addItemsToCart={addItemsToCart}
-					onChangeCartItemsQuantity={onChangeCartItemsQuantity}
-				/>
-				</main>
+			<HomePage 
+				catalogItems={ catalogItems }
+				currencyCode={ (shop && shop.currency && shop.currency.code) || "GTQ" }
+				isLoadingCatalogItems={ isLoadingCatalogItems }
+				pageInfo={ catalogItemsPageInfo }
+				tags={tags}
+				cart={cart}
+				addItemsToCart={addItemsToCart}
+				onChangeCartItemsQuantity={onChangeCartItemsQuantity}
+			/>
+		</main>
 	);
-}
+};
 const RenderMobilePage = props => {
 	const {
 		catalogItems,
@@ -150,15 +150,15 @@ const RenderMobilePage = props => {
 	const currencyCode = (shop && shop.currency.code) || "GTQ";
 	return(
 		<MobileHomePage
-				currencyCode = {currencyCode}
+			currencyCode = {currencyCode}
 				 catalogItems = {catalogItems}
 				 tags = {tags}
 				 cart={cart}
 				 addItemsToCart={addItemsToCart}
 				 onChangeCartItemsQuantity={onChangeCartItemsQuantity}
-				/>
+		/>
 	);
-}
+};
 /**
 *  Static props for the main layout
 *
@@ -169,12 +169,12 @@ const RenderMobilePage = props => {
 export async function getStaticProps({ params: { lang } }) {
 	const primaryShop = await fetchPrimaryShop(lang);
 	const translations = await fetchTranslations(lang, ["common"]);
-	const tags = await fetchAllTags(lang)
+	const tags = await fetchAllTags(lang);
 	if (!primaryShop) {
 		return {
 			props: {
-			shop: null,
-			...translations
+				shop: null,
+				...translations
 			},
 			fetchAllTags:null,
 			// eslint-disable-next-line camelcase

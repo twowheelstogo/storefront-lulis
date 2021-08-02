@@ -14,24 +14,24 @@ const Items = styled.div`
 `;
 class CardItemList extends Component{
     static propTypes = {
-        items: PropTypes.object.isRequired,
-        onSelect : PropTypes.func,
-        components: PropTypes.shape({
-            CardItemSelect: CustomPropTypes.component
-        }),
-        itemSelected: PropTypes.object
+    	items: PropTypes.object.isRequired,
+    	onSelect : PropTypes.func,
+    	components: PropTypes.shape({
+    		CardItemSelect: CustomPropTypes.component
+    	}),
+    	itemSelected: PropTypes.object
     }
     render(){
-        const {items,components:{CardItemSelect},onSelect,itemSelected} = this.props;
-        return(
-            <Items>
-               {items.map((item)=>
-               <CardItemSelect 
-               method={item} 
-               onSelect={onSelect}
-               selected={item.name==itemSelected.name}/>)} 
-            </Items>
-        );
+    	const {items,components:{CardItemSelect},onSelect,itemSelected} = this.props;
+    	return(
+    		<Items>
+    			{items.map((item)=>
+    				<CardItemSelect 
+    					method={item} 
+    					onSelect={onSelect}
+    					selected={item.name==itemSelected.name}/>)} 
+    		</Items>
+    	);
     }
 }
 export default withComponents(CardItemList);

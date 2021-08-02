@@ -36,110 +36,110 @@ const CustomButtonText = styled.div`
     font-height: 400;
 `;
 const Controls = (props) => {
-    const { id, onAddressDeleted } = props;
-    const [state, setState] = useState({
-        menuOpen: null
-    })
-    const handleOpen = (event) => {
-        setState({
-            menuOpen: event.currentTarget
-        })
-    }
-    const handleClose = () => {
-        setState({
-            menuOpen: null
-        })
-    }
-    const editAddress = () => {
-        let href = window.location.href;
-        window.location.href = `${origin}/en/address?addressBookId=${id}&redirect=${encodeURIComponent(href)}`;
-    }
-    const handleDelete = () => {
-        handleClose();
-        onAddressDeleted(id);
-    }
-    return (
-        <div>
-            <IconButton
-                onClick={handleOpen}
-                aria-controls={id}
-                aria-haspopup="true">
-                <MoreVertIcon />
-            </IconButton>
-            <Menu
-                id={id}
-                keepMounted
-                anchorEl={state.menuOpen}
-                open={Boolean(state.menuOpen)}
-                onClose={handleClose}>
-                <MenuItem onClick={editAddress}>Editar</MenuItem>
-                <MenuItem onClick={handleDelete}>Eliminar</MenuItem>
-            </Menu>
-        </div>
-    );
-}
+	const { id, onAddressDeleted } = props;
+	const [state, setState] = useState({
+		menuOpen: null
+	});
+	const handleOpen = (event) => {
+		setState({
+			menuOpen: event.currentTarget
+		});
+	};
+	const handleClose = () => {
+		setState({
+			menuOpen: null
+		});
+	};
+	const editAddress = () => {
+		let href = window.location.href;
+		window.location.href = `${origin}/en/address?addressBookId=${id}&redirect=${encodeURIComponent(href)}`;
+	};
+	const handleDelete = () => {
+		handleClose();
+		onAddressDeleted(id);
+	};
+	return (
+		<div>
+			<IconButton
+				onClick={handleOpen}
+				aria-controls={id}
+				aria-haspopup="true">
+				<MoreVertIcon />
+			</IconButton>
+			<Menu
+				id={id}
+				keepMounted
+				anchorEl={state.menuOpen}
+				open={Boolean(state.menuOpen)}
+				onClose={handleClose}>
+				<MenuItem onClick={editAddress}>Editar</MenuItem>
+				<MenuItem onClick={handleDelete}>Eliminar</MenuItem>
+			</Menu>
+		</div>
+	);
+};
 class AddressList extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            menuOpen: null
-        }
-    }
+	constructor(props) {
+		super(props);
+		this.state = {
+			menuOpen: null
+		};
+	}
     handleOpen = (event) => {
-        this.setState({
-            menuOpen: event.currentTarget
-        })
+    	this.setState({
+    		menuOpen: event.currentTarget
+    	});
     }
     handleClose = () => {
-        this.setState({
-            menuOpen: null
-        })
+    	this.setState({
+    		menuOpen: null
+    	});
     }
     createAddress = () => {
-        let href = window.location.href;
-        window.location.href = `${origin}/en/address?redirect=${encodeURIComponent(href)}`;
+    	let href = window.location.href;
+    	window.location.href = `${origin}/en/address?redirect=${encodeURIComponent(href)}`;
     }
     render() {
-        const { account: { addressBook }, components: { RadioButtonItem }, onAddressDeleted, onSelect, currentAddress } = this.props;
-        return (
-            <Items>
-                {addressBook.map(({
-                    _id,
-                    description,
-                    address,
-                    reference,
-                    geolocation
-                }) => (
-                    <RadioButtonItem
-                        title={description}
-                        description={address}
-                        isSelected={currentAddress && currentAddress._id == _id}
-                        value={{
-                            _id,
-                            description,
-                            address,
-                            reference,
-                            geolocation
-                        }}
-                        handleChange={onSelect}
-                        trailing={
-                            <Controls
-                                id={_id}
-                                onAddressDeleted={onAddressDeleted}
-                            />}
-                        trailingProps={{
-                            menuOpen: this.state.menuOpen,
-                            handleOpen: this.handleOpen,
-                            handleClose: this.handleClose
-                        }}
-                    />
-                ))}
-                <CustomRoundedButton onClick={this.createAddress}>
-                    <CustomButtonText>{addressBook.length>0?"Agregar otra dirección":"Agregar una dirección"}</CustomButtonText>
-                    <AddIcon />
-                </CustomRoundedButton>
-            </Items>
-        );
+    	const { account: { addressBook }, components: { RadioButtonItem }, onAddressDeleted, onSelect, currentAddress } = this.props;
+    	return (
+    		<Items>
+    			{addressBook.map(({
+    				_id,
+    				description,
+    				address,
+    				reference,
+    				geolocation
+    			}) => (
+    				<RadioButtonItem
+    					title={description}
+    					description={address}
+    					isSelected={currentAddress && currentAddress._id == _id}
+    					value={{
+    						_id,
+    						description,
+    						address,
+    						reference,
+    						geolocation
+    					}}
+    					handleChange={onSelect}
+    					trailing={
+    						<Controls
+    							id={_id}
+    							onAddressDeleted={onAddressDeleted}
+    						/>}
+    					trailingProps={{
+    						menuOpen: this.state.menuOpen,
+    						handleOpen: this.handleOpen,
+    						handleClose: this.handleClose
+    					}}
+    				/>
+    			))}
+    			<CustomRoundedButton onClick={this.createAddress}>
+    				<CustomButtonText>{addressBook.length>0?"Agregar otra dirección":"Agregar una dirección"}</CustomButtonText>
+    				<AddIcon />
+    			</CustomRoundedButton>
+    		</Items>
+    	);
     }
 }
 export default withComponents(AddressList);

@@ -21,26 +21,26 @@ const ItemSubtitle = styled.div`
 `;
 class FulfillmentList extends React.Component {
     static propTypes = {
-        items: PropTypes.object.isRequired,
-        components: PropTypes.shape({
-            RadioButtonItem: CustomPropTypes.component.isRequired
-        })
+    	items: PropTypes.object.isRequired,
+    	components: PropTypes.shape({
+    		RadioButtonItem: CustomPropTypes.component.isRequired
+    	})
     }
     render() {
-        const { components: { RadioButtonItem }, items, selectedItem, handleChange } = this.props;
-        return (
-            <Items>
-                {(items).map(({ label, detail, id }) => (
-                    <RadioButtonItem
-                        description={label}
-                        value={{ label, detail, id }}
-                        isSelected={selectedItem && selectedItem._id == id}
-                        handleChange={handleChange}
-                        trailing={<ItemSubtitle>{detail}</ItemSubtitle>}
-                    />
-                ))}
-            </Items>
-        );
+    	const { components: { RadioButtonItem }, items, selectedItem, handleChange } = this.props;
+    	return (
+    		<Items>
+    			{(items).map(({ label, detail, id }) => (
+    				<RadioButtonItem
+    					description={label}
+    					value={{ label, detail, id }}
+    					isSelected={selectedItem && selectedItem._id == id}
+    					handleChange={handleChange}
+    					trailing={<ItemSubtitle>{detail}</ItemSubtitle>}
+    				/>
+    			))}
+    		</Items>
+    	);
     }
 }
 export default withComponents(FulfillmentList);

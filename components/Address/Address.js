@@ -25,34 +25,34 @@ const ADDRESS_ORDER = ["description","address","reference"];
 
 class Address extends Component {
   static propTypes = {
-    /**
+  	/**
      * Address object to render
      */
-    address: CustomPropTypes.address.isRequired,
-    /**
+  	address: CustomPropTypes.address.isRequired,
+  	/**
      * Order of `address` properties
      */
-    addressOrder: PropTypes.arrayOf(PropTypes.string),
-    /**
+  	addressOrder: PropTypes.arrayOf(PropTypes.string),
+  	/**
      * You can provide a `className` prop that will be applied to the outermost DOM element
      * rendered by this component. We do not recommend using this for styling purposes, but
      * it can be useful as a selector in some situations.
      */
-    className: PropTypes.string,
-    /**
+  	className: PropTypes.string,
+  	/**
      * Array of invalid address property keys
      */
-    invalidAddressProperties: PropTypes.arrayOf(PropTypes.string),
-    /**
+  	invalidAddressProperties: PropTypes.arrayOf(PropTypes.string),
+  	/**
      * Render the address as a flat string.
      */
-    isFlat: PropTypes.bool
+  	isFlat: PropTypes.bool
   };
 
   static defaultProps = {
-    addressOrder: ADDRESS_ORDER,
-    invalidAddressProperties: [],
-    isFlat: false
+  	addressOrder: ADDRESS_ORDER,
+  	invalidAddressProperties: [],
+  	isFlat: false
   };
 
   /**
@@ -63,45 +63,45 @@ class Address extends Component {
    * @return {String|Element|null} -  value string, `<span />` with value string or `null`
    */
   renderAddressProperty = (key) => {
-    const { address, invalidAddressProperties } = this.props;
+  	const { address, invalidAddressProperties } = this.props;
 
-    // Skip empty address values
-    if (!address[key]) return null;
+  	// Skip empty address values
+  	if (!address[key]) return null;
 
-    // Is the address property invalid?
-    const isInvalid = invalidAddressProperties.includes(key);
-    const addressProp = isInvalid ? <AddressPropertyError>{address[key]}</AddressPropertyError> : address[key];
+  	// Is the address property invalid?
+  	const isInvalid = invalidAddressProperties.includes(key);
+  	const addressProp = isInvalid ? <AddressPropertyError>{address[key]}</AddressPropertyError> : address[key];
 
-    // Formating the address
-    let addressElement;
-    switch (key) {
-      case "city":
-        addressElement = <Fragment>{addressProp}, </Fragment>;
-        break;
-      case "country":
-        addressElement = addressProp;
-        break;
-      // case "region":
-      //   addressElement = <Fragment>{addressProp} </Fragment>;
-      //   break;
-      default:
-        addressElement = (
-          <Fragment>
-            {addressProp} <br />
-          </Fragment>
-        );
-    }
+  	// Formating the address
+  	let addressElement;
+  	switch (key) {
+  	case "city":
+  		addressElement = <Fragment>{addressProp}, </Fragment>;
+  		break;
+  	case "country":
+  		addressElement = addressProp;
+  		break;
+  		// case "region":
+  		//   addressElement = <Fragment>{addressProp} </Fragment>;
+  		//   break;
+  	default:
+  		addressElement = (
+  			<Fragment>
+  				{addressProp} <br />
+  			</Fragment>
+  		);
+  	}
 
-    return <Fragment key={key}>{addressElement}</Fragment>;
+  	return <Fragment key={key}>{addressElement}</Fragment>;
   };
 
   render() {
-    const { address, addressOrder, className, isFlat } = this.props;
-    return (
-      <AddressElement className={className}>
-        {isFlat ? addressToString(address) : addressOrder.map(this.renderAddressProperty)}
-      </AddressElement>
-    );
+  	const { address, addressOrder, className, isFlat } = this.props;
+  	return (
+  		<AddressElement className={className}>
+  			{isFlat ? addressToString(address) : addressOrder.map(this.renderAddressProperty)}
+  		</AddressElement>
+  	);
   }
 }
 

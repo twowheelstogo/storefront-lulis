@@ -9,14 +9,14 @@ import Helmet from "react-helmet";
  * @returns {Array} An array of objects with metedata properties.
  */
 function getFacebookMeta(meta) {
-  const metadata = [
-    { property: "og:type", content: "article" },
-    { property: "og:site_name", content: meta.siteName },
-    { property: "og:title", content: meta.title },
-    { property: "og:description", content: meta.description }
-  ];
+	const metadata = [
+		{ property: "og:type", content: "article" },
+		{ property: "og:site_name", content: meta.siteName },
+		{ property: "og:title", content: meta.title },
+		{ property: "og:description", content: meta.description }
+	];
 
-  return metadata;
+	return metadata;
 }
 
 /**
@@ -25,14 +25,14 @@ function getFacebookMeta(meta) {
  */
 export default class FacebookSocial extends Component {
   static propTypes = {
-    meta: PropTypes.object
+  	meta: PropTypes.object
   }
 
   render() {
-    return (
-      <Helmet
-        meta={getFacebookMeta(this.props.meta)}
-      />
-    );
+  	return (
+  		<Helmet
+  			meta={getFacebookMeta(this.props.meta)}
+  		/>
+  	);
   }
 }

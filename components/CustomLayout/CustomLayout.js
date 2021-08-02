@@ -7,68 +7,68 @@ import withCart from "containers/cart/withTempCart";
 import inject from "hocs/inject";
 
 const styles = (theme) => ({
-    root: {
-      minHeight: "100vh",
-      display:'flex',
-      flexFlow:'column',
-      height:'100%'
-    },
-    main: {
-      flex: "1 1 auto",
-      maxWidth: theme.layout.mainContentMaxWidth,
-      marginLeft: "auto",
-      marginRight: "auto",
-      paddingTop:"70px",
-      paddingBottom:theme.spacing(5),
-      width:'100%',
-    },
-    mainNoMaxwidth:{
-      flex: "1 1 auto",
-      // maxWidth: theme.layout.mainContentMaxWidth,
-      marginLeft: "auto",
-      marginRight: "auto",
-      paddingTop:"70px",
-      width:'100%',
-      minHeight:'100vh'
-    },
-    article: {
-      padding: theme.spacing(0),
-    }
-  });
+	root: {
+		minHeight: "100vh",
+		display:"flex",
+		flexFlow:"column",
+		height:"100%"
+	},
+	main: {
+		flex: "1 1 auto",
+		maxWidth: theme.layout.mainContentMaxWidth,
+		marginLeft: "auto",
+		marginRight: "auto",
+		paddingTop:"70px",
+		paddingBottom:theme.spacing(5),
+		width:"100%",
+	},
+	mainNoMaxwidth:{
+		flex: "1 1 auto",
+		// maxWidth: theme.layout.mainContentMaxWidth,
+		marginLeft: "auto",
+		marginRight: "auto",
+		paddingTop:"70px",
+		width:"100%",
+		minHeight:"100vh"
+	},
+	article: {
+		padding: theme.spacing(0),
+	}
+});
 class CustomLayout extends Component{
     static propTypes = {
-      children: PropTypes.node,
-      classes: PropTypes.object,
-      title:PropTypes.string,
-      subtitle:PropTypes.string,
-      background:PropTypes.string,
-      type:PropTypes.string.isRequired,
-      shop: PropTypes.shape({
-        name: PropTypes.string.isRequired
-      }),
-      viewer: PropTypes.object
+    	children: PropTypes.node,
+    	classes: PropTypes.object,
+    	title:PropTypes.string,
+    	subtitle:PropTypes.string,
+    	background:PropTypes.string,
+    	type:PropTypes.string.isRequired,
+    	shop: PropTypes.shape({
+    		name: PropTypes.string.isRequired
+    	}),
+    	viewer: PropTypes.object
     };
   
     static defaultProps = {
-      classes: {}
+    	classes: {}
     };
   
     render(){
-        const {classes,children,shop,viewer,title,subtitle,background,type,noMaxwidth,cart} = this.props;
-        const sliderProps={
-          title,subtitle,background,type
-        }
-        return (
-            <React.Fragment>
-                <div className={classes.root}>
-                <Header shop={shop} viewer={viewer} noScrollAction cart={cart}/>
-                <main className={noMaxwidth?classes.mainNoMaxwidth:classes.main}>
-                    <article className={classes.article}>{children}</article>
-                </main>
-          <Footer />
-                </div>
-            </React.Fragment>
-        );
+    	const {classes,children,shop,viewer,title,subtitle,background,type,noMaxwidth,cart} = this.props;
+    	const sliderProps={
+    		title,subtitle,background,type
+    	};
+    	return (
+    		<React.Fragment>
+    			<div className={classes.root}>
+    				<Header shop={shop} viewer={viewer} noScrollAction cart={cart}/>
+    				<main className={noMaxwidth?classes.mainNoMaxwidth:classes.main}>
+    					<article className={classes.article}>{children}</article>
+    				</main>
+    				<Footer />
+    			</div>
+    		</React.Fragment>
+    	);
     }
 }
 export default withStyles(styles)(withCart(inject("uiStore")(CustomLayout)));
