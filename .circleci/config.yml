@@ -5,8 +5,7 @@
 #  Assumes that the Docker image is published to Docker Hub.
 version: 2.1
 
-orbs:
-  webhook: eddiewebb/webhook@volatile
+
 
 # The following stanza defines a map named defaults with a variable that may be
 # inserted using the YAML merge (<<: *) key later in the file to save some
@@ -87,8 +86,7 @@ jobs:
       - run:
           name: Build and push production Docker image
           command: ${CI_SCRIPTS} docker-build-tag-push . ${DOCKER_REPOSITORY}
-      - webhook/notify:
-          endpoint: "${GITOPS_PR_WEBHOOK}"
+      
 
   create-gitops-pull-request:
     <<: *defaults
