@@ -2,7 +2,7 @@ import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import Button from "@reactioncommerce/components/Button/v1";
-import CartItemsList from "@reactioncommerce/components/CartItems/v1";
+import CartItemsList from "components/CartItemList";
 
 const styles = (theme) => ({
   loadMore: {
@@ -70,9 +70,9 @@ class CartItems extends Component {
       isMiniCart,
       isReadOnly,
       hasMoreCartItems,
-      onLoadMoreCartItems
+      onLoadMoreCartItems,
+      components
     } = this.props;
-
     return (
       <Fragment>
         <CartItemsList
@@ -82,6 +82,7 @@ class CartItems extends Component {
           onChangeCartItemQuantity={this.handleItemQuantityChange}
           onRemoveItemFromCart={this.handleRemoveItem}
           productURLPath="/api/detectLanguage/product/"
+          components={components}
         />
         {hasMoreCartItems &&
           <div className={classes.loadMore}>

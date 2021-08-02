@@ -5,6 +5,7 @@ import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import { withStyles } from "@material-ui/core/styles";
 import CartItems from "components/CartItems";
+import CheckoutCartItem from "components/CheckoutCartItem";
 
 const styles = (theme) => ({
   fulfillmentGroup: {
@@ -82,6 +83,11 @@ class OrderCardFulfillmentGroup extends Component {
             isMiniCart
             isReadOnly
             items={items}
+            components={{
+              CustomCartItem:(cartItemProps)=>(
+                <CheckoutCartItem {...cartItemProps}/>
+              )
+            }}
           />
         </Grid>
       );

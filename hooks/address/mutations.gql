@@ -2,21 +2,12 @@ mutation addAccountAddressBookEntryMutation($input: AddAccountAddressBookEntryIn
   addAccountAddressBookEntry(input: $input) {
     address {
       _id
-      address1
-      address2
-      city
-      company
-      country
-      fullName
-      isBillingDefault
-      isCommercial
-      isShippingDefault
-      phone
-      postal
-      region
-      metafields {
-        key
-        value
+      description
+      address
+      reference
+      geolocation{
+        latitude
+        longitude
       }
     }
   }
@@ -26,21 +17,12 @@ mutation updateAccountAddressBookEntryMutation($input: UpdateAccountAddressBookE
   updateAccountAddressBookEntry(input: $input) {
     address {
       _id
-      address1
-      address2
-      city
-      company
-      country
-      fullName
-      isBillingDefault
-      isCommercial
-      isShippingDefault
-      phone
-      postal
-      region
-      metafields {
-        key
-        value
+      description
+      address
+      reference
+      geolocation{
+        latitude
+        longitude
       }
     }
   }
@@ -50,21 +32,12 @@ mutation removeAccountAddressBookEntryMutation($input: RemoveAccountAddressBookE
   removeAccountAddressBookEntry(input: $input) {
     address {
       _id
-      address1
-      address2
-      city
-      company
-      country
-      fullName
-      isBillingDefault
-      isCommercial
-      isShippingDefault
-      phone
-      postal
-      region
-      metafields {
-        key
-        value
+      description
+      address
+      reference
+      geolocation{
+        latitude
+        longitude
       }
     }
   }

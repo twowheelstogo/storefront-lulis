@@ -17,6 +17,7 @@ import fetchPrimaryShop from "staticUtils/shop/fetchPrimaryShop";
 import fetchAllTags from "staticUtils/tags/fetchAllTags";
 import fetchTag from "staticUtils/tag/fetchTag";
 import fetchTranslations from "staticUtils/translations/fetchTranslations";
+import withCart from "containers/cart/withCart";
 
 class TagGridPage extends Component {
   static propTypes = {
@@ -114,7 +115,11 @@ class TagGridPage extends Component {
       routingStore,
       shop,
       tag,
-      uiStore
+      uiStore,
+      cart,
+      addItemsToCart,
+      onChangeCartItemsQuantity,
+      currencyCode
     } = this.props;
     const pageSize = routingStore.query && routingStore.query.limit ? parseInt(routingStore.query.limit, 10) : uiStore.pageSize;
     const sortBy = routingStore.query && routingStore.query.sortby ? routingStore.query.sortby : uiStore.sortBy;
@@ -132,13 +137,19 @@ class TagGridPage extends Component {
         </MainLayout>
       );
     }
-    console.log("tag properties: ",tag);
+    const products = (catalogItems || []).map((item) => {
+      const productInCart = (cart?.items||[]).find((cartItem)=>cartItem.productSlug==item.node.product.slug);
+                        return{
+                            ...item.node.product,
+                            cartItem:productInCart
+                        }
+    })
     return (
       <MainLayout shop={shop}
-      title={`${tag.displayTitle|| "Sin etiqueta"}`}
+      title={`${ (tag && tag.displayTitle)|| "Sin etiqueta"}`}
       subtitle=""
       type="image"
-      background={this.getMediaUrl(tag.heroMediaUrl)}>
+      background={this.getMediaUrl((tag && tag.heroMediaUrl)|| "https://firebasestorage.googleapis.com/v0/b/twowheelstogo-572d7.appspot.com/o/resources%2Fezgif.com-gif-maker(2).png?alt=media&token=e1c9e79f-4977-4288-9fd5-7737dc96e268s")}>
       <Helmet
           title={`${tag && tag.name} | ${shop && shop.name}`}
           meta={
@@ -148,23 +159,16 @@ class TagGridPage extends Component {
               [{ name: "description", content: shop && shop.description }]
           }
         />
-        {/* <Breadcrumbs isTagGrid tagId={routingStore.tagId} />
-        {
-          tag && tag.displayTitle && <ProductGridTitle displayTitle={tag.displayTitle} />
-        } */}
-        {/* <ProductGrid
-          catalogItems={catalogItems}
-          currencyCode={shop.currency.code}
-          isLoadingCatalogItems={isLoadingCatalogItems}
-          pageInfo={catalogItemsPageInfo}
-          pageSize={pageSize}
-          setPageSize={this.setPageSize}
-          setSortBy={this.setSortBy}
-          sortBy={sortBy}
-        /> */}
+        <div>
+        <br></br>
         <CustomProductGrid
-        products={(catalogItems || []).map((item) => item.node.product)}
+        currencyCode = {currencyCode}
+				 cart={cart}
+				 addItemsToCart={addItemsToCart}
+				 onChangeCartItemsQuantity={onChangeCartItemsQuantity}
+         products={products}
         />
+        </div>
       </MainLayout>
     );
   }
@@ -217,4 +221,4 @@ export async function getStaticPaths() {
   };
 }
 
-export default withApollo()(withCatalogItems(inject("routingStore", "uiStore")(TagGridPage)));
+export default withApollo()(withCatalogItems(inject("routingStore", "uiStore")(withCart(TagGridPage))));

@@ -63,6 +63,7 @@ query catalogItemProductQuery($slugOrId: String!) {
             position
           }
         }
+        tagIds
         variants {
           _id
           variantId

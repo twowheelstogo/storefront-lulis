@@ -24,7 +24,6 @@
     "test:link": "blc http://web.reaction.localhost:4000 -ro -filter=3 -e",
     "test:file": "NODE_ENV=jesttest jest --watch --no-coverage",
     "create-hydra-client": "node createHydraClientIfNecessary.js",
-    "postinstall": "is-ci || is-docker || husky install",
     "prepublishOnly": "pinst --disable",
     "postpublish": "pinst --enable"
   },
@@ -77,6 +76,7 @@
     "react-final-form": "^6.5.3",
     "react-google-maps": "^9.4.5",
     "react-helmet": "~5.2.0",
+    "react-horizontal-scrolling-menu": "^0.7.10",
     "react-stripe-elements": "~2.0.3",
     "react-tracking": "~5.6.0",
     "reacto-form": "~1.4.0",

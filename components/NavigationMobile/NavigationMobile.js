@@ -117,7 +117,7 @@ class NavigationMobile extends Component {
                   <Link route="/">
                       <img
                           // src = 'https://firebasestorage.googleapis.com/v0/b/twg-rrhh.appspot.com/o/company-logos%2Flulis-logo%20(2).png?alt=media&token=50e9772a-81c8-43d8-ba5d-29c70ed918c4'
-                          src = 'https://firebasestorage.googleapis.com/v0/b/twg-rrhh.appspot.com/o/company-logos%2Flulis-logo.png?alt=media&token=891d79ae-57a0-48f7-bc09-8e757e77af34'
+                          src = 'https://firebasestorage.googleapis.com/v0/b/twowheelstogo-572d7.appspot.com/o/resources%2FArtboard%201%402x.png?alt=media&token=6cb86848-7fe8-426d-b087-772f99392f9d'
                           className = { classes.logo }
                       />
                   </Link>

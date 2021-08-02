@@ -1,8 +1,18 @@
 import Payment from 'payment'
 
-export function validateCreditCardNumber(value){
-  const regex = `^4[0-9]{12}(?:[0-9]{3})?$)|(^(?:5[1-5][0-9]{2}|222[1-9]|22[3-9][0-9]|2[3-6][0-9]{2}|27[01][0-9]|2720)[0-9]{12}$)|(3[47][0-9]{13})|(^3(?:0[0-5]|[68][0-9])[0-9]{11}$)|(^6(?:011|5[0-9]{2})[0-9]{12}$)|(^(?:2131|1800|35\d{3})\d{11}$`;
-  return regex.test(test)
+export function validateCreditCardNumber(val) {
+  var sum = 0;
+  for (var i = 0; i < val.length; i++) {
+      var intVal = parseInt(val.substr(i, 1));
+      if (i % 2 == 0) {
+          intVal *= 2;
+          if (intVal > 9) {
+              intVal = 1 + (intVal % 10);
+          }
+      }
+      sum += intVal;
+  }
+  return (sum % 10) == 0;
 }
 
 function clearNumber(value = '') {

@@ -5,6 +5,7 @@ import Helmet from 'react-helmet';
 import { inPageSizes } from "lib/utils/pageSizes";
 import { withApollo } from "lib/apollo/withApollo";
 import withCatalogItems from "containers/catalog/withCatalogItems";
+import withCart from "containers/cart/withCart";
 
 import MainLayout from 'components/MainLayout';
 import HomePage from 'custom/homePage';
@@ -13,11 +14,25 @@ import { locales } from "translations/config";
 import fetchPrimaryShop from "staticUtils/shop/fetchPrimaryShop";
 import fetchTranslations from "staticUtils/translations/fetchTranslations";
 import fetchAllTags from "staticUtils/tags/fetchAllTags";
-
+import CategoryLayout from 'components/CategoryLayout';
+import {makeStyles} from "@material-ui/core";
+import { useTheme } from '@material-ui/core/styles';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import MobileHomePage from "components/MobileHomePage";
 // @inject("routingStore")
 // @observer
-
+const useStyles = makeStyles((theme)=>({
+	root:{
+		display:'flex'
+	},
+	content:{
+		padding:theme.spacing(2)
+	}
+}))
 const Home = props => {
+	const classes = useStyles();
+	const theme = useTheme();
+	const matches = useMediaQuery(theme.breakpoints.down('sm'));
 	const propTypes = {
 		catalogItems: PropTypes.array,
     	catalogItemsPageInfo: PropTypes.object,
@@ -57,9 +72,11 @@ const Home = props => {
 		routingStore: { query },
 		shop,
 		tags,
-		uiStore
+		uiStore,
+		cart,
+		addItemsToCart,
+		onChangeCartItemsQuantity
 	} = props;
-	console.log(props);
 	const pageSize = query && inPageSizes(query.limit) ? parseInt(query.limit, 10) : uiStore.pageSize;
     const sortBy = query && query.sortby ? query.sortby : uiStore.sortBy;
 	let pageTitle;
@@ -69,31 +86,79 @@ const Home = props => {
     } else {
       pageTitle = "Storefront";
     }
+	const currencyCode = (shop && shop.currency.code) || "GTQ";
 
 	return(
 		<MainLayout shop = { shop } title="YUM NOM NOM :)"
-		subtitle="" background="https://cdn.shopify.com/s/files/1/0253/7442/5166/files/LB_Homepage_Cookie_Break.mp4?14611"
-		type="video">
+		subtitle="" background="https://firebasestorage.googleapis.com/v0/b/twowheelstogo-572d7.appspot.com/o/resources%2Fprincipal.png?alt=media&token=f54afab0-0e72-4590-a711-20f72204938f"
+		type="image">
 			<Helmet>
 				<title>{shop && shop.name}</title>
 				<meta name="description" content={shop && shop.description} />
 			</Helmet>
-
-			<HomePage 
-				catalogItems={ catalogItems }
-				currencyCode={ (shop && shop.currency && shop.currency.code) || "GTQ" }
-				isLoadingCatalogItems={ isLoadingCatalogItems }
-				pageInfo={ catalogItemsPageInfo }
-				pageSize={ pageSize }
-				tags={tags}
-				setPageSize={ setPageSize }
-				setSortBy={ setSortBy }
-				sortBy={ sortBy }
-			/>
+			{!matches &&(
+				<RenderHomePage {...props}/>
+			)}
+			{matches &&(
+				<RenderMobilePage {...props}/>
+			)}
         </MainLayout>
 	);
 };
-
+const RenderHomePage = props => {
+	const {
+		catalogItems,
+		catalogItemsPageInfo,
+		isLoadingCatalogItems,
+		routingStore: { query },
+		shop,
+		tags,
+		uiStore,
+		cart,
+		addItemsToCart,
+		onChangeCartItemsQuantity
+	} = props;
+	const classes = useStyles();
+	return (
+		<main className={classes.content}>
+				<HomePage 
+					catalogItems={ catalogItems }
+					currencyCode={ (shop && shop.currency && shop.currency.code) || "GTQ" }
+					isLoadingCatalogItems={ isLoadingCatalogItems }
+					pageInfo={ catalogItemsPageInfo }
+					tags={tags}
+					cart={cart}
+					addItemsToCart={addItemsToCart}
+					onChangeCartItemsQuantity={onChangeCartItemsQuantity}
+				/>
+				</main>
+	);
+}
+const RenderMobilePage = props => {
+	const {
+		catalogItems,
+		catalogItemsPageInfo,
+		isLoadingCatalogItems,
+		routingStore: { query },
+		shop,
+		tags,
+		uiStore,
+		cart,
+		addItemsToCart,
+		onChangeCartItemsQuantity
+	} = props;
+	const currencyCode = (shop && shop.currency.code) || "GTQ";
+	return(
+		<MobileHomePage
+				currencyCode = {currencyCode}
+				 catalogItems = {catalogItems}
+				 tags = {tags}
+				 cart={cart}
+				 addItemsToCart={addItemsToCart}
+				 onChangeCartItemsQuantity={onChangeCartItemsQuantity}
+				/>
+	);
+}
 /**
 *  Static props for the main layout
 *

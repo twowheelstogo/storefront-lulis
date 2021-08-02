@@ -14,17 +14,13 @@ fragment OrderCommon on Order {
       ... on ShippingOrderFulfillmentGroupData {
         shippingAddress {
           _id
-          address1
-          address2
-          city
-          company
-          country
-          fullName
-          isCommercial
-          isShippingDefault
-          phone
-          postal
-          region
+          address
+          description
+          reference
+          geolocation{
+            latitude
+            longitude
+          }
         }
       }
     }
@@ -143,18 +139,6 @@ fragment OrderCommon on Order {
     _id
     amount {
       displayAmount
-    }
-    billingAddress {
-      address1
-      address2
-      city
-      company
-      country
-      fullName
-      isCommercial
-      phone
-      postal
-      region
     }
     displayName
     method {

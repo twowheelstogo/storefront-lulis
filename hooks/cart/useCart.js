@@ -48,7 +48,6 @@ export default function useCart() {
     pollInterval: shouldSkipAccountCartByAccountIdQuery ? 0 : 10000
   });
 
-
   const [
     fetchAnonymousCart,
     { data: cartDataAnonymous, called: anonymousCartQueryCalled, refetch: refetchAnonymousCart }
@@ -277,12 +276,15 @@ export default function useCart() {
         return response;
       },
       onSetShippingAddress: async (address) => {
+        let addressId = address._id;
+        delete address._id;
         const response = await apolloClient.mutate({
           mutation: setShippingAddressCartMutation,
           variables: {
             input: {
               ...cartIdAndCartToken(),
-              address
+              address,
+              addressId
             }
           }
         });

@@ -23,18 +23,14 @@ fragment CartCommon on Cart {
       type
       data {
         shippingAddress {
-          address1
-          address2
-          city
-          company
-          country
-          fullName
-          isBillingDefault
-          isCommercial
-          isShippingDefault
-          phone
-          postal
-          region
+          _id
+          description
+          address
+          reference
+          geolocation{
+            latitude
+            longitude
+          }
         }
       }
       availableFulfillmentOptions {
@@ -67,18 +63,14 @@ fragment CartCommon on Cart {
         _id
       }
       shippingAddress {
-        address1
-        address2
-        city
-        company
-        country
-        fullName
-        isBillingDefault
-        isCommercial
-        isShippingDefault
-        phone
-        postal
-        region
+        _id
+          description
+          address
+          reference
+          geolocation{
+            latitude
+            longitude
+          }
       }
     }
     summary {
