@@ -19,7 +19,11 @@ defaults: &defaults
     - GLOBAL_CACHE_VERSION: “v3”
   docker:
     - image: circleci/node:12-stretch
-
+only-deploy-trunk: &only-deploy-trunk
+  filters:
+    branches:
+      only:
+        - master
 jobs:
   install-dependencies:
     <<: *defaults
@@ -78,9 +82,7 @@ jobs:
 
   docker-build-push:
     <<: *defaults
-    branches:
-      only:
-        - master
+    <<: *only-deploy-trunk
     steps:
       - checkout
       - setup_remote_docker:
