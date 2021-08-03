@@ -19,6 +19,11 @@ defaults: &defaults
     - GLOBAL_CACHE_VERSION: “v3”
   docker:
     - image: circleci/node:12-stretch
+only-deploy-trunk: &only-deploy-trunk
+  filters:
+    branches:
+      only:
+        - trunk
 
 jobs:
   install-dependencies:
@@ -115,6 +120,7 @@ workflows:
             - install-dependencies
       - docker-build-push:
           context: reaction-lulis-publish-docker
+          <<: *only-deploy-trunk
           requires:
             # - dockerfile-lint
             # - eslint
