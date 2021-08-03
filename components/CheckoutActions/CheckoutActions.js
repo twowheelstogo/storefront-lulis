@@ -292,6 +292,7 @@ class CheckoutActions extends Component {
   		Router.push(`/checkout/order?orderId=${orders[0].referenceId}${token ? `&token=${token}` : ""}`);
   	} catch (error) {
   		if (this._isMounted) {
+			this.handlePaymentsReset();
   			this.setState({
   				hasPaymentError: true,
   				isPlacingOrder: false,
