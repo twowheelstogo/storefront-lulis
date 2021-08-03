@@ -23,7 +23,8 @@ only-deploy-trunk: &only-deploy-trunk
   filters:
     branches:
       only:
-        - master
+        - trunk
+
 jobs:
   install-dependencies:
     <<: *defaults
@@ -82,7 +83,6 @@ jobs:
 
   docker-build-push:
     <<: *defaults
-    <<: *only-deploy-trunk
     steps:
       - checkout
       - setup_remote_docker:
@@ -120,6 +120,7 @@ workflows:
             - install-dependencies
       - docker-build-push:
           context: reaction-lulis-publish-docker
+          <<: *only-deploy-trunk
           requires:
             # - dockerfile-lint
             # - eslint
