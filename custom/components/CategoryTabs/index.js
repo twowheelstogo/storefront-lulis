@@ -1,7 +1,7 @@
 import React, { Fragment, useState } from "react";
 import {
 	makeStyles,
-} from "@material-ui/core";
+} from "@material-ui/core/styles";
 
 import CategoryLayout from "components/CategoryLayout";
 const useStyles = makeStyles( theme => ({
