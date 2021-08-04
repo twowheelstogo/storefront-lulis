@@ -27,7 +27,7 @@ const HomePage = props => {
 		</Fragment>
 	);
 };
-HomePage.PropTypes = {
+HomePage.propTypes = {
 	catalogItems: PropTypes.array,
 	currencyCode: PropTypes.string,
 	isLoadingCatalogItems: PropTypes.bool,
