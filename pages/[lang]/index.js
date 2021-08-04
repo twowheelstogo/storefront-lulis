@@ -1,11 +1,11 @@
-import React, { Component, Fragment } from "react";
+import React, {  } from "react";
 import PropTypes from "prop-types";
 import inject from "hocs/inject";
 import Helmet from "react-helmet";
 import { inPageSizes } from "lib/utils/pageSizes";
 import { withApollo } from "lib/apollo/withApollo";
 import withCatalogItems from "containers/catalog/withCatalogItems";
-import withCart from "containers/cart/withCart";
+import PageLoading from "components/PageLoading";
 
 import MainLayout from "components/MainLayout";
 import HomePage from "custom/homePage";
@@ -14,7 +14,6 @@ import { locales } from "translations/config";
 import fetchPrimaryShop from "staticUtils/shop/fetchPrimaryShop";
 import fetchTranslations from "staticUtils/translations/fetchTranslations";
 import fetchAllTags from "staticUtils/tags/fetchAllTags";
-import CategoryLayout from "components/CategoryLayout";
 import {makeStyles} from "@material-ui/core/styles";
 import { useTheme } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
@@ -52,33 +51,10 @@ const Home = props => {
 		})
 	};
 
-	const { routingStore } = props;
-	routingStore.setTagId(null);
-	
-	const setPageSize = (pageSize) => {
-		this.props.routingStore.setSearch({ limit: pageSize });
-		this.props.uiStore.setPageSize(pageSize);
-	};
-
-	const setSortBy = (sortBy) => {
-		this.props.routingStore.setSearch({ sortby: sortBy });
-		this.props.uiStore.setSortBy(sortBy);
-	};
-
 	const {
-		catalogItems,
-		catalogItemsPageInfo,
-		isLoadingCatalogItems,
-		routingStore: { query },
 		shop,
-		tags,
-		uiStore,
-		cart,
-		addItemsToCart,
-		onChangeCartItemsQuantity
+		isLoadingCatalogItems
 	} = props;
-	const pageSize = query && inPageSizes(query.limit) ? parseInt(query.limit, 10) : uiStore.pageSize;
-	const sortBy = query && query.sortby ? query.sortby : uiStore.sortBy;
 	let pageTitle;
 	if (shop) {
 		pageTitle = shop.name;
@@ -86,8 +62,7 @@ const Home = props => {
 	} else {
 		pageTitle = "Storefront";
 	}
-	const currencyCode = (shop && shop.currency.code) || "GTQ";
-
+	if(isLoadingCatalogItems) return <PageLoading />
 	return(
 		<MainLayout shop = { shop } title="YUM NOM NOM :)"
 			subtitle="" background="https://firebasestorage.googleapis.com/v0/b/twowheelstogo-572d7.appspot.com/o/resources%2Fprincipal.png?alt=media&token=f54afab0-0e72-4590-a711-20f72204938f"
@@ -110,10 +85,8 @@ const RenderHomePage = props => {
 		catalogItems,
 		catalogItemsPageInfo,
 		isLoadingCatalogItems,
-		routingStore: { query },
 		shop,
 		tags,
-		uiStore,
 		cart,
 		addItemsToCart,
 		onChangeCartItemsQuantity
@@ -137,12 +110,9 @@ const RenderHomePage = props => {
 const RenderMobilePage = props => {
 	const {
 		catalogItems,
-		catalogItemsPageInfo,
 		isLoadingCatalogItems,
-		routingStore: { query },
 		shop,
 		tags,
-		uiStore,
 		cart,
 		addItemsToCart,
 		onChangeCartItemsQuantity

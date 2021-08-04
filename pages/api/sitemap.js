@@ -20,7 +20,7 @@ export default async function generateSitemap(req, res) {
         xml
         } }
     `;
-
+	console.log(query);
 	const response = await fetch(appConfig.INTERNAL_GRAPHQL_URL, {
 		method: "POST",
 		headers: { "Content-Type": "application/json" },
@@ -42,5 +42,5 @@ export default async function generateSitemap(req, res) {
 	res.statusCode = 200;
 	res.setHeader("Content-Type", "text/xml");
 	res.setHeader("Cache-Control", `public, max-age=${appConfig.SITEMAP_MAX_AGE}`);
-	return res.end(json.data.sitemap.xml);
+	return res.end(json.data.sitemap.xml.toString());
 }

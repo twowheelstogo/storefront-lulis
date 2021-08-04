@@ -79,7 +79,6 @@ const CustomFooter = props => {
 					<Grid
 						container
 						direction="row"
-						justifyContent="flex-end"
 						alignItems="flex-start"
 						spacing={2}>
 						<Grid item xs={12}
