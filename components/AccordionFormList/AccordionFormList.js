@@ -166,11 +166,11 @@ class AccordionFormList extends Component {
   };
 
   static defaultProps = {
-  	addNewItemButtonText: "Add an item",
-  	deleteItemButtonText: "Delete this item",
-  	entryFormSubmitButtonText: "Add item",
-  	cancelButtonText: "Cancel",
-  	saveButtonText: "Save Changes",
+  	addNewItemButtonText: "Agregar un item",
+  	deleteItemButtonText: "Borrar este item",
+  	entryFormSubmitButtonText: "Agregar item",
+  	cancelButtonText: "Cancelar",
+  	saveButtonText: "Guardar cambios",
   	isWaiting: false,
   	onItemDeleted() {}
   };

@@ -89,9 +89,9 @@ class AddressBook extends Component {
   	account: {
   		addressBook: []
   	},
-  	addNewItemButtonText: "Add a new address",
-  	deleteItemButtonText: "Delete address",
-  	entryFormSubmitButtonText: "Save and Select",
+  	addNewItemButtonText: "Agregar nueva dirección",
+  	deleteItemButtonText: "Eliminar dirección",
+  	entryFormSubmitButtonText: "Guardar cambios",
   	isSaving: false,
   	onAddressAdded(values) {
   	},
@@ -162,7 +162,7 @@ class AddressBook extends Component {
 
   	const items = addressBook.map(({ _id, ...address }) => ({
   		id: _id,
-  		detail: addressToString(address),
+  		detail: `${address.address}, ${address.reference}`,
   		itemEditFormProps: {
   			isOnDarkBackground: true,
   			isSaving,
@@ -171,7 +171,7 @@ class AddressBook extends Component {
   			},
   			value: address
   		},
-  		label: address.fullName
+  		label: address.description
   	}));
 
   	const itemAddFormProps = {

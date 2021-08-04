@@ -4,7 +4,7 @@ import inject from "hocs/inject";
 import Grid from "@material-ui/core/Grid";
 import { Typography } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
-import AddressBook from "@reactioncommerce/components/AddressBook/v1";
+import AddressBook from "components/AddressBook";
 import withAddressBook from "containers/address/withAddressBook";
 import relayConnectionToArray from "lib/utils/relayConnectionToArray";
 import ErrorPage from "../../pages/_error";
@@ -46,6 +46,7 @@ class ProfileAddressBook extends Component {
 
   	return (
   		<AddressBook
+		    addNewItemButtonText = "Agregar nueva dirección"
   			account={accountAddressBook}
   			onAddressAdded={onAddressAdded}
   			onAddressEdited={onAddressEdited}
@@ -62,7 +63,7 @@ class ProfileAddressBook extends Component {
   	return (
   		<Grid className={classes.profileAddressBookContainer} container>
   			<Grid className={classes.profileAddressBookTitle} item xs={12} md={12}>
-  				<Typography variant="h6">Address Book</Typography>
+  				<Typography variant="h6">Libreta de Direcciones</Typography>
   			</Grid>
   			{this.renderAddressBook()}
   		</Grid>

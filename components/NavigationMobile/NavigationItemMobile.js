@@ -76,14 +76,15 @@ class NavigationItemMobile extends Component {
 
   onClick = () => {
   	const { navItem, uiStore, isTopLevel } = this.props;
-
+	console.log("Nav item pressed");
   	if (isTopLevel && this.hasSubNavItems) {
   		this.props.onClick(navItem);
   	} else if (this.hasSubNavItems) {
   		this.setState({ isSubNavOpen: !this.state.isSubNavOpen });
   	} else {
   		const path = this.linkPath;
-  		Router.push(path, { slug: navItem.slug });
+		  console.log(path, navItem)
+  		Router.push(path);
   		uiStore.closeMenuDrawer();
   	}
   };

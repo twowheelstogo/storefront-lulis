@@ -21,6 +21,7 @@ const styles = (theme) => ({
 		paddingTop:"70px",
 		paddingBottom:theme.spacing(5),
 		width:"100%",
+		minHeight:"100vh"
 	},
 	mainNoMaxwidth:{
 		flex: "1 1 auto",

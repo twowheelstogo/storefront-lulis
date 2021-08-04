@@ -85,19 +85,19 @@ class ProfileOrders extends Component {
 
   	const orderStatusSelectOptions = [
   		{
-  			name: "All",
+  			name: "Todas",
   			value: "all"
   		},
   		{
-  			name: "Open orders",
+  			name: "Ordenes Abiertas",
   			value: "open"
   		},
   		{
-  			name: "Completed orders",
+  			name: "Ordenes Completadas",
   			value: "completed"
   		},
   		{
-  			name: "Canceled orders",
+  			name: "Ordenes Canceladas",
   			value: "canceled"
   		}
   	];
@@ -118,7 +118,7 @@ class ProfileOrders extends Component {
   renderOrders() {
   	const { orders, shop } = this.props;
 
-  	if (!orders) return <ErrorPage shop={shop} subtitle="No orders found" />;
+  	if (!orders) return <ErrorPage shop={shop} subtitle="No encontramos ninguna orden" />;
 
   	// Use relayConnectionToArray to remove edges / nodes levels from orders object
   	const ordersToArray = (orders && relayConnectionToArray(orders)) || [];
@@ -132,7 +132,7 @@ class ProfileOrders extends Component {
   	return (
   		<Grid className={classes.profileOrdersContainer} container>
   			<Grid className={classes.profileOrdersTitle} item xs={12} md={12}>
-  				<Typography variant="h6">Orders</Typography>
+  				<Typography variant="h6">Mis Ordenes</Typography>
   			</Grid>
   			<Grid className={classes.profileOrdersSelect} item xs={12} md={12}>
   				{this.renderOrderTypeSelect()}

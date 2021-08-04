@@ -34,14 +34,14 @@ function ProfileMenu() {
 		{
 			href: "/profile/address",
 			route: "/profile/address",
-			label: "Address Book",
+			label: "Libreta de direcciones",
 			isSelected: asPath.includes("/profile/address"),
 			icon: <AddressbookIcon/>
 		},
 		{
 			href: "/profile/orders",
 			route: "/profile/orders",
-			label: "Orders",
+			label: "Mis ordenes",
 			isSelected: asPath.includes("/profile/orders"),
 			icon: <OrderIcon/>
 		}

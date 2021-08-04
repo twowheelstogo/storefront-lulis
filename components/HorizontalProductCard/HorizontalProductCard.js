@@ -69,8 +69,8 @@ const styles = (theme)=>({
 		height: 20,
 		top: 0,
 		right: 0,
-		backgroundColor: "#0095b3",
-		color: "#ffffff"
+		backgroundColor: theme.palette.reaction.badges.product,
+		color: theme.palette.primary.main
 	}
 });
 class HorizontalProductCard extends React.Component{

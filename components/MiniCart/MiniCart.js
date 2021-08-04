@@ -35,8 +35,8 @@ const styles = ({ palette, zIndex }) => ({
 		height: 20,
 		top: 10,
 		left: 20,
-		backgroundColor: "#0095b3",
-		color: "#ffffff"
+		backgroundColor: palette.reaction.badges.cart,
+		color: palette.primary.main
 	}
 });
 

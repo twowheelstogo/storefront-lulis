@@ -2,13 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { addTypographyStyles, applyTheme } from "@reactioncommerce/components/utils";
-import {withStyles} from "@material-ui/core/styles";
-const styles = theme =>({
-	root:{
-		paddingTop:theme.spacing(5),
-		paddingBottom:theme.spacing(5)
-	}
-});
+
 const Table = styled.table`
   width: 100%;
   border-spacing: 0;
@@ -42,10 +36,8 @@ const Td = styled.td`
 `;
 
 const TdValue = styled(Td)`
+  ${addTypographyStyles("CartSummaryRightColumn", "labelText")}
   text-align: right;
-  font-size: 14px;
-  font-weight: 600;
-  color: #000025;
 `;
 
 const Title = styled.span`
@@ -68,6 +60,7 @@ const TdTax = styled.td`
   padding-top: ${(props) => (props.isDense ? applyTheme("CartSummary.rowDensePaddingTop")(props) : applyTheme("CartSummary.rowPaddingTop")(props))};
   text-align: left;
 `;
+
 const TdTaxValue = styled(Td)`
   ${addTypographyStyles("CartSummaryRightColumn", "labelText")}
   padding-bottom: ${applyTheme("CartSummary.rowPaddingBottom")};
@@ -95,192 +88,187 @@ const TdTotalValue = styled(Td)`
 const Total = styled.span`
   ${addTypographyStyles("CartSummaryTotal", "subheadingTextBold")}
 `;
-const TotalItem = styled.div`
-    text-align: center;
-    font-size: 18px;
-    font-weight: 600;
-    color: #000025;
-`;
+
 class CartSummary extends Component {
   static propTypes = {
-  	/**
+    /**
      * The text for the "Cart" title text.
      */
-  	cartTitleText: PropTypes.string,
-  	/**
+    cartTitleText: PropTypes.string,
+    /**
      * You can provide a `className` prop that will be applied to the outermost DOM element
      * rendered by this component. We do not recommend using this for styling purposes, but
      * it can be useful as a selector in some situations.
      */
-  	className: PropTypes.string,
-  	/**
+    className: PropTypes.string,
+    /**
      * Discount amount associated with promo code
      */
-  	displayDiscount: PropTypes.string,
-  	/**
+    displayDiscount: PropTypes.string,
+    /**
      * Shipping cost
      */
-  	displayShipping: PropTypes.string,
-  	/**
+    displayShipping: PropTypes.string,
+    /**
      * Subtotal amount
      */
-  	displaySubtotal: PropTypes.string.isRequired,
-  	/**
+    displaySubtotal: PropTypes.string.isRequired,
+    /**
      * Surcharge amount
      */
-  	displaySurcharge: PropTypes.string,
-  	/**
+    displaySurcharge: PropTypes.string,
+    /**
      * Calculated tax amount
      */
-  	displayTax: PropTypes.string,
-  	/**
+    displayTax: PropTypes.string,
+    /**
      * Total amount
      */
-  	displayTotal: PropTypes.string.isRequired,
-  	/**
+    displayTotal: PropTypes.string.isRequired,
+    /**
      * The text for the "FREE" label text.
      */
-  	freeText: PropTypes.string,
-  	/**
+    freeText: PropTypes.string,
+    /**
      * Dense layout with a transparent background color
      */
-  	isDense: PropTypes.bool,
-  	/**
+    isDense: PropTypes.bool,
+    /**
      * If a product qualifies for free shipping, display "FREE" for shipping method
      */
-  	isFreeShipping: PropTypes.bool,
-  	/**
+    isFreeShipping: PropTypes.bool,
+    /**
      * The text for the "Items" label text.
      */
-  	itemLabelText: PropTypes.string,
-  	/**
+    itemLabelText: PropTypes.string,
+    /**
      * Quantity of products in shopping cart
      */
-  	itemsQuantity: PropTypes.number,
-  	/**
+    itemsQuantity: PropTypes.number,
+    /**
      * The text for the "items" header text.
      */
-  	itemsText: PropTypes.string,
-  	/**
+    itemsText: PropTypes.string,
+    /**
      * The text for the "Order total" label text.
      */
-  	orderTotalLabelText: PropTypes.string,
-  	/**
+    orderTotalLabelText: PropTypes.string,
+    /**
      * The text for the "Promo code applied" text.
      */
-  	promoCodeText: PropTypes.string,
-  	/**
+    promoCodeText: PropTypes.string,
+    /**
      * The text for the "Shipping" label text.
      */
-  	shippingLabelText: PropTypes.string,
-  	/**
+    shippingLabelText: PropTypes.string,
+    /**
      * The text for the "Surcharges" label text.
      */
-  	surchargesLabelText: PropTypes.string,
-  	/**
+    surchargesLabelText: PropTypes.string,
+    /**
      * The text for the "Tax" label text.
      */
-  	taxLabelText: PropTypes.string
+    taxLabelText: PropTypes.string
   }
 
   static defaultProps = {
-  	cartTitleText: "Resúmen de la orden",
-  	freeText: "FREE",
-  	itemLabelText: "Artículos",
-  	itemsText: "artículos",
-  	orderTotalLabelText: "Total de la orden",
-  	promoCodeText: "Código de promoción aplicado",
-  	shippingLabelText: "Envío",
-  	surchargesLabelText: "Cargos",
-  	taxLabelText: "Impuesto"
-  }
+    cartTitleText: "Resúmen de la orden",
+    freeText: "FREE",
+    itemLabelText: "Artículos",
+    itemsText: "artículos",
+    orderTotalLabelText: "Total de la orden",
+    promoCodeText: "Código de promoción aplicado",
+    shippingLabelText: "Envío",
+    surchargesLabelText: "Cargos",
+    taxLabelText: "Impuesto"
+}
 
   renderHeader() {
-  	const { cartTitleText, itemsQuantity, itemsText } = this.props;
-  	const itemsLabel = itemsQuantity >= 0 ? `${itemsQuantity} ${itemsText}` : null;
+    const { cartTitleText, itemsQuantity, itemsText } = this.props;
+    const itemsLabel = itemsQuantity >= 0 ? `${itemsQuantity} ${itemsText}` : null;
 
-  	return (
-  		<thead>
-  			<tr>
-  				<Th>
-  					<Title>{cartTitleText}</Title>
-  				</Th>
-  				<Thr>{itemsLabel}</Thr>
-  			</tr>
-  		</thead>
-  	);
+    return (
+      <thead>
+        <tr>
+          <Th>
+            <Title>{cartTitleText}</Title>
+          </Th>
+          <Thr>{itemsLabel}</Thr>
+        </tr>
+      </thead>
+    );
   }
 
   renderDiscount() {
-  	const { displayDiscount, isDense, promoCodeText } = this.props;
+    const { displayDiscount, isDense, promoCodeText } = this.props;
 
-  	return (
-  		<tr>
-  			<Td isDense={isDense}>{promoCodeText}:</Td>
-  			<TdValue isDense={isDense}>
-  				<Discount>{displayDiscount}</Discount>
-  			</TdValue>
-  		</tr>
-  	);
+    return (
+      <tr>
+        <Td isDense={isDense}>{promoCodeText}:</Td>
+        <TdValue isDense={isDense}>
+          <Discount>{displayDiscount}</Discount>
+        </TdValue>
+      </tr>
+    );
   }
-  renderTotal(){
-  	const {displayTotal} = this.props;
-  	return (
-  		<tfoot>
-  			<tr>
 
-  			</tr>
-  		</tfoot>
-  	);
-  }
   render() {
-  	const {
-  		className,
-  		displayDiscount,
-  		displayShipping,
-  		displaySubtotal,
-  		displaySurcharge,
-  		displayTax,
-  		displayTotal,
-  		isDense,
-  		isFreeShipping,
-  		freeText,
-  		itemLabelText,
-  		orderTotalLabelText,
-  		shippingLabelText,
-  		surchargesLabelText,
-  		taxLabelText,
-  		classes
-  	} = this.props;
+    const {
+      className,
+      displayDiscount,
+      displayShipping,
+      displaySubtotal,
+      displaySurcharge,
+      displayTax,
+      displayTotal,
+      isDense,
+      isFreeShipping,
+      freeText,
+      itemLabelText,
+      orderTotalLabelText,
+      shippingLabelText,
+      surchargesLabelText,
+      taxLabelText
+    } = this.props;
 
-  	// Use "-" to indicate we are still calculating this field.
-  	const shipping = (isFreeShipping ? freeText : displayShipping) || "-";
-  	const tax = displayTax || "-";
-  	const header = !isDense && this.renderHeader();
-  	const discount = displayDiscount && this.renderDiscount();
-  	const surcharge = displaySurcharge || "-";
+    // Use "-" to indicate we are still calculating this field.
+    const shipping = (isFreeShipping ? freeText : displayShipping) || "-";
+    const tax = displayTax || "-";
+    const header = !isDense && this.renderHeader();
+    const discount = displayDiscount && this.renderDiscount();
+    const surcharge = displaySurcharge || "-";
 
-  	return (
-  		<React.Fragment className={classes.root}>
-  			<br></br>
-  			<Table className={className} isDense={isDense}>
-  				{header}
-  				<tbody>
-  					<tr>
-  						<Td isDense={isDense}>{"Productos"}</Td>
-  						<TdValue isDense={isDense}>{displaySubtotal}</TdValue>
-  					</tr>
-  					<tr>
-  						<Td isDense={isDense}>{"Envío"}</Td>
-  						<TdValue isDense={isDense}>{shipping}</TdValue>
-  					</tr>
-  				</tbody>
-  			</Table>
-  			<TotalItem>{`Total de la orden ${displayTotal}`}</TotalItem>
-  			<br></br>
-  		</React.Fragment>
-  	);
+    return (
+      <Table className={className} isDense={isDense}>
+        {header}
+        <tbody>
+          <tr>
+            <Td isDense={isDense}>{itemLabelText}:</Td>
+            <TdValue isDense={isDense}>{displaySubtotal}</TdValue>
+          </tr>
+          <tr>
+            <Td isDense={isDense}>{shippingLabelText}:</Td>
+            <TdValue isDense={isDense}>{shipping}</TdValue>
+          </tr>
+          {discount}
+          <tr>
+            <Td isDense={isDense}>{surchargesLabelText}:</Td>
+            <TdValue isDense={isDense}>{surcharge}</TdValue>
+          </tr>
+          <tr>
+            <TdTax isDense={isDense}>{taxLabelText}:</TdTax>
+            <TdTaxValue isDense={isDense}>{tax}</TdTaxValue>
+          </tr>
+          <tr>
+            <TdTotal isDense={isDense} isBordered>{orderTotalLabelText}:</TdTotal>
+            <TdTotalValue isDense={isDense} isBordered>
+              <Total>{displayTotal}</Total>
+            </TdTotalValue>
+          </tr>
+        </tbody>
+      </Table>
+    );
   }
 }
 
-export default withStyles(styles)(CartSummary);
+export default CartSummary;

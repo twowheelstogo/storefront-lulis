@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import CartSummary from "@reactioncommerce/components/CartSummary/v1";
+import CartSummary from "components/CartSummary/v2";
 
 class OrderCardSummary extends Component {
   static propTypes = {
@@ -44,6 +44,11 @@ class OrderCardSummary extends Component {
   				displaySurcharge={surchargeTotal && surchargeTotal.displayAmount}
   				displayTax={taxTotal && taxTotal.displayAmount}
   				displayTotal={total && total.displayAmount}
+				itemLabelText="Artículos"
+				shippingLabelText={"Envío"}
+				surchargesLabelText={"Cargos"}
+				taxLabelText={"Impuesto"}
+				orderTotalLabelText={"Total del la orden"}
   			/>
   		);
   	}

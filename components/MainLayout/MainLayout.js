@@ -6,7 +6,8 @@ import SlideHero from "custom/components/SlideHero";
 import PropTypes from "prop-types";
 import withCart from "containers/cart/withTempCart";
 import inject from "hocs/inject";
-
+import { Fab } from "@material-ui/core";
+import { WhatsApp as WhastAppIcon } from "@material-ui/icons";
 const styles = (theme) => ({
 	root: {
 		minHeight: "100vh"
@@ -19,6 +20,14 @@ const styles = (theme) => ({
 	},
 	article: {
 		padding: theme.spacing(0)
+	},
+	floatingButton: {
+		position: "fixed",
+		bottom: theme.spacing(2),
+		right: theme.spacing(2),
+		zIndex: 10,
+		background: "#25d366",
+		color: "white"
 	}
 });
 class MainLayout extends Component{
@@ -60,6 +69,9 @@ class MainLayout extends Component{
     					</article>
     				</main>
     				<Footer />
+					<Fab className = {classes.floatingButton}>
+						<WhastAppIcon />
+					</Fab>
     			</div>
     		</React.Fragment>
     	);

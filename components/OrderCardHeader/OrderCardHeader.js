@@ -114,16 +114,16 @@ class OrderCardHeader extends Component {
   					<OrderCardStatusBadge displayStatus={displayStatus} status={status} />
   				</Grid>
   				<Grid item xs={12} md={3}>
-  					<Typography variant="caption" className={classnames(classes.orderCardInfoText, classes.orderCardInfoHeaderText)}>Date:</Typography>
+  					<Typography variant="caption" className={classnames(classes.orderCardInfoText, classes.orderCardInfoHeaderText)}>Fecha:</Typography>
   					<Typography variant="caption" className={classes.orderCardInfoTextBold}>{orderDate}</Typography>
   				</Grid>
   				<Grid item xs={12} md={3}>
-  					<Typography variant="caption" className={classnames(classes.orderCardInfoText, classes.orderCardInfoHeaderText)}>Order ID:</Typography>
+  					<Typography variant="caption" className={classnames(classes.orderCardInfoText, classes.orderCardInfoHeaderText)}>ID de la orden:</Typography>
   					<Typography variant="caption" className={classes.orderCardInfoTextBold}>{referenceId}</Typography>
   				</Grid>
   				<Grid item xs={12} md={3}>
   					<Typography variant="caption" className={classes.orderCardInfoTextDetails}>
-              Order details
+              Detalles de la orden
   						<IconButton className={classes.orderCardInfoExpandIcon} color="inherit" onClick={this.toggleHeader}>
   							{this.state.isExpanded ? <ChevronUpIcon /> : <ChevronDownIcon />}
   						</IconButton>
