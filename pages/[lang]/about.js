@@ -5,9 +5,10 @@ import fetchPrimaryShop from "staticUtils/shop/fetchPrimaryShop";
 import fetchTranslations from "staticUtils/translations/fetchTranslations";
 import Helmet from "react-helmet";
 import { locales } from "translations/config";
-import { Grid, makeStyles, withStyles } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
+import { withStyles } from "@material-ui/core/styles";
 import PropTypes from "prop-types";
-const useStyles = makeStyles((theme) => ({
+const useStyles = (theme) => ({
 	title: {
 		color: "#0095b3",
 		textAlign: "center",
@@ -32,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
 		width: "100%",
 		backgroundColor: "red"
 	}
-}));
+});
 class About extends React.Component {
     static propTypes = {
     	shop: PropTypes.object,
