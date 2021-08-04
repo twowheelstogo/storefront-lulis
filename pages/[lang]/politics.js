@@ -5,7 +5,8 @@ import fetchPrimaryShop from "staticUtils/shop/fetchPrimaryShop";
 import fetchTranslations from "staticUtils/translations/fetchTranslations";
 import Helmet from "react-helmet";
 import { locales } from "translations/config";
-import { Grid,Typography,makeStyles,withStyles } from "@material-ui/core";
+import { Grid,Typography,withStyles } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
 const useStyles = makeStyles((theme)=>({
 	title:{
 		color:"#0095b3",

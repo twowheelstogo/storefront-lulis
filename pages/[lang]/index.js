@@ -15,7 +15,7 @@ import fetchPrimaryShop from "staticUtils/shop/fetchPrimaryShop";
 import fetchTranslations from "staticUtils/translations/fetchTranslations";
 import fetchAllTags from "staticUtils/tags/fetchAllTags";
 import CategoryLayout from "components/CategoryLayout";
-import {makeStyles} from "@material-ui/core";
+import {makeStyles} from "@material-ui/core/styles";
 import { useTheme } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import MobileHomePage from "components/MobileHomePage";

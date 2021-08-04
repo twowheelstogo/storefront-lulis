@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { 
-	makeStyles,
 	Paper,
 	Grid,
 	Typography,
 	Button
 } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
 import inject from "hocs/inject";
 import Link from "components/Link";
 import withCart from "containers/cart/withCart";
