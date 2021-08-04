@@ -6,7 +6,7 @@ import Grid from "@material-ui/core/Grid";
 import { withStyles } from "@material-ui/core/styles";
 import ProfileMenu from "components/ProfileMenu";
 import ProfileOrders from "components/ProfileOrders";
-import Layout from "components/Layout";
+import Layout from "components/CustomLayout";
 import withAddressBook from "containers/address/withAddressBook";
 import { withApollo } from "lib/apollo/withApollo";
 
@@ -60,7 +60,7 @@ class ProfileOrdersPage extends Component {
   				title={`My Orders | ${shop && shop.name}`}
   				meta={[{ name: "description", content: shop && shop.description }]}
   			/>
-  			<section>
+  			<section style = {{paddingTop:'20px'}}>
   				<Grid container spacing={3}>
   					<Grid item xs={false} md={1} /> {/* MUI grid doesn't have an offset. Use blank grid item instead. */}
   					<Grid item xs={12} md={3}>

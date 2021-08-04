@@ -59,8 +59,8 @@ const styles = (theme) => ({
 		position:"absolute",
 		top: 0,
 		right: 0,
-		backgroundColor: "#0095b3",
-		color: "#ffffff"
+		backgroundColor: theme.palette.reaction.badges.product,
+		color: theme.palette.primary.main
 	}
 
 });

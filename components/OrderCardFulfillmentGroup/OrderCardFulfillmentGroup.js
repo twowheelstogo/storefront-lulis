@@ -115,7 +115,7 @@ class OrderCardFulfillmentGroup extends Component {
   						spacing={3}
   					>
   						<Grid item xs={6}>
-  							<Typography className={classes.fulfillmentGroupCount} variant="subtitle1">Shipment {currentGroupCount} of {totalGroupsCount}</Typography>
+  							<Typography className={classes.fulfillmentGroupCount} variant="subtitle1">Envíos {currentGroupCount} de {totalGroupsCount}</Typography>
   						</Grid>
   						<Grid item xs={6} className={classes.fulfillmentGroupHeaderRightColumn}>
   							{fulfillmentGroup.tracking ?
@@ -125,7 +125,7 @@ class OrderCardFulfillmentGroup extends Component {
   									size="small"
   									variant="outlined"
   								>
-                    Track shipment
+                    Seguimiento del envío
   								</Button>
   								:
   								<Button
@@ -134,7 +134,7 @@ class OrderCardFulfillmentGroup extends Component {
   									size="small"
   									variant="outlined"
   								>
-                    No tracking available
+                    Sin seguimiento
   								</Button>
   							}
   						</Grid>

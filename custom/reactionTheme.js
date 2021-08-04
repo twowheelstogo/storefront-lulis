@@ -17,7 +17,7 @@ const theme = createMuiTheme({
 			contrastText: "#FFFFFF"
 		},
 		secondary: {
-			light: "#84C7D9",
+			light: "#8ce0c9",
 			main: "#7A6240",
 			dark: "#242356",
 			contrastText: "#000000"
@@ -50,7 +50,9 @@ const theme = createMuiTheme({
 			activeElementBackground: "#E6E6E6",
 			badges: {
 				bestseller: "#8CE0C9",
-				sale: "#E54F5D"
+				sale: "#E54F5D",
+				cart: "#8ce0c9",
+				product: "#8ce0c9"
 			},
 			borderColor: "#CCCCCC",
 			buttonBorderRadius: 2,
