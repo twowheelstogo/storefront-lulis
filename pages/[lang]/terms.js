@@ -5,8 +5,10 @@ import fetchPrimaryShop from "staticUtils/shop/fetchPrimaryShop";
 import fetchTranslations from "staticUtils/translations/fetchTranslations";
 import Helmet from "react-helmet";
 import { locales } from "translations/config";
-import { Grid,Typography,makeStyles,withStyles } from "@material-ui/core";
-const useStyles = makeStyles((theme)=>({
+import { Grid,Typography } from "@material-ui/core";
+import { withStyles } from "@material-ui/core/styles";
+
+const useStyles = (theme)=>({
 	title:{
 		color:"#0095b3",
 		textAlign:"center",
@@ -19,7 +21,7 @@ const useStyles = makeStyles((theme)=>({
 		fontSize:"20px",
 		fontWeight:"400"
 	}
-}));
+});
 class TermsAndConditions extends React.Component{
 	render(){
 		const {shop,classes:{title,subtitle,bodytext}} = this.props;

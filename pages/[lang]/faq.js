@@ -5,10 +5,12 @@ import fetchPrimaryShop from "staticUtils/shop/fetchPrimaryShop";
 import fetchTranslations from "staticUtils/translations/fetchTranslations";
 import Helmet from "react-helmet";
 import { locales } from "translations/config";
-import { Grid,Typography,makeStyles,withStyles } from "@material-ui/core";
+import { Grid,Typography } from "@material-ui/core";
 import withQuestions from "containers/faq/withQuestions";
 import CustomAccordion from "custom/components/CustomAccordion";
-const useStyles = makeStyles((theme)=>({
+import { withStyles } from "@material-ui/core/styles";
+
+const useStyles = (theme)=>({
 	title:{
 		color:"#0095b3",
 		textAlign:"center",
@@ -27,7 +29,7 @@ const useStyles = makeStyles((theme)=>({
 	imageContainer:{
 
 	}
-}));
+});
 class FrequentAskedQuestions extends React.Component{
 	render(){
 		const {shop,classes:{title,subtitle,bodytext},questions} = this.props;

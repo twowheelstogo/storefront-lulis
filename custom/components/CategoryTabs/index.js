@@ -1,22 +1,5 @@
 import React, { Fragment, useState } from "react";
-import {
-	makeStyles,
-} from "@material-ui/core/styles";
-
 import CategoryLayout from "components/CategoryLayout";
-const useStyles = makeStyles( theme => ({
-	bg: { 
-		// backgroundColor: '#e8fbff',
-		// width: '100vw',
-		padding: theme.spacing(1, 2),
-		margin: theme.spacing(0)
-	},
-	appbarBG: {
-		// backgroundColor: '#ffffff',
-		color: "#0095b3",
-		boxShadow: "0px 0px 0px 0px"
-	}
-}));
 
 const CategoryTabs = props =>  {
 	const [ tab, setTab ] = useState(0);
