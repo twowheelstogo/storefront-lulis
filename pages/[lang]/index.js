@@ -53,8 +53,10 @@ const Home = props => {
 
 	const {
 		shop,
-		isLoadingCatalogItems
+		isLoadingCatalogItems,
+		slugStore: {heroTitle,heroBackground}
 	} = props;
+	console.log(props)
 	let pageTitle;
 	if (shop) {
 		pageTitle = shop.name;
@@ -64,8 +66,8 @@ const Home = props => {
 	}
 	if(isLoadingCatalogItems) return <PageLoading />
 	return(
-		<MainLayout shop = { shop } title="YUM NOM NOM :)"
-			subtitle="" background="https://firebasestorage.googleapis.com/v0/b/twowheelstogo-572d7.appspot.com/o/resources%2Fprincipal.png?alt=media&token=f54afab0-0e72-4590-a711-20f72204938f"
+		<MainLayout shop = { shop } title={heroTitle}
+			subtitle="" background={heroBackground}
 			type="image">
 			<Helmet>
 				<title>{shop && shop.name}</title>
@@ -115,11 +117,13 @@ const RenderMobilePage = props => {
 		tags,
 		cart,
 		addItemsToCart,
-		onChangeCartItemsQuantity
+		onChangeCartItemsQuantity,
+		slugStore
 	} = props;
 	const currencyCode = (shop && shop.currency.code) || "GTQ";
 	return(
 		<MobileHomePage
+		slugStore = {slugStore}
 			currencyCode = {currencyCode}
 				 catalogItems = {catalogItems}
 				 tags = {tags}
@@ -176,4 +180,4 @@ export async function getStaticPaths() {
 	};
 }
   
-export default withApollo()(withCatalogItems(inject("routingStore", "uiStore")(Home)));
+export default withApollo()(withCatalogItems(inject("routingStore", "uiStore", "slugStore")(Home)));

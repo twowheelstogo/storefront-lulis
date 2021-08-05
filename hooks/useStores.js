@@ -2,7 +2,7 @@ import useUIStore from "hooks/globalStores/useUIStore";
 import useAuthStore from "hooks/globalStores/useAuthStore";
 import useCartStore from "hooks/globalStores/useCartStore";
 import useRoutingStore from "hooks/globalStores/useRoutingStore";
-
+import useSlugStore from "hooks/globalStores/useSlugStore";
 /**
  * Get the UI stores
  *
@@ -13,6 +13,6 @@ export default function useStores() {
 	const cartStore = useCartStore();
 	const routingStore = useRoutingStore();
 	const uiStore = useUIStore();
-
-	return { uiStore, routingStore, authStore, cartStore };
+	const slugStore = useSlugStore()
+	return { uiStore, routingStore, authStore, cartStore, slugStore };
 }

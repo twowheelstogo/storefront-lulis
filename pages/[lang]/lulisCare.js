@@ -4,7 +4,7 @@ import inject from "hocs/inject";
 import Helmet from "react-helmet";
 import { withApollo } from "lib/apollo/withApollo";
 
-import Layout from "components/Layout";
+import Layout from "components/CustomLayout";
 import CareCarousel from "custom/components/LulisCareCarousel";
 
 import { locales } from "translations/config";

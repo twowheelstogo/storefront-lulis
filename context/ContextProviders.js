@@ -7,7 +7,7 @@ import { ShopProvider } from "context/ShopContext";
 import { TagsProvider } from "context/TagsContext";
 import { UIProvider } from "context/UIContext";
 import { LocaleProvider } from "context/LocaleContext";
-
+import { SlugProvider } from "context/SlugContext";
 export const ContextProviders = ({ children, pageProps }) => {
 	const { tags, shop, lang, translations, namespaces } = pageProps;
 
@@ -23,7 +23,9 @@ export const ContextProviders = ({ children, pageProps }) => {
 						>
 							<ShopProvider shop={shop}>
 								<TagsProvider tags={tags}>
-									{children}
+									<SlugProvider>
+										{children}
+									</SlugProvider>
 								</TagsProvider>
 							</ShopProvider>
 						</LocaleProvider>

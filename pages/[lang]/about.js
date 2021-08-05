@@ -15,7 +15,7 @@ const useStyles = (theme) => ({
 		marginBottom: "5rem"
 	},
 	subtitle: {
-		color: "#0095b3"
+		color: theme.palette.primary.light
 	},
 	bodytext: {
 		fontSize: "20px",
@@ -31,7 +31,6 @@ const useStyles = (theme) => ({
 		justifyContent: "center",
 		height: "100%",
 		width: "100%",
-		backgroundColor: "red"
 	}
 });
 class About extends React.Component {
