@@ -42,7 +42,8 @@ export default function withCatalogItems(Component) {
     		tagIds,
     		sortBy,
     		sortByPriceCurrencyCode: uiStore.sortByCurrencyCode,
-    		sortOrder
+    		sortOrder,
+			first: 100
     	};
 
     	return (
