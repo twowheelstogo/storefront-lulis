@@ -39,7 +39,7 @@ const ItemTrailing = styled.div`
 const ItemTitle = styled.div`
 font-size:16px;
 font-weight:700;
-color:#000025;
+color:#000000;
 `;
 const ItemSubtitle = styled.div`
 display: -webkit-box;
@@ -152,7 +152,7 @@ class BorderedCartItem extends React.Component{
 
       	const { displayAmount: displaySubtotal } = subtotal || {};
       	const { displayAmount: displayCompareAtPrice } = compareAtPrice || {};
-      	const imageUrl = `https://api.qbit01.com${imageURLs && imageURLs.original}`;
+      	const imageUrl = `https://api.qbit01.com${imageURLs && imageURLs.small}`;
       	return(
       		<React.Fragment>
       			<Item className={classes.root}>

@@ -12,7 +12,7 @@ const Card = styled.div`
     padding: 20px;
     cursor: pointer;
     ${({selected})=> selected && `
-        border: 1px solid #000025;
+        border: 1px solid #000000;
     `}
 `;
 const CardIcon = styled.div`

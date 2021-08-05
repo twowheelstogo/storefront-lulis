@@ -27,7 +27,7 @@ const styles = (theme)=>({
 	},
 	scrolledAppBar:{
 		background:"white",
-		color:"#000025",
+		color:"#000000",
 		borderBottom: "1px solid #f1f1f1"
 	},
 	logo:{
@@ -97,7 +97,7 @@ class MainHeader extends React.Component{
     					</Hidden>
     					<Link route="/" className={logo}>
     						<img
-    							src = 'https://firebasestorage.googleapis.com/v0/b/twowheelstogo-572d7.appspot.com/o/resources%2FArtboard%201%402x.png?alt=media&token=6cb86848-7fe8-426d-b087-772f99392f9d'
+    							src = 'https://firebasestorage.googleapis.com/v0/b/twowheelstogo-572d7.appspot.com/o/resources%2FArtboard%201.png?alt=media&token=d217eb7f-efbe-4519-8bfa-1130b1725331'
     							className = { logo }
     						/>
     					</Link>
@@ -127,7 +127,7 @@ class MainHeader extends React.Component{
     						</Hidden>
     						<Link route="/" className={logo}>
     							<img
-    								src = 'https://firebasestorage.googleapis.com/v0/b/twowheelstogo-572d7.appspot.com/o/resources%2FArtboard%201%402x.png?alt=media&token=6cb86848-7fe8-426d-b087-772f99392f9d'
+    								src = 'https://firebasestorage.googleapis.com/v0/b/twowheelstogo-572d7.appspot.com/o/resources%2FArtboard%201.png?alt=media&token=d217eb7f-efbe-4519-8bfa-1130b1725331'
     								className = { logo }
     							/>
     						</Link>

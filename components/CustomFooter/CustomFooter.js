@@ -131,5 +131,5 @@ const CustomFooter = props => {
 		</React.Fragment>
 	);
 };
-const imageUrl = "https://firebasestorage.googleapis.com/v0/b/twowheelstogo-572d7.appspot.com/o/resources%2FArtboard%201%402x.png?alt=media&token=6cb86848-7fe8-426d-b087-772f99392f9d";
+const imageUrl = "https://firebasestorage.googleapis.com/v0/b/twowheelstogo-572d7.appspot.com/o/resources%2FArtboard%201.png?alt=media&token=d217eb7f-efbe-4519-8bfa-1130b1725331";
 export default withStyles(styles)(CustomFooter);

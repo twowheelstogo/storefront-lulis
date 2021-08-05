@@ -20,7 +20,7 @@ import Router from "translations/i18nRouter";
 const CustomProductTitle = styled.div`
    font-size:36px;
    font-weight:600;
-   color:#000025;
+   color:#000000;
    display: -webkit-box;
      -webkit-line-clamp: 1;
      -webkit-box-orient: vertical;  
@@ -34,7 +34,12 @@ const styles = (theme) => ({
 	},
 	image:{
 		margin:"auto",
-		display:"block"
+		display:"block",
+	},
+	imgContainer:{
+		[theme.breakpoints.up("md")]:{
+			minHeight: "50vh"
+		}
 	},
 	content:{
 		width:"100%",
@@ -170,14 +175,15 @@ const CustomProductDetails = props => {
 	const currentProduct = (cart.items||[]).find(item=>item.productSlug==product.slug);
 	const currentQuantity = currentProduct ? currentProduct.quantity : 0;
 	const subtotal = `Q${Number(product.pricing[0].maxPrice*quantity).toFixed(2)}`;
+	const media = product.primaryImage.URLs ? product.primaryImage.URLs.small.replace("jpg","png"):"";
 	return(
 		<React.Fragment>
 			<div className={classes.root}>
 				<Grid container>
 					<Grid item lg={6} xs={12}>
-						<div>
-							<img src={product.primaryImage.URLs.medium} width={"70%"} className={classes.image}/>
-						</div>
+							<div className={classes.imgContainer}>
+							<img src={media}  className={classes.image}/>
+							</div>
 					</Grid>
 					<Grid item lg={6} xs={12}>
 						<div className={classes.content}>

@@ -45,7 +45,7 @@ const TdValue = styled(Td)`
   text-align: right;
   font-size: 14px;
   font-weight: 600;
-  color: #000025;
+  color: #000000;
 `;
 
 const Title = styled.span`
@@ -99,7 +99,7 @@ const TotalItem = styled.div`
     text-align: center;
     font-size: 18px;
     font-weight: 600;
-    color: #000025;
+    color: #000000;
 `;
 class CartSummary extends Component {
   static propTypes = {
