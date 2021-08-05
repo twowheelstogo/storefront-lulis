@@ -172,7 +172,7 @@ const CustomProductDetails = props => {
 		openCartWithTimeout(3000);
 		// Router.push("","")
 	};
-	const currentProduct = (cart.items||[]).find(item=>item.productSlug==product.slug);
+	const currentProduct = (cart?.items||[]).find(item=>item.productSlug==product.slug);
 	const currentQuantity = currentProduct ? currentProduct.quantity : 0;
 	const subtotal = `Q${Number(product.pricing[0].maxPrice*quantity).toFixed(2)}`;
 	const media = product.primaryImage.URLs ? product.primaryImage.URLs.small.replace("jpg","png"):"";
