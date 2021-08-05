@@ -19,7 +19,7 @@ display: -webkit-box;
 const StyledTitle = styled.div`
 font-size:18px;
 font-weight:700;
-color:#000025;
+color:#000000;
 display: -webkit-box;
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;  

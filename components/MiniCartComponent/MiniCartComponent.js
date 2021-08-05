@@ -158,7 +158,7 @@ class MiniCart extends Component {
   	onCheckoutButtonClick() {},
   	onRemoveItemFromCart() {},
   	checkoutButtonText: "Checkout",
-  	footerMessageText: "Shipping and tax calculated in checkout"
+  	footerMessageText: "Envío calculado en el proceso de compra"
   };
 
   render() {

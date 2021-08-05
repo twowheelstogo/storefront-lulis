@@ -5,7 +5,7 @@ import { useApolloClient } from "@apollo/client";
 import Head from "next/head";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
-import CartEmptyMessage from "@reactioncommerce/components/CartEmptyMessage/v1";
+import CartEmptyMessage from "components/CartEmptyMessage";
 import { StripeProvider } from "react-stripe-elements";
 import CheckoutActions from "components/CheckoutActions";
 import CheckoutSummary from "components/CheckoutSummary";

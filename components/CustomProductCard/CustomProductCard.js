@@ -20,7 +20,7 @@ display: -webkit-box;
 const StyledTitle = styled.div`
 font-size:16px;
 font-weight:700;
-color:#000025;
+color:#000000;
 @media (min-width: ${applyTheme("sm", "breakpoints")}px) {
     font-size: 18px;
   }

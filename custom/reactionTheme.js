@@ -12,7 +12,7 @@ const theme = createMuiTheme({
 	palette: {
 		primary: {
 			light: "#4F4F4E",
-			main: "#000025",
+			main: "#000000",
 			dark: "#565656",
 			contrastText: "#FFFFFF"
 		},
@@ -42,7 +42,7 @@ const theme = createMuiTheme({
 		},
 		borders: {
 			default: "1px solid #0095b3",
-			main: "1px solid #000025",
+			main: "1px solid #000000",
 			secondary: "1px solid #7A6240"
 		},
 		reaction: {
@@ -180,12 +180,12 @@ const theme = createMuiTheme({
 		title1: {
 			fontSize: 18,
 			fontWeight: 700,
-			color: "#000025"
+			color: "#000000"
 		},
 		title2: {
 			fontSize: 24,
 			fontWeight: 600,
-			color: "#000025"
+			color: "#000000"
 		}
 	}
 });

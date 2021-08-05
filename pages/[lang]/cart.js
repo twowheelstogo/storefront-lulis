@@ -5,7 +5,7 @@ import inject from "hocs/inject";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import { withStyles } from "@material-ui/core/styles";
-import CartEmptyMessage from "@reactioncommerce/components/CartEmptyMessage/v1";
+import CartEmptyMessage from "components/CartEmptyMessage";
 import CartSummary from "components/CartSummary/v2";
 import withCart from "containers/cart/withCart";
 import CartItems from "components/CartItems";
