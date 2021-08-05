@@ -6,7 +6,7 @@ import { inPageSizes } from "lib/utils/pageSizes";
 import { withApollo } from "lib/apollo/withApollo";
 import withCatalogItems from "containers/catalog/withCatalogItems";
 
-import Layout from "components/Layout";
+import Layout from "components/CustomLayout";
 import HomePage from "custom/homePage";
 import CategoryTabs from "custom/components/CategoryTabs";
 

@@ -1,5 +1,5 @@
 import React from "react";
-import Layout from "components/Layout";
+import Layout from "components/CustomLayout";
 import {withApollo} from "lib/apollo/withApollo";
 import fetchPrimaryShop from "staticUtils/shop/fetchPrimaryShop";
 import fetchTranslations from "staticUtils/translations/fetchTranslations";

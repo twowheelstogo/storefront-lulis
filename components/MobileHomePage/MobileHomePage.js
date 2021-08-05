@@ -18,9 +18,18 @@ const MobileHomePage = (props)=>{
 		cart,
 		addItemsToCart,
 		onChangeCartItemsQuantity,
-		currencyCode
+		currencyCode,
+		slugStore:{handleSlugSelected, handleTagSelected, currentTag}
 	} = props;
-	const [selected,SetSelected] = useState(tags[0]||null);
+	const [selected,SetSelected] = useState(currentTag||tags[0]);
+	const handleChange = (value) => {
+		SetSelected(value);
+			handleSlugSelected({
+			title: value.displayTitle,
+			background: value.heroMediaUrl || "https://firebasestorage.googleapis.com/v0/b/twowheelstogo-572d7.appspot.com/o/resources%2Fprincipal.png?alt=media&token=f54afab0-0e72-4590-a711-20f72204938f"
+		});
+		handleTagSelected(value)
+	}
 	const products = catalogItems.filter((element=>{
 		return element.node.product.tagIds.find((ids)=>ids==selected?._id)!=undefined;
 	})).map((item)=>{
@@ -32,7 +41,7 @@ const MobileHomePage = (props)=>{
 	});
 	return(
 		<React.Fragment>
-			<CatalogNavItems tags={tags} selected={selected} SetSelected={SetSelected}/>
+			<CatalogNavItems tags={tags} selected={selected} SetSelected={handleChange}/>
 			<div className={classes.productList}>
 				<ProductGrid 
 					currencyCode = {currencyCode}
