@@ -5,8 +5,8 @@ import {uniqueId} from "lodash";
 import {withComponents} from "@reactioncommerce/components-context";
 import {CustomPropTypes,applyTheme,addTypographyStyles } from "@reactioncommerce/components/utils";
 import { Field as Input,Form } from "react-final-form";
-import { formatCVC,formatCreditCardNumber,formatExpirationDate,validateCreditCardNumber } from "../utils/index";
-import {makeStyles} from "@material-ui/core/styles";
+import { formatCVC,formatCreditCardNumber,formatExpirationDate,validateCreditCardNumber, formatName } from "../utils/index";
+import {makeStyles} from "@material-ui/core";
 const useStyles = makeStyles(()=>({
 	root:{
 
@@ -76,9 +76,9 @@ function EpayPaymentForm(props,ref){
 	if (!uniqueInstanceIdentifier) {
 		setUniqueInstanceIdentifier(uniqueId("EpayPaymentForm"));
 	}
-	function buildResult({ cardNumber = null, cardExpiry = null,cardCVV=null}) {
+	function buildResult({ cardNumber = null, cardExpiry = null, cardCVV=null, cardName=null}) {
 		return {
-			data: { cardNumber, cardExpiry,cardCVV },
+			data: { cardNumber, cardExpiry, cardCVV, cardName },
 			displayName: "Tarjeta de crédito"
 		};
 	}
@@ -136,6 +136,9 @@ function EpayPaymentForm(props,ref){
 	}));
 	const validateForm = values => {
 		const errors = {};
+		if(!values.cardName){
+			errors.cardName = "Este campo es requerido";
+		}
 		if(!values.cardNumber){
 			errors.cardNumber = "Este campo es requerido";
 		}
@@ -146,6 +149,7 @@ function EpayPaymentForm(props,ref){
 		if(!values.cardCVV) errors.cardCVV = "Este campo es requerido";
 		return errors;
 	};
+	const cardNameInputId = `cardName_${uniqueInstanceIdentifier}`;
 	const cardNumberInputId = `cardNumber_${uniqueInstanceIdentifier}`;
 	const cardExpiryInputId = `cardExpiry_${uniqueInstanceIdentifier}`;
 	const cardCVVInputId = `cardCVV_${uniqueInstanceIdentifier}`;
@@ -174,6 +178,21 @@ function EpayPaymentForm(props,ref){
 						<div onSubmit={handleSubmit}>
 							<form className={className}>
 								<Grid>
+									<ColFull>
+											<Field name="cardName" label={"Nombre del titular de la tarjeta"} labelFor={cardNameInputId}>
+												<Input
+													className={classes.textInput}
+													name="cardName"
+													component="input"
+													type="text"
+													id={cardNameInputId}
+													pattern="[a-zA-Z\s]+"
+													placeholder="Nombre del titular de la tarjeta"
+													format={formatName}
+												/>
+												{errors.cardName && values.cardName && <ErrorSpan>{errors.cardName}</ErrorSpan>}
+											</Field>
+									</ColFull>
 									<ColFull>
 										<Field name="cardNumber" label={"Número de Tarjeta"} labelFor={cardNumberInputId}>
 											<Input
