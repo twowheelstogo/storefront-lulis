@@ -4,8 +4,9 @@ import { Grid, IconButton } from "@material-ui/core";
 import styled from "styled-components";
 import Divider from "@material-ui/core/Divider";
 import Hidden from "@material-ui/core/Hidden";
+import { Facebook as FacebookIcon, Instagram as InstagramIcon, WhatsApp as WhatsAppIcon } from "@material-ui/icons";
+import Link from "components/Link";
 
-import { Facebook as FacebookIcon, Instagram as InstagramIcon, WhatsApp as WhastAppIcon } from "@material-ui/icons";
 const date = new Date();
 const styles = (theme) => ({
 	root: {
@@ -70,6 +71,9 @@ const CustomItem = styled.div`
 `;
 const CustomFooter = props => {
 	const { classes } = props;
+	const goToPage = (url) => {
+		window.open(url, "_blank").focus();
+	}
 	return (
 		<React.Fragment>
 			<br></br>
@@ -87,18 +91,26 @@ const CustomFooter = props => {
 						</Grid>
 						<Grid item xs={12} md={3} className={classes.items}>
 							<CustomTitle>{"Contacto"}</CustomTitle>
-							<CustomItem>{"2426-3692 | 2316-3693"}</CustomItem>
+							<CustomItem>{"+502 4548 5624"}</CustomItem>
 							<CustomItem>{"20 calle 24-26 bodega 15 zona 10 Ofibodegas Pradera"}</CustomItem>
-							<CustomItem>{"Lunes- Sábado: 8am - 7pm"}</CustomItem>
-							<CustomItem>{"Domingo: 10am - 7pm"}</CustomItem>
+							<CustomItem>{"Lunes- Sábado: 8am - 8pm"}</CustomItem>
+							<CustomItem>{"Domingo: 10am - 8pm"}</CustomItem>
 						</Grid>
 						<Grid item xs={12} md={3} className={classes.items}>
 							<CustomTitle>{"Empresa"}</CustomTitle>
-							<CustomItem>{"Sobre Nosotros"}</CustomItem>
-							<CustomItem>{"Preguntas Frecuentes"}</CustomItem>
+							<Link href="/about">
+								<CustomItem>{"Sobre Nosotros"}</CustomItem>
+							</Link>
+							<Link href="/faq">
+								<CustomItem>{"Preguntas Frecuentes"}</CustomItem>
+							</Link>
 							<Hidden mdUp>
-							<CustomItem>{"Política de Privacidad"}</CustomItem>
-							<CustomItem>{"Términos y Condiciones"}</CustomItem>
+								<Link href="/politics">
+									<CustomItem>{"Políticas de Devolución"}</CustomItem>
+								</Link>
+								<Link href="/terms">
+									<CustomItem>{"Términos y Condiciones"}</CustomItem>
+								</Link>
 							</Hidden>
 						</Grid>
 					</Grid>
@@ -106,20 +118,28 @@ const CustomFooter = props => {
 					<Divider className={classes.divider} />
 					<div className={classes.bottomItems}>
 						<div className={classes.flexIcons}>
-							<IconButton color = "inherit" size = "small">
+						<IconButton color="inherit" size="small"
+							onClick = {()=> goToPage("https://www.instagram.com/lulis.gt/")}
+						>
 								<InstagramIcon />
 							</IconButton>
-							<IconButton color = "inherit" size = "small">
+							<IconButton color="inherit" size="small"
+							onClick = {()=> goToPage("https://www.facebook.com/LulisGourmetTreats")}>
 								<FacebookIcon />
 							</IconButton>
-							<IconButton color = "inherit" size = "small">
-								<WhastAppIcon />
+							<IconButton color="inherit" size="small"
+							onClick = {()=> goToPage("https://wa.me/50245485624")}>
+								<WhatsAppIcon />
 							</IconButton>
 						</div>
 						<div className={classes.flexItems}>
 							<Hidden xsDown>
-							<CustomItem>{"Política de Privacidad"}</CustomItem>
-							<CustomItem>{"Términos y Condiciones"}</CustomItem>
+								<Link href="/politics">
+									<CustomItem>{"Políticas de Devolución"}</CustomItem>
+								</Link>
+								<Link href="/terms">
+									<CustomItem>{"Términos y Condiciones"}</CustomItem>
+								</Link>
 							</Hidden>
 						</div>
 					</div>

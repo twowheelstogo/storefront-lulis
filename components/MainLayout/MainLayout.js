@@ -7,7 +7,7 @@ import PropTypes from "prop-types";
 import withCart from "containers/cart/withTempCart";
 import inject from "hocs/inject";
 import { Fab } from "@material-ui/core";
-import { WhatsApp as WhastAppIcon } from "@material-ui/icons";
+import { WhatsApp as WhatsAppIcon } from "@material-ui/icons";
 const styles = (theme) => ({
 	root: {
 		minHeight: "100vh"
@@ -51,6 +51,9 @@ class MainLayout extends Component{
     isObject =(obj)=>{
     	return (!!obj) && (obj.constructor === Object);
     }
+	goToPage = (url) => {
+		window.open(url, "_blank").focus();
+	}
     render(){
     	const {classes,children,shop,viewer,title,subtitle,background,type,cart} = this.props;
     	const sliderProps={
@@ -70,8 +73,9 @@ class MainLayout extends Component{
     					</article>
     				</main>
     				<Footer />
-					<Fab className = {classes.floatingButton}>
-						<WhastAppIcon />
+					<Fab className = {classes.floatingButton}
+					onClick = {()=> this.goToPage("https://wa.me/50245485624")}>
+						<WhatsAppIcon />
 					</Fab>
     			</div>
     		</React.Fragment>

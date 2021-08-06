@@ -517,7 +517,7 @@ class CheckoutActions extends Component {
   			<ButtonContent>
   				<RoundedButton
   					buttonTitle="Finalizar Compra"
-  					buttonSubtitle="Total: Q150.00"
+  					buttonSubtitle={total && `total: ${total.displayAmount}`}
   					onClick={this.buildOrder}
   				/>
   			</ButtonContent>
