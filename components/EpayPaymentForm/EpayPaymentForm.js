@@ -76,9 +76,9 @@ function EpayPaymentForm(props,ref){
 	if (!uniqueInstanceIdentifier) {
 		setUniqueInstanceIdentifier(uniqueId("EpayPaymentForm"));
 	}
-	function buildResult({ cardNumber = null, cardExpiry = null,cardCVV=null}) {
+	function buildResult({ cardNumber = null, cardExpiry = null, cardCVV=null, , cardName=null}) {
 		return {
-			data: { cardNumber, cardExpiry,cardCVV },
+			data: { cardNumber, cardExpiry, cardCVV, cardName },
 			displayName: "Tarjeta de crédito"
 		};
 	}
