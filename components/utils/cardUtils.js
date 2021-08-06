@@ -15,6 +15,10 @@ export function validateCreditCardNumber(val) {
 	return (sum % 10) == 0;
 }
 
+function clearString(value = "") {
+	return value.replace(/\s+/g, ' ').trim().toUpperCase();
+}
+
 function clearNumber(value = "") {
 	return value.replace(/\D+/g, "");
 }
@@ -71,5 +75,10 @@ export function formatExpirationDate(value) {
 		return `${clearValue.slice(0, 2)}/${clearValue.slice(2, 4)}`;
 	}
 
+	return clearValue;
+}
+
+export function formatName(value){
+	const clearValue = clearString(value);
 	return clearValue;
 }
