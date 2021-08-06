@@ -186,7 +186,6 @@ function EpayPaymentForm(props,ref){
 													component="input"
 													type="text"
 													id={cardNameInputId}
-													pattern="[a-zA-Z\s]+"
 													placeholder="Nombre del titular de la tarjeta"
 													format={formatName}
 												/>
