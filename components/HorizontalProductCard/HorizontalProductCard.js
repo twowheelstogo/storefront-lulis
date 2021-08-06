@@ -9,7 +9,7 @@ import Badge from "@material-ui/core/Badge";
 import priceByCurrencyCode from "lib/utils/priceByCurrencyCode";
 const StyledContent = styled.div`
 display: -webkit-box;
-  -webkit-line-clamp: 2;
+  -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;  
   overflow: hidden;
   font-size: 14px;
