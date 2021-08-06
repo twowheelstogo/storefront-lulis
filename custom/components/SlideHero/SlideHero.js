@@ -39,7 +39,10 @@ const useStyles = makeStyles((theme)=>({
 		width:"auto",
 		margin:0,
 		height:"50vh",
-		display:"flex"
+		display:"flex",
+		[theme.breakpoints.up("md")]:{
+			height: "70vh"
+		}
 	}
 }));
 function SlideHero(props){
