@@ -16,17 +16,9 @@ export const orderCommonFragment = gql`
         ... on ShippingOrderFulfillmentGroupData {
           shippingAddress {
             _id
-            address1
-            address2
-            city
-            company
-            country
-            fullName
-            isCommercial
-            isShippingDefault
-            phone
-            postal
-            region
+            description
+            address
+            reference
           }
         }
       }
@@ -150,16 +142,9 @@ export const orderCommonFragment = gql`
         displayAmount
       }
       billingAddress {
-        address1
-        address2
-        city
-        company
-        country
-        fullName
-        isCommercial
-        phone
-        postal
-        region
+        description
+        address
+        reference
       }
       captureErrorMessage
       displayName

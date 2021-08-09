@@ -10,6 +10,54 @@ const withoutCodeCountries = ["AO", "AG", "AW", "BS", "BZ", "BJ", "BW",
   "MS", "NR", "AN", "NU", "KP", "PA", "QA", "RW", "KN", "LC",
   "ST", "SA", "SC", "SL", "SB", "SO", "SR", "SY", "TZ", "TL",
   "TK", "TO", "TT", "TV", "UG", "AE", "VU", "YE", "ZW"];
+/**
+ * @name Geolocation
+ * @memberof Schemas
+ * @type {SimpleSchema}
+ * @property {Number} latitude
+ * @property {Number} longitude 
+ */
+export const Geolocation = new SimpleSchema({
+  "latitude": {
+    type: Number
+  },
+  "longitude": {
+    type: Number
+  }
+})
+/**
+* @name CustomAddress
+* @memberof Schemas
+* @type {SimpleSchema}
+* @property {String} _id
+* @property {String} description
+* @property {String}
+*/
+export const CustomAddress = new SimpleSchema({
+  "_id": {
+    type: String,
+    optional: true
+  },
+  "description": {
+    type: String,
+    label: "Description"
+  },
+  "reference": {
+    type: String,
+    label: "Reference",
+    optional: true
+  },
+  "address": {
+    type: String,
+    label: "Address"
+  },
+  "geolocation": {
+    type: Geolocation,
+    label: "geolocation"
+  }
+});
+
+
 
 /**
  * @name Address
@@ -129,7 +177,7 @@ export const Address = new SimpleSchema({
   }
 });
 
-registerSchema("Address", Address);
+registerSchema("Address", CustomAddress);
 
 
 const ErrorDetails = new SimpleSchema({
