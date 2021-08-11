@@ -191,7 +191,6 @@ export default function useCart() {
 	};
 
 	const handleUpdateFulfillmentOptionsForGroup = async (fulfillmentGroupId) => {
-		console.log('fulfillmentToUpdate',fulfillmentGroupId);
 		await apolloClient.mutate({
 			mutation: updateFulfillmentOptionsForGroup,
 			variables: {
@@ -313,7 +312,10 @@ export default function useCart() {
 						}
 					}
 				});
-
+				
+				// Update fulfillment options for current cart
+				const { data: { updateFulfillmentTypeForGroup: fulfillmentResponse } } = response;
+				handleUpdateFulfillmentOptionsForGroup(fulfillmentResponse.cart.checkout.fulfillmentGroups[0]._id);
 				return response;
 
 			},
