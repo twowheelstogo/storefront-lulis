@@ -17,7 +17,7 @@ const deliveryMethods = [
 		InputComponent: PickupCheckoutAction,
 		displayName: "Pickup",
 		icon: pickupImage,
-		enabled: false
+		enabled: true
 	}
 ];
 export default deliveryMethods;

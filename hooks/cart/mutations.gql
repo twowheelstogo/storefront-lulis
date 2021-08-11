@@ -79,6 +79,15 @@ mutation setShippingAddressCartMutation($input: SetShippingAddressOnCartInput!) 
   }
 }
 
+#Set pickup details on cart
+mutation setPickupDetailsOnCartMutation($input: SetPickupDetailsOnCartInput!){
+  setPickupDetailsOnCart(input: $input){
+    cart {
+      ...CartPayloadFragment
+    }
+  }
+}
+
 # Update the quantities of items in the cart
 mutation updateCartItemsQuantityMutation($input: UpdateCartItemsQuantityInput!) {
   updateCartItemsQuantity(input: $input) {
@@ -91,6 +100,14 @@ mutation updateCartItemsQuantityMutation($input: UpdateCartItemsQuantityInput!) 
 # Update fulfillment options for the provided fulfillment group
 mutation updateFulfillmentOptionsForGroup($input: UpdateFulfillmentOptionsForGroupInput!) {
   updateFulfillmentOptionsForGroup(input: $input) {
+    cart {
+      ...CartPayloadFragment
+    }
+  }
+}
+# update fulfillment type for the provided fulfillment group
+mutation updateFulfillmentTypeForGroup($input:UpdateFulfillmentTypeForGroupInput!){
+  updateFulfillmentTypeForGroup(input: $input){
     cart {
       ...CartPayloadFragment
     }

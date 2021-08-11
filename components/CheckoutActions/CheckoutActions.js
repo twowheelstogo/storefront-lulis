@@ -135,6 +135,21 @@ class CheckoutActions extends Component {
   		});
   	}
   };
+
+  setPickupDetails = async (details) => {
+	const { checkoutMutations: { onSetPickupDetails } } = this.props;
+
+	const { data, error } = await onSetPickupDetails(details);
+
+	if (data && !error && this._isMounted) {
+		this.setState({
+			actionAlerts: {
+				1: {}
+			}
+		});
+	}
+  };
+
   handleInputComponentSubmit = async () => {
   	const {paymentInputs:{data,displayName,billingAddress,selectedPaymentMethodName,amount=null}} = this.state;
   	const {paymentMethods, remainingAmountDue } = this.props;
@@ -184,6 +199,16 @@ class CheckoutActions extends Component {
   	};
 
   	await onSetFulfillmentOption(fulfillmentOption);
+  };
+
+  setFulfillmentType = async (type) => {
+	const {checkoutMutations: {onSetFulfillmentType} } = this.props;
+	const { checkout: { fulfillmentGroups } } = this.props.cart;
+	const fulfillmentTypeInput = {
+		fulfillmentGroupId: fulfillmentGroups[0]._id,
+		fulfillmentType: type
+	};
+	await onSetFulfillmentType(fulfillmentTypeInput);
   };
 
   handlePaymentSubmit = (paymentInput) => {
@@ -462,7 +487,9 @@ class CheckoutActions extends Component {
   				},
   				submits: {
   					onSubmitShippingAddress: this.setShippingAddress,
-  					onSetShippingMethod: this.setShippingMethod
+  					onSetShippingMethod: this.setShippingMethod,
+					onSelectFulfillmentType: this.setFulfillmentType,
+					onSubmitPickupDetails: this.setPickupDetails
   				}
   			}
   		},

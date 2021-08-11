@@ -13,7 +13,9 @@ import {
 	setFulfillmentOptionCartMutation,
 	setShippingAddressCartMutation,
 	updateCartItemsQuantityMutation,
-	updateFulfillmentOptionsForGroup
+	updateFulfillmentOptionsForGroup,
+	updateFulfillmentTypeForGroup,
+	setPickupDetailsOnCartMutation
 } from "./mutations.gql";
 import {
 	accountCartByAccountIdQuery,
@@ -189,6 +191,7 @@ export default function useCart() {
 	};
 
 	const handleUpdateFulfillmentOptionsForGroup = async (fulfillmentGroupId) => {
+		console.log('fulfillmentToUpdate',fulfillmentGroupId);
 		await apolloClient.mutate({
 			mutation: updateFulfillmentOptionsForGroup,
 			variables: {
@@ -293,6 +296,41 @@ export default function useCart() {
 				const { data: { setShippingAddressOnCart } } = response;
 				handleUpdateFulfillmentOptionsForGroup(setShippingAddressOnCart.cart.checkout.fulfillmentGroups[0]._id);
 
+				return response;
+			},
+			onSetFulfillmentType: async ({ fulfillmentGroupId, fulfillmentType }) => {
+				const cartIdData = cartIdAndCartToken();
+
+				if (!cartIdData.cartId) return null;
+
+				const response = await apolloClient.mutate({
+					mutation: updateFulfillmentTypeForGroup,
+					variables: {
+						input: {
+							...cartIdData,
+							fulfillmentGroupId,
+							fulfillmentType
+						}
+					}
+				});
+
+				return response;
+
+			},
+			onSetPickupDetails: async(pickupDetails) => {
+				const response = await apolloClient.mutate({
+					mutation: setPickupDetailsOnCartMutation,
+					variables: {
+						input: {
+							...cartIdAndCartToken(),
+							pickupDetails
+						}
+					}
+				});
+
+				// Update fulfillment options for current cart
+				const { data: { setPickupDetailsOnCart } } = response;
+				handleUpdateFulfillmentOptionsForGroup(setPickupDetailsOnCart.cart.checkout.fulfillmentGroups[0]._id);
 				return response;
 			}
 		},

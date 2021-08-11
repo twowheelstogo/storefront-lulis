@@ -32,6 +32,9 @@ fragment CartCommon on Cart {
             longitude
           }
         }
+        pickupDetails {
+          datetime
+        }
       }
       availableFulfillmentOptions {
         price {
