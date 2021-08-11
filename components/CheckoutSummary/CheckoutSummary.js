@@ -32,6 +32,17 @@ const StyledTitle = styled.div`
   font-weight: 700;
   margin: auto;
 `;
+
+const StyledHeadline = styled.div`
+	font-size: 18px;
+	font-weight: 600;
+	color: #000000;
+`;
+const StyledText = styled.div`
+	font-size: 14px;
+	font-weight: 600;
+	color: #565656;
+`;
 class CheckoutSummary extends Component {
   static propTypes = {
   	cart: PropTypes.shape({
@@ -134,6 +145,34 @@ class CheckoutSummary extends Component {
   	return null;
   }
 
+  renderDeliveryDetails() {
+	  const { cart: { 
+		  checkout: { fulfillmentGroups }
+	   },
+		classes } = this.props;
+	   const [ fulfillmentGroup ] = fulfillmentGroups;
+	  return (
+		<Grid xs={12} className={classes.summary}>
+			{fulfillmentGroup.type === "shipping" && fulfillmentGroup.data.shippingAddress && (
+				<div>
+					<br></br>
+				<StyledHeadline>{"Lugar de entrega"}</StyledHeadline>
+				<StyledText>{fulfillmentGroup.data?.shippingAddress.description}</StyledText>
+				<StyledHeadline>{"Dirección"}</StyledHeadline>
+				<StyledText>{`${fulfillmentGroup.data?.shippingAddress.address} ${fulfillmentGroup.data?.shippingAddress.reference}`}</StyledText>
+				</div>
+			)}
+			{fulfillmentGroup.type === "pickup" && fulfillmentGroup.data.pickupDetails && (
+				<div>
+				<br></br>
+				<StyledHeadline>{"Fecha de entrega"}</StyledHeadline>
+				<StyledText>{fulfillmentGroup.data.pickupDetails && fulfillmentGroup.data?.pickupDetails.datetime}</StyledText>
+				</div>
+			)}
+		</Grid>
+	  );
+  }
+
   render() {
   	const {classes} = this.props;
   	return (
@@ -143,6 +182,7 @@ class CheckoutSummary extends Component {
   				<Divider className={classes.divider}/>
   				{this.renderCartItems()}
   				{this.renderCartSummary()}
+				{this.renderDeliveryDetails()}
   			</Grid>
   		</aside>
   	);

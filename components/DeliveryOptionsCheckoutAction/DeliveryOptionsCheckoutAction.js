@@ -6,37 +6,21 @@ const InputContent = styled.div`
     padding-top: 15px;
 `;
 class DeliveryOptionsCheckoutAction extends Component{
-	constructor(props){
-		super(props);
-		let selectedDeliveryMethodName = null;
-		const {deliveryMethods} = props;
-		if(Array.isArray(deliveryMethods)){
-			const [method] = deliveryMethods;
-			if(method){
-				selectedDeliveryMethodName = method.name;
-			}
-		}
-		this.state = {
-			selectedDeliveryMethodName
-		};
-	}
-    setSelectedDeliveryMethodName = (method) => {
-    	this.setState({
-    		selectedDeliveryMethodName: method.name
-    	});
+	
+    setSelectedDeliveryMethodName = async (method) => {
+		const {submits: { onSelectFulfillmentType } } = this.props;
+		await onSelectFulfillmentType(method.name);
     }
     renderDeliveryMethods(){
-    	const {deliveryMethods,components:{CardItems}} = this.props;
-    	const {selectedDeliveryMethodName} = this.state;
+    	const {deliveryMethods,components:{CardItems}, fulfillmentGroup} = this.props;
     	return <CardItems
     		items={deliveryMethods.filter((method)=>method.enabled)}
     		onSelect = {this.setSelectedDeliveryMethodName}
-    		itemSelected={deliveryMethods.find((item)=>item.name==selectedDeliveryMethodName)}/>;
+    		itemSelected={deliveryMethods.find((item)=>item.name==fulfillmentGroup.type)}/>;
     }
     render(){
-    	const {deliveryMethods} = this.props;
-    	const {selectedDeliveryMethodName} = this.state;
-    	const selectedDeliveryMethod = deliveryMethods.find((item)=>item.name==selectedDeliveryMethodName);
+    	const {deliveryMethods, fulfillmentGroup } = this.props;
+    	const selectedDeliveryMethod = deliveryMethods.find((item)=>item.name==fulfillmentGroup.type);
     	return(
     		<Fragment>
     			{this.renderDeliveryMethods()}

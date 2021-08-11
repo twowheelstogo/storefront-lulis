@@ -101,7 +101,7 @@ class OrderCardHeader extends Component {
 
   render() {
   	const { classes, order: { createdAt, displayStatus, fulfillmentGroups, payments, referenceId, status } } = this.props;
-  	const { shippingAddress } = fulfillmentGroups[0].data;
+  	const { shippingAddress, pickupDetails } = fulfillmentGroups[0].data;
   	const orderDate = format(
   		createdAt,
   		"MM/DD/YYYY"
@@ -153,7 +153,8 @@ class OrderCardHeader extends Component {
   								{this.renderOrderShipments()}
   							</Grid>
   						</Grid>
-  						<Grid item xs={12} md={6}>
+  						{shippingAddress &&(
+							  <Grid item xs={12} md={6}>
   							<Grid item xs={12} md={12}>
   								<Typography
   									variant="caption"
@@ -164,6 +165,8 @@ class OrderCardHeader extends Component {
   								<Address address={shippingAddress} className={classes.orderAddressText} />
   							</Grid>
   						</Grid>
+						  )}
+						  
   					</Grid>
   				</section>
   				: null}
