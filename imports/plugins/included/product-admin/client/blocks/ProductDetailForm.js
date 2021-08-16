@@ -19,7 +19,6 @@ import CountryOptions from "@reactioncommerce/api-utils/CountryOptions.js";
 import { TextField, useConfirmDialog } from "@reactioncommerce/catalyst";
 import useGenerateSitemaps from "/imports/plugins/included/sitemap-generator/client/hooks/useGenerateSitemaps";
 import useProduct from "../hooks/useProduct";
-import {ProductService, CategoryService} from '../services';
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -59,16 +58,6 @@ const formSchema = new SimpleSchema({
   shouldAppearInSitemap: {
     type: Boolean,
     optional: true,
-  },
-  odooProduct:{
-    type: Number,
-    optional: true,
-    min:1
-  },
-  categoryProduct:{
-    type: Number,
-    optional: true,
-    min:1
   }
 });
 
@@ -86,16 +75,10 @@ const ProductDetailForm = React.forwardRef((props, ref) => {
     product,
     shopId
   } = useProduct();
-  const [categorySelected, setCategorySelected] = useState(0);
-  const [productSelected, setProductSelected] = useState(0);
-  const {categories} = CategoryService.useFetch(product);
-  const {products} = ProductService.useFetch(product, categorySelected);
   const [_title, set_title] = useState("");
   useEffect(()=>{
     if(product){
       set_title(product.title);
-      setCategorySelected(product.categoryProduct);
-      setProductSelected(product.odooProduct);
     }
   },[product])
   const { generateSitemaps } = useGenerateSitemaps(shopId);
@@ -113,34 +96,6 @@ const ProductDetailForm = React.forwardRef((props, ref) => {
 
 
   let content;
-
-  const setMyProduct = (myProduct) =>{
-    if(myProduct){
-      let tmpSlug = myProduct.slug;
-      tmpSlug = tmpSlug.split("_");
-      if(tmpSlug.length > 1){
-        tmpSlug = tmpSlug[1].split('-');
-        if(tmpSlug.length > 1){
-          let tmpSet = products.filter((e) => e.categ_id == tmpSlug[0]);
-          tmpSet.push({
-            value:"No se ha seleccionado ningún producto",
-            key:0,
-            categ_id: 0});
-          myProduct.odooProduct = +tmpSlug[1];
-          myProduct.categoryProduct = +tmpSlug[0];
-
-        }else{
-          myProduct.odooProduct = 0;  
-          myProduct.categoryProduct = 0;
-        }
-      }else{
-        myProduct.odooProduct = 0;  
-        myProduct.categoryProduct = 0;
-      }
-    }
-    return myProduct;
-  }
-  
   const {
     getFirstErrorMessage,
     getInputProps,
@@ -156,9 +111,7 @@ const ProductDetailForm = React.forwardRef((props, ref) => {
       setIsSubmitting(true);
 
       let tmpProduct = formSchema.clean(formData);
-      delete tmpProduct.odooProduct;
-      delete tmpProduct.categoryProduct;
-      tmpProduct.slug = formData.title.trim().split(' ').join("-") + `_${formData.categoryProduct}-${formData.odooProduct}`;
+      tmpProduct.slug = formData.title.trim().split(' ').join("-");
       await onUpdateProduct({
         product: tmpProduct
       });
@@ -170,35 +123,17 @@ const ProductDetailForm = React.forwardRef((props, ref) => {
       setIsSubmitting(false);
     },
     onChanging: (formData) => {
-      if(formData.categoryProduct !=  categorySelected){
-        formData.odooProduct = 0;
-        setProductSelected(0);
-      }
-      
-      formData.slug = formData.title.trim().split(' ').join("-") + `_${formData.categoryProduct}-${formData.odooProduct}`;
+      formData.slug = formData.title.trim().split(' ').join("-");
     },
     validator(formData) {
       return validator(formSchema.clean(formData));
     },
-    value: setMyProduct(product)
+    value: product
   });
 
   const originCountryInputProps = getInputProps("originCountry", muiOptions);
 
   if (product) {
-    const odooProductInputProps = getInputProps("odooProduct", muiOptions);
-    const categoryProductInputProps = getInputProps("categoryProduct", {...muiOptions,
-      onChangingGetValue: (event) => {
-        setCategorySelected(event.target.value);
-        setProductSelected(0);
-        let tmpSet = products.filter((e) => e.categ_id == event.target.value);
-        tmpSet.push({
-          value:"No se ha seleccionado ningún producto",
-          key:0,
-          categ_id: 0});
-        //setcategoriesFilter(event.target.value);
-        //setProductsTmp(tmpSet);
-        return event.target.value}});
     content = (
       <form
         onSubmit={(event) => {
@@ -206,39 +141,6 @@ const ProductDetailForm = React.forwardRef((props, ref) => {
           submitForm();
         }}
       >
-        <TextField
-          className={classes.textField}
-          error={hasErrors(["categoryProduct"])}
-          fullWidth
-          helperText={getFirstErrorMessage(["categoryProduct"])}
-          label="Categoría en el sistema de facturación"
-          select
-          {...categoryProductInputProps}
-          value={categoryProductInputProps.value || categorySelected}
-        >
-          {categories.map((option, i) => (
-            <MenuItem key={`odoo-category-${i}`} value={option.id}>
-              {option.name}
-            </MenuItem>
-          ))}
-        </TextField>
-        <TextField
-          className={classes.textField}
-          error={hasErrors(["odooProduct"])}
-          fullWidth
-          helperText={getFirstErrorMessage(["odooProduct"])}
-          label="Producto en el sistema de facturación"
-          select
-          {...odooProductInputProps}
-          value={odooProductInputProps.value || productSelected}
-          disabled={!categoryProductInputProps.value != 0}
-        >
-          {products.map((option, i) => (
-            <MenuItem key={`odoo-product-${i}`} value={option.key}>
-              {option.value}
-            </MenuItem>
-          ))}
-        </TextField>
         <TextField
           className={classes.textField}
           error={hasErrors(["title"])}
