@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { i18next } from "/client/api";
 import {
   Card,
@@ -16,6 +16,7 @@ import muiOptions from "reacto-form/cjs/muiOptions";
 import CountryOptions from "@reactioncommerce/api-utils/CountryOptions.js";
 import { Button, TextField } from "@reactioncommerce/catalyst";
 import useProduct from "../hooks/useProduct";
+import {CategoryService, ProductService} from '../services';
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -58,6 +59,16 @@ const formSchema = new SimpleSchema({
   weight: {
     type: Number,
     optional: true
+  },
+  categoryVariant:{
+    type: Number,
+    optional: true,
+    min:1
+  },
+  odooProduct:{
+    type: Number,
+    optional: true,
+    min:1
   }
 });
 
@@ -81,6 +92,13 @@ const VariantDetailForm = React.forwardRef((props, ref) => {
   } = useProduct();
 
   const editingVariant = option || variant;
+  const {categories} = CategoryService.useFetch(editingVariant);
+  const [categorySelected, setCategorySelected] = useState(0);
+  const {products} = ProductService.useFetch(categorySelected);
+
+  useEffect(()=>{
+    setCategorySelected((editingVariant) ? editingVariant.categoryVariant : 0);
+  },[variant]);
 
   const {
     getFirstErrorMessage,
@@ -91,13 +109,18 @@ const VariantDetailForm = React.forwardRef((props, ref) => {
   } = useReactoForm({
     async onSubmit(formData) {
       setIsSubmitting(true);
-
       await onUpdateProductVariant({
         variantId: editingVariant._id,
         variant: formSchema.clean(formData)
       });
 
       setIsSubmitting(false);
+    },
+    onChanging: (formData) => {
+      if(formData.categoryVariant !=  categorySelected){
+        formData.odooProduct = 0;
+        setCategorySelected(formData.categoryVariant)
+      }
     },
     validator(formData) {
       return validator(formSchema.clean(formData));
@@ -106,6 +129,20 @@ const VariantDetailForm = React.forwardRef((props, ref) => {
   });
 
   const originCountryInputProps = getInputProps("originCountry", muiOptions);
+  const odooProductInputProps = getInputProps("odooProduct", muiOptions);
+  const categoryVariantInputProps = getInputProps("categoryVariant", {...muiOptions,
+    onChangingGetValue: (event) => {
+      return event.target.value}});
+
+  function getValueOfCategory(value){
+    let cat = categories.find((x) => x.id == value);
+    return (cat) ? cat.id : 0;
+  }
+
+  function getValueOfProduct(value){
+    let prod = products.find((x) => x.key == value);
+    return (prod) ? prod.key : 0;
+  }
 
   return (
     <Card className={classes.card} ref={ref}>
@@ -117,6 +154,41 @@ const VariantDetailForm = React.forwardRef((props, ref) => {
             submitForm();
           }}
         >
+            <TextField
+            className={classes.textField}
+            error={hasErrors(["categoryVariant"])}
+            fullWidth
+            helperText={getFirstErrorMessage(["categoryVariant"])}
+            label="Categoría en el sistema de facturación"
+            select
+            {...categoryVariantInputProps}
+            value={getValueOfCategory(categorySelected)}
+          >
+            {categories.map((option, i) => (
+              <MenuItem key={`odoo-category-${i}`} value={option.id}>
+                {option.name}
+              </MenuItem>
+            ))}
+          </TextField>
+
+          <TextField
+          className={classes.textField}
+          error={hasErrors(["odooProduct"])}
+          fullWidth
+          helperText={getFirstErrorMessage(["odooProduct"])}
+          label="Producto en el sistema de facturación"
+          select
+          {...odooProductInputProps}
+          value={getValueOfProduct(odooProductInputProps.value)}
+          disabled={!categoryVariantInputProps.value != 0}
+        >
+          {products.map((option, i) => (
+            <MenuItem key={`odoo-product-${i}`} value={option.key}>
+              {option.value}
+            </MenuItem>
+          ))}
+        </TextField>
+
           <TextField
             className={classes.textField}
             error={hasErrors(["attributeLabel"])}
