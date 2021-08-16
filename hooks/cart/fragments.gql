@@ -193,6 +193,8 @@ fragment CartItemConnectionFragment on CartItemConnection {
       optionTitle
       updatedAt
       inventoryAvailableToSell
+      odooProduct
+      categoryVariant
     }
   }
 }

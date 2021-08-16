@@ -31,21 +31,57 @@ const ColFull = styled.div`
 
 
 class BillingFormAction extends Component {
-
+	constructor(props){
+		super(props);
+	}
     static defaultProps = {
     	placeholderProps: "Ingrese...",
     	isOnDarkBackground: false,
     	nitBillingLabelText: "Nit",
     	nameBillingLabelText: "Nombre",
-    	addresBillingLabelText: "Dirección"
+    	addresBillingLabelText: "Dirección",
+		cfBillingLabelText: "Consumido final"
     }
 
     uniqueInstanceIdentifier = uniqueId("BillingForm_");
-
+	componentDidMount() {
+		this._isMounted = true;
+	}
+  
+	componentWillUnmount() {
+		this._isMounted = false;
+	}
+   
+	handleOnChange (key, value = ""){
+		if (value == undefined){
+			return;
+		}
+		const {onChange} = this.props;
+		let _json = {};
+		if(key === "isCf"){
+			if(value === true){
+				_json = {
+					nit:"",
+					name:"CF",
+					address:"guatemala"
+				};
+			}else{
+				_json = {
+					nit:"",
+					name:"",
+					address:"guatemala"
+				};
+			}
+		}
+		_json[key] = value;
+		onChange(_json);
+	}
     render() {
-
+		if(!this._isMounted){
+			return (<p>Cargando...</p>);
+		}
     	const {
-    		components: { Field, TextInput },
+    		components: { Field, TextInput, Checkbox, InlineAlert },
     		isReadOnly,
     		isSaving,
     		placeholderProps,
@@ -53,51 +89,68 @@ class BillingFormAction extends Component {
     		nameBillingLabelText,
     		nitBillingLabelText,
     		addresBillingLabelText,
-    		classes
+			cfBillingLabelText,
+    		classes,
+			isCf,
+			nitValue,
+			nameValue,
+			addressValue,
+			alert
     	} = this.props;
-
     	const nitbillingForm = `nitbilling_${this.uniqueInstanceIdentifier}`;
     	const namebillingForm = `namebiiling_${this.uniqueInstanceIdentifier}`;
     	const addresbillingForm = `addresbilling_${this.uniqueInstanceIdentifier}`;
-
     	return (
-    		<Grid>
-    			<ColHalf>
-    				<Field name="nit" label={nitBillingLabelText} labelFor={nitbillingForm} isOptional>
-    					<TextInput
-    						className={classes.input}
-    						id={nitbillingForm}
-    						name='nit'
-    						placeholder={placeholderProps}
-    						isOnDarkBackground={isOnDarkBackground}
-    						isReadOnly={isSaving || isReadOnly}
-    					/>
-    				</Field>
-    			</ColHalf>
-    			<ColHalf>
-    				<Field name="name" label={nameBillingLabelText} labelFor={namebillingForm} isOptional>
-    					<TextInput
-    						className={classes.input}
-    						id={namebillingForm}
-    						name='name'
-    						placeholder={placeholderProps}
-    						isOnDarkBackground={isOnDarkBackground}
-    						isReadOnly={isSaving || isReadOnly}
-    					/>
-    				</Field>
-    			</ColHalf>
-    			<ColFull>
-    				<Field name="addres" label={addresBillingLabelText} labelFor={addresbillingForm} isOptional>
-    					<TextInput
-    						id={addresbillingForm}
-    						name='address'
-    						placeholder={placeholderProps}
-    						isOnDarkBackground={isOnDarkBackground}
-    						isReadOnly={isSaving || isReadOnly}
-    					/>
-    				</Field>
-    			</ColFull>
-    		</Grid>
+			<div>
+				{alert ? <InlineAlert {...alert}/>:""}
+				<Grid>
+					<ColFull>
+						<Checkbox label={cfBillingLabelText} name="isCf" value={isCf} onChange={(val)=>{this.handleOnChange("isCf", val)}} />
+					</ColFull>
+					<ColHalf>
+						<Field name="nit" label={nitBillingLabelText} labelFor={nitbillingForm}>
+							<TextInput
+								className={classes.input}
+								id={nitbillingForm}
+								name='nit'
+								placeholder={placeholderProps}
+								isOnDarkBackground={isOnDarkBackground}
+								isReadOnly={isCf || isSaving || isReadOnly}
+								onChange={(val) => this.handleOnChange('nit',val)}
+								type="number"
+								value={nitValue}
+							/>
+						</Field>
+					</ColHalf>
+					<ColHalf>
+						<Field name="name" label={nameBillingLabelText} labelFor={namebillingForm}>
+							<TextInput
+								className={classes.input}
+								id={namebillingForm}
+								name='name'
+								placeholder={placeholderProps}
+								isOnDarkBackground={isOnDarkBackground}
+								isReadOnly={isCf || isSaving || isReadOnly}
+								onChange={(val) => this.handleOnChange('name',val)}
+								value={nameValue}
+							/>
+						</Field>
+					</ColHalf>
+					<ColFull>
+						<Field name="address" label={addresBillingLabelText} labelFor={addresbillingForm} isOptional>
+							<TextInput
+								id={addresbillingForm}
+								name='address'
+								placeholder={placeholderProps}
+								isOnDarkBackground={isOnDarkBackground}
+								isReadOnly={isCf || isSaving || isReadOnly}
+								onChange={(val) => this.handleOnChange('address',val)}
+								value={addressValue}
+							/>
+						</Field>
+					</ColFull>
+				</Grid>
+			</div>
     	);
     }
 }
