@@ -7,7 +7,7 @@ const productDefault = {
     categ_id: 0
 };
 export default {
-    useFetch: (categoriesFilter = null, _query = null) =>{
+    useFetch: (_query = 0) =>{
         const [products, setProducts] = useState([productDefault]);
         
         const [isLoading, setIsLoading] = useState(true);
@@ -24,19 +24,10 @@ export default {
             }else{
                 userSession = {access_token:"", token_type:""};
             }
-            //setIsLoading(true);
-            let query = "";
-            if (categoriesFilter != null){
-                if(categoriesFilter.categoryProduct != 0){
-                    query = `?categories[]=${categoriesFilter.categoryProduct}`;
-                }
-            }
-            if (_query != 0){
-                query = `?categories[]=${_query}`;
-            }
-            if(query == ""){
+            if(_query == 0){
                 return;
             }
+            let query = `?categories[]=${_query}`;
             fetch(`${Meteor.settings.public.invoiceUrl}/api/products${query}`, {
                 method: 'get',
                 headers: { 'Authorization': `Bearer ${userSession.access_token}` },
@@ -53,7 +44,7 @@ export default {
 
         useEffect(()=>{
             _fetchProduct();
-        },[categoriesFilter, _query]);
+        },[_query]);
 
         return  {products, isLoading, error};
     }
