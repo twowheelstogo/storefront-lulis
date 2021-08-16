@@ -6,7 +6,7 @@ const categoryDefault = {
     id:0
 };
 export default {
-    useFetch: () =>{
+    useFetch: (query = null) =>{
         const [categories, setCategories] = useState([categoryDefault]);
         
         const [isLoading, setIsLoading] = useState(true);
@@ -16,7 +16,7 @@ export default {
             message: "it does not has error"
         });
         
-        const _fetchProduct = async () =>{
+        const _fetchCategory = async () =>{
             let userSession = sessionStorage.getItem(`oidc.user:${Meteor.settings.public.oidcUrl}:reaction-admin`);
             if (userSession != null){
                 userSession = JSON.parse(userSession);
@@ -34,14 +34,13 @@ export default {
                 json.push(categoryDefault);
                 setCategories(json);})
             .catch((err)=>{
-                console.log("error", err);
                 setError({hasError:true, message:err.message})})
             .finally(()=>{setIsLoading(false)});
         }
 
         useEffect(()=>{
-            _fetchProduct();
-        },[]);
+            _fetchCategory();
+        },[query]);
 
         return  {categories, isLoading, error, setIsLoading};
     }
