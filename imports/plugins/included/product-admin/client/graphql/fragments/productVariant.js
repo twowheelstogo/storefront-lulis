@@ -3,6 +3,8 @@ import gql from "graphql-tag";
 export default gql`
   fragment ProductVariant on ProductVariant {
     _id
+    categoryVariant
+    odooProduct
     attributeLabel
     barcode
     height
