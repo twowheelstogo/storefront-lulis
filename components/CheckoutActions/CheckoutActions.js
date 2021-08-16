@@ -21,6 +21,8 @@ import DeliveryOptionsCheckoutAction from "components/DeliveryOptionsCheckoutAct
 import deliveryMethods from "custom/deliveryMethods";
 import PaymentMethodCheckoutAction from "components/PaymentMethodCheckoutAction";
 import RoundedButton from "components/RoundedButton";
+import {formatName} from '../utils';
+
 const MessageDiv = styled.div`
   ${addTypographyStyles("NoPaymentMethodsMessage", "bodyText")}
 `;
@@ -71,11 +73,26 @@ class CheckoutActions extends Component {
   		1: null,
   		2: null,
   		3: null,
-  		4: null
+  		4: null,
+		5: null,
+		6: null,
   	},
   	hasPaymentError: false,
+	hasBillingError: false,
+	hasGiftError: false,
   	isPlacingOrder: false,
-  	paymentInputs:{}
+  	paymentInputs:{},
+	invoiceInputs:{
+		isCf:true,
+		nit:"0",
+		name:"CF",
+		address:"guatemala"
+	},
+	giftInputs:{
+		sender:"",
+		receiver:"",
+		message:""
+	}
   };
   setPaymentInputs=(inputs)=>{
   	this.setState(prev=>({
@@ -84,6 +101,22 @@ class CheckoutActions extends Component {
   			...inputs
   		}
   	}));
+  }
+  setInvoiceInputs=(inputs)=>{
+	this.setState(prev=>({
+		invoiceInputs:{
+			...prev.invoiceInputs,
+			...inputs
+		}
+	}));
+  }
+  setGiftInputs=(inputs)=>{
+	this.setState(prev=>({
+		giftInputs:{
+			...prev.giftInputs,
+			...inputs
+		}
+	}));
   }
   componentDidUpdate({ addressValidationResults: prevAddressValidationResults }) {
   	const { addressValidationResults } = this.props;
@@ -150,6 +183,46 @@ class CheckoutActions extends Component {
 	}
   };
 
+  handleInputBillingComponentSubmit = async() =>{
+	const {invoiceInputs} = this.state;
+	const cloneInvoice = Object.assign({},invoiceInputs);
+	if(!invoiceInputs.isCf){
+		cloneInvoice.name = (cloneInvoice.name) ? cloneInvoice.name.trim() : "" ;
+		cloneInvoice.name = formatName(cloneInvoice.name);
+		cloneInvoice.nit = (cloneInvoice.nit) ? cloneInvoice.nit.trim() : "" ;
+		cloneInvoice.address =(cloneInvoice.nit) ? cloneInvoice.nit.trim() : "" ;
+		cloneInvoice.address = formatName(cloneInvoice.address);
+		console.log(cloneInvoice);
+		if(cloneInvoice.nit == ""){
+			throw new CheckoutError({
+				actionCode:5,
+				title:"Error de facturación",
+				message:"Asegúrate de haber llenado el nit a facturar"
+			});
+		}
+		if(cloneInvoice.name == ""){
+			throw new CheckoutError({
+				actionCode:5,
+				title:"Error de facturación",
+				message:"Asegúrate de haber llenado el nombre a facturar"
+			});
+		}
+	}
+	this.handleBillingSubmit(cloneInvoice);
+  }
+
+  handleInputGiftComponentSubmit = async() =>{
+	const {giftInputs} = this.state;
+	const cloneGift = Object.assign({},giftInputs);
+	cloneGift.sender = (cloneGift.sender) ? cloneGift.sender.trim() : "" ;
+	cloneGift.sender = formatName(cloneGift.sender);
+	cloneGift.receiver = (cloneGift.receiver) ? cloneGift.receiver.trim() : "" ;
+	cloneGift.receiver = formatName(cloneGift.receiver);
+	cloneGift.message = (cloneGift.message) ? cloneGift.message.trim() : "" ;
+	cloneGift.message = formatName(cloneGift.message);
+	this.handleGiftSubmit(cloneGift);
+  }
+
   handleInputComponentSubmit = async () => {
   	const {paymentInputs:{data,displayName,billingAddress,selectedPaymentMethodName,amount=null}} = this.state;
   	const {paymentMethods, remainingAmountDue } = this.props;
@@ -167,7 +240,6 @@ class CheckoutActions extends Component {
   			message:"Asegúrate de haber llenado todos los campos de pago"
   		});
   	});
-    
   	this.handlePaymentSubmit({
   		displayName: displayName,
   		payment: {
@@ -175,7 +247,7 @@ class CheckoutActions extends Component {
   			billingAddress:bAddress,
   			data,
   			method: selectedPaymentMethodName
-  		}
+  		},
   	});
   }
   handleValidationErrors() {
@@ -221,8 +293,30 @@ class CheckoutActions extends Component {
   	});
   };
 
+  handleBillingSubmit = (billingInput) => {
+	this.props.cartStore.addCheckoutBilling(billingInput);
+	this.setState({
+		hayBillingError: false,
+		actionAlerts: {
+			5: {}
+		}
+	});
+  };
+
+  handleGiftSubmit = (giftInput) => {
+	this.props.cartStore.addCheckoutGift(giftInput);
+	this.setState({
+		hasGiftError: false,
+		actionAlerts: {
+			6: {}
+		}
+	});
+  };
+
   handlePaymentsReset = () => {
   	this.props.cartStore.resetCheckoutPayments();
+	this.props.cartStore.resetCheckoutGift();
+	this.props.cartStore.resetCheckoutBilling();
   }
 
   buildOrder = async () => {
@@ -231,6 +325,8 @@ class CheckoutActions extends Component {
   	const { checkout } = cart;
   	try {
   		await this.handleInputComponentSubmit();
+		await this.handleInputBillingComponentSubmit();
+		await this.handleInputGiftComponentSubmit();
   		const fulfillmentGroups = checkout.fulfillmentGroups.map((group) => {
   			const { data } = group;
   			const { selectedFulfillmentOption } = group;
@@ -268,8 +364,11 @@ class CheckoutActions extends Component {
 
   		return this.setState({ isPlacingOrder: true }, () => this.placeOrder(order));
   	} catch (error) {
+		  console.log(error);
   		this.setState({
   			hasPaymentError: true,
+			hasBillingError: true,
+			hasGiftError: true,
   			isPlacingOrder: false,
   			actionAlerts: {
   				[error.actionCode]: {
@@ -292,13 +391,17 @@ class CheckoutActions extends Component {
   		remainingAmountDue -= amount;
   		return { ...payment, amount };
   	});
+	const billing = cartStore.checkoutBilling;
+	const giftNote = cartStore.checkoutGift;
   	try {
   		const { data } = await apolloClient.mutate({
   			mutation: placeOrderMutation,
   			variables: {
   				input: {
   					order,
-  					payments
+  					payments,
+					billing,
+					giftNote
   				}
   			}
   		});
@@ -519,9 +622,14 @@ class CheckoutActions extends Component {
   			incompleteLabel: "Datos de facturación",
   			status: remainingAmountDue === 0 && !hasPaymentError ? "complete" : "incomplete",
   			component: BillingCheckoutAction,
-  			onSubmit: this.handlePaymentSubmit,
+			onSubmit: this.handleBillingSubmit,
   			props: {
   				alert: actionAlerts["5"],
+				onChange: this.setInvoiceInputs,
+				isCf: this.state.invoiceInputs.isCf,
+				nitValue: this.state.invoiceInputs.nit,
+				nameValue: this.state.invoiceInputs.name,
+				addressValue: this.state.invoiceInputs.address
   			}
   		},
   		{
@@ -531,9 +639,13 @@ class CheckoutActions extends Component {
   			incompleteLabel: "Datos de regalo",
   			status: "incomplete",
   			component: GiftCheckoutAction,
-  			onSubmit: this.buildOrder,
+  			onSubmit: this.handleGiftSubmit,
   			props: {
-  				alert: actionAlerts["6"],
+  				alert: actionAlerts["6"],				  
+				onChange: this.setGiftInputs,
+				senderValue:this.state.giftInputs.sender,
+				receiverValue:this.state.giftInputs.receiver,
+				messageValue:this.state.giftInputs.message
   			}
   		}
   	];
