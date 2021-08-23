@@ -83,6 +83,7 @@ class CheckoutActions extends Component {
   	isPlacingOrder: false,
   	paymentInputs:{},
 	invoiceInputs:{
+		partnerId: -1,
 		isCf:true,
 		nit:"0",
 		name:"CF",
@@ -190,9 +191,8 @@ class CheckoutActions extends Component {
 		cloneInvoice.name = (cloneInvoice.name) ? cloneInvoice.name.trim() : "" ;
 		cloneInvoice.name = formatName(cloneInvoice.name);
 		cloneInvoice.nit = (cloneInvoice.nit) ? cloneInvoice.nit.trim() : "" ;
-		cloneInvoice.address =(cloneInvoice.nit) ? cloneInvoice.nit.trim() : "" ;
+		cloneInvoice.address =(cloneInvoice.address) ? cloneInvoice.address.trim() : "" ;
 		cloneInvoice.address = formatName(cloneInvoice.address);
-		console.log(cloneInvoice);
 		if(cloneInvoice.nit == ""){
 			throw new CheckoutError({
 				actionCode:5,
@@ -329,7 +329,7 @@ class CheckoutActions extends Component {
 		await this.handleInputGiftComponentSubmit();
   		const fulfillmentGroups = checkout.fulfillmentGroups.map((group) => {
   			const { data } = group;
-  			const { selectedFulfillmentOption } = group;
+  			let { selectedFulfillmentOption } = group;
 
   			const items = cart.items.map((item) => ({
   				addedAt: item.addedAt,
@@ -337,13 +337,24 @@ class CheckoutActions extends Component {
   				productConfiguration: item.productConfiguration,
   				quantity: item.quantity
   			}));
-  			if(!selectedFulfillmentOption||selectedFulfillmentOption==null){
-  				throw new Error({
-  					message:"Debes seleccionar un método y dirección de envío",
-  					actionCode:3,
-  					title:"Error de envío"
-  				});
-  			}
+			  if(!selectedFulfillmentOption||selectedFulfillmentOption==null){
+				throw new Error({
+					message:"Debes seleccionar un método y dirección de envío",
+					actionCode:3,
+					title:"Error de envío"
+				});
+			  }
+			/*if(!data.pickupDetails){
+				if(!selectedFulfillmentOption||selectedFulfillmentOption==null){
+					throw new Error({
+						message:"Debes seleccionar un método y dirección de envío",
+						actionCode:3,
+						title:"Error de envío"
+					});
+				  }
+			}else{
+				selectedFulfillmentOption = {fulfillmentMethod:{_id:"TA9hDWPBAGxzJKycy"}};
+			}*/
   			return {
   				data,
   				items,
@@ -353,7 +364,6 @@ class CheckoutActions extends Component {
   				type: group.type
   			};
   		});
-
   		const order = {
   			cartId,
   			currencyCode: checkout.summary.total.currency.code,
@@ -364,7 +374,7 @@ class CheckoutActions extends Component {
 
   		return this.setState({ isPlacingOrder: true }, () => this.placeOrder(order));
   	} catch (error) {
-		  console.log(error);
+		  console.log("error",error.message);
   		this.setState({
   			hasPaymentError: true,
 			hasBillingError: true,
@@ -626,6 +636,7 @@ class CheckoutActions extends Component {
   			props: {
   				alert: actionAlerts["5"],
 				onChange: this.setInvoiceInputs,
+				authStore,
 				isCf: this.state.invoiceInputs.isCf,
 				nitValue: this.state.invoiceInputs.nit,
 				nameValue: this.state.invoiceInputs.name,

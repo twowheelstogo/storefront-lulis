@@ -9,7 +9,8 @@ module.exports = {
 		SEGMENT_ANALYTICS_SKIP_MINIMIZE: appConfig.SEGMENT_ANALYTICS_SKIP_MINIMIZE,
 		SEGMENT_ANALYTICS_WRITE_KEY: appConfig.SEGMENT_ANALYTICS_WRITE_KEY,
 		STRIPE_PUBLIC_API_KEY: appConfig.STRIPE_PUBLIC_API_KEY,
-		ENABLE_SPA_ROUTING: appConfig.ENABLE_SPA_ROUTING
+		ENABLE_SPA_ROUTING: appConfig.ENABLE_SPA_ROUTING,
+		INVOICE_URL: appConfig.INVOICE_URL
 	},
 	target: "serverless",
 	webpack: (webpackConfig) => {
@@ -46,6 +47,7 @@ module.exports = {
 		webpackConfig.resolve.alias.utils = path.join(__dirname, "utils");
 		webpackConfig.resolve.alias.staticUtils = path.join(__dirname, "staticUtils");
 		webpackConfig.resolve.alias.apiUtils = path.join(__dirname, "apiUtils");
+		webpackConfig.resolve.alias.services = path.join(__dirname, "services");
 
 		return webpackConfig;
 	},

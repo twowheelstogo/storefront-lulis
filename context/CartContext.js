@@ -14,6 +14,7 @@ export const CartProvider = ({ children }) => {
 	const [isReconcilingCarts, setIsReconcilingCarts] = useState(false);
 	const [checkoutPayments, setCheckoutPayments] = useState([]);
 	const [checkoutBilling, _setCheckoutBilling] = useState({
+		partnerId: -1,
 		isCf:true,
 		nit:"0",
 		name:"CF",
@@ -73,6 +74,7 @@ export const CartProvider = ({ children }) => {
 
 	const resetCheckoutBilling = () => {
 		_setCheckoutBilling({
+			partnerId: -1,
 			isCf:true,
 			nit:"0",
 			name:"CF",
