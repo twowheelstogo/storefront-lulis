@@ -184,7 +184,7 @@ class OrderCardFulfillmentGroups extends Component {
                     <Grid container alignItems="center" spacing={2}>
                       <Grid item>
                         <Typography variant="h4" display="inline">
-                          {i18next.t("order.fulfillmentGroupHeader", `Fulfillment group ${currentGroupCount} of ${totalGroupsCount}`)}
+                          {"Descripción de la orden"/*i18next.t("order.fulfillmentGroupHeader", `Fulfillment group ${currentGroupCount} of ${totalGroupsCount}`)*/}
                         </Typography>
                       </Grid>
                       <Grid item>
@@ -195,7 +195,7 @@ class OrderCardFulfillmentGroups extends Component {
                   <Grid item xs={6} md={6}>
                     <Grid container alignItems="center" justify="flex-end" spacing={1}>
                       {this.renderPrintShippingLabelLink(fulfillmentGroup)}
-                      {this.renderCancelFulfillmentGroupButton(fulfillmentGroup)}
+                      {/*this.renderCancelFulfillmentGroupButton(fulfillmentGroup)*/}
                       {this.renderUpdateFulfillmentGroupStatusButton(fulfillmentGroup)}
                     </Grid>
                   </Grid>
