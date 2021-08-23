@@ -193,7 +193,7 @@ function OrderRefunds(props) {
                                     <Grid container>
                                       <Grid item xs={6}>
                                         <Typography variant="body1">
-                                          {i18next.t("order.refundTo")} <span className={classes.extraEmphasisText}>{payment.displayName}</span>
+                                          {i18next.t("order.refundTo")} <span className={classes.extraEmphasisText}>Visanet</span>
                                         </Typography>
                                         {!isPaymentRefundable ?
                                           <Typography variant="caption">{i18next.t("order.refundNotSupported")}</Typography>
@@ -203,11 +203,6 @@ function OrderRefunds(props) {
                                               <Typography variant="body2">
                                                 {i18next.t("order.availableToRefund")}: {paymentAmountAvailableForRefundDisplay}
                                               </Typography>
-                                              {paymentPreviousRefundTotal && paymentPreviousRefundTotal > 0 &&
-                                                <Typography variant="body2">
-                                                  {i18next.t("order.previouslyRefunded")}: {paymentPreviousRefundTotalDisplay}
-                                                </Typography>
-                                              }
                                             </Fragment>
                                             :
                                             <Typography variant="caption">{i18next.t("order.paymentRefunded")}</Typography>
@@ -221,15 +216,17 @@ function OrderRefunds(props) {
                                             name={`amounts.${payment._id}`}
                                             labelFor={`amounts${payment._id}Input`}
                                           >
-                                            <TextInput
-                                              id={`amounts${payment._id}Input`}
-                                              min={0}
-                                              max={paymentAmountAvailableForRefund}
-                                              name={`amounts.${payment._id}`}
-                                              placeholder="0.00"
-                                              step=".01"
-                                              type="number"
-                                            />
+                                            <div style={{display:"none"}}>
+                                              <TextInput
+                                                id={`amounts${payment._id}Input`}
+                                                name={`amounts.${payment._id}`}
+                                                placeholder="0.00"
+                                                step=".01"
+                                                type="number"
+                                                value={String(paymentAmountAvailableForRefund) || "0"}
+                                                isReadOnly={true}
+                                              />
+                                            </div>
                                             <ErrorsBlock names={["amounts"]} />
                                           </Field>
                                         </Grid>
