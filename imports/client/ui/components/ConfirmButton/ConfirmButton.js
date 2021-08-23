@@ -20,7 +20,8 @@ class ConfirmButton extends Component {
     message: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
     onConfirm: PropTypes.func,
     size: PropTypes.string,
-    title: PropTypes.oneOfType([PropTypes.string, PropTypes.node])
+    title: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
+    disabled: PropTypes.bool
   }
 
   static defaultProps = {
