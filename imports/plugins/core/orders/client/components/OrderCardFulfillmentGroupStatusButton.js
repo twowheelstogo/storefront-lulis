@@ -64,7 +64,7 @@ function OrderCardFulfillmentGroupStatusButton({ fulfillmentGroup, order }) {
           onSelect={(option) => handleUpdateFulfillmentGroupStatus(option)}
           variant="contained"
         >
-          Update group status
+          Actualizar estado de la orden
         </ActionMenu>
       </Grid>
     );
