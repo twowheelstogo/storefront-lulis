@@ -104,7 +104,7 @@ function OrderPayment(props) {
     <Grid container spacing={2}>
       <Grid item xs={6} md={6}>
         <Typography paragraph variant="h4">
-          {displayName}
+          Visanet
         </Typography>
         {riskLevel && riskLevel !== "normal" && payment.mode !== "captured" &&
           <Typography className={classes.dangerText} variant="body2">
@@ -131,7 +131,6 @@ function OrderPayment(props) {
           {amount.displayAmount}
         </Typography>
       </Grid>
-      {capturePaymentButton}
     </Grid>
   );
 }
