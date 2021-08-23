@@ -141,11 +141,7 @@ export const orderCommonFragment = gql`
         amount
         displayAmount
       }
-      billingAddress {
-        description
-        address
-        reference
-      }
+      billingAddress 
       captureErrorMessage
       displayName
       method {
