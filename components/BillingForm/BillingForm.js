@@ -4,6 +4,7 @@ import { withComponents } from "@reactioncommerce/components-context";
 import styled from "styled-components";
 import { applyTheme } from "@reactioncommerce/components/utils";
 import { withStyles } from "@material-ui/core/styles";
+import { NitService } from 'services/index.js'
 
 const styles = theme => ({
 	input: {
@@ -28,11 +29,19 @@ const ColFull = styled.div`
   flex: 1 1 100%;
 `;
 
-
+const ButtonSearchNit = styled.div`
+  margin-top: 31px;
+`;
 
 class BillingFormAction extends Component {
 	constructor(props){
 		super(props);
+		this.state = {
+			loading: true,
+			hasData: false,
+			partnerId: -1,
+			searchNit: false
+		}
 	}
     static defaultProps = {
     	placeholderProps: "Ingrese...",
@@ -40,7 +49,7 @@ class BillingFormAction extends Component {
     	nitBillingLabelText: "Nit",
     	nameBillingLabelText: "Nombre",
     	addresBillingLabelText: "Dirección",
-		cfBillingLabelText: "Consumido final"
+		cfBillingLabelText: "Consumidor final"
     }
 
     uniqueInstanceIdentifier = uniqueId("BillingForm_");
@@ -51,7 +60,27 @@ class BillingFormAction extends Component {
 	componentWillUnmount() {
 		this._isMounted = false;
 	}
-   
+   	async handleOnChangeNit (value){
+		const {onChange, isCf, authStore} = this.props;
+			if(value == null || value == ""){
+				return;
+			}
+			if (this._isMounted){
+				if(isCf){
+					return;
+				}
+				this.setState({loading:true, hasData:false, partnerId: -1, searchNit:true});
+				let nitRes = await NitService.getNit(value, authStore.accessToken);
+				onChange({
+						isCf:false,
+						nit:nitRes.vat,
+						name:nitRes.name,
+						address:nitRes.street,
+						partnerId:nitRes.partnerId
+				});
+				this.setState({loading:false, hasData: nitRes.hasData, partnerId: nitRes.partnerId, searchNit:false});
+			}
+	   }
 	handleOnChange (key, value = ""){
 		if (value == undefined){
 			return;
@@ -61,27 +90,57 @@ class BillingFormAction extends Component {
 		if(key === "isCf"){
 			if(value === true){
 				_json = {
+					isCf:true,
 					nit:"",
 					name:"CF",
-					address:"guatemala"
+					address:"guatemala",
+					partnerId:-1
 				};
+				this.setState({
+					loading: true,
+					hasData: false,
+					partnerId: -1,
+					searchNit: false
+				});
 			}else{
 				_json = {
+					isCf:true,
 					nit:"",
 					name:"",
-					address:"guatemala"
+					address:"guatemala",
+					partnerId:-1
 				};
 			}
 		}
 		_json[key] = value;
 		onChange(_json);
 	}
+	getHiddenStyles (){
+		const {loading} = this.state;
+		const {isCf} = this.props;
+		if(isCf){
+			return {"display":"none"};
+		}
+		return (loading) ? {"display":"none"} : {};
+	}
+	getHiddenSearchStyles (){
+		const {searchNit} = this.state;
+		const {isCf} = this.props;
+		if(isCf){
+			return {"display":"none"};
+		}
+		return (searchNit) ? {} : {"display":"none"};
+	}
+	getHiddenNit (){
+		const {isCf} = this.props;
+		return (isCf) ? {"display":"none"}: {} ;
+	}
     render() {
 		if(!this._isMounted){
 			return (<p>Cargando...</p>);
 		}
     	const {
-    		components: { Field, TextInput, Checkbox, InlineAlert },
+    		components: {Field, TextInput, Checkbox, InlineAlert },
     		isReadOnly,
     		isSaving,
     		placeholderProps,
@@ -107,7 +166,7 @@ class BillingFormAction extends Component {
 					<ColFull>
 						<Checkbox label={cfBillingLabelText} name="isCf" value={isCf} onChange={(val)=>{this.handleOnChange("isCf", val)}} />
 					</ColFull>
-					<ColHalf>
+					<ColHalf style={this.getHiddenNit()}>
 						<Field name="nit" label={nitBillingLabelText} labelFor={nitbillingForm}>
 							<TextInput
 								className={classes.input}
@@ -116,13 +175,15 @@ class BillingFormAction extends Component {
 								placeholder={placeholderProps}
 								isOnDarkBackground={isOnDarkBackground}
 								isReadOnly={isCf || isSaving || isReadOnly}
-								onChange={(val) => this.handleOnChange('nit',val)}
-								type="number"
+								onChange={(val) => this.handleOnChangeNit(val)}
 								value={nitValue}
 							/>
 						</Field>
 					</ColHalf>
-					<ColHalf>
+					<ColFull style={this.getHiddenSearchStyles()}>
+						<p>Buscando información del NIT...</p>
+					</ColFull>
+					<ColFull style={this.getHiddenStyles()}>
 						<Field name="name" label={nameBillingLabelText} labelFor={namebillingForm}>
 							<TextInput
 								className={classes.input}
@@ -130,20 +191,20 @@ class BillingFormAction extends Component {
 								name='name'
 								placeholder={placeholderProps}
 								isOnDarkBackground={isOnDarkBackground}
-								isReadOnly={isCf || isSaving || isReadOnly}
+								isReadOnly={isCf || isSaving || isReadOnly || this.state.hasData}
 								onChange={(val) => this.handleOnChange('name',val)}
 								value={nameValue}
 							/>
 						</Field>
-					</ColHalf>
-					<ColFull>
+					</ColFull>
+					<ColFull style={this.getHiddenStyles()}>
 						<Field name="address" label={addresBillingLabelText} labelFor={addresbillingForm} isOptional>
 							<TextInput
 								id={addresbillingForm}
 								name='address'
 								placeholder={placeholderProps}
 								isOnDarkBackground={isOnDarkBackground}
-								isReadOnly={isCf || isSaving || isReadOnly}
+								isReadOnly={isCf || isSaving || isReadOnly || (this.state.partnerId != -1)}
 								onChange={(val) => this.handleOnChange('address',val)}
 								value={addressValue}
 							/>
