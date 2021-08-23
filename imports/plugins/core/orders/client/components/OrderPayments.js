@@ -41,7 +41,6 @@ function OrderPayments(props) {
   const handleCapturePayments = async (mutation, paymentIds) => {
     if (hasPermission) {
       if (!order.payments) return Promise.resolve(null);
-
       // If paymentIds are not provided, capture all payments
       const paymentIdList = paymentIds || order.payments.map((payment) => payment._id);
 
@@ -109,6 +108,7 @@ function OrderPayments(props) {
               isWaiting={captureOrderPaymentsLoading}
               onClick={() => handleCapturePayments()}
               variant="contained"
+              disabled={true}
             >
               {i18next.t("reaction-payments.captureAllPayments", "Capture all payments")}
             </Button>
@@ -117,7 +117,6 @@ function OrderPayments(props) {
       ;
     }
   }
-
   return (
     <Card>
       <CardContent>
@@ -126,12 +125,11 @@ function OrderPayments(props) {
             <Grid container alignItems="center" spacing={2}>
               <Grid item>
                 <Typography variant="h4" display="inline">
-                  Payments
+                  Pagos
                 </Typography>
               </Grid>
             </Grid>
           </Grid>
-          {capturePaymentsButton}
         </Grid>
         {
           order.payments.map((payment, index) => (
