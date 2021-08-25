@@ -43,7 +43,7 @@ class CustomLayout extends Component{
     	title:PropTypes.string,
     	subtitle:PropTypes.string,
     	background:PropTypes.string,
-    	type:PropTypes.string.isRequired,
+    	type:PropTypes.string,
     	shop: PropTypes.shape({
     		name: PropTypes.string.isRequired
     	}),
