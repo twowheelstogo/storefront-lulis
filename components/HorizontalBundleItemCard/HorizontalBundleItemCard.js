@@ -78,14 +78,14 @@ const HorizontalBundleItemCard = (props) => {
     const {
         product,
         classes,
-        handleChange
+        handleChange,
+        disabled
     } = props;
 
-    const quantity = 0;
     const { slug } = product;
     const hostname = process.browser && (window.location.hostname != "localhost" ? "https://api.qbit01.com" : "http://localhost:3000");
     const media = (process.browser && product.media && product.media.length > 0 && product.media[0].URLs) ? `${hostname}${product.media[0].URLs.small.replace("jpg", "png")}` : `${hostname}/resources/placeholder.gif`;
-   
+
     return (
         <React.Fragment>
             <Badge badgeContent={(product.quantity && product.quantity) || 0}
@@ -104,10 +104,10 @@ const HorizontalBundleItemCard = (props) => {
                     </div>
                     <div className={classes.trailing}>
                         <div className={classes.controls}>
-                            <IconButton size="small" color="primary" disabled={product.cartItem == undefined} onClick={() => { }}>
+                            <IconButton size="small" color="primary" disabled={(product.quantity == undefined || product.quantity == 0)} onClick={() => { handleChange(product, -1) }}>
                                 <RemoveIcon />
                             </IconButton>
-                            <IconButton size="small" color="primary" onClick={() => { }}>
+                            <IconButton size="small" color="primary" disabled={disabled} onClick={() => { handleChange(product, 1) }}>
                                 <AddIcon />
                             </IconButton>
                         </div>

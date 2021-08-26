@@ -11,6 +11,7 @@ query productBundle($productId: ID, $shopId: ID!, $bundleId: ID){
       title
     }
     variantId
+    productId
     product{
       ...Product
     }

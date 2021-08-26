@@ -5,11 +5,51 @@ import { Grid, IconButton } from "@material-ui/core";
 import RoundedButton from "components/RoundedButton";
 import styled from "styled-components";
 import FavoriteIcon from "@material-ui/icons/FavoriteBorder";
-import AddIcon from "@material-ui/icons/Add";
-import RemoveIcon from "@material-ui/icons/Remove";
 import { useTheme } from "@material-ui/core/styles";
-import useMediaQuery from "@material-ui/core/useMediaQuery";
 import BundleItems from "components/BundleItems";
+import useScrollTrigger from "@material-ui/core/useScrollTrigger";
+import inject from "hocs/inject";
+
+const BundleAlert = styled.div`
+    left: 0;
+    right: 0;
+    top: auto !important;
+    position: fixed;
+    justify-content: center;
+    display: flex;
+    margin: 0 1.6rem;
+    z-index: 1000;
+    transition: bottom .3s ease-out;
+    pointer-events: none;
+
+`;
+
+const BundleAlertContent = styled.div`
+    background: #7A6240;
+    padding: 1rem;
+    text-align: center;
+    border-radius: 3px;
+    color: white;
+`;
+
+function ElevationScroll(props) {
+    const { children, window, classes: { bundleAlert, bundleAlertHidden } } = props;
+    // Note that you normally won't need to set the window ref as useScrollTrigger
+    // will default to window.
+    // This is only being set here because the demo is in an iframe.
+    const trigger = useScrollTrigger({
+        disableHysteresis: true,
+        threshold: 0,
+        target: window ? window() : undefined,
+    });
+
+    console.log("trigger", trigger);
+
+    return React.cloneElement(children, {
+        elevation: 0,
+        className: trigger ? bundleAlertHidden : bundleAlert
+    });
+}
 
 const styles = (theme) => ({
     root: {
@@ -92,21 +132,45 @@ const styles = (theme) => ({
         display: "flex",
         flexDirection: "row",
         justifyContent: "flex-end",
-        width: "100%",
+        width: "100%"
         // background:'green'
+    },
+    bundleAlert: {
+        bottom: "2.6rem"
+    },
+    bundleAlertHidden: {
+        bottom: "-15rem"
     }
 });
+
+const itemMetaFields = (items) => {
+
+    return items.map((element, index) => ({
+        key: `${index}`,
+        value: JSON.stringify({
+            quantity: element.quantity,
+            _id: element._id,
+            title: element.title,
+            description: element.description,
+            media: element.media,
+            pageTitle: element.pageTitle,
+            pricing: element.pricing
+        }),
+        valueType: "bundleItem"
+    }));
+}
 
 const BundleDetails = (props) => {
     // const [quantity, setQuantity] = useState(0);
     const [selectedItems, setSelectedItems] = useState([]);
     const theme = useTheme();
-    const matches = useMediaQuery(theme.breakpoints.down("sm"));
+    // const matches = useMediaQuery(theme.breakpoints.down("sm"));
     const {
         classes,
         productBundle: {
             product,
-            items
+            items,
+            limit
         },
         currencyCode
     } = props;
@@ -142,6 +206,47 @@ const BundleDetails = (props) => {
         setSelectedItems(items);
     }
 
+    const handleAddToCart = async () => {
+        const {
+            addItemsToCart,
+            currencyCode,
+            uiStore: { openCartWithTimeout },
+            productBundle: { product, variantId: productVariantId, productId }
+        } = props;
+
+        const price = product.variants[0].pricing.price;
+
+        await addItemsToCart({
+            price: {
+                amount: price,
+                currencyCode
+            },
+            productConfiguration: {
+                productId,
+                productVariantId
+            },
+            metafields: itemMetaFields(selectedItems),
+            quantity: 1
+        });
+
+        openCartWithTimeout(3000);
+    };
+
+    const mergedItems = (items || []).map((item) => {
+        const match = selectedItems.find((selectedItem) => selectedItem._id == item._id);
+        if (match) {
+            return {
+                ...item,
+                quantity: match.quantity
+            }
+        }
+        return item;
+    });
+
+    const totalItems = selectedItems.reduce((total, element) => total + element.quantity, 0);
+
+    const totalMessage = totalItems != limit ? `Tu bundle debe contener ${limit} productos, has seleccionado ${totalItems}` : `Hay ${totalItems} productos seleccionados, tu bundle está listo`;
+
     return (
         <Fragment>
             <div className={classes.root}>
@@ -164,15 +269,47 @@ const BundleDetails = (props) => {
                                 <div className={classes.subtitle}>{product.variants[0].pricing.displayPrice}</div>
                                 <br></br>
                                 <div className={classes.description}>{product.description}</div>
+                                <div className={classes.description}
+                                    style={{
+                                        color: (totalItems == limit) ? "green" : "red"
+                                    }}
+                                >{totalMessage}</div>
                             </div>
                             <br></br>
                         </div>
                     </Grid>
+                    <Grid item><br></br></Grid>
                     <BundleItems
-                        items={items}
+                        items={mergedItems}
                         currencyCode={currencyCode}
                         handleChange={setItem}
+                        disabled={totalItems == limit}
                     />
+                    <Grid item>
+                        <ElevationScroll {...props}>
+                            <BundleAlert>
+                                <BundleAlertContent>
+                                    <div>{totalMessage}</div>
+                                </BundleAlertContent>
+                            </BundleAlert>
+                        </ElevationScroll>
+                    </Grid>
+                    {totalItems == limit && (
+                        <div className={classes.bottom}>
+                            <Grid
+                                item
+                                xs={12}
+                                lg={4}>
+                                <br></br>
+                                <br></br>
+                                <RoundedButton
+                                    buttonTitle="Agregar al carrito"
+                                    buttonSubtitle={`${limit} productos por ${product.variants[0].pricing.displayPrice}`}
+                                    onClick={handleAddToCart}
+                                />
+                            </Grid>
+                        </div>
+                    )}
                 </Grid>
             </div>
         </Fragment>
@@ -201,4 +338,4 @@ BundleDetails.defaultProps = {
     currencyCode: null
 };
 
-export default withStyles(styles)(BundleDetails);
+export default withStyles(styles)(inject("uiStore")(BundleDetails));

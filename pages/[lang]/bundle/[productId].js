@@ -148,4 +148,4 @@ export async function getStaticPaths() {
 	};
 }
 
-export default withApollo()(ProductBundleDetailPage);
+export default withApollo()(withCart(ProductBundleDetailPage));

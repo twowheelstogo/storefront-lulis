@@ -22,6 +22,7 @@ const BundleItems = (props) => {
                         product={item}
                         uiStore={uiStore}
                         handleChange={handleChange}
+                        disabled={disabled}
                     />
                 </Grid>
             ))}
