@@ -14,15 +14,14 @@ const BundleItems = (props) => {
     } = props;
 
     return (
-        <Grid container>
+        <Grid container spacing={2}>
             {items.map((item) => (
                 <Grid item xs={12} md={4}>
                     <HorizontalBundleItemCard
                         currencyCode={currencyCode}
                         product={item}
                         uiStore={uiStore}
-                        addItemsToCart={() => { }}
-                        onChangeCartItemsQuantity={() => { }}
+                        handleChange={handleChange}
                     />
                 </Grid>
             ))}

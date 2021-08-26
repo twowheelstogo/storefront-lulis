@@ -3,7 +3,7 @@ import { withStyles } from "@material-ui/core/styles";
 import styled from "styled-components";
 import { Badge, IconButton } from "@material-ui/core";
 import Link from "components/Link";
-import {Add as AddIcon, Remove as RemoveIcon} from "@material-ui/icons";
+import { Add as AddIcon, Remove as RemoveIcon } from "@material-ui/icons";
 
 const StyledContent = styled.div`
 display: -webkit-box;
@@ -46,7 +46,7 @@ const styles = (theme) => ({
     trailing: {
         display: "flex",
         flexDirection: "column",
-        justifyContent: "space-between",
+        justifyContent: "flex-end",
         marginRight: "0",
         marginLeft: "auto",
     },
@@ -77,18 +77,18 @@ const styles = (theme) => ({
 const HorizontalBundleItemCard = (props) => {
     const {
         product,
-        classes
+        classes,
+        handleChange
     } = props;
 
     const quantity = 0;
     const { slug } = product;
     const hostname = process.browser && (window.location.hostname != "localhost" ? "https://api.qbit01.com" : "http://localhost:3000");
     const media = (process.browser && product.media && product.media.length > 0 && product.media[0].URLs) ? `${hostname}${product.media[0].URLs.small.replace("jpg", "png")}` : `${hostname}/resources/placeholder.gif`;
-    const displayPrice = Array.isArray(product.variants) && product.variants.length > 0 && product.variants[0].pricing.displayPrice;  
-
+   
     return (
         <React.Fragment>
-            <Badge badgeContent={quantity}
+            <Badge badgeContent={(product.quantity && product.quantity) || 0}
                 classes={{ badge: classes.badge }}>
                 <div className={classes.root}>
                     <div className={classes.leading}>
@@ -103,12 +103,11 @@ const HorizontalBundleItemCard = (props) => {
                         </Link>
                     </div>
                     <div className={classes.trailing}>
-                        <div className={classes.title} style={{ display: "flex", justifyContent: "flex-end" }}>{displayPrice}</div>
                         <div className={classes.controls}>
-                            <IconButton size="small" color="primary" disabled={product.cartItem == undefined} onClick={() => this.HandleRemoveItemToCart(this.props)}>
+                            <IconButton size="small" color="primary" disabled={product.cartItem == undefined} onClick={() => { }}>
                                 <RemoveIcon />
                             </IconButton>
-                            <IconButton size="small" color="primary" onClick={() => this.HandleAddItemToCart(this.props)}>
+                            <IconButton size="small" color="primary" onClick={() => { }}>
                                 <AddIcon />
                             </IconButton>
                         </div>

@@ -52,8 +52,11 @@ const styles = (theme) => ({
         color: theme.palette.primary.main
     },
     description: {
-        fontSize: "16px",
-        color: "black"
+        fontSize: "20px",
+        color: "black",
+        [theme.breakpoints.down("md")]: {
+            fontSize: "16px"
+        }
     },
     controls: {
         display: "flex",
@@ -95,7 +98,8 @@ const styles = (theme) => ({
 });
 
 const BundleDetails = (props) => {
-    const [quantity, setQuantity] = useState(0);
+    // const [quantity, setQuantity] = useState(0);
+    const [selectedItems, setSelectedItems] = useState([]);
     const theme = useTheme();
     const matches = useMediaQuery(theme.breakpoints.down("sm"));
     const {
@@ -110,7 +114,33 @@ const BundleDetails = (props) => {
 
     const media = (process.browser && product.media && product.media[0].URLs) ? `${hostname}${product.media[0].URLs.small.replace("jpg", "png")}` : "";
 
-    const handleChange = (count) => setQuantity(quantity + count);
+    // const handleChange = (count) => setQuantity(quantity + count);
+
+    const setItem = (item, quantity) => {
+        const items = [...selectedItems];
+
+        const currentIndex = items.findIndex((product) => product._id == item._id);
+
+        if (currentIndex == -1) {
+            items.push({
+                ...item,
+                quantity: 1
+            })
+        } else {
+            let currQuantity = items[currentIndex].quantity;
+
+            if (currQuantity == 1 && quantity == -1) {
+                items.splice(currentIndex, 1);
+            } else {
+                items[currentIndex] = {
+                    ...items[currentIndex],
+                    quantity: currQuantity + quantity
+                };
+            }
+        }
+
+        setSelectedItems(items);
+    }
 
     return (
         <Fragment>
@@ -133,14 +163,15 @@ const BundleDetails = (props) => {
                                 </div>
                                 <div className={classes.subtitle}>{product.variants[0].pricing.displayPrice}</div>
                                 <br></br>
-                                <div className={classes.description}>{"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse at diam lectus. Nullam ultricies metus nec turpis aliquet ullamcorper. Aenean dolor justo, imperdiet nec ligula ut, cursus porta lacus. Donec eu ornare velit. Fusce sit amet ipsum sit amet odio mollis rhoncus eget nec justo. Aenean facilisis ullamcorper sodales. Pellentesque pretium at risus in tincidunt. Vestibulum est felis, malesuada sed odio vitae, rhoncus bibendum mi. Sed vitae egestas lectus. Fusce vel fermentum metus. "}</div>
+                                <div className={classes.description}>{product.description}</div>
                             </div>
                             <br></br>
                         </div>
                     </Grid>
-                    <BundleItems 
+                    <BundleItems
                         items={items}
                         currencyCode={currencyCode}
+                        handleChange={setItem}
                     />
                 </Grid>
             </div>
