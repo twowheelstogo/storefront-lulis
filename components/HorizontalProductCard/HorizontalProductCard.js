@@ -1,12 +1,14 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Grid, IconButton } from "@material-ui/core";
+import { Grid, IconButton, Button } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 import { Add as AddIcon, Remove as RemoveIcon } from "@material-ui/icons";
 import styled from "styled-components";
 import Link from "components/Link";
 import Badge from "@material-ui/core/Badge";
 import priceByCurrencyCode from "lib/utils/priceByCurrencyCode";
+import Router from "translations/i18nRouter";
+
 const StyledContent = styled.div`
 display: -webkit-box;
   -webkit-line-clamp: 3;
@@ -113,9 +115,8 @@ class HorizontalProductCard extends React.Component {
 		const { slug } = product;
 		const quantity = product.cartItem != undefined ? product.cartItem.quantity : 0;
 		const displayPrice = Array.isArray(product.pricing) ? product.pricing[0].displayPrice : product.pricing.displayPrice;
-		const media = ((product?.primaryImage && product?.primaryImage.URLs.small) || (product.media && `https://api.qbit01.com${product?.media[0].URLs.small}`)) || "";
-
-		console.log(product);
+		const hostname = process.browser && (window.location.hostname != "localhost" ? "https://api.qbit01.com" : "http://localhost:3000");
+		const media = ((product?.primaryImage && product?.primaryImage.URLs.small) || (product.media && `${hostname}${product?.media[0].URLs.small}`)) || `${hostname}/resources/placeholder.gif`;
 
 		return (
 			<React.Fragment>
@@ -127,22 +128,34 @@ class HorizontalProductCard extends React.Component {
 						</div>
 						<div className={classes.content}>
 							<Link
-								href="/product/[...slugOrId]"
-								as={`/product/${slug}`}>
+								href={product.productType != "bundle" ? "/product/[...slugOrId]" : "/bundle/[productId]"}
+								as={product.productType != "bundle" ? `/product/${slug}` : `/bundle/${product.productId}`}>
 								<StyledTitle>{product.title}</StyledTitle>
 								<StyledContent>{product.description}</StyledContent>
 							</Link>
 						</div>
 						<div className={classes.trailing}>
 							<div className={classes.title} style={{ display: "flex", justifyContent: "flex-end" }}>{displayPrice}</div>
-							<div className={classes.controls}>
-								<IconButton size="small" color="primary" disabled={product.cartItem == undefined} onClick={() => this.HandleRemoveItemToCart(this.props)}>
-									<RemoveIcon />
-								</IconButton>
-								<IconButton size="small" color="primary" onClick={() => this.HandleAddItemToCart(this.props)}>
-									<AddIcon />
-								</IconButton>
-							</div>
+							{product.productType == null && (
+								<div className={classes.controls}>
+									<IconButton size="small" color="primary" disabled={product.cartItem == undefined} onClick={() => this.HandleRemoveItemToCart(this.props)}>
+										<RemoveIcon />
+									</IconButton>
+									<IconButton size="small" color="primary" onClick={() => this.HandleAddItemToCart(this.props)}>
+										<AddIcon />
+									</IconButton>
+								</div>
+							)}
+							{product.productType == "bundle" && (
+								<div className={classes.controls}>
+									<Button
+										color="primary"
+										onClick={() => { Router.push(`/bundle/${product.productId}`) }}
+									>
+										{"Agregar"}
+									</Button>
+								</div>
+							)}
 						</div>
 						<div></div>
 					</div>
