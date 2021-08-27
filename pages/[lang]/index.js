@@ -1,4 +1,4 @@
-import React, {  } from "react";
+import React, { } from "react";
 import PropTypes from "prop-types";
 import inject from "hocs/inject";
 import Helmet from "react-helmet";
@@ -14,18 +14,18 @@ import { locales } from "translations/config";
 import fetchPrimaryShop from "staticUtils/shop/fetchPrimaryShop";
 import fetchTranslations from "staticUtils/translations/fetchTranslations";
 import fetchAllTags from "staticUtils/tags/fetchAllTags";
-import {makeStyles} from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import { useTheme } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import MobileHomePage from "components/MobileHomePage";
 // @inject("routingStore")
 // @observer
-const useStyles = makeStyles((theme)=>({
-	root:{
-		display:"flex"
+const useStyles = makeStyles((theme) => ({
+	root: {
+		display: "flex"
 	},
-	content:{
-		padding:theme.spacing(2)
+	content: {
+		padding: theme.spacing(2)
 	}
 }));
 const Home = props => {
@@ -34,8 +34,8 @@ const Home = props => {
 	const matches = useMediaQuery(theme.breakpoints.down("sm"));
 	const propTypes = {
 		catalogItems: PropTypes.array,
-    	catalogItemsPageInfo: PropTypes.object,
-    	isLoadingCatalogItems: PropTypes.bool,
+		catalogItemsPageInfo: PropTypes.object,
+		isLoadingCatalogItems: PropTypes.bool,
 		routingStore: PropTypes.Object,
 		shop: PropTypes.shape({
 			currency: PropTypes.shape({
@@ -54,9 +54,9 @@ const Home = props => {
 	const {
 		shop,
 		isLoadingCatalogItems,
-		slugStore: {heroTitle,heroBackground}
+		slugStore: { heroTitle, heroBackground }
 	} = props;
-	console.log(props)
+
 	let pageTitle;
 	if (shop) {
 		pageTitle = shop.name;
@@ -64,20 +64,20 @@ const Home = props => {
 	} else {
 		pageTitle = "Storefront";
 	}
-	if(isLoadingCatalogItems) return <PageLoading />
-	return(
-		<MainLayout shop = { shop } title={heroTitle}
+	if (isLoadingCatalogItems) return <PageLoading />
+	return (
+		<MainLayout shop={shop} title={heroTitle}
 			subtitle="" background={heroBackground}
 			type="image">
 			<Helmet>
 				<title>{shop && shop.name}</title>
 				<meta name="description" content={shop && shop.description} />
 			</Helmet>
-			{!matches &&(
-				<RenderHomePage {...props}/>
+			{!matches && (
+				<RenderHomePage {...props} />
 			)}
-			{matches &&(
-				<RenderMobilePage {...props}/>
+			{matches && (
+				<RenderMobilePage {...props} />
 			)}
 		</MainLayout>
 	);
@@ -96,11 +96,11 @@ const RenderHomePage = props => {
 	const classes = useStyles();
 	return (
 		<main className={classes.content}>
-			<HomePage 
-				catalogItems={ catalogItems }
-				currencyCode={ (shop && shop.currency && shop.currency.code) || "GTQ" }
-				isLoadingCatalogItems={ isLoadingCatalogItems }
-				pageInfo={ catalogItemsPageInfo }
+			<HomePage
+				catalogItems={catalogItems}
+				currencyCode={(shop && shop.currency && shop.currency.code) || "GTQ"}
+				isLoadingCatalogItems={isLoadingCatalogItems}
+				pageInfo={catalogItemsPageInfo}
 				tags={tags}
 				cart={cart}
 				addItemsToCart={addItemsToCart}
@@ -121,15 +121,15 @@ const RenderMobilePage = props => {
 		slugStore
 	} = props;
 	const currencyCode = (shop && shop.currency.code) || "GTQ";
-	return(
+	return (
 		<MobileHomePage
-		slugStore = {slugStore}
-			currencyCode = {currencyCode}
-				 catalogItems = {catalogItems}
-				 tags = {tags}
-				 cart={cart}
-				 addItemsToCart={addItemsToCart}
-				 onChangeCartItemsQuantity={onChangeCartItemsQuantity}
+			slugStore={slugStore}
+			currencyCode={currencyCode}
+			catalogItems={catalogItems}
+			tags={tags}
+			cart={cart}
+			addItemsToCart={addItemsToCart}
+			onChangeCartItemsQuantity={onChangeCartItemsQuantity}
 		/>
 	);
 };
@@ -150,7 +150,7 @@ export async function getStaticProps({ params: { lang } }) {
 				shop: null,
 				...translations
 			},
-			fetchAllTags:null,
+			fetchAllTags: null,
 			// eslint-disable-next-line camelcase
 			unstable_revalidate: 1 // Revalidate immediately
 		};
@@ -179,5 +179,5 @@ export async function getStaticPaths() {
 		fallback: false
 	};
 }
-  
+
 export default withApollo()(withCatalogItems(inject("routingStore", "uiStore", "slugStore")(Home)));

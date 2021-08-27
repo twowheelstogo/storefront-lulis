@@ -23,6 +23,7 @@ query catalogItemsQuery($shopId: ID!, $tagIds: [ID] $first: ConnectionLimitInt, 
             isSoldOut
             isBackorder
             tagIds
+            productType
             metafields {
               description
               key
