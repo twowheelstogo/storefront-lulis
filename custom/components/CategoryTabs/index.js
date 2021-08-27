@@ -16,7 +16,7 @@ const CategoryTabs = props =>  {
 	return(
 		<Fragment>
 			{/* <ProductGrid products = {products} />  */}
-			{(tags||[]).map(item=>{
+			{(tags||[]).map((item,i)=>{
 				const products = (catalogItems||[]).filter((element)=>{
 					return element.node.product.tagIds.find((ids)=>ids==item._id)!=undefined;
 				}).map((value)=>{
@@ -27,6 +27,7 @@ const CategoryTabs = props =>  {
 					};
 				});
 				return products.length>0?<CategoryLayout 
+					key={`${i}`}
 					title={item.displayTitle}
 					currencyCode = {currencyCode}
 					products={products}

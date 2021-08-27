@@ -23,7 +23,11 @@ class BillingCheckoutAction extends Component{
     	label: PropTypes.string.isRequired,
     	onReadyForSaveChange: PropTypes.func,
     	onSubmit: PropTypes.func,
+		onChange: PropTypes.func,
     	stepNumber: PropTypes.number.isRequired,
+		senderValue: PropTypes.string.isRequired,
+		receiverValue: PropTypes.string.isRequired,
+		messageValue: PropTypes.string.isRequired
     }
     render(){
     	const {components:{GiftForm}} = this.props;

@@ -58,6 +58,8 @@ query catalogItemsQuery($shopId: ID!, $tagIds: [ID] $first: ConnectionLimitInt, 
             }
             variants{
               _id
+          odooProduct
+          categoryVariant
           variantId
           title
           optionTitle

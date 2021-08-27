@@ -29,7 +29,17 @@ const ColFull = styled.div`
 
 
 
-class BillingFormAction extends Component {
+class GiftFormAction extends Component {
+
+	
+	componentDidMount() {
+		this._isMounted = true;
+	}
+  
+	componentWillUnmount() {
+		this._isMounted = false;
+	}
+   
 
     static defaultProps = {
     	placeholderProps: "Ingrese...",
@@ -41,9 +51,19 @@ class BillingFormAction extends Component {
     }
 
     uniqueInstanceIdentifier = uniqueId("GiftForm_");
-
+	handleOnChange (key, value = ""){
+		if (value == undefined){
+			return;
+		}
+		const {onChange} = this.props;
+		let _json = {};
+		_json[key] = value;
+		onChange(_json);
+	}
     render() {
-
+		if (!this._isMounted){
+			return (<p>cargando...</p>)
+		}
     	const {
     		components: { Field, TextInput },
     		isReadOnly,
@@ -54,12 +74,15 @@ class BillingFormAction extends Component {
     		giftForLabelText,
     		giftofLabelText,
     		giftMessageLabelText,
-    		classes
+    		classes,
+			senderValue,
+			receiverValue,
+			messageValue
     	} = this.props;
 
-    	const giftofForm = `nitbilling_${this.uniqueInstanceIdentifier}`;
-    	const gitftForForm = `namebiiling_${this.uniqueInstanceIdentifier}`;
-    	const gitfMessageForm = `addresbilling_${this.uniqueInstanceIdentifier}`;
+    	const giftofForm = `sendergift_${this.uniqueInstanceIdentifier}`;
+    	const gitftForForm = `recievergift_${this.uniqueInstanceIdentifier}`;
+    	const gitfMessageForm = `messagegift_${this.uniqueInstanceIdentifier}`;
 
     	return (
     		<Fragment>
@@ -73,30 +96,36 @@ class BillingFormAction extends Component {
     							placeholder={placeholderProps}
     							isOnDarkBackground={isOnDarkBackground}
     							isReadOnly={isSaving || isReadOnly}
+								onChange={(val) => this.handleOnChange('sender',val)}
+								value={senderValue}
     						/>
     					</Field>
     				</ColHalf>
     				<ColHalf>
-    					<Field name="Para" label={giftForLabelText} labelFor={giftForLabelText} isOptional>
+    					<Field name="Para" label={giftForLabelText} labelFor={gitftForForm} isOptional>
     						<TextInput
     							className={classes.input}
-    							id={giftForLabelText}
+    							id={gitftForForm}
     							name='Para'
     							placeholder={placeholderProps}
     							isOnDarkBackground={isOnDarkBackground}
     							isReadOnly={isSaving || isReadOnly}
+								onChange={(val) => this.handleOnChange('receiver',val)}
+								value={receiverValue}
     						/>
     					</Field>
     				</ColHalf>
     				<ColFull>
-    					<Field name="Mensaje" label={giftMessageLabelText} labelFor={messageGitplaceholder} isOptional>
+    					<Field name="Mensaje" label={giftMessageLabelText} labelFor={gitfMessageForm} isOptional>
     						<TextInput
-    							id={messageGitplaceholder}
+    							id={gitfMessageForm}
     							name='Mensaje'
     							placeholder={messageGitplaceholder}
     							isOnDarkBackground={isOnDarkBackground}
     							isReadOnly={isSaving || isReadOnly}
     							shouldAllowLineBreaks
+								onChange={(val) => this.handleOnChange('message',val)}
+								value={messageValue}
     						/>
     					</Field>
     				</ColFull>
@@ -105,4 +134,4 @@ class BillingFormAction extends Component {
     	);
     }
 }
-export default withStyles(styles)(withComponents(BillingFormAction));
+export default withStyles(styles)(withComponents(GiftFormAction));

@@ -35,6 +35,9 @@ const enhance = compose(
 				longitude: places[0].geometry.location.lng() 
 			};
 			setLocation(locationRef);
+		},
+		onMarkerChanged:({locationRef, setLocation})=> () => {
+			setLocation(locationRef);
 		}
 	}),
 	withScriptjs

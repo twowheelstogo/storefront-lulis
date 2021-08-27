@@ -25,7 +25,7 @@ const CatalogNavItems = (props) => {
 	return (
 		<AppBar className={classes.root} position="sticky" color="white">
 			<div className={classes.items}>
-				{(tags||[]).map((item)=><CatalogItem item={item} current={selected} SetSelected={SetSelected}/>)}
+				{(tags||[]).map((item,i)=><CatalogItem key={`${i}`} item={item} current={selected} SetSelected={SetSelected}/>)}
 			</div>
 		</AppBar>
 	);

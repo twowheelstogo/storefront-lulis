@@ -5,7 +5,7 @@ import {uniqueId} from "lodash";
 import {withComponents} from "@reactioncommerce/components-context";
 import {CustomPropTypes,applyTheme,addTypographyStyles } from "@reactioncommerce/components/utils";
 import { Field as Input,Form } from "react-final-form";
-import { formatCVC,formatCreditCardNumber,formatExpirationDate,validateCreditCardNumber, formatName } from "../utils/index";
+import { formatCVC,formatCreditCardNumber,formatExpirationDate,validateCreditCardNumber } from "../utils/index";
 import {makeStyles} from "@material-ui/core";
 const useStyles = makeStyles(()=>({
 	root:{
@@ -187,7 +187,6 @@ function EpayPaymentForm(props,ref){
 													type="text"
 													id={cardNameInputId}
 													placeholder="Nombre del titular de la tarjeta"
-													format={formatName}
 												/>
 												{errors.cardName && values.cardName && <ErrorSpan>{errors.cardName}</ErrorSpan>}
 											</Field>

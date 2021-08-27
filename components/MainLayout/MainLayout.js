@@ -67,9 +67,11 @@ class MainLayout extends Component{
     				<SlideHero {...sliderProps}/>
     				<main className={classes.main}>
     					<article className={classes.article}>
-    						{childrens.map( child =>(
-    							React.cloneElement(child,{ ...cart})
-    						))}
+    						{childrens.map( (child, i) =>(
+								<React.Fragment key={i}>
+									{React.cloneElement(child,{ ...cart})}
+								</React.Fragment>
+							))}
     					</article>
     				</main>
     				<Footer />

@@ -61,6 +61,8 @@ fragment OrderCommon on Order {
         productSlug
         productType
         productVendor
+        odooProduct
+        categoryVariant
         productTags {
           nodes {
             name
