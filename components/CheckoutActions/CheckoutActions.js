@@ -338,23 +338,12 @@ class CheckoutActions extends Component {
   				quantity: item.quantity
   			}));
 			  if(!selectedFulfillmentOption||selectedFulfillmentOption==null){
-				throw new Error({
-					message:"Debes seleccionar un método y dirección de envío",
-					actionCode:3,
+				throw new CheckoutError({
+					message:"La dirección seleccionada está fuera del rango de envío",
+					actionCode:6,
 					title:"Error de envío"
 				});
 			  }
-			/*if(!data.pickupDetails){
-				if(!selectedFulfillmentOption||selectedFulfillmentOption==null){
-					throw new Error({
-						message:"Debes seleccionar un método y dirección de envío",
-						actionCode:3,
-						title:"Error de envío"
-					});
-				  }
-			}else{
-				selectedFulfillmentOption = {fulfillmentMethod:{_id:"TA9hDWPBAGxzJKycy"}};
-			}*/
   			return {
   				data,
   				items,
@@ -374,7 +363,6 @@ class CheckoutActions extends Component {
 
   		return this.setState({ isPlacingOrder: true }, () => this.placeOrder(order));
   	} catch (error) {
-		  console.log("error",error.message);
   		this.setState({
   			hasPaymentError: true,
 			hasBillingError: true,

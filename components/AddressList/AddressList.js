@@ -108,18 +108,20 @@ class AddressList extends Component {
     				description,
     				address,
     				reference,
-    				geolocation
+    				geolocation,
+					metaddress
     			}) => (
     				<RadioButtonItem
     					title={description}
-    					description={address}
+    					description={metaddress ? `${address} - ${metaddress.distance.text}` : address}
     					isSelected={currentAddress && currentAddress._id == _id}
     					value={{
     						_id,
     						description,
     						address,
     						reference,
-    						geolocation
+    						geolocation,
+							metaddress
     					}}
     					handleChange={onSelect}
     					trailing={
