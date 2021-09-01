@@ -96,6 +96,7 @@ fragment Product on Product {
     barcode
     height
     index
+    odooProduct
     isDeleted
     isVisible
     length

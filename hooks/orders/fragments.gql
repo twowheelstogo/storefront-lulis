@@ -1,6 +1,7 @@
 # Common fields for order for queries
 fragment OrderCommon on Order {
   _id
+  orderId
   account {
     _id
   }

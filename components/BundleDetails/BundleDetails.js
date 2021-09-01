@@ -154,7 +154,8 @@ const itemMetaFields = (items) => {
             description: element.description,
             media: element.media,
             pageTitle: element.pageTitle,
-            pricing: element.pricing
+            pricing: element.pricing,
+            odooProduct: element.variants[0].odooProduct || null
         }),
         valueType: "bundleItem"
     }));
