@@ -68,18 +68,20 @@ export default class ShippingMethodForm extends Component {
             <ErrorsBlock names={["label"]} />
           </Field>
           <Field name="group" label={i18next.t("shippingMethod.group")} labelFor={groupInputId}>
-            <Select id={groupInputId} name="group" options={groupOptions} />
+            <Select id={groupInputId} name="group" options={groupOptions}  value="Ground"/>
             <ErrorsBlock names={["group"]} />
           </Field>
-          <Field name="cost" label={i18next.t("shippingMethod.cost")} labelFor={costInputId}>
-            <TextInput id={costInputId} name="cost" />
-            <ErrorsBlock names={["cost"]} />
-          </Field>
-          <Field name="handling" label={i18next.t("shippingMethod.handling")} labelFor={handlingInputId}>
-            <TextInput id={handlingInputId} name="handling" />
+          <div style={{display:"none"}}>
+            <Field name="cost" label={i18next.t("shippingMethod.cost")} labelFor={costInputId}>
+              <TextInput id={costInputId} name="cost" />
+              <ErrorsBlock names={["cost"]} />
+            </Field>
+          </div>
+          <Field name="handling" label={"distancia"} labelFor={handlingInputId}>
+            <TextInput id={handlingInputId} name="handling" type={"number"}/>
             <ErrorsBlock names={["handling"]} />
           </Field>
-          <Field name="rate" label={i18next.t("shippingMethod.rate")} labelFor={rateInputId}>
+          <Field name="rate" label={i18next.t("shippingMethod.rate")} labelFor={rateInputId}  type={"number"}>
             <TextInput id={rateInputId} name="rate" />
             <ErrorsBlock names={["rate"]} />
           </Field>
