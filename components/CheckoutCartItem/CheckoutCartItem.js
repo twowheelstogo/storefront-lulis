@@ -81,7 +81,7 @@ class CheckoutCartItem extends Component{
 		}} = this.props;
 		const { displayAmount: displaySubtotal } = subtotal || {};
 		const hostname = typeof window !== "undefined" && (window.location.hostname != "localhost" ? "https://api.qbit01.com" : "http://localhost:3000");
-		const imageUrl = (imageURLs && `${hostname}${imageURLs && imageURLs.small}`) || `${hostname}/resources/placeholder.gif`;
+		const imageUrl = (imageURLs && `${hostname}${imageURLs && imageURLs.small}`) || `/images/placeholder.gif`;
 		return(
 			<React.Fragment>
 				<Item className={classes.root}>
