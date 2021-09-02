@@ -17,7 +17,8 @@ const fulfillmentMethodFormSchema = new SimpleSchema({
   label: String,
   group: {
     type: String,
-    allowedValues: ["Free", "Ground", "One Day", "Priority"]
+    allowedValues: ["Free", "Ground"/*, "One Day", "Priority"*/],
+    defaultValue: "Ground"
   },
   cost: {
     type: Number,
@@ -49,11 +50,19 @@ const customRowMetaData = {
 function transform(results) {
   const provider = results.find((shippingRecord) => shippingRecord.provider && shippingRecord.provider.name === "flatRates");
   if (!provider) return [];
-
-  return (provider.methods || []).map((method) => ({
+  const tmpTransform =  (provider.methods || []).map((method) => ({
     ...method,
     rate: formatPriceString(method.rate)
   }));
+  tmpTransform.sort((a,b)=>{
+    if(a.handling > b.handling){
+      return 1;
+    }else if(a.handling < b.handling){
+      return -1;
+    }
+    return 0;
+  })
+  return  tmpTransform ;
 }
 
 export default class ShippingRatesSettings extends Component {
@@ -222,19 +231,20 @@ export default class ShippingRatesSettings extends Component {
   };
 
   renderShippingGrid() {
-    const filteredFields = ["name", "group", "label", "rate"];
+    const filteredFields = ["name", "label", "rate", "handling"];
     const noDataMessage = i18next.t("admin.shippingSettings.noRatesFound");
 
     // add i18n handling to headers
     const customColumnMetadata = [];
-    filteredFields.forEach((field) => {
+    filteredFields.forEach((field, i) => {
       const columnMeta = {
         accessor: field,
         Header: i18next.t(`admin.shippingGrid.${field}`)
       };
       customColumnMetadata.push(columnMeta);
     });
-
+    customColumnMetadata[customColumnMetadata.length-1] = {accessor:"handling", Header:"Distancia"};
+    console.log("shipping", Shipping);
     return (
       <SortableTable
         collection={Shipping}
