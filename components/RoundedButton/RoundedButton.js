@@ -41,7 +41,7 @@ const styles = (theme) => ({
 	}
 });
 const RoundedButton = props => {
-	const {classes,onClick,buttonTitle,buttonSubtitle} = props;
+	const {classes,onClick,buttonTitle,buttonSubtitle, disabled} = props;
 	return(
 		<React.Fragment>
 			<div className={classes.root} onClick={onClick}>
@@ -52,7 +52,7 @@ const RoundedButton = props => {
 					<CustomSubtitle>{buttonSubtitle}</CustomSubtitle>
 				</div>
 				<div className={classes.trailing}>
-					<IconButton style={{color:"white"}} onClick={onClick}>
+					<IconButton style={{color:"white"}} onClick={onClick} disabled={disabled}>
 						<ArrowIcon/>
 					</IconButton>
 				</div>

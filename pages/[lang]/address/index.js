@@ -23,14 +23,15 @@ import relayConnectionToArray from "lib/utils/relayConnectionToArray";
 import PageLoading from "components/PageLoading";
 import { useRouter } from "next/router";
 
-
 const PlacesWithStandaloneSearchBox = (props)=>
 {
 	return <div data-standalone-searchbox="">
 		<StandaloneSearchBox
 			ref={props.onSearchBoxMounted}
 			bounds={props.bounds}
-			onPlacesChanged={props.onPlacesChanged}
+			onPlacesChanged={() => {
+				props.onPlacesChanged(props.authStore.accessToken);
+			}}
 			controlPosition = {google.maps.ControlPosition.TOP_LEFT}
 		>
 			{props.children}
@@ -42,7 +43,9 @@ const PlacesWithSearchBox = (props)=>
 	return <SearchBox
 		ref={props.onSearchBoxMounted}
 		bounds={props.bounds}
-		onPlacesChanged={props.onPlacesChanged}
+		onPlacesChanged={() => {
+			props.onPlacesChanged(props.authStore.accessToken);
+		}}
 		controlPosition = {google.maps.ControlPosition.TOP_LEFT}
 	>
 		<div style={{width:"50%",padding:"10px"}}>
@@ -102,9 +105,9 @@ const CustomTitle = styled.div`
     text-align: center;
 `;
 const RenderedForm = styled.div`
-    padding-top: 40px;
+    padding-top: 20px;
     @media (min-width: ${applyTheme("sm", "breakpoints")}px) {
-        padding-top: 70px;
+        padding-top: 50px;
       }
 `;
 const CreateAddress = props =>{
@@ -112,27 +115,34 @@ const CreateAddress = props =>{
 	const theme = useTheme();
 	const [currentAddressBook,setCurrentAddressBook] = useState(null);
 	const [loading, setLoading] = useState(true);
+	const [isSent, setIsSent] = useState(false);
 	const pageTitle = `Address | New | ${shop && shop.name}`;
 	const matches= useMediaQuery(theme.breakpoints.down("sm"));
 	const router = useRouter();
 	const {authStore:{account:{addressBook}}} = props;
 	const handleAddAddress = async(value) => {
-		const {onAddressAdded,onAddressEdited} = props;
-		const {query:redirect} = router;
-		let meta=value;
-		delete value._id;
-		if(props.googleProps.locationRef.latitude!=undefined){
-			meta = {
-				...value,
-				geolocation:props.googleProps.locationRef
-			};
+		try{
+			setIsSent(true);
+			const {onAddressAdded,onAddressEdited} = props;
+			const {query:redirect} = router;
+			let meta=value;
+			delete value._id;
+			if(props.googleProps.locationRef.latitude!=undefined){
+				meta = {
+					...value,
+					geolocation:props.googleProps.locationRef,
+					metaddress:{...props.googleProps.metadataMarker}
+				};
+			}
+			if(addressBookId!=null){
+				await onAddressEdited(addressBookId,meta);
+			}else{
+				await onAddressAdded(meta);
+			}
+			window.location.href = decodeURIComponent(redirect.redirect);
+		}catch(ex){
+			setIsSent(false);
 		}
-		if(addressBookId!=null){
-			await onAddressEdited(addressBookId,meta);
-		}else{
-			await onAddressAdded(meta);
-		}
-		window.location.href = decodeURIComponent(redirect.redirect);
 	};
 
 	useEffect(()=>{
@@ -143,6 +153,14 @@ const CreateAddress = props =>{
 		}
 		const addresses = (addressBook && relayConnectionToArray(addressBook)) || [];
 		let current = addresses.find((item)=>item._id==addressBookId);
+		if(current){
+			if(current.metaddress){
+				props.googleProps.whenHasMetaAddress(current.metaddress);
+			}
+			if(current.geolocation){
+				props.googleProps.whenHasLocation(current.geolocation);
+			}
+		}
 		setCurrentAddressBook(current);
 		if(current!=undefined) setLoading(false);
 	},[addressBook]);
@@ -156,10 +174,12 @@ const CreateAddress = props =>{
 			</Head>
 			{!matches && <RenderWeb {...props} 
 				handleAddAddress={handleAddAddress}
+				isSent={isSent}
 				value={currentAddressBook}
 			/>}
 			{matches && <RenderMobile {...props}
 				handleAddAddress={handleAddAddress}
+				isSent={isSent}
 				value={currentAddressBook}
 			/>}
 		</Layout>
@@ -193,7 +213,7 @@ const RenderMobile = withStyles(styles)((props) => {
 						<div className={classes.flexMap}>
 							<div className={classes.map}>
 								<div className={classes.searchInput}>
-									<PlacesWithStandaloneSearchBox {...googleProps}>
+									<PlacesWithStandaloneSearchBox {...props} {...googleProps}>
 										<TextInput
 											id="search"
 											name="search"
@@ -202,7 +222,7 @@ const RenderMobile = withStyles(styles)((props) => {
 									</PlacesWithStandaloneSearchBox>
 								</div>
 								<div style={{height:"500px"}}>
-									<GoogleMapComponent {...googleProps} location={value && value?.geolocation}/>
+									<GoogleMapComponent authStore={props.authStore} {...googleProps} location={value && value?.geolocation}/>
 								</div>
 							</div>
 							<div style={{paddingBottom:"20px",
@@ -225,6 +245,14 @@ const RenderMobile = withStyles(styles)((props) => {
 								<div className={classes.addressItems}>
 									<CustomTitle style={{fontSize:"30px"}}>{addressBookId?"Editar Dirección":"Crear Dirección"}</CustomTitle>
 									<Divider style={{width:"80%"}}/>
+									<h3>Descripción del punto de entrega</h3>
+									{googleProps.metadataMarker.distance.text == "" ? null : <p><b>Distancia desde la sucursal más cercana:</b> {googleProps.metadataMarker.distance.text}</p>}
+									{googleProps.metadataMarker.administrative_area_level_1 == "" ? null : <p><b>Departamento:</b> {googleProps.metadataMarker.administrative_area_level_1}</p>}
+									{googleProps.metadataMarker.administrative_area_level_2 == "" ? null : <p><b>Municipio:</b> {googleProps.metadataMarker.administrative_area_level_2}</p>}
+									{googleProps.metadataMarker.neighborhood == "" ? null : <p><b>Residencial o Colonia:</b> {googleProps.metadataMarker.neighborhood}</p>}
+									{googleProps.metadataMarker.street_address == "" ? null : <p><b>Dirección de referencia:</b> {googleProps.metadataMarker.street_address}</p>}
+									{googleProps.metadataMarker.sublocality == "" ? null : <p><b>Localidad:</b> {googleProps.metadataMarker.sublocality}</p>}
+									<Divider  style={{width:"80%"}}/>
 									<Button variant="outlined"
 										size="small"
 										startIcon={<LocationSearchingIcon/>}
@@ -242,6 +270,7 @@ const RenderMobile = withStyles(styles)((props) => {
 								</div>
 								<div>
 									<RoundedButton
+										disabled={props.isSent}
 										onClick={()=>{form.submit();}}
 										buttonTitle={"Guardar Cambios"}
 										buttonSubtitle = {`${state.description} - ${state.address}`}
@@ -283,6 +312,14 @@ const RenderWeb = withStyles(styles)((props) => {
 							<div>
 								<CustomTitle>{addressBookId?"Editar Dirección":"Crear Dirección"}</CustomTitle>
 								<Divider/>
+								<h3>Descripción del punto de entrega</h3>
+								{googleProps.metadataMarker.distance.text == "" ? null : <p><b>Distancia desde la sucursal más cercana:</b> {googleProps.metadataMarker.distance.text}</p>}
+								{googleProps.metadataMarker.administrative_area_level_1 == "" ? null : <p><b>Departamento:</b> {googleProps.metadataMarker.administrative_area_level_1}</p>}
+								{googleProps.metadataMarker.administrative_area_level_2 == "" ? null : <p><b>Municipio:</b> {googleProps.metadataMarker.administrative_area_level_2}</p>}
+								{googleProps.metadataMarker.neighborhood == "" ? null : <p><b>Residencial o Colonia:</b> {googleProps.metadataMarker.neighborhood}</p>}
+								{googleProps.metadataMarker.street_address == "" ? null : <p><b>Dirección de referencia:</b> {googleProps.metadataMarker.street_address}</p>}
+								{googleProps.metadataMarker.sublocality == "" ? null : <p><b>Localidad:</b> {googleProps.metadataMarker.sublocality}</p>}
+								<Divider/>
 								<RenderedForm>
 									<AddressForm
 										ref = {(ref)=>{
@@ -297,6 +334,7 @@ const RenderWeb = withStyles(styles)((props) => {
 							</div>
 							<div>
 								<RoundedButton
+									disabled={props.isSent}
 									onClick={()=>{form.submit();}}
 									buttonTitle={"Guardar Cambios"}
 									buttonSubtitle = {`${state.description} - ${state.address}`}
@@ -309,10 +347,12 @@ const RenderWeb = withStyles(styles)((props) => {
 					<div className={classes.flexMap}>
 						<div className={classes.map}>
 							<GoogleMapComponent 
+								authStore={props.authStore}
 								{...googleProps}
 								location={value && value?.geolocation}
 								SearchBox = {
 									<PlacesWithSearchBox
+										{...props}
 										{...googleProps}>
 										<TextInput
 											id="search"
