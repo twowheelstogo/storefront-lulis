@@ -25,6 +25,11 @@ display: -webkit-box;
   overflow: hidden;
 `;
 
+const Item = styled.div`
+    width: 100%;
+    flex-grow: 1;
+`;
+
 const styles = (theme) => ({
     root: {
         display: "flex",
@@ -71,6 +76,9 @@ const styles = (theme) => ({
         right: 0,
         backgroundColor: theme.palette.reaction.badges.product,
         color: theme.palette.primary.main
+    },
+    badgeMargin: {
+        width: "100%"
     }
 });
 
@@ -89,6 +97,7 @@ const HorizontalBundleItemCard = (props) => {
     return (
         <React.Fragment>
             <Badge badgeContent={(product.quantity && product.quantity) || 0}
+            className={classes.badgeMargin}
                 classes={{ badge: classes.badge }}>
                 <div className={classes.root}>
                     <div className={classes.leading}>

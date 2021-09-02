@@ -182,7 +182,7 @@ class MiniCart extends Component {
   								// color="primary"
   								classes={{ badge: classes.badge }}
   							>
-  								<CartIcon {...this.props}/>
+  								<CartIcon/>
   							</Badge>
   						)
   						: <CartIcon />
@@ -211,7 +211,7 @@ class MiniCart extends Component {
   	);
   }
 }
-const CartIcon =(props) =><SvgIcon {...props}>
+const CartIcon =() =><SvgIcon>
 
 	<svg width="24" height="24" viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg">
 		<path d="M9.3504 11.8203C9.9714 11.8203 10.4754 11.3163 10.4754 10.6953V6.30781C10.4754 4.34638 12.0712 2.75 14.0327 2.75C15.9941 2.75 17.5905 4.34638 17.5905 6.30781V10.6953C17.5905 11.3163 18.0939 11.8203 18.7155 11.8203C19.3365 11.8203 19.8405 11.3163 19.8405 10.6953V6.30781C19.841 3.1055 17.2355 0.5 14.0327 0.5C10.8309 0.5 8.2254 3.1055 8.2254 6.30781V10.6953C8.2254 11.3163 8.7294 11.8203 9.3504 11.8203Z"/>

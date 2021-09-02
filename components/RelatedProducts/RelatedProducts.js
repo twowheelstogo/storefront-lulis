@@ -36,7 +36,9 @@ const RelatedProducts = props => {
 				<div className={classes.productList}>
 					{/* {relatedProducts.filter((item)=>item.node.product.productId!=product.productId)
                 .map((item)=>< CustomProductCard product={item.node.product}/>)} */}
-					{products.map((item)=><CustomProductCard product={item}
+					{products.map((item, index)=><CustomProductCard 
+					    key={`${index}`}
+						product={item}
 						currencyCode = {currencyCode} 
 						addItemsToCart={addItemsToCart}
 						onChangeCartItemsQuantity={onChangeCartItemsQuantity}

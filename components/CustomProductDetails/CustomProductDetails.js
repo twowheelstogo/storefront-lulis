@@ -175,7 +175,8 @@ const CustomProductDetails = props => {
 	const currentProduct = (cart?.items||[]).find(item=>item.productSlug==product.slug);
 	const currentQuantity = currentProduct ? currentProduct.quantity : 0;
 	const subtotal = `Q${Number(product.pricing[0].maxPrice*quantity).toFixed(2)}`;
-	const media = product.primaryImage.URLs ? product.primaryImage.URLs.small.replace("jpg","png"):"";
+	const hostname = process.browser && (window.location.hostname != "localhost" ? "https://api.qbit01.com" : "http://localhost:3000");
+	const media = product.primaryImage && product.primaryImage.URLs ? product.primaryImage.URLs.small.replace("jpg","png"):`${hostname}/resources/placeholder.gif`;
 	return(
 		<React.Fragment>
 			<div className={classes.root}>

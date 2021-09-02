@@ -32,7 +32,7 @@ const CategoryTabs = props =>  {
 					currencyCode = {currencyCode}
 					products={products}
 					addItemsToCart={addItemsToCart}
-					onChangeCartItemsQuantity={onChangeCartItemsQuantity}/>:<div></div>;
+					onChangeCartItemsQuantity={onChangeCartItemsQuantity}/>:<div key={`${i}`}></div>;
 			})}
 		</Fragment>
 	);
