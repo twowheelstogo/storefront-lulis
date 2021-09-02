@@ -177,7 +177,7 @@ const BundleDetails = (props) => {
     } = props;
     const hostname = typeof window !== "undefined" && (window.location.hostname != "localhost" ? "https://api.qbit01.com" : "http://localhost:3000");
 
-    const media = (typeof window !== "undefined" && product.media && product.media[0].URLs) ? `${hostname}${product.media[0].URLs.small.replace("jpg", "png")}` : `/images/placeholder.gif`;
+    const media = (product.media && product.media[0].URLs) ? `${hostname}${product.media[0].URLs.small.replace("jpg", "png")}` : `/images/placeholder.gif`;
     console.log("media", media);
     // const handleChange = (count) => setQuantity(quantity + count);
 
