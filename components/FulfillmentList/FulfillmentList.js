@@ -28,9 +28,15 @@ class FulfillmentList extends React.Component {
     }
     render() {
     	const { components: { RadioButtonItem }, items, selectedItem, handleChange } = this.props;
-    	return (
+		let tmpItems = (items) ? items : [];
+		if(selectedItem){
+			tmpItems = tmpItems.filter((el) => el.id == selectedItem._id);
+		}else if (selectedItem == null){
+			tmpItems = [];
+		}
+		return (
     		<Items>
-    			{(items).map(({ label, detail, id }) => (
+    			{(tmpItems).map(({ label, detail, id }) => (
     				<RadioButtonItem
     					description={label}
     					value={{ label, detail, id }}

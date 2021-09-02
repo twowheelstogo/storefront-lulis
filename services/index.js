@@ -1,2 +1,3 @@
 import NitService from './nit.service';
-export {NitService};
+import AddressMetadataService from './addressMetadata.services.js';
+export {NitService, AddressMetadataService};

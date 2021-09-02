@@ -65,7 +65,7 @@ class GiftFormAction extends Component {
 			return (<p>cargando...</p>)
 		}
     	const {
-    		components: { Field, TextInput },
+    		components: { Field, TextInput, InlineAlert },
     		isReadOnly,
     		isSaving,
     		placeholderProps,
@@ -77,9 +77,9 @@ class GiftFormAction extends Component {
     		classes,
 			senderValue,
 			receiverValue,
-			messageValue
+			messageValue,
+			alert
     	} = this.props;
-
     	const giftofForm = `sendergift_${this.uniqueInstanceIdentifier}`;
     	const gitftForForm = `recievergift_${this.uniqueInstanceIdentifier}`;
     	const gitfMessageForm = `messagegift_${this.uniqueInstanceIdentifier}`;
@@ -130,6 +130,7 @@ class GiftFormAction extends Component {
     					</Field>
     				</ColFull>
     			</Grid>
+				{alert ? <InlineAlert {...alert}/>:""}
     		</Fragment>
     	);
     }
