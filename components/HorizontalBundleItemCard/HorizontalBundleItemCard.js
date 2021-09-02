@@ -91,7 +91,7 @@ const HorizontalBundleItemCard = (props) => {
     } = props;
 
     const { slug } = product;
-    const hostname = typeof window !== "undefined" && (window.location.hostname != "localhost" ? "https://api.qbit01.com" : "http://localhost:3000");
+    const hostname = (typeof window !== "undefined" && (window.location.hostname != "localhost" ? "https://api.qbit01.com" : "http://localhost:3000")) || "https://api.qbit01.com";
     const media = (product.media && product.media.length > 0 && product.media[0].URLs) ? `${hostname}${product.media[0].URLs.small.replace("jpg", "png")}` : `/images/placeholder.gif`;
     console.log("horizontalMedia", media);
 

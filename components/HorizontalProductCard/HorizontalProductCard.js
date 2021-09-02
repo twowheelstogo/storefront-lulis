@@ -115,7 +115,7 @@ class HorizontalProductCard extends React.Component {
 		const { slug } = product;
 		const quantity = product.cartItem != undefined ? product.cartItem.quantity : 0;
 		const displayPrice = Array.isArray(product.pricing) ? product.pricing[0].displayPrice : product.pricing.displayPrice;
-		const hostname = typeof window !== "undefined" && (window.location.hostname != "localhost" ? "https://api.qbit01.com" : "http://localhost:3000");
+		const hostname = (typeof window !== "undefined" && (window.location.hostname != "localhost" ? "https://api.qbit01.com" : "http://localhost:3000")) || "https://api.qbit01.com";
 		const media = ((product?.primaryImage && product?.primaryImage.URLs.small) || (product.media && `${hostname}${product?.media[0].URLs.small}`)) || `/images/placeholder.gif`;
 
 		return (
