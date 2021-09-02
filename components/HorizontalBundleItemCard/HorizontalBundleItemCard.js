@@ -92,12 +92,13 @@ const HorizontalBundleItemCard = (props) => {
 
     const { slug } = product;
     const hostname = typeof window !== "undefined" && (window.location.hostname != "localhost" ? "https://api.qbit01.com" : "http://localhost:3000");
-    const media = (typeof window !== "undefined" && product.media && product.media.length > 0 && product.media[0].URLs) ? `${hostname}${product.media[0].URLs.small.replace("jpg", "png")}` : `${hostname}/resources/placeholder.gif`;
+    const media = (product.media && product.media.length > 0 && product.media[0].URLs) ? `${hostname}${product.media[0].URLs.small.replace("jpg", "png")}` : `/images/placeholder.gif`;
+    console.log("horizontalMedia", media);
 
     return (
         <React.Fragment>
             <Badge badgeContent={(product.quantity && product.quantity) || 0}
-            className={classes.badgeMargin}
+                className={classes.badgeMargin}
                 classes={{ badge: classes.badge }}>
                 <div className={classes.root}>
                     <div className={classes.leading}>
