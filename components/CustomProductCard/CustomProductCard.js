@@ -95,7 +95,7 @@ const CustomProductCard = props => {
 	};
 	const quantity = product.cartItem!=undefined?product.cartItem.quantity:0;
 	const displayPrice = Array.isArray(product.pricing)?product.pricing[0].displayPrice:product.pricing.displayPrice;
-    const hostname = process.browser && (window.location.hostname != "localhost" ? "https://api.qbit01.com" : "http://localhost:3000");
+    const hostname = typeof window !== "undefined" && (window.location.hostname != "localhost" ? "https://api.qbit01.com" : "http://localhost:3000");
 	const media = product.primaryImage && product.primaryImage.URLs && product.primaryImage.URLs.small || ( product.media && `${hostname}${product.media[0].URLs.small}`) || `${hostname}/resources/placeholder.gif`;
 	const {slug} = product;
 	
