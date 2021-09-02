@@ -1,7 +1,6 @@
 import fetch from 'isomorphic-unfetch';
 const invoiceUrl = process.env.INVOICE_URL;
 
-
 const getNit = async (nit, accessToken) => {
     try{
         const res = await fetch(`${invoiceUrl}/api/nit/${nit}`, {

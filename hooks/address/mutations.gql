@@ -9,6 +9,17 @@ mutation addAccountAddressBookEntryMutation($input: AddAccountAddressBookEntryIn
         latitude
         longitude
       }
+      metaddress{
+        administrative_area_level_1
+        administrative_area_level_2
+        neighborhood
+        street_address
+        sublocality
+        distance{
+          value
+          text
+        }
+      }
     }
   }
 }
@@ -24,6 +35,17 @@ mutation updateAccountAddressBookEntryMutation($input: UpdateAccountAddressBookE
         latitude
         longitude
       }
+      metaddress{
+        administrative_area_level_1
+        administrative_area_level_2
+        neighborhood
+        street_address
+        sublocality
+        distance{
+          value
+          text
+        }
+      }
     }
   }
 }
@@ -38,6 +60,17 @@ mutation removeAccountAddressBookEntryMutation($input: RemoveAccountAddressBookE
       geolocation{
         latitude
         longitude
+      }
+      metaddress{
+        administrative_area_level_1
+        administrative_area_level_2
+        neighborhood
+        street_address
+        sublocality
+        distance{
+          value
+          text
+        }
       }
     }
   }
