@@ -37,9 +37,10 @@ const ProductGrid = props => {
 				spacing={1}
 			>
 				{
-					products.map( product => 
+					products.map( (product, index) => 
 						<Grid
 							item
+							key={`${index}`}
 							lg = { 3 }
 							md = { 4 }
 							sm={6}
