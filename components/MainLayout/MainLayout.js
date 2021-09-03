@@ -33,6 +33,20 @@ const styles = (theme) => ({
 });
 class MainLayout extends Component{
     static propTypes = {
+		cart: PropTypes.shape({
+			/**cart properties */
+		addItemsToCart: PropTypes.func,
+		addOrCreateCartLoading: PropTypes.bool,
+		cart: PropTypes.any,
+		checkoutMutations: PropTypes.any,
+		hasMoreCartItems: PropTypes.bool,
+		loadMoreCartItems: PropTypes.func,
+		onChangeCartItemsQuantity: PropTypes.func,
+		removeCartItemsLoading: PropTypes.bool,
+		clearAuthenticatedUsersCart: PropTypes.func,
+		refetchAccountCart: PropTypes.any,
+		setEmailOnAnonymousCart: PropTypes.any,
+		}),
     	children: PropTypes.node,
     	classes: PropTypes.object,
     	title:PropTypes.string,
