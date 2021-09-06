@@ -18,7 +18,10 @@ export const CartProvider = ({ children }) => {
 		isCf:true,
 		nit:"0",
 		name:"CF",
-		address:"guatemala"
+		address:"guatemala",
+		country: "Guatemala",
+		depto: "Guatemala",
+		city: "Guatemala"
 	});
 	const [checkoutGift, _setCheckoutGift] = useState({
 		sender:"",

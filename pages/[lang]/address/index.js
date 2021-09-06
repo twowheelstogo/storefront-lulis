@@ -244,14 +244,6 @@ const RenderMobile = withStyles(styles)((props) => {
 							<div className={classes.form}>
 								<div className={classes.addressItems}>
 									<CustomTitle style={{fontSize:"30px"}}>{addressBookId?"Editar Dirección":"Crear Dirección"}</CustomTitle>
-									<Divider style={{width:"80%"}}/>
-									<h3>Descripción del punto de entrega</h3>
-									{googleProps.metadataMarker.distance.text == "" ? null : <p><b>Distancia desde la sucursal más cercana:</b> {googleProps.metadataMarker.distance.text}</p>}
-									{googleProps.metadataMarker.administrative_area_level_1 == "" ? null : <p><b>Departamento:</b> {googleProps.metadataMarker.administrative_area_level_1}</p>}
-									{googleProps.metadataMarker.administrative_area_level_2 == "" ? null : <p><b>Municipio:</b> {googleProps.metadataMarker.administrative_area_level_2}</p>}
-									{googleProps.metadataMarker.neighborhood == "" ? null : <p><b>Residencial o Colonia:</b> {googleProps.metadataMarker.neighborhood}</p>}
-									{googleProps.metadataMarker.street_address == "" ? null : <p><b>Dirección de referencia:</b> {googleProps.metadataMarker.street_address}</p>}
-									{googleProps.metadataMarker.sublocality == "" ? null : <p><b>Localidad:</b> {googleProps.metadataMarker.sublocality}</p>}
 									<Divider  style={{width:"80%"}}/>
 									<Button variant="outlined"
 										size="small"
@@ -311,14 +303,6 @@ const RenderWeb = withStyles(styles)((props) => {
 						<div className={classes.form}>
 							<div>
 								<CustomTitle>{addressBookId?"Editar Dirección":"Crear Dirección"}</CustomTitle>
-								<Divider/>
-								<h3>Descripción del punto de entrega</h3>
-								{googleProps.metadataMarker.distance.text == "" ? null : <p><b>Distancia desde la sucursal más cercana:</b> {googleProps.metadataMarker.distance.text}</p>}
-								{googleProps.metadataMarker.administrative_area_level_1 == "" ? null : <p><b>Departamento:</b> {googleProps.metadataMarker.administrative_area_level_1}</p>}
-								{googleProps.metadataMarker.administrative_area_level_2 == "" ? null : <p><b>Municipio:</b> {googleProps.metadataMarker.administrative_area_level_2}</p>}
-								{googleProps.metadataMarker.neighborhood == "" ? null : <p><b>Residencial o Colonia:</b> {googleProps.metadataMarker.neighborhood}</p>}
-								{googleProps.metadataMarker.street_address == "" ? null : <p><b>Dirección de referencia:</b> {googleProps.metadataMarker.street_address}</p>}
-								{googleProps.metadataMarker.sublocality == "" ? null : <p><b>Localidad:</b> {googleProps.metadataMarker.sublocality}</p>}
 								<Divider/>
 								<RenderedForm>
 									<AddressForm

@@ -87,7 +87,11 @@ class CheckoutActions extends Component {
 			isCf: true,
 			nit: "0",
 			name: "CF",
-			address: "guatemala"
+			address: "guatemala",
+			country: "Guatemala",
+			depto: "Guatemala",
+			city: "Guatemala"
+
 		},
 		giftInputs: {
 			sender: "",
@@ -193,6 +197,11 @@ class CheckoutActions extends Component {
 			cloneInvoice.nit = (cloneInvoice.nit) ? cloneInvoice.nit.trim() : "";
 			cloneInvoice.address = (cloneInvoice.address) ? cloneInvoice.address.trim() : "";
 			cloneInvoice.address = formatName(cloneInvoice.address);
+			cloneInvoice.depto = (cloneInvoice.depto) ? cloneInvoice.depto.trim() : "";
+			cloneInvoice.depto = formatName(cloneInvoice.depto);
+			cloneInvoice.city = (cloneInvoice.city) ? cloneInvoice.city.trim() : "";
+			cloneInvoice.city = formatName(cloneInvoice.city);
+
 			if (cloneInvoice.nit == "") {
 				throw new CheckoutError({
 					actionCode: 5,
@@ -314,9 +323,9 @@ class CheckoutActions extends Component {
 	};
 
 	handlePaymentsReset = () => {
-	  this.props.cartStore.resetCheckoutPayments();
-	  this.props.cartStore.resetCheckoutGift();
-	  this.props.cartStore.resetCheckoutBilling();
+		this.props.cartStore.resetCheckoutPayments();
+		this.props.cartStore.resetCheckoutGift();
+		this.props.cartStore.resetCheckoutBilling();
 	}
 
 	buildOrder = async () => {
@@ -338,11 +347,11 @@ class CheckoutActions extends Component {
 					quantity: item.quantity,
 					metafields: item.metafields || []
 				}));
-				if(!selectedFulfillmentOption||selectedFulfillmentOption==null){
+				if (!selectedFulfillmentOption || selectedFulfillmentOption == null) {
 					throw new CheckoutError({
-						message:"La dirección seleccionada está fuera del rango de envío",
-						actionCode:6,
-						title:"Error de envío"
+						message: "La dirección seleccionada está fuera del rango de envío",
+						actionCode: 6,
+						title: "Error de envío"
 					});
 				}
 				return {
@@ -391,6 +400,7 @@ class CheckoutActions extends Component {
 			return { ...payment, amount };
 		});
 		const billing = cartStore.checkoutBilling;
+		console.log(billing);
 		const giftNote = cartStore.checkoutGift;
 		try {
 			const { data } = await apolloClient.mutate({
@@ -491,85 +501,6 @@ class CheckoutActions extends Component {
 		if (!Array.isArray(paymentMethods) || paymentMethods.length === 0) {
 			PaymentComponent = NoPaymentMethodsMessage;
 		}
-		const actions = [
-			{
-				id: "1",
-				activeLabel: "Datos de facturación",
-				completeLabel: "Shipping address",
-				incompleteLabel: "Shipping address",
-				status: fulfillmentGroup.type !== "shipping" || fulfillmentGroup.shippingAddress ? "complete" : "incomplete",
-				component: BillingCheckoutAction,
-				onSubmit: this.setShippingAddress,
-				props: {
-					addressValidationResults,
-					authStore,
-					alert: actionAlerts["1"],
-					fulfillmentGroup,
-					onAddressValidation: addressValidation,
-					onSubmitShippingAddress: this.setShippingAddress
-				}
-			},
-			{
-				id: "2",
-				activeLabel: "Select a shipping address",
-				completeLabel: "Shipping address",
-				incompleteLabel: "Shipping address",
-				status: fulfillmentGroup.type !== "shipping" || fulfillmentGroup.shippingAddress ? "complete" : "incomplete",
-				component: ShippingAddressCheckoutAction,
-				onSubmit: this.setShippingAddress,
-				props: {
-					addressValidationResults,
-					authStore,
-					alert: actionAlerts["2"],
-					fulfillmentGroup,
-					onAddressValidation: addressValidation
-				}
-			},
-			{
-				id: "3",
-				activeLabel: "Choose a shipping method",
-				completeLabel: "Shipping method",
-				incompleteLabel: "Shipping method",
-				status: fulfillmentGroup.selectedFulfillmentOption ? "complete" : "incomplete",
-				component: FulfillmentOptionsCheckoutAction,
-				onSubmit: this.setShippingMethod,
-				props: {
-					alert: actionAlerts["3"],
-					fulfillmentGroup
-				}
-			},
-			{
-				id: "4",
-				activeLabel: "Enter payment information",
-				completeLabel: "Payment information",
-				incompleteLabel: "Payment information",
-				status: remainingAmountDue === 0 && !hasPaymentError ? "complete" : "incomplete",
-				component: PaymentComponent,
-				onSubmit: this.handlePaymentSubmit,
-				props: {
-					addresses,
-					alert: actionAlerts["4"],
-					onReset: this.handlePaymentsReset,
-					payments,
-					paymentMethods,
-					remainingAmountDue
-				}
-			},
-			{
-				id: "5",
-				activeLabel: "Review and place order",
-				completeLabel: "Review and place order",
-				incompleteLabel: "Review and place order",
-				status: "incomplete",
-				component: FinalReviewCheckoutAction,
-				onSubmit: this.buildOrder,
-				props: {
-					alert: actionAlerts["5"],
-					checkoutSummary,
-					productURLPath: "/api/detectLanguage/product/"
-				}
-			}
-		];
 		const customActions = [
 			{
 				id: "1",
