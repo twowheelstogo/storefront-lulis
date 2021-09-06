@@ -5,7 +5,7 @@ import styled from "styled-components";
 import { applyTheme } from "@reactioncommerce/components/utils";
 import { withStyles } from "@material-ui/core/styles";
 import { NitService } from 'services/index.js'
-import cities from "custom/cities";
+import { Button } from "@material-ui/core";
 
 const styles = theme => ({
 	input: {
@@ -23,6 +23,25 @@ const ColHalf = styled.div`
     padding:2px;
     @media (min-width: ${applyTheme("sm", "breakpoints")}px) {
     flex: 0 1 calc(50% - 9px);
+    }
+`;
+
+const ColHalfNit = styled.div`
+flex: 0 1 calc(60% - 2px);
+padding:2px;
+@media (min-width: ${applyTheme("sm", "breakpoints")}px) {
+flex: 0 1 calc(80% - 9px);
+}
+`;
+
+const ColHalfButton = styled.div`
+	display: flex;
+    flex: 0 1 calc(40% - 2px);
+	align-items: flex-end;
+	justify-content: flex-end;
+    padding: 15px;
+    @media (min-width: ${applyTheme("sm", "breakpoints")}px) {
+    flex: 0 1 calc(20% - 9px);
     }
 `;
 
@@ -174,7 +193,7 @@ class BillingFormAction extends Component {
 					<ColFull>
 						<Checkbox label={cfBillingLabelText} name="isCf" value={isCf} onChange={(val) => { this.handleOnChange("isCf", val) }} />
 					</ColFull>
-					<ColHalf style={this.getHiddenNit()}>
+					<ColHalfNit style={this.getHiddenNit()}>
 						<Field name="nit" label={nitBillingLabelText} labelFor={nitbillingForm}>
 							<TextInput
 								className={classes.input}
@@ -187,7 +206,12 @@ class BillingFormAction extends Component {
 								value={nitValue}
 							/>
 						</Field>
-					</ColHalf>
+					</ColHalfNit>
+					<ColHalfButton style={this.getHiddenNit()}>
+						<Button isFullWidth>
+							Buscar
+						</Button>
+					</ColHalfButton>
 					<ColFull style={this.getHiddenStyles()}>
 						<Field name="name" label={nameBillingLabelText} labelFor={namebillingForm}>
 							<TextInput
