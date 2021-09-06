@@ -155,9 +155,7 @@ function EpayPaymentForm(props,ref){
 	const cardCVVInputId = `cardCVV_${uniqueInstanceIdentifier}`;
 	const ccIcons = [
 		props.components.iconVisa,
-		props.components.iconAmericanExpress,
-		props.components.iconMastercard,
-		props.components.iconDiscover
+		props.components.iconMastercard
 	];
 	return(
 		<div>
