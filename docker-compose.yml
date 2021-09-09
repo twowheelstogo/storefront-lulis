@@ -18,6 +18,8 @@ services:
     #image: reactioncommerce/example-storefront:4.0.2
 #     build: 
 #       context: .
+    tty: true
+    stdin_open: false
     env_file:
       - ./.env
     networks:
