@@ -120,7 +120,7 @@ const CustomProductCard = props => {
 						href = "/product/[...slugOrId]"
 						as = {`/product/${slug}`}>
 						<StyledTitle>{product.title}</StyledTitle>
-						<StyledContent>{product.description}</StyledContent>
+						<StyledContent>{product.pageTitle}</StyledContent>
 					</Link>
 					<StyledTitle>{displayPrice}</StyledTitle>
 				</div>

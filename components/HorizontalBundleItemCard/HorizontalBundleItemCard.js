@@ -109,7 +109,7 @@ const HorizontalBundleItemCard = (props) => {
                             href="/product/[...slugOrId]"
                             as={`/product/${slug}`}>
                             <StyledTitle>{product.title}</StyledTitle>
-                            <StyledContent>{product.description}</StyledContent>
+                            <StyledContent>{product.pageTitle}</StyledContent>
                         </Link>
                     </div>
                     <div className={classes.trailing}>

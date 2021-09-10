@@ -131,7 +131,7 @@ class HorizontalProductCard extends React.Component {
 								href={product.productType != "bundle" ? "/product/[...slugOrId]" : "/bundle/[productId]"}
 								as={product.productType != "bundle" ? `/product/${slug}` : `/bundle/${product.productId}`}>
 								<StyledTitle>{product.title}</StyledTitle>
-								<StyledContent>{product.description}</StyledContent>
+								<StyledContent>{product.pageTitle}</StyledContent>
 							</Link>
 						</div>
 						<div className={classes.trailing}>
