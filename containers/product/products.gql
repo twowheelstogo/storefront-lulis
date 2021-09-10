@@ -38,6 +38,7 @@ query Products(
       _id
       title
       description
+      pageTitle
       slug
       media{
         URLs{

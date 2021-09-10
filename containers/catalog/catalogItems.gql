@@ -18,6 +18,7 @@ query catalogItemsQuery($shopId: ID!, $tagIds: [ID] $first: ConnectionLimitInt, 
             productId
             slug
             description
+            pageTitle
             vendor
             isLowQuantity
             isSoldOut

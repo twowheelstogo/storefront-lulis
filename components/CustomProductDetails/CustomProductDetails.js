@@ -198,7 +198,7 @@ const CustomProductDetails = props => {
 								</div>
 								<div className={classes.subtitle}>{product.pricing[0].displayPrice}</div>
 								<br></br>
-								<div className={classes.description}>{"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse at diam lectus. Nullam ultricies metus nec turpis aliquet ullamcorper. Aenean dolor justo, imperdiet nec ligula ut, cursus porta lacus. Donec eu ornare velit. Fusce sit amet ipsum sit amet odio mollis rhoncus eget nec justo. Aenean facilisis ullamcorper sodales. Pellentesque pretium at risus in tincidunt. Vestibulum est felis, malesuada sed odio vitae, rhoncus bibendum mi. Sed vitae egestas lectus. Fusce vel fermentum metus. "}</div>
+								<div className={classes.description}>{product.description}</div>
 							</div>
 							<br></br>
 							<div className={!matches?classes.controls:classes.centerControls}>
