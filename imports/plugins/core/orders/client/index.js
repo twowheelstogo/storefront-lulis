@@ -8,6 +8,7 @@ import OrderCardSummary from "./components/OrderCardSummary";
 import Orders from "./components/OrdersTable";
 import Order from "./containers/OrderContainer";
 import OrderPrint from "./containers/OrderPrintContainer";
+import NewOrder from "./components/NewOrder";
 import "./helpers";
 
 Shop.extend({
@@ -26,6 +27,14 @@ registerOperatorRoute({
   MainComponent: Order,
   path: "/orders/:_id"
 });
+
+/**
+ * New order page route
+ */
+registerOperatorRoute({
+  MainComponent: NewOrder,
+  path: "/orders/draft_orders/new"
+})
 
 /*
  * Single order print layout route

@@ -1,5 +1,19 @@
 import moment from "moment";
 import { Reaction } from "/client/api";
+import { useRef, useEffect } from 'react';
+
+/**
+ * @method useIsMount
+ * @private
+ * @returns {Boolean} returns if a component is mounted
+ */
+export function useIsMount() {
+  const isMountRef = useRef(true);
+  useEffect(() => {
+    isMountRef.current = false;
+  }, []);
+  return isMountRef.current;
+}
 
 /**
  * @method formatDateRangeFilter
