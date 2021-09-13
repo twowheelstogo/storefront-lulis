@@ -23,6 +23,9 @@ function useDraftOrder(args = {}) {
     const shopId = routeParams.shopId || shopIdProp;
     const [query, setQuery] = useState("");
     const [selectedProducts, setSelectedProducts] = useState([]);
+    const [selectedAccount, setSelectedAccount] = useState(null);
+    const [selectedAddress, setSelectedAddress] = useState(null);
+    const [selectedFulfillmentMethod, setSelectedFulfillmentMethod] = useState(null);
 
     /**Query to get products */
     const { data: productsQueryResult, isLoading: isLoadingProducts, refetch: refetchProducts } = useQuery(productsQuery, {
@@ -80,8 +83,14 @@ function useDraftOrder(args = {}) {
         isLoadingProducts,
         products,
         selectedProducts,
+        selectedAccount,
+        selectedAddress,
+        selectedFulfillmentMethod,
         addDraftOrderItems,
         changeItemQuantity,
+        setSelectedAccount,
+        setSelectedAddress,
+        setSelectedFulfillmentMethod,
         removeItem,
         setQuery,
         shopId,

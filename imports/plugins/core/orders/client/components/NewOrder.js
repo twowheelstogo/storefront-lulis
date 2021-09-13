@@ -6,6 +6,7 @@ import ShippingMethod from "./ShippingMethod";
 import MoreDetailsOrder from "./MoreDetailsOrder";
 import OrderCustomer from "./OrderCustomer";
 import useDraftOrder from "../hooks/useDraftOrder";
+import useAccounts from "../hooks/useAccounts";
 
 /**
  * @name NewOrder
@@ -20,9 +21,29 @@ function NewOrder() {
         changeItemQuantity,
         removeItem,
         setQuery,
-        shopId,
-        query
+        query,
+        selectedAccount,
+        selectedAddress,
+        selectedFulfillmentMethod,
+        setSelectedAccount,
+        setSelectedAddress,
+        setSelectedFulfillmentMethod
     } = useDraftOrder();
+    const {
+        accounts,
+        isLoadingAccounts,
+        accountsQuery,
+        setAccountsQuery
+    } = useAccounts();
+
+    const accountProps = {
+        accounts,
+        isLoadingAccounts,
+        accountsQuery,
+        setAccountsQuery,
+        selectedAccount,
+        setSelectedAccount
+    };
 
     const productProps = {
         handleQuery: setQuery,
@@ -34,8 +55,6 @@ function NewOrder() {
         isLoadingProducts,
         query
     };
-
-    console.log(selectedProducts);
 
     return (
         <Grid container spacing={2}>
@@ -53,7 +72,7 @@ function NewOrder() {
             <Grid item xs={12} md={4}>
                 <Grid container spacing={2}>
                     <Grid item xs={12}>
-                        <OrderCustomer />
+                        <OrderCustomer {...accountProps} />
                     </Grid>
                     <Grid item xs={12}>
                         <ShippingMethod />
