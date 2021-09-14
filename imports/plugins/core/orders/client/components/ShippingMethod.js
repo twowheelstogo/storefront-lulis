@@ -24,7 +24,8 @@ const CardContainer = styled.div`
 
 const StyledRadio = withStyles({
     root: {
-        color: "#3c3c3c"
+        color: "#3c3c3c",
+        zIndex: 0
     }
 })((props) => <Radio color="default" {...props} />);
 
@@ -41,11 +42,19 @@ const ItemTitle = styled.div`
     font-weight: 600;
     font-size: 14px;
     color: #3B4256;
+    display: -webkit-box;
+      -webkit-line-clamp: 1;
+      -webkit-box-orient: vertical;  
+      overflow: hidden;
 `;
 
 const ItemSubtitle = styled.div`
     font-weight: 400;
     font-size: 14px;
+    display: -webkit-box;
+      -webkit-line-clamp: 1;
+      -webkit-box-orient: vertical;  
+      overflow: hidden;
 `;
 
 const ItemContent = styled.div`
@@ -54,6 +63,10 @@ const ItemContent = styled.div`
     flex-direction: column;
     gap: 5px;
     justify-content: center;
+`;
+
+const List = styled.div`
+
 `;
 
 /**
@@ -91,10 +104,28 @@ function ShippingMethod(props) {
 
     const handleChange = (event) => selectFulfillmentType(event.target.value);
 
+    const handleSelect = (event) => selectShippingAddress(JSON.parse(event.target.value));
+
     function renderShippingMethod() {
         return (
             <div>
                 <CustomTitle>{"Dirección de envío"}</CustomTitle>
+                <CardContainer>
+                    {selectedAccount && selectedAccount.addressBook && Array.isArray(selectedAccount?.addressBook.edges) && (
+                        <List>
+                            {selectedAccount.addressBook.edges.map(({ node }, index) => (
+                                <RadioItem
+                                    key={`${index}`}
+                                    selected={node._id === selectedAddress?._id}
+                                    handleChange={handleSelect}
+                                    value={JSON.stringify(node)}
+                                    subtitle={node.address}
+                                    title={node.description}
+                                />
+                            ))}
+                        </List>
+                    )}
+                </CardContainer>
             </div>
         );
     }

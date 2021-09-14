@@ -80,6 +80,28 @@ function useDraftOrder(args = {}) {
         }
     }, [query]);
 
+    const handleSelectAddress = (item) => {
+        
+        setSelectedAddress(item);
+    };
+
+    const handleSelectAccount = (item) => {
+        
+        setSelectedAddress(null);
+        setSelectedAccount(item);
+    };
+
+    const handleSelectFulfillmentType = (item) => {
+
+        setSelectedAddress(null);
+        setSelectedFulfillmentType(item);
+    };
+
+    const handleSelectFulfillmentMethod = (item) => {
+        
+        setSelectedFulfillmentMethod(item);
+    };
+
     return {
         isLoadingProducts,
         products,
@@ -90,10 +112,10 @@ function useDraftOrder(args = {}) {
         selectedFulfillmentType,
         addDraftOrderItems,
         changeItemQuantity,
-        setSelectedAccount,
-        setSelectedAddress,
-        setSelectedFulfillmentMethod,
-        setSelectedFulfillmentType,
+        setSelectedAccount: handleSelectAccount,
+        setSelectedAddress: handleSelectAddress,
+        setSelectedFulfillmentMethod: handleSelectFulfillmentMethod,
+        setSelectedFulfillmentType: handleSelectFulfillmentType,
         removeItem,
         setQuery,
         shopId,

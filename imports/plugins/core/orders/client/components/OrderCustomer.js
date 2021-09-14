@@ -82,7 +82,7 @@ function OrderCustomer(props) {
                         />
                     </InputCol>
                 </InputGrid>
-                <Popper open={open} anchorEl={anchorRef.current} role={undefined} transition disablePortal style={{ width: anchorRef.current?.clientWidth || "200px" }}>
+                <Popper open={open} anchorEl={anchorRef.current} role={undefined} transition disablePortal style={{ width: anchorRef.current?.clientWidth || "200px", zIndex: 1300 }}>
                     {({ TransitionProps, placement }) => (
                         <Grow
                             {...TransitionProps}
