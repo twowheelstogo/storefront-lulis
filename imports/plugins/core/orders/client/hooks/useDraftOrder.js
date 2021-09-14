@@ -26,6 +26,7 @@ function useDraftOrder(args = {}) {
     const [selectedAccount, setSelectedAccount] = useState(null);
     const [selectedAddress, setSelectedAddress] = useState(null);
     const [selectedFulfillmentMethod, setSelectedFulfillmentMethod] = useState(null);
+    const [selectedFulfillmentType, setSelectedFulfillmentType] = useState("shipping");
 
     /**Query to get products */
     const { data: productsQueryResult, isLoading: isLoadingProducts, refetch: refetchProducts } = useQuery(productsQuery, {
@@ -50,7 +51,7 @@ function useDraftOrder(args = {}) {
         currSelectedProducts.forEach((item) => {
             const currQuantity = item.quantity + quantity;
 
-            if(item._id == id && currQuantity > 0) {
+            if (item._id == id && currQuantity > 0) {
                 productItems.push({
                     ...item,
                     quantity: currQuantity
@@ -66,7 +67,7 @@ function useDraftOrder(args = {}) {
     const removeItem = (id) => {
         const currSelectedProducts = [...selectedProducts];
 
-        const productsWithoutItem =  currSelectedProducts.filter((item)=> item._id !== id);
+        const productsWithoutItem = currSelectedProducts.filter((item) => item._id !== id);
 
         setSelectedProducts(productsWithoutItem);
     };
@@ -86,11 +87,13 @@ function useDraftOrder(args = {}) {
         selectedAccount,
         selectedAddress,
         selectedFulfillmentMethod,
+        selectedFulfillmentType,
         addDraftOrderItems,
         changeItemQuantity,
         setSelectedAccount,
         setSelectedAddress,
         setSelectedFulfillmentMethod,
+        setSelectedFulfillmentType,
         removeItem,
         setQuery,
         shopId,

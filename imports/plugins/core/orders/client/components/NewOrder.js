@@ -25,9 +25,11 @@ function NewOrder() {
         selectedAccount,
         selectedAddress,
         selectedFulfillmentMethod,
+        selectedFulfillmentType,
         setSelectedAccount,
         setSelectedAddress,
-        setSelectedFulfillmentMethod
+        setSelectedFulfillmentMethod,
+        setSelectedFulfillmentType
     } = useDraftOrder();
     const {
         accounts,
@@ -56,6 +58,16 @@ function NewOrder() {
         query
     };
 
+    const shippingProps = {
+        selectedAccount,
+        selectedAddress,
+        selectShippingAddress: setSelectedAddress,
+        selectedFulfillmentMethod,
+        selectFulfillmentMethod: setSelectedFulfillmentMethod,
+        selectedFulfillmentType,
+        selectFulfillmentType: setSelectedFulfillmentType
+    }
+
     return (
         <Grid container spacing={2}>
             <Grid xs={12}>buttons</Grid>
@@ -75,7 +87,7 @@ function NewOrder() {
                         <OrderCustomer {...accountProps} />
                     </Grid>
                     <Grid item xs={12}>
-                        <ShippingMethod />
+                        <ShippingMethod {...shippingProps} />
                     </Grid>
                     <Grid item xs={12}>
                         <MoreDetailsOrder />
