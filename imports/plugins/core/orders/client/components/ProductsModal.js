@@ -42,9 +42,21 @@ function ProductsModal(props) {
         handleClose();
     }
 
+    const cartItems = items.map((item)=> ({
+        price: {
+            amount: item.variants[0].pricing.price,
+            currencyCode: "GTQ"
+        },
+        productConfiguration: {
+            productId: item._id,
+            productVariantId: item.variants[0]._id
+        },
+        quantity: 1
+    }))  
+
     const addSelectedItems = () => {
         onClose();
-        handleAddItems(items);
+        handleAddItems(cartItems);
     };
 
     const products = productList.map((product)=> {

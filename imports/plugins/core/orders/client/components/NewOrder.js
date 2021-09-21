@@ -29,7 +29,8 @@ function NewOrder() {
         setSelectedAccount,
         setSelectedAddress,
         setSelectedFulfillmentMethod,
-        setSelectedFulfillmentType
+        setSelectedFulfillmentType,
+        addItemsToCart
     } = useDraftOrder();
     const {
         accounts,
@@ -51,7 +52,7 @@ function NewOrder() {
         handleQuery: setQuery,
         products: products && products.nodes || [],
         selectedProducts,
-        handleAddItems: addDraftOrderItems,
+        handleAddItems: addItemsToCart,
         handleChangeItemQuantity: changeItemQuantity,
         handleRemoveItem: removeItem,
         isLoadingProducts,

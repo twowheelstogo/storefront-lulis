@@ -15,6 +15,7 @@ export default gql`
         }
         price {
           range
+          
         }
         pricing {
           compareAtPrice {
@@ -26,6 +27,9 @@ export default gql`
         publishedProductHash
         variants {
           _id
+          pricing {
+            price
+          }
         }
         shop {
           _id

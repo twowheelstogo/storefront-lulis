@@ -16,7 +16,8 @@ import {
     setEmailOnAnonymousCartMutation,
     updateCartItemsQuantityMutation,
     updateFulfillmentOptionsForGroup,
-    updateFulfillmentTypeForGroup
+    updateFulfillmentTypeForGroup,
+    addDraftOrderCartItemsMutation
 } from "../graphql/mutations/cart";
 import {
     createDraftOrderCartMutation,
@@ -121,20 +122,20 @@ function useDraftOrder(args = {}) {
         return {};
     }, [cartData, cartDataAnonymous, shouldSkipAccountCartByAccountIdQuery, shouldSkipAnonymousCartByCartIdQuery]);
 
+    console.log(cart);
+
     /**Mutation to add or create cart */
     const [
         addOrCreateCartMutation, {
             loading: addOrCreateCartLoading
-        }] = useMutation(cart && cart._id ? addCartItemsMutation : createDraftOrderCartMutation);
+        }] = useMutation(cart && cart._id ? addDraftOrderCartItemsMutation : createDraftOrderCartMutation);
 
     const handleAddItemsToCart = async (items) => {
         const input = {};
 
-        if (!cart) {
-            input = {
-                draftOrderId,
-                shopId
-            };
+        if (Object.keys(cart).length == 0 || !cart) {
+            input.draftOrderId = draftOrderId;
+            input.shopId = shopId;
 
             if (selectedAccount) {
                 input.accountId = selectedAccount._id;
@@ -146,9 +147,7 @@ function useDraftOrder(args = {}) {
             };
 
         } else {
-            input = {
-                items
-            };
+            input.items = items;
 
             if (cart._id) {
                 input.cartId = cart._id;
@@ -162,13 +161,20 @@ function useDraftOrder(args = {}) {
                 input.cartToken = anonymousCartToken;
             }
         }
+        console.log(input);
 
-        await addOrCreateCartMutation({
-            variables: {
-                input
-            }
-        });
-        refetchCart();
+        try {
+            await addOrCreateCartMutation({
+                variables: {
+                    input
+                }
+            });
+            // refetchCart();
+            enqueueSnackbar("Productos agregados al carrito correctamente", { variant: "success" });
+        } catch (error) {
+            console.error(error.message);
+            enqueueSnackbar(error.message.replace("GraphQL error: ", ""), { variant: "error" });
+        }
     };
 
     useEffect(() => {
@@ -177,12 +183,12 @@ function useDraftOrder(args = {}) {
             if (draftOrder?.cartToken) {
                 setAnonymousCartId(draftOrder.cartId);
                 setAnonymousCartToken(draftOrder.cartToken);
-                refetchAnonymousCart();
+                fetchAnonymousCart();
             }
             else if (draftOrder?.accountId) {
                 setAnonymousCartId(null);
                 setAnonymousCartToken(null);
-                refetchAccountCart();
+                fetchAccountCart();
             }
         }
     }, [draftOrder]);

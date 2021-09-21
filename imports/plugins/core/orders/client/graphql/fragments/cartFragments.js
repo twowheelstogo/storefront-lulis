@@ -210,13 +210,15 @@ fragment CartItemConnectionFragment on CartItemConnection {
 }
 `;
 
-export const CartQueryFragment = gql `
+export const CartQueryFragment = gql`
  fragment CartQueryFragment on Cart {
-  ...${CartCommon}
+  ...CartCommon
   items(first: 20, after: $itemsAfterCursor) {
-    ...${CartItemConnectionFragment}
+    ...CartItemConnectionFragment
   }
 }
+ ${CartCommon}
+ ${CartItemConnectionFragment}
 `;
 
 export const IncorrectPriceFailureDetailsFragment = gql`
@@ -255,9 +257,11 @@ export const MinOrderQuantityFailureDetailsFragment = gql`
 
 export const CartPayloadFragment = gql`
   fragment CartPayloadFragment on Cart {
-  ...${CartCommon}
+  ...CartCommon
   items {
-    ...${CartItemConnectionFragment}
+    ...CartItemConnectionFragment
   }
 }
+  ${CartCommon}
+  ${CartItemConnectionFragment}
 `;
