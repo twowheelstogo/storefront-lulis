@@ -8,16 +8,15 @@ import { useParams } from "react-router-dom";
 import { useSnackbar } from "notistack";
 import { useIsMount } from "../helpers";
 import {
-    addCartItemsMutation,
     reconcileCartsMutation,
     removeCartItemsMutation,
     setFulfillmentOptionCartMutation,
     setShippingAddressCartMutation,
     setEmailOnAnonymousCartMutation,
     updateCartItemsQuantityMutation,
-    updateFulfillmentOptionsForGroup,
-    updateFulfillmentTypeForGroup,
-    addDraftOrderCartItemsMutation
+    updateFulfillmentOptionsForGroup as updateFulfillmentOptionsForGroupMutation,
+    updateFulfillmentTypeForGroup as updateFulfillmentTypeForGroupMutation,
+    addDraftOrderCartItemsMutation,
 } from "../graphql/mutations/cart";
 import {
     createDraftOrderCartMutation,
@@ -52,6 +51,8 @@ function useDraftOrder(args = {}) {
     const [anonymousCartToken, setAnonymousCartToken] = useState(null);
 
     const [addDraftOrderAccount] = useMutation(addDraftOrderAccountMutation);
+    const [updateFulfillmentOptionsForGroup] = useMutation(updateFulfillmentOptionsForGroupMutation);
+    const [updateFulfillmentTypeForGroup] = useMutation(updateFulfillmentTypeForGroupMutation);
 
     /**Query to get products */
     const { data: productsQueryResult, isLoading: isLoadingProducts, refetch: refetchProducts } = useQuery(productsQuery, {
@@ -106,7 +107,7 @@ function useDraftOrder(args = {}) {
     const { draftOrder } = draftOrderQueryResult || {};
 
     const addDraftOrderItems = (items) => {
-        console.log(items);
+
         const itemsWithQuantity = items.map((curr) => ({ ...curr, quantity: 1 }));
         setSelectedProducts((current) => [...current, ...itemsWithQuantity]);
     };
@@ -122,18 +123,30 @@ function useDraftOrder(args = {}) {
         return {};
     }, [cartData, cartDataAnonymous, shouldSkipAccountCartByAccountIdQuery, shouldSkipAnonymousCartByCartIdQuery]);
 
-    console.log(cart);
-
     /**Mutation to add or create cart */
     const [
         addOrCreateCartMutation, {
             loading: addOrCreateCartLoading
         }] = useMutation(cart && cart._id ? addDraftOrderCartItemsMutation : createDraftOrderCartMutation);
 
+
+    const cartIdAndCartToken = () => {
+        // const { accountCartId, anonymousCartId, anonymousCartToken } = cartStore;
+        let cartToken = {};
+        if (!selectedAccount) {
+            cartToken = { cartToken: anonymousCartToken };
+        }
+
+        return {
+            cartId: cart._id || anonymousCartId,
+            ...cartToken
+        };
+    };
+
     const handleAddItemsToCart = async (items) => {
         const input = {};
 
-        if (Object.keys(cart).length == 0 || !cart) {
+        if (Object.keys(cart || {}).length == 0 || !cart) {
             input.draftOrderId = draftOrderId;
             input.shopId = shopId;
 
@@ -160,8 +173,11 @@ function useDraftOrder(args = {}) {
             if (anonymousCartToken) {
                 input.cartToken = anonymousCartToken;
             }
+
+            if (selectedAccount) {
+                input.accountId = selectedAccount._id;
+            }
         }
-        console.log(input);
 
         try {
             await addOrCreateCartMutation({
@@ -169,7 +185,7 @@ function useDraftOrder(args = {}) {
                     input
                 }
             });
-            // refetchCart();
+            refetchCart();
             enqueueSnackbar("Productos agregados al carrito correctamente", { variant: "success" });
         } catch (error) {
             console.error(error.message);
@@ -183,12 +199,12 @@ function useDraftOrder(args = {}) {
             if (draftOrder?.cartToken) {
                 setAnonymousCartId(draftOrder.cartId);
                 setAnonymousCartToken(draftOrder.cartToken);
-                fetchAnonymousCart();
+                // fetchAnonymousCart();
             }
             else if (draftOrder?.accountId) {
                 setAnonymousCartId(null);
                 setAnonymousCartToken(null);
-                fetchAccountCart();
+                // fetchAccountCart();
             }
         }
     }, [draftOrder]);
@@ -213,10 +229,11 @@ function useDraftOrder(args = {}) {
     };
 
     const refetchCart = () => {
-        if (!accountCartQueryCalled && !shouldSkipAccountCartByAccountIdQuery) {
-            fetchAccountCart();
-        } else if (!anonymousCartQueryCalled && !shouldSkipAnonymousCartByCartIdQuery) {
-            fetchAnonymousCart();
+        refetchDraftOrder();
+        if (!shouldSkipAccountCartByAccountIdQuery) {
+            refetchAccountCart();
+        } else if (!shouldSkipAnonymousCartByCartIdQuery) {
+            refetchAnonymousCart();
         }
     }
 
@@ -241,21 +258,116 @@ function useDraftOrder(args = {}) {
         setSelectedAddress(item);
     };
 
-    const handleSelectAccount = (item) => {
+    const handleSelectAccount = async (item) => {
 
-        setSelectedAddress(null);
-        setSelectedAccount(item);
+        try {
+
+            setSelectedAddress(null);
+            await addDraftOrderAccount({
+                variables: {
+                    input: {
+                        accountId: item._id,
+                        cartId: anonymousCartId || cart._id,
+                        shopId,
+                        draftOrderId
+                    }
+                }
+            });
+
+            setAnonymousCartId(null);
+            setAnonymousCartToken(null);
+            setSelectedAccount(item);
+            refetchCart();
+            enqueueSnackbar("Cliente seleccionado", { variant: "success" });
+        } catch (error) {
+            console.error(error.message);
+            enqueueSnackbar(error.message.replace("GraphQL error: ", ""), { variant: "error" });
+        }
     };
 
-    const handleSelectFulfillmentType = (item) => {
+    // const handleSelectFulfillmentType = (item) => {
 
-        setSelectedAddress(null);
-        setSelectedFulfillmentType(item);
-    };
+    //     setSelectedAddress(null);
+    //     setSelectedFulfillmentType(item);
+    // };
 
     const handleSelectFulfillmentMethod = (item) => {
 
         setSelectedFulfillmentMethod(item);
+    };
+
+    const handleSelectFulfillmentType = async ({ fulfillmentGroupId, fulfillmentType }) => {
+
+        try {
+            await updateFulfillmentTypeForGroup({
+                variables: {
+                    input: {
+                        ...cartIdAndCartToken(),
+                        fulfillmentGroupId,
+                        fulfillmentType
+                    }
+                }
+            });
+
+            handleUpdateFulfillmentOptionsForGroup(fulfillmentGroupId);
+        } catch (error) {
+            console.error(error.message);
+            enqueueSnackbar(error.message.replace("GraphQL error: ", ""), { variant: "error" });
+        }
+    };
+
+    const [setShippingAddressOnCart] = useMutation(setShippingAddressCartMutation, {
+        onCompleted({ setShippingAddressFromDraftOrder }) {
+            console.log(setShippingAddressFromDraftOrder.cart.checkout?.fulfillmentGroups[0]._id);
+            handleUpdateFulfillmentOptionsForGroup(setShippingAddressFromDraftOrder.cart.checkout?.fulfillmentGroups[0]._id);
+        }
+    });
+
+    const handleSelectShippingAddress = async (address) => {
+        const addressId = address._id;
+        delete address._id;
+
+        const input = {
+            ...cartIdAndCartToken(),
+            address: cleanTypenames(address),
+            addressId
+        };
+
+        if (selectedAccount) input.accountId = selectedAccount._id;
+
+        try {
+            await setShippingAddressOnCart({
+                variables: {
+                    input
+                }
+            });
+        } catch (error) {
+            console.error(error.message);
+            enqueueSnackbar(error.message.replace("GraphQL error: ", ""), { variant: "error" });
+        }
+    }
+
+    const cleanTypenames = (object) => {
+
+        const omitTypename = (key, value) => (key === "__typename" ? undefined : value);
+
+        return JSON.parse(JSON.stringify(object), omitTypename);
+    }
+
+    const handleUpdateFulfillmentOptionsForGroup = async (fulfillmentGroupId) => {
+        const input = {
+            ...cartIdAndCartToken(),
+            fulfillmentGroupId
+        };
+        if (selectedAccount) {
+            Object.assign(input, { accountId: selectedAccount._id });
+        }
+
+        await updateFulfillmentOptionsForGroup({
+            variables: {
+                input
+            }
+        })
     };
 
     return {
@@ -269,7 +381,8 @@ function useDraftOrder(args = {}) {
         addDraftOrderItems,
         changeItemQuantity,
         setSelectedAccount: handleSelectAccount,
-        setSelectedAddress: handleSelectAddress,
+        selectAccount: setSelectedAccount,
+        setSelectedAddress: handleSelectShippingAddress,
         setSelectedFulfillmentMethod: handleSelectFulfillmentMethod,
         setSelectedFulfillmentType: handleSelectFulfillmentType,
         removeItem,
