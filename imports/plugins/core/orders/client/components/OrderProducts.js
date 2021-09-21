@@ -33,7 +33,8 @@ function OrderProducts(props) {
         handleAddItems,
         handleChangeItemQuantity,
         handleRemoveItem,
-        query
+        query,
+        cart
     } = props;
 
     const handleClose = () => {
@@ -66,7 +67,7 @@ function OrderProducts(props) {
                     >{"Buscar"}</Button>
                 </InputGrid>
                 <ProductItems 
-                    products={selectedProducts}
+                    products={cart && cart.items && cart.items.edges || []}
                 />
             </CardContent>
             <ProductsModal
@@ -89,7 +90,8 @@ OrderProducts.propTypes = {
     handleAddItems: PropTypes.func,
     handleChangeItemQuantity: PropTypes.func,
     handleRemoveItem: PropTypes.func,
-    isLoadingProducts: PropTypes.bool
+    isLoadingProducts: PropTypes.bool,
+    cart: PropTypes.object
 };
 
 OrderProducts.defaultProps = {
@@ -99,7 +101,8 @@ OrderProducts.defaultProps = {
     handleAddItems() { },
     handleChangeItemQuantity() { },
     handleRemoveItem() { },
-    isLoadingProducts: false
+    isLoadingProducts: false,
+    cart: null
 }
 
 export default OrderProducts;

@@ -27,6 +27,9 @@ const Title1 = styled.div`
  * @returns {React.Component} returns a React component
  */
 function OrderSummary(props) {
+    const { summary } = props;
+
+    const {fulfillmentTotal, itemTotal, taxTotal, discountTotal, total} = summary || {};
 
     return (
         <Card>
@@ -35,23 +38,23 @@ function OrderSummary(props) {
                 <Grid>
                     <Row>
                         <div>{"Subtotal"}</div>
-                        <div>{"Q120.00"}</div>
+                        <div>{itemTotal?.displayAmount || "-"}</div>
                     </Row>
                     <Row>
                         <div>{"Envío"}</div>
-                        <div>{"Q0.00"}</div>
+                        <div>{fulfillmentTotal?.displayAmount || "-"}</div>
                     </Row>
                     <Row>
                         <div>{"Descuento"}</div>
-                        <div>{"Q0.00"}</div>
+                        <div>{discountTotal?.displayAmount || "-"}</div>
                     </Row>
                     <Row>
                         <div>{"Impuesto"}</div>
-                        <div>{"Q0.00"}</div>
+                        <div>{taxTotal?.displayAmount || "-"}</div>
                     </Row>
                     <Row>
                         <Title1>{"Total"}</Title1>
-                        <Title1>{"Q120.00"}</Title1>
+                        <Title1>{total?.displayAmount || "-"}</Title1>
                     </Row>
                 </Grid>
             </CardContent>
@@ -60,7 +63,13 @@ function OrderSummary(props) {
 }
 
 OrderSummary.propTypes = {
-
+    summary: PropTypes.shape({
+        fulfillmentTotal: PropTypes.object,
+        itemTotal: PropTypes.object,
+        taxTotal: PropTypes.object,
+        discountTotal: PropTypes.object,
+        total: PropTypes.object
+    })
 };
 
 export default OrderSummary;

@@ -64,6 +64,10 @@ font-weight: 600;
 color: #565656;
 `;
 
+const convertToMedia = (imageURLs) => [{
+    URLs: imageURLs
+}];
+
 /**
  * 
  * @param {Object} props Component props
@@ -77,17 +81,17 @@ function ProductItems(props) {
     } = props;
     return (
         <List>
-            {products.map((product, index) => (
+            {products.map(({ node: product }, index) => (
                 <Item key={`${index}`}>
                     <ItemLeading>
-                        <RenderMedia media={product.media} />
+                        <RenderMedia media={product.imageURLs && convertToMedia(product.imageURLs)} />
                     </ItemLeading>
                     <ItemContent>
                         <ItemTitle>{product.title}</ItemTitle>
-                        <ItemSubtitle>{`${product.quantity} x ${product.pricing.displayPrice}`}</ItemSubtitle>
+                        <ItemSubtitle>{`${product.quantity} x ${product.price.displayAmount}`}</ItemSubtitle>
                     </ItemContent>
                     <ItemTrailing>
-                        <ItemSubtitle>{product.pricing.displayPrice}</ItemSubtitle>
+                        <ItemSubtitle>{product.price.displayAmount}</ItemSubtitle>
                         <IconButton>
                             <CloseIcon />
                         </IconButton>

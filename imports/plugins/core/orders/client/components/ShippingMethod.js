@@ -99,10 +99,16 @@ function ShippingMethod(props) {
         selectShippingAddress,
         selectFulfillmentMethod,
         selectFulfillmentType,
-        classes
+        classes,
+        fulfillmentGroup
     } = props;
 
-    const handleChange = (event) => selectFulfillmentType(event.target.value);
+    const handleChange = (event) => selectFulfillmentType({
+        fulfillmentGroupId: fulfillmentGroup._id,
+        fulfillmentType: event.target.value
+    });
+
+    const { shippingAddress } = fulfillmentGroup || {};
 
     const handleSelect = (event) => selectShippingAddress(JSON.parse(event.target.value));
 
@@ -116,7 +122,7 @@ function ShippingMethod(props) {
                             {selectedAccount.addressBook.edges.map(({ node }, index) => (
                                 <RadioItem
                                     key={`${index}`}
-                                    selected={node._id === selectedAddress?._id}
+                                    selected={node._id === shippingAddress?._id}
                                     handleChange={handleSelect}
                                     value={JSON.stringify(node)}
                                     subtitle={node.address}
@@ -144,20 +150,20 @@ function ShippingMethod(props) {
                 <CustomTitle>{"Método de entrega"}</CustomTitle>
                 <CardContainer>
                     <RadioItem
-                        selected={selectedFulfillmentType === "shipping"}
+                        selected={fulfillmentGroup?.type === "shipping"}
                         handleChange={handleChange}
                         value="shipping"
                         subtitle="Entrega a domicilio"
                     />
                     <RadioItem
-                        selected={selectedFulfillmentType === "pickup"}
+                        selected={fulfillmentGroup?.type === "pickup"}
                         handleChange={handleChange}
                         value="pickup"
                         subtitle="Recoger en tienda"
                     />
                 </CardContainer>
-                {selectedFulfillmentType == "shipping" && renderShippingMethod()}
-                {selectedFulfillmentType == "pickup" && renderPickupMethod()}
+                {fulfillmentGroup?.type == "shipping" && renderShippingMethod()}
+                {fulfillmentGroup?.type == "pickup" && renderPickupMethod()}
             </CardContent>
         </Card>
     );
@@ -171,7 +177,8 @@ ShippingMethod.propTypes = {
     selectShippingAddress: PropTypes.func,
     selectFulfillmentMethod: PropTypes.func,
     selectFulfillmentType: PropTypes.func,
-    classes: PropTypes.any
+    classes: PropTypes.any,
+    fulfillmentGroup: PropTypes.object
 };
 
 ShippingMethod.defaultProps = {
