@@ -22,6 +22,9 @@ import {
     createDraftOrderCartMutation,
     addDraftOrderAccountMutation
 } from "../graphql/mutations/draftOrder";
+import {
+    placeOrderMutation
+} from "../graphql/mutations/order";
 
 /**
  * @method useDraftOrder
@@ -285,12 +288,6 @@ function useDraftOrder(args = {}) {
         }
     };
 
-    // const handleSelectFulfillmentType = (item) => {
-
-    //     setSelectedAddress(null);
-    //     setSelectedFulfillmentType(item);
-    // };
-
     const handleSelectFulfillmentMethod = (item) => {
 
         setSelectedFulfillmentMethod(item);
@@ -323,6 +320,12 @@ function useDraftOrder(args = {}) {
         }
     });
 
+    const cleanTypenames = (object) => {
+        const omitTypename = (key, value) => (key === "__typename" ? undefined : value);
+
+        return JSON.parse(JSON.stringify(object), omitTypename);
+    }
+
     const handleSelectShippingAddress = async (address) => {
         const addressId = address._id;
         delete address._id;
@@ -333,7 +336,7 @@ function useDraftOrder(args = {}) {
             addressId
         };
 
-        if (selectedAccount) input.accountId = selectedAccount._id;
+        if (selectedAccount) Object.assign(input, { accountId: selectedAccount._id });
 
         try {
             await setShippingAddressOnCart({
@@ -345,13 +348,6 @@ function useDraftOrder(args = {}) {
             console.error(error.message);
             enqueueSnackbar(error.message.replace("GraphQL error: ", ""), { variant: "error" });
         }
-    }
-
-    const cleanTypenames = (object) => {
-
-        const omitTypename = (key, value) => (key === "__typename" ? undefined : value);
-
-        return JSON.parse(JSON.stringify(object), omitTypename);
     }
 
     const handleUpdateFulfillmentOptionsForGroup = async (fulfillmentGroupId) => {
@@ -368,6 +364,91 @@ function useDraftOrder(args = {}) {
                 input
             }
         })
+    };
+
+    const [
+        placeOrder,
+        { loading: placingOrder }
+    ] = useMutation(placeOrderMutation, {
+        onCompleted({ placeOrderFromDraftOrder }) {
+            console.log(placeOrderFromDraftOrder);
+        }
+    });
+
+    const buildOrder = async () => {
+        const { checkout } = cart;
+        if (!selectedAccount) throw new Error("Debes seleccionar un cliente");
+
+        console.log(cart);
+        const fulfillmentGroups = (checkout.fulfillmentGroups || []).map((group) => {
+            const { data } = group;
+            let { selectedFulfillmentOption } = group;
+
+            const items = cart.items.edges.map(({ node: item }) => ({
+                addedAt: item.addedAt,
+                price: item.price.amount,
+                productConfiguration: item.productConfiguration,
+                quantity: item.quantity,
+                metafields: item.metafields || []
+            }));
+            if (!selectedFulfillmentOption || selectedFulfillmentOption == null) {
+                throw new Error("No has seleccionado una dirección de envío");
+            }
+            return {
+                data,
+                items,
+                selectedFulfillmentMethodId: selectedFulfillmentOption.fulfillmentMethod._id,
+                shopId: group.shop._id,
+                totalPrice: checkout.summary.total.amount,
+                type: group.type
+            };
+        });
+
+        return {
+            cartId: cart._id,
+            currencyCode: checkout.summary.total.currency.code,
+            email: selectedAccount.primaryEmailAddress,
+            fulfillmentGroups,
+            shopId
+        };
+    };
+
+    const buildPayment = [{
+        amount: cart && cart.checkout && cart.checkout.summary.total.amount,
+        method: "none"
+    }];
+
+    const buildBilling = {
+        customerName: "CF",
+        nit: "CF",
+        address: "ciudad",
+        country: "GUATEMALA",
+        depto: "GUATEMALA",
+        city: "GUATEMALA"
+    }
+
+    const handlePlaceOrder = async () => {
+        const order = cleanTypenames(await buildOrder());
+
+        Object.assign(order, { billing: buildBilling });
+        const input = {
+            order
+        };
+        if (selectedAccount) Object.assign(input, { accountId: selectedAccount._id });
+        Object.assign(input, { payments: buildPayment });
+        Object.assign(input, { billing: buildBilling });
+
+        try {
+            await placeOrder({
+                variables: {
+                    input
+                }
+            });
+            enqueueSnackbar("Orden creada correctamente!", { variant: "success" });
+        } catch (error) {
+            console.error(error.message);
+            enqueueSnackbar(error.message.replace("GraphQL error: ", ""), { variant: "error" });
+        }
     };
 
     return {
@@ -392,7 +473,8 @@ function useDraftOrder(args = {}) {
         draftOrder,
         cart,
         addItemsToCart: handleAddItemsToCart,
-
+        handlePlaceOrder,
+        placingOrder
     }
 }
 

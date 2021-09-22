@@ -43,7 +43,9 @@ function NewOrder() {
         addItemsToCart,
         cart,
         draftOrder,
-        selectAccount
+        selectAccount,
+        handlePlaceOrder,
+        placingOrder
     } = useDraftOrder();
     const {
         accounts,
@@ -111,6 +113,9 @@ function NewOrder() {
                     <Button
                         color="primary"
                         variant="contained"
+                        isWaiting={placingOrder}
+                        isDisabled={placingOrder}
+                        onClick={handlePlaceOrder}
                     >{"Guardar"}</Button>
                 </GridButtons>
             </Grid>
