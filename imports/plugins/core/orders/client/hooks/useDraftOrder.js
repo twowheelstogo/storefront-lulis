@@ -25,6 +25,7 @@ import {
 import {
     placeOrderMutation
 } from "../graphql/mutations/order";
+import { useHistory } from "react-router-dom";
 
 /**
  * @method useDraftOrder
@@ -42,6 +43,7 @@ function useDraftOrder(args = {}) {
     } = args;
 
     const routeParams = useParams();
+    const history = useHistory();
     const shopId = routeParams.shopId || shopIdProp;
     const draftOrderId = routeParams.draftOrderId || draftOrderIdProp;
     const [query, setQuery] = useState("");
@@ -233,9 +235,9 @@ function useDraftOrder(args = {}) {
 
     const refetchCart = () => {
         refetchDraftOrder();
-        if (!shouldSkipAccountCartByAccountIdQuery) {
+        if (!shouldSkipAccountCartByAccountIdQuery && accountCartQueryCalled) {
             refetchAccountCart();
-        } else if (!shouldSkipAnonymousCartByCartIdQuery) {
+        } else if (!shouldSkipAnonymousCartByCartIdQuery && anonymousCartQueryCalled) {
             refetchAnonymousCart();
         }
     }
@@ -261,26 +263,24 @@ function useDraftOrder(args = {}) {
         setSelectedAddress(item);
     };
 
+    // useEffect(() => refetchCart, [selectedAccount, anonymousCartId, anonymousCartToken])
+
     const handleSelectAccount = async (item) => {
 
         try {
-
-            setSelectedAddress(null);
             await addDraftOrderAccount({
                 variables: {
                     input: {
                         accountId: item._id,
-                        cartId: anonymousCartId || cart._id,
+                        cartId: anonymousCartId || cart?._id,
                         shopId,
                         draftOrderId
                     }
                 }
             });
-
             setAnonymousCartId(null);
             setAnonymousCartToken(null);
             setSelectedAccount(item);
-            refetchCart();
             enqueueSnackbar("Cliente seleccionado", { variant: "success" });
         } catch (error) {
             console.error(error.message);
@@ -294,6 +294,7 @@ function useDraftOrder(args = {}) {
     };
 
     const handleSelectFulfillmentType = async ({ fulfillmentGroupId, fulfillmentType }) => {
+        if (!selectedAccount) throw new Error("Debes seleccionar un cliente primero");
 
         try {
             await updateFulfillmentTypeForGroup({
@@ -301,7 +302,8 @@ function useDraftOrder(args = {}) {
                     input: {
                         ...cartIdAndCartToken(),
                         fulfillmentGroupId,
-                        fulfillmentType
+                        fulfillmentType,
+                        accountId: selectedAccount && selectedAccount._id
                     }
                 }
             });
@@ -315,7 +317,6 @@ function useDraftOrder(args = {}) {
 
     const [setShippingAddressOnCart] = useMutation(setShippingAddressCartMutation, {
         onCompleted({ setShippingAddressFromDraftOrder }) {
-            console.log(setShippingAddressFromDraftOrder.cart.checkout?.fulfillmentGroups[0]._id);
             handleUpdateFulfillmentOptionsForGroup(setShippingAddressFromDraftOrder.cart.checkout?.fulfillmentGroups[0]._id);
         }
     });
@@ -371,7 +372,7 @@ function useDraftOrder(args = {}) {
         { loading: placingOrder }
     ] = useMutation(placeOrderMutation, {
         onCompleted({ placeOrderFromDraftOrder }) {
-            console.log(placeOrderFromDraftOrder);
+            history.push(`/${shopId}/orders`);
         }
     });
 
@@ -379,7 +380,6 @@ function useDraftOrder(args = {}) {
         const { checkout } = cart;
         if (!selectedAccount) throw new Error("Debes seleccionar un cliente");
 
-        console.log(cart);
         const fulfillmentGroups = (checkout.fulfillmentGroups || []).map((group) => {
             const { data } = group;
             let { selectedFulfillmentOption } = group;
@@ -428,17 +428,18 @@ function useDraftOrder(args = {}) {
     }
 
     const handlePlaceOrder = async () => {
-        const order = cleanTypenames(await buildOrder());
-
-        Object.assign(order, { billing: buildBilling });
-        const input = {
-            order
-        };
-        if (selectedAccount) Object.assign(input, { accountId: selectedAccount._id });
-        Object.assign(input, { payments: buildPayment });
-        Object.assign(input, { billing: buildBilling });
 
         try {
+            const order = cleanTypenames(await buildOrder());
+
+            Object.assign(order, { billing: buildBilling });
+            const input = {
+                order
+            };
+            Object.assign(input, { draftOrderId });
+            if (selectedAccount) Object.assign(input, { accountId: selectedAccount._id });
+            Object.assign(input, { payments: buildPayment });
+            Object.assign(input, { billing: buildBilling });
             await placeOrder({
                 variables: {
                     input
@@ -446,7 +447,7 @@ function useDraftOrder(args = {}) {
             });
             enqueueSnackbar("Orden creada correctamente!", { variant: "success" });
         } catch (error) {
-            console.error(error.message);
+            console.error(error.message.replace("GraphQL error: ", ""));
             enqueueSnackbar(error.message.replace("GraphQL error: ", ""), { variant: "error" });
         }
     };

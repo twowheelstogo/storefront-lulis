@@ -143,8 +143,8 @@ export const updateFulfillmentOptionsForGroup = gql`
 `;
 
 export const updateFulfillmentTypeForGroup = gql`
-    mutation updateFulfillmentTypeForGroup($input:UpdateFulfillmentTypeForGroupInput!){
-  updateFulfillmentTypeForGroup(input: $input){
+    mutation updateFulfillmentTypeForGroup($input: UpdateFulfillmentTypeForGroupFromDraftOrderInput!){
+  updateFulfillmentTypeForGroupFromDraftOrder(input: $input){
     cart {
       ...CartPayloadFragment
     }

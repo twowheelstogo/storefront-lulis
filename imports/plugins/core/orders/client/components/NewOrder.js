@@ -98,7 +98,9 @@ function NewOrder() {
         if (!selectedAccount && draftOrder?.accountId && Array.isArray(accounts)) {
             selectAccount(accounts.find((item) => item._id == draftOrder.accountId));
         }
-    }, [accounts, draftOrder])
+    }, [accounts, draftOrder]);
+
+    const skipDraftOrderPlacing = Boolean(placingOrder || Object.keys(cart || {}).length == 0);
 
     return (
         <Grid container spacing={2}>
@@ -109,14 +111,15 @@ function NewOrder() {
                     <Button
                         color="primary"
                         variant="outlined"
+                        disabled
                     >{"Cancelar"}</Button>
                     <Button
                         color="primary"
                         variant="contained"
                         isWaiting={placingOrder}
-                        isDisabled={placingOrder}
+                        disabled={skipDraftOrderPlacing}
                         onClick={handlePlaceOrder}
-                    >{"Guardar"}</Button>
+                    >{"Agregar Orden"}</Button>
                 </GridButtons>
             </Grid>
             <Grid item xs={12} md={8}>
@@ -125,7 +128,7 @@ function NewOrder() {
                         <OrderProducts {...productProps} />
                     </Grid>
                     <Grid item xs={12}>
-                        <OrderSummary summary={cart.checkout && cart.checkout.summary} />
+                        <OrderSummary summary={cart && cart.checkout && cart.checkout.summary} />
                     </Grid>
                 </Grid>
             </Grid>
