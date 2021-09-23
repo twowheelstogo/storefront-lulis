@@ -3,7 +3,7 @@ import productsQuery from "../graphql/queries/products";
 import cartByAccountIdQuery from "../graphql/queries/cartByAccountId";
 import anonymousCartByCartIdQuery from "../graphql/queries/anonymousCartByCartId";
 import draftOrderQuery from "../graphql/queries/draftOrder";
-import { useQuery, useMutation, useLazyQuery } from "@apollo/react-hooks";
+import { useQuery, useMutation, useLazyQuery, useApolloClient } from "@apollo/react-hooks";
 import { useParams } from "react-router-dom";
 import { useSnackbar } from "notistack";
 import { useIsMount } from "../helpers";
@@ -37,6 +37,7 @@ import { useHistory } from "react-router-dom";
 function useDraftOrder(args = {}) {
     const { enqueueSnackbar } = useSnackbar();
     const isMounted = useIsMount();
+    const apolloClient = useApolloClient();
     const {
         shopId: shopIdProp,
         draftOrderId: draftOrderIdProp
@@ -197,6 +198,8 @@ function useDraftOrder(args = {}) {
             enqueueSnackbar(error.message.replace("GraphQL error: ", ""), { variant: "error" });
         }
     };
+    console.log(cart);
+
 
     useEffect(() => {
 
@@ -372,6 +375,14 @@ function useDraftOrder(args = {}) {
         { loading: placingOrder }
     ] = useMutation(placeOrderMutation, {
         onCompleted({ placeOrderFromDraftOrder }) {
+            apolloClient.cache.writeQuery({
+                query: cartByAccountIdQuery,
+                data: { cart: null },
+                variables: {
+                    accountId: selectedAccount && selectedAccount._id,
+                    shopId
+                }
+            })
             history.push(`/${shopId}/orders`);
         }
     });

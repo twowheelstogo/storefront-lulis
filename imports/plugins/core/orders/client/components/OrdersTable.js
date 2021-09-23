@@ -12,7 +12,9 @@ import { formatDateRangeFilter } from "../../client/helpers";
 import OrderDateCell from "./DataTable/OrderDateCell";
 import OrderIdCell from "./DataTable/OrderIdCell";
 import OrderTotalCell from "./DataTable/OrderTotalCell";
-
+import { Grid } from "@material-ui/core";
+import Button from "@reactioncommerce/catalyst/Button";
+import { placeDraftOrderMutation } from "../graphql/mutations/draftOrder";
 const useStyles = makeStyles({
   card: {
     overflow: "visible"
@@ -31,7 +33,6 @@ function OrdersTable() {
   const [pageCount, setPageCount] = useState(1);
   const [tableData, setTableData] = useState([]);
   const [shopId] = useCurrentShopId();
-
   // Create and memoize the column data
   const columns = useMemo(() => [
     {
@@ -153,6 +154,24 @@ function OrdersTable() {
     setIsLoading(false);
   }, [apolloClient, enqueueSnackbar, shopId]);
 
+  const handleCreateOrder = async () => {
+    const { data, error } = await apolloClient.mutate({
+      mutation: placeDraftOrderMutation,
+      variables: {
+        input: {
+          shopId,
+          draftOrder: {}
+        }
+      }
+    });
+
+    if (!error) {
+      const { placeDraftOrder: { draftOrder } } = data;
+      history.push(`/${shopId}/orders/draft_orders/new/${draftOrder._id}`);
+    }
+    if (error) enqueueSnackbar(error.message, { variant: "error" });
+  }
+
   // Row click callback
   const onRowClick = useCallback(async ({ row }) => {
     history.push(`/${shopId}/orders/${row.values.referenceId}`);
@@ -183,12 +202,21 @@ function OrdersTable() {
   const classes = useStyles();
 
   return (
-    <Card className={classes.card}>
-      <CardHeader title={i18next.t("admin.dashboard.ordersTitle", "Orders")} />
-      <CardContent>
-        <DataTable {...dataTableProps} isLoading={isLoading} />
-      </CardContent>
-    </Card>
+    <Grid container spacing={3}>
+      <Grid item xs={12}>
+        <Button color="primary" variant="contained" onClick={handleCreateOrder}>
+          {"Crear Orden"}
+        </Button>
+      </Grid>
+      <Grid item sm={12}>
+        <Card className={classes.card}>
+          <CardHeader title={i18next.t("admin.dashboard.ordersTitle", "Orders")} />
+          <CardContent>
+            <DataTable {...dataTableProps} isLoading={isLoading} />
+          </CardContent>
+        </Card>
+      </Grid>
+    </Grid>
   );
 }
 
