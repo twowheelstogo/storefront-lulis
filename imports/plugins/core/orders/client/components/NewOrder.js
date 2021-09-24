@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Grid, Box } from "@material-ui/core";
 import OrderProducts from "./OrderProducts";
 import OrderSummary from "./OrderSummary";
@@ -43,15 +43,18 @@ function NewOrder() {
         addItemsToCart,
         cart,
         draftOrder,
-        selectAccount,
         handlePlaceOrder,
-        placingOrder
+        placingOrder,
+        shopId,
+        addAccountAddressBookEntry,
+        addingAddressbook
     } = useDraftOrder();
     const {
         accounts,
         isLoadingAccounts,
         accountsQuery,
-        setAccountsQuery
+        setAccountsQuery,
+        refetchAccounts
     } = useAccounts();
 
     const accountProps = {
@@ -60,7 +63,8 @@ function NewOrder() {
         accountsQuery,
         setAccountsQuery,
         selectedAccount,
-        setSelectedAccount
+        setSelectedAccount,
+        shopId
     };
 
     const productProps = {
@@ -90,15 +94,10 @@ function NewOrder() {
         selectFulfillmentMethod: setSelectedFulfillmentMethod,
         selectedFulfillmentType,
         selectFulfillmentType: setSelectedFulfillmentType,
-        fulfillmentGroup: fulfillmentGroup || null
+        fulfillmentGroup: fulfillmentGroup || null,
+        addAccountAddressBookEntry,
+        addingAddressbook
     }
-
-    useEffect(() => {
-
-        if (!selectedAccount && draftOrder?.accountId && Array.isArray(accounts)) {
-            selectAccount(accounts.find((item) => item._id == draftOrder.accountId));
-        }
-    }, [accounts, draftOrder]);
 
     const skipDraftOrderPlacing = Boolean(placingOrder || Object.keys(cart || {}).length == 0);
 

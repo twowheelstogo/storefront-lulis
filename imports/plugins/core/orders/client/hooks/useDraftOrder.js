@@ -25,6 +25,8 @@ import {
 import {
     placeOrderMutation
 } from "../graphql/mutations/order";
+import { addAccountAddressBookEntryMutation } from "../graphql/mutations/account";
+import accountsQuery from "../graphql/queries/accounts";
 import { useHistory } from "react-router-dom";
 
 /**
@@ -49,7 +51,6 @@ function useDraftOrder(args = {}) {
     const draftOrderId = routeParams.draftOrderId || draftOrderIdProp;
     const [query, setQuery] = useState("");
     const [selectedProducts, setSelectedProducts] = useState([]);
-    const [selectedAccount, setSelectedAccount] = useState(null);
     const [selectedAddress, setSelectedAddress] = useState(null);
     const [selectedFulfillmentMethod, setSelectedFulfillmentMethod] = useState(null);
     const [selectedFulfillmentType, setSelectedFulfillmentType] = useState("shipping");
@@ -75,6 +76,18 @@ function useDraftOrder(args = {}) {
             draftOrderId
         }
     });
+
+    const { draftOrder } = draftOrderQueryResult || {};
+
+    const { account: accountData } = draftOrder || {};
+
+    const selectedAccount = useMemo(() => {
+        if (accountData) {
+            return accountData;
+        }
+
+        return null;
+    }, [accountData]);
 
     const shouldSkipAccountCartByAccountIdQuery = Boolean(!selectedAccount || anonymousCartToken || anonymousCartId || isLoadingDraftOrder || !shopId);
     const shouldSkipAnonymousCartByCartIdQuery = Boolean(selectedAccount || isLoadingDraftOrder || !anonymousCartId || !anonymousCartToken);
@@ -110,7 +123,7 @@ function useDraftOrder(args = {}) {
     }
 
     const { products } = productsQueryResult || {};
-    const { draftOrder } = draftOrderQueryResult || {};
+
 
     const addDraftOrderItems = (items) => {
 
@@ -198,8 +211,6 @@ function useDraftOrder(args = {}) {
             enqueueSnackbar(error.message.replace("GraphQL error: ", ""), { variant: "error" });
         }
     };
-    console.log(cart);
-
 
     useEffect(() => {
 
@@ -283,7 +294,7 @@ function useDraftOrder(args = {}) {
             });
             setAnonymousCartId(null);
             setAnonymousCartToken(null);
-            setSelectedAccount(item);
+            refetchDraftOrder();
             enqueueSnackbar("Cliente seleccionado", { variant: "success" });
         } catch (error) {
             console.error(error.message);
@@ -350,6 +361,47 @@ function useDraftOrder(args = {}) {
             });
         } catch (error) {
             console.error(error.message);
+            enqueueSnackbar(error.message.replace("GraphQL error: ", ""), { variant: "error" });
+        }
+    };
+
+    const [
+        addAccountAddressBookEntry,
+        { loading: addingAddressbook }
+    ] = useMutation(addAccountAddressBookEntryMutation, {
+        onCompleted({ addAccountAddressBookEntry: payload }) {
+            const { address } = payload;
+
+            handleSelectShippingAddress(address);
+            refetchCart();
+        }
+    });
+
+    const validateAddressSchema = (input) => {
+
+        if (!input.description) throw new Error(`El campo "Descripción es requerido`);
+        if (!input.address) throw new Error(`El campo "Dirección completa" es requerido`);
+        if (!input.geolocation && !input.metaddress) throw new Error(`Es necesario que indiques una posición de entrega`);
+    }
+
+    const handleAddAccountAddressBook = async (address) => {
+
+        try {
+            if (!selectedAccount) throw new Error("Debes seleccionar una cuenta primero");
+
+            validateAddressSchema(address);
+
+            await addAccountAddressBookEntry({
+                variables: {
+                    input: {
+                        address,
+                        accountId: selectedAccount._id
+                    }
+                }
+            });
+            enqueueSnackbar("Dirección creada correctamente", { variant: "success" });
+        } catch (error) {
+            console.error(error.message.replace("GraphQL error: ", ""));
             enqueueSnackbar(error.message.replace("GraphQL error: ", ""), { variant: "error" });
         }
     }
@@ -473,8 +525,8 @@ function useDraftOrder(args = {}) {
         selectedFulfillmentType,
         addDraftOrderItems,
         changeItemQuantity,
+        addAccountAddressBookEntry: handleAddAccountAddressBook,
         setSelectedAccount: handleSelectAccount,
-        selectAccount: setSelectedAccount,
         setSelectedAddress: handleSelectShippingAddress,
         setSelectedFulfillmentMethod: handleSelectFulfillmentMethod,
         setSelectedFulfillmentType: handleSelectFulfillmentType,
@@ -483,6 +535,7 @@ function useDraftOrder(args = {}) {
         shopId,
         query,
         draftOrder,
+        addingAddressbook,
         cart,
         addItemsToCart: handleAddItemsToCart,
         handlePlaceOrder,

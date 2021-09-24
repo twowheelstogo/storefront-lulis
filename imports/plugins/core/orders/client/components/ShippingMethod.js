@@ -1,8 +1,9 @@
-import React from "react";
-import { Card, CardContent, FormControl, Radio, RadioGroup, FormControlLabel } from "@material-ui/core";
+import React, { useState } from "react";
+import { Card, CardContent, FormControl, Radio, RadioGroup, FormControlLabel, Button } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 import PropTypes from "prop-types";
 import styled from "styled-components";
+import CreateAddressModal from "./CreateAddress";
 
 const styles = (theme) => ({
     radioLabel: {
@@ -69,6 +70,13 @@ const List = styled.div`
 
 `;
 
+const TitleLayout = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+`;
+
 /**
  * @name ShippingMethod
  * @param {Object} props Component props
@@ -100,8 +108,13 @@ function ShippingMethod(props) {
         selectFulfillmentMethod,
         selectFulfillmentType,
         classes,
-        fulfillmentGroup
+        fulfillmentGroup,
+        addAccountAddressBookEntry,
+        addingAddressBook
     } = props;
+    const [open, setOpen] = useState(false);
+
+    const handleClose = () => setOpen(false);
 
     const handleChange = (event) => selectFulfillmentType({
         fulfillmentGroupId: fulfillmentGroup._id,
@@ -112,10 +125,20 @@ function ShippingMethod(props) {
 
     const handleSelect = (event) => selectShippingAddress(JSON.parse(event.target.value));
 
+    const handleCreateAddress = async (input) => {
+        await addAccountAddressBookEntry(input);
+        handleClose();
+    }
+
     function renderShippingMethod() {
         return (
             <div>
-                <CustomTitle>{"Dirección de envío"}</CustomTitle>
+                <TitleLayout>
+                    <CustomTitle>{"Dirección de envío"}</CustomTitle>
+                    <Button
+                        onClick={() => setOpen(true)}
+                    >{"Agregar"}</Button>
+                </TitleLayout>
                 <CardContainer>
                     {selectedAccount && selectedAccount.addressBook && Array.isArray(selectedAccount?.addressBook.edges) && (
                         <List>
@@ -131,6 +154,12 @@ function ShippingMethod(props) {
                             ))}
                         </List>
                     )}
+                    <CreateAddressModal
+                        open={open}
+                        handleClose={handleClose}
+                        isAddingAddress={addingAddressBook}
+                        handleCreateAddress={handleCreateAddress}
+                    />
                 </CardContainer>
             </div>
         );
@@ -173,12 +202,14 @@ ShippingMethod.propTypes = {
     selectedAccount: PropTypes.object,
     selectedAddress: PropTypes.object,
     selectedFulfillmentMethod: PropTypes.object,
-    selectedFulfillmentType: PropTypes.object,
+    selectedFulfillmentType: PropTypes.any,
     selectShippingAddress: PropTypes.func,
     selectFulfillmentMethod: PropTypes.func,
     selectFulfillmentType: PropTypes.func,
     classes: PropTypes.any,
-    fulfillmentGroup: PropTypes.object
+    fulfillmentGroup: PropTypes.object,
+    addAccountAddressBookEntry: PropTypes.func,
+    addingAddressBook: PropTypes.bool
 };
 
 ShippingMethod.defaultProps = {
@@ -188,7 +219,9 @@ ShippingMethod.defaultProps = {
     selectFulfillmentType() { },
     selectedAddress: null,
     selectedFulfillmentMethod: null,
-    selectedFulfillmentType: null
+    selectedFulfillmentType: null,
+    addingAddressBook: false,
+    addAccountAddressBookEntry() { }
 };
 
 export default withStyles(styles)(ShippingMethod);

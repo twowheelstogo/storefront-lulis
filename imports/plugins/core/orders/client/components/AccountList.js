@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { ClickAwayListener, Divider, Button } from "@material-ui/core";
 import styled from "styled-components";
 import PropTypes from "prop-types";
@@ -70,7 +70,7 @@ const ItemSubtitle = styled.div`
  * @returns {React.Component} returns a react component
  */
 function AccountList(props) {
-    const { handleClose, accounts, isLoading, handleSelect } = props;
+    const { handleClose, accounts, isLoading, handleSelect, accountOpen } = props;
 
     function renderAccountList() {
         return (
@@ -93,6 +93,7 @@ function AccountList(props) {
                         <Button
                             size="small"
                             startIcon={<PlusCircleIcon />}
+                            onClick={accountOpen}
                         >{"Crear un nuevo cliente"}</Button>
                     </CardHeader>
                     <Divider />
@@ -113,13 +114,15 @@ AccountList.propTypes = {
     accounts: PropTypes.arrayOf(PropTypes.object),
     handleClose: PropTypes.func,
     isLoading: PropTypes.bool,
-    handleSelect: PropTypes.func
+    handleSelect: PropTypes.func,
+    accountOpen: PropTypes.func,
 };
 
 AccountList.defaultProps = {
     accounts: [],
     handleClose() { },
-    handleSelect() { }
+    handleSelect() { },
+    accountOpen() { }
 };
 
 export default AccountList;

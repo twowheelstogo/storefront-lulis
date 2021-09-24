@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useSnackbar } from "notistack";
 import { useIsMount } from "../helpers";
 import accountsQuery from "../graphql/queries/accounts";
-import { useQuery, useMutation } from "@apollo/react-hooks";
+import { useQuery, useMutation, useApolloClient } from "@apollo/react-hooks";
 /**
  * @method useAccounts
  * @summary useAccounts hook
@@ -11,6 +11,7 @@ import { useQuery, useMutation } from "@apollo/react-hooks";
 function useAccounts() {
     const { enqueueSnackbar } = useSnackbar();
     const isMounted = useIsMount();
+    const apolloClient = useApolloClient();
     const [query, setQuery] = useState("");
 
     /**Query to get all accounts */
@@ -30,11 +31,14 @@ function useAccounts() {
         }
     }, [query]);
 
+    
+
     return {
         accounts: accounts && accounts.nodes || [],
         isLoadingAccounts,
         accountsQuery: query,
-        setAccountsQuery: setQuery
+        setAccountsQuery: setQuery,
+        refetchAccounts
     };
 }
 

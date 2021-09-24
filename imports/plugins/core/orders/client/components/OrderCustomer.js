@@ -5,6 +5,10 @@ import { TextField } from "@reactioncommerce/catalyst";
 import styled from "styled-components";
 import { Popper, Grow } from "@material-ui/core";
 import AccountList from "./AccountList";
+import CreateAccountModal from "./CreateAccount";
+import { useApolloClient } from "@apollo/react-hooks";
+import { createAccountMutation } from "../graphql/mutations/account";
+import { useSnackbar } from "notistack";
 
 const InputGrid = styled.div`
     display: flex;
@@ -43,9 +47,12 @@ const InputCol = styled.div`
  * @returns {React.Component} returns a React component
  */
 function OrderCustomer(props) {
-    const { accounts, isLoadingAccounts, accountsQuery, setAccountsQuery, selectedAccount, setSelectedAccount } = props;
+    const { accounts, isLoadingAccounts, accountsQuery, setAccountsQuery, selectedAccount, setSelectedAccount, shopId } = props;
     const anchorRef = React.useRef(null);
     const [open, setOpen] = useState(false);
+    const [accountOpen, setAccountOpen] = useState(false);
+    const apolloClient = useApolloClient();
+    const { enqueueSnackbar } = useSnackbar();
 
     const handleToggle = () => {
         setOpen(true);
@@ -59,12 +66,48 @@ function OrderCustomer(props) {
         setOpen(false);
     };
 
+    const handleCloseAccount = () => setAccountOpen(false);
+
     const handleChange = (event) => setAccountsQuery(event.target.value);
 
     const handleSelect = (item) => {
 
         setSelectedAccount(item);
         setOpen(false);
+    }
+
+    const buildInput = (value) => ({
+        name: value.name,
+        username: value.name.replace(" ", ""),
+        emails: [{
+            address: value.email,
+            provides: "default",
+            verified: false
+        }]
+    });
+
+    const handleCreateAccount = async (value) => {
+
+        if(!value.name || !value.email) throw new Error("Asegurate de llenar todos los campos");
+        const input = buildInput(value);
+        Object.assign(input, { shopId });
+
+        try {
+            const { data, error } = await apolloClient.mutate({
+                mutation: createAccountMutation,
+                variables: {
+                    input
+                }
+            });
+            if (error) throw new Error(error);
+            const { createAccount: { account } } = data;
+            setSelectedAccount(account);
+            setAccountOpen(false);
+            enqueueSnackbar("Nuevo cliente agregado correctamente", { variant: "success" });
+        } catch (error) {
+            console.error(error.message);
+            enqueueSnackbar(error.message.replace("GraphQL error: ", ""), { variant: "error" });
+        }
     }
 
     return (
@@ -93,6 +136,7 @@ function OrderCustomer(props) {
                                 isLoading={isLoadingAccounts}
                                 accounts={accounts}
                                 handleSelect={handleSelect}
+                                accountOpen={() => setAccountOpen(true)}
                             />
                         </Grow>
                     )}
@@ -104,6 +148,12 @@ function OrderCustomer(props) {
                         <CustomContent>{selectedAccount.primaryEmailAddress}</CustomContent>
                     </AccountContent>
                 )}
+
+                <CreateAccountModal
+                    open={accountOpen}
+                    onClose={handleCloseAccount}
+                    onSubmit={handleCreateAccount}
+                />
             </CardContent>
         </Card>
     );
