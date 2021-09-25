@@ -47,7 +47,9 @@ function NewOrder() {
         placingOrder,
         shopId,
         addAccountAddressBookEntry,
-        addingAddressbook
+        addingAddressbook,
+        handleChangeBillingDetails,
+        billingDetails
     } = useDraftOrder();
     const {
         accounts,
@@ -77,6 +79,11 @@ function NewOrder() {
         isLoadingProducts,
         query,
         cart
+    };
+
+    const moreDetailsProps = {
+        handleChangeBillingDetails,
+        value: billingDetails
     };
 
     // const { checkout: { fulfillmentGroups } } = cart || {
@@ -140,7 +147,7 @@ function NewOrder() {
                         <ShippingMethod {...shippingProps} />
                     </Grid>
                     <Grid item xs={12}>
-                        <MoreDetailsOrder />
+                        <MoreDetailsOrder {...moreDetailsProps} />
                     </Grid>
                 </Grid>
             </Grid>

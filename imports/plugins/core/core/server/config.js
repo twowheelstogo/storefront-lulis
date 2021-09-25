@@ -56,6 +56,6 @@ export default envalid.cleanEnv(process.env, {
   }),
   PUBLIC_INVOICE_URL: str({
     desc: "This is public service to make the logic of the invoice",
-    example: "http://localhost"
+    example: "https://invoice.tw2g.app"
   })
 });

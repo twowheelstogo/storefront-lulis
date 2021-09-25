@@ -1,8 +1,11 @@
 import fetch from 'isomorphic-unfetch';
+import { Meteor } from "meteor/meteor";
+
+const { invoiceUrl } = Meteor.settings.public;
 
 const getAddressMetadata = async (lat, lng, accessToken) => {
-    try{
-        let url = process.env.PUBLIC_INVOICE_URL;
+    try {
+        let url = invoiceUrl;
         url += "/api/address";
         url += `/lat/${encodeURIComponent(lat)}`;
         url += `/lng/${encodeURIComponent(lng)}`;
@@ -10,13 +13,13 @@ const getAddressMetadata = async (lat, lng, accessToken) => {
             method: "GET",
             headers: { "Authorization": `bearer ${accessToken}` }
         });
-        if (res.status == 200){
+        if (res.status == 200) {
             let json = await res.json();
             return json;
-        }else{
+        } else {
             throw new Error("");
         }
-    }catch(ex){
+    } catch (ex) {
         return {
             administrative_area_level_1: 'Guatemala',
             administrative_area_level_2: 'Guatemala',
@@ -31,4 +34,4 @@ const getAddressMetadata = async (lat, lng, accessToken) => {
     }
 
 };
-export default {getAddressMetadata};
+export default { getAddressMetadata };

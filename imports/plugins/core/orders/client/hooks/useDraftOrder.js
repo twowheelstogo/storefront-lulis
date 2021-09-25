@@ -56,6 +56,16 @@ function useDraftOrder(args = {}) {
     const [selectedFulfillmentType, setSelectedFulfillmentType] = useState("shipping");
     const [anonymousCartId, setAnonymousCartId] = useState(null);
     const [anonymousCartToken, setAnonymousCartToken] = useState(null);
+    const [billingDetails, setBillingDetails] = useState({
+        nit: "CF",
+        name: "",
+        isCf: true,
+        address: "ciudad",
+        country: "GUATEMALA",
+        depto: "GUATEMALA",
+        city: "GUATEMALA",
+        partnerId: -1
+    });
 
     const [addDraftOrderAccount] = useMutation(addDraftOrderAccountMutation);
     const [updateFulfillmentOptionsForGroup] = useMutation(updateFulfillmentOptionsForGroupMutation);
@@ -488,7 +498,7 @@ function useDraftOrder(args = {}) {
         country: "GUATEMALA",
         depto: "GUATEMALA",
         city: "GUATEMALA"
-    }
+    };
 
     const handlePlaceOrder = async () => {
 
@@ -539,7 +549,9 @@ function useDraftOrder(args = {}) {
         cart,
         addItemsToCart: handleAddItemsToCart,
         handlePlaceOrder,
-        placingOrder
+        placingOrder,
+        handleChangeBillingDetails: setBillingDetails,
+        billingDetails
     }
 }
 
