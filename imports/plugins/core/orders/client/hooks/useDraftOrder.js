@@ -8,11 +8,8 @@ import { useParams } from "react-router-dom";
 import { useSnackbar } from "notistack";
 import { useIsMount } from "../helpers";
 import {
-    reconcileCartsMutation,
     removeCartItemsMutation,
-    setFulfillmentOptionCartMutation,
     setShippingAddressCartMutation,
-    setEmailOnAnonymousCartMutation,
     updateCartItemsQuantityMutation,
     updateFulfillmentOptionsForGroup as updateFulfillmentOptionsForGroupMutation,
     updateFulfillmentTypeForGroup as updateFulfillmentTypeForGroupMutation,
@@ -26,7 +23,6 @@ import {
     placeOrderMutation
 } from "../graphql/mutations/order";
 import { addAccountAddressBookEntryMutation } from "../graphql/mutations/account";
-import accountsQuery from "../graphql/queries/accounts";
 import { useHistory } from "react-router-dom";
 
 /**
@@ -66,6 +62,7 @@ function useDraftOrder(args = {}) {
         city: "GUATEMALA",
         partnerId: -1
     });
+    const [giftDetails, setGiftDetails] = useState({});
 
     const [addDraftOrderAccount] = useMutation(addDraftOrderAccountMutation);
     const [updateFulfillmentOptionsForGroup] = useMutation(updateFulfillmentOptionsForGroupMutation);
@@ -512,7 +509,9 @@ function useDraftOrder(args = {}) {
             Object.assign(input, { draftOrderId });
             if (selectedAccount) Object.assign(input, { accountId: selectedAccount._id });
             Object.assign(input, { payments: buildPayment });
-            Object.assign(input, { billing: buildBilling });
+            Object.assign(input, { billing: billingDetails });
+            if (giftDetails) Object.assign(input, { giftNote: giftDetails });
+
             await placeOrder({
                 variables: {
                     input
@@ -551,7 +550,9 @@ function useDraftOrder(args = {}) {
         handlePlaceOrder,
         placingOrder,
         handleChangeBillingDetails: setBillingDetails,
-        billingDetails
+        handleChangeGiftDetails: setGiftDetails,
+        billingDetails,
+        giftDetails
     }
 }
 

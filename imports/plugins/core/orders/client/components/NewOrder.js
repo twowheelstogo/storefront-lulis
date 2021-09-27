@@ -49,7 +49,9 @@ function NewOrder() {
         addAccountAddressBookEntry,
         addingAddressbook,
         handleChangeBillingDetails,
-        billingDetails
+        handleChangeGiftDetails,
+        billingDetails,
+        giftDetails
     } = useDraftOrder();
     const {
         accounts,
@@ -83,7 +85,9 @@ function NewOrder() {
 
     const moreDetailsProps = {
         handleChangeBillingDetails,
-        value: billingDetails
+        value: billingDetails,
+        handleChangeGiftDetails,
+        giftDetails
     };
 
     // const { checkout: { fulfillmentGroups } } = cart || {
