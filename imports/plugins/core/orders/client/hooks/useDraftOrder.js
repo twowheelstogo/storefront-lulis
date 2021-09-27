@@ -219,6 +219,71 @@ function useDraftOrder(args = {}) {
         }
     };
 
+    const handleUpdateCartItemQuantity = async (cartItems) => {
+
+        try {
+            await apolloClient.mutate({
+                mutation: updateCartItemsQuantityMutation,
+                variables: {
+                    input: {
+                        cartId: cart._id || anonymousCartId,
+                        items: (Array.isArray(cartItems) && cartItems) || [cartItems],
+                        cartToken: anonymousCartToken || null
+                    }
+                },
+                update: (cache, { data: mutationData }) => {
+                    if (mutationData && mutationData.updateCartItemsQuantity) {
+                        const { cart: cartPayload } = mutationData.updateCartItemsQuantity;
+
+                        if (cartPayload) {
+                            // Update Apollo cache
+                            cache.writeQuery({
+                                query: cartPayload.account ? cartByAccountIdQuery : anonymousCartByCartIdQuery,
+                                data: { cart: cartPayload }
+                            });
+                        }
+                    }
+                }
+            });
+
+            enqueueSnackbar("Producto actualizado", { variant: "success" });
+        } catch (error) {
+            console.error(error.message);
+            enqueueSnackbar(error.message.replace("GraphQL error: ", ""), { variant: "error" });
+        }
+    }
+
+    const handleRemoveCartItems = async (itemIds) => {
+        try {
+            await apolloClient.mutate({
+                mutation: removeCartItemsMutation,
+                variables: {
+                    input: {
+                        cartId: cart._id || anonymousCartId,
+                        cartItemIds: (Array.isArray(itemIds) && itemIds) || [itemIds],
+                        cartToken: anonymousCartToken || null
+                    }
+                },
+                update: (cache, { data: mutationData }) => {
+                    if (mutationData && mutationData.removeCartItems) {
+                        const { cart: cartPayload } = mutationData.removeCartItems;
+
+                        if (cartPayload) {
+                            // Update Apollo cache
+                            cache.writeQuery({
+                                query: cartPayload.account ? cartByAccountIdQuery : anonymousCartByCartIdQuery,
+                                data: { cart: cartPayload }
+                            });
+                        }
+                    }
+                }
+            });
+
+            enqueueSnackbar("Producto removido", { variant: "success" });
+        } catch (error) {
+
+        }
+    }
     useEffect(() => {
 
         if (!isMounted) {
@@ -547,6 +612,8 @@ function useDraftOrder(args = {}) {
         addingAddressbook,
         cart,
         addItemsToCart: handleAddItemsToCart,
+        handleUpdateCartItemQuantity,
+        handleRemoveCartItems,
         handlePlaceOrder,
         placingOrder,
         handleChangeBillingDetails: setBillingDetails,

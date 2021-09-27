@@ -51,14 +51,15 @@ function NewOrder() {
         handleChangeBillingDetails,
         handleChangeGiftDetails,
         billingDetails,
-        giftDetails
+        giftDetails,
+        handleUpdateCartItemQuantity,
+        handleRemoveCartItems
     } = useDraftOrder();
     const {
         accounts,
         isLoadingAccounts,
         accountsQuery,
-        setAccountsQuery,
-        refetchAccounts
+        setAccountsQuery
     } = useAccounts();
 
     const accountProps = {
@@ -80,7 +81,9 @@ function NewOrder() {
         handleRemoveItem: removeItem,
         isLoadingProducts,
         query,
-        cart
+        cart,
+        handleUpdateCartItemQuantity,
+        handleRemoveItem: handleRemoveCartItems
     };
 
     const moreDetailsProps = {
