@@ -50,11 +50,16 @@ flex: 0 1 calc(50% - 5px);
  */
 function MoreDetailsOrder(props) {
     const { handleChangeBillingDetails, value, handleChangeGiftDetails, giftDetails } = props;
+    const {
+        nit,
+        address,
+        name
+    } = value;
     const { oidcUser } = useReactOidc();
     const { access_token: accessToken } = oidcUser || {};
 
     const handleSearchCustomer = async () => {
-        const service = await BillingServices.getNit(value?.nit, accessToken);
+        const service = await BillingServices.getNit(nit, accessToken);
         console.log(service);
         if (service.hasData) {
             handleChangeBillingDetails({
@@ -71,6 +76,12 @@ function MoreDetailsOrder(props) {
         ...value,
         [event.target.id]: event.target.value
     });
+
+    const handleKeyDown = (event) => {
+        if(event.key === "Enter" || event.key === "Tab") {
+            handleSearchCustomer();
+        }
+    }
 
     const handleChangeGift = (event) => handleChangeGiftDetails(prev => ({
         ...prev,
@@ -90,6 +101,7 @@ function MoreDetailsOrder(props) {
                                         name="nit"
                                         id="nit"
                                         placeholder="Nit"
+                                        onKeyDown={handleKeyDown}
                                         onChange={handleChange}
                                     />
                                 </InputCol>
@@ -103,6 +115,7 @@ function MoreDetailsOrder(props) {
                                 <TextField
                                     id="name"
                                     name="name"
+                                    value={name}
                                     placeholder="Nombre completo"
                                     onChange={handleChange}
                                 />
@@ -111,6 +124,7 @@ function MoreDetailsOrder(props) {
                                 <TextField
                                     id="address"
                                     name="address"
+                                    value={address}
                                     placeholder="Dirección"
                                     onChange={handleChange}
                                 />
