@@ -130,6 +130,7 @@ function OrderPayments(props) {
               </Grid>
             </Grid>
           </Grid>
+          {capturePaymentsButton}
         </Grid>
         {
           order.payments.map((payment, index) => (
