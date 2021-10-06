@@ -175,7 +175,7 @@ const BundleDetails = (props) => {
         },
         currencyCode
     } = props;
-    const hostname = (typeof window !== "undefined" && (window.location.hostname != "localhost" ? "https://api.qbit01.com" : "http://localhost:3000")) || "https://api.qbit01.com";
+    const hostname = (typeof window !== "undefined" && (window.location.hostname != "localhost" ? "https://api.lulisgt.com" : "http://localhost:3000")) || "https://api.lulisgt.com";
 
     const media = (product.media && product.media[0].URLs) ? `${hostname}${product.media[0].URLs.small.replace("jpg", "png")}` : `/images/placeholder.gif`;
     console.log("media", media);

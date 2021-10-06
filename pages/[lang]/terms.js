@@ -10,12 +10,12 @@ import { withStyles } from "@material-ui/core/styles";
 
 const useStyles = (theme)=>({
 	title:{
-		color:"#0095b3",
+		color:"#8ce0c9",
 		textAlign:"center",
 		marginBottom:"5rem"
 	},
 	subtitle:{
-		color:"#0095b3"
+		color:"#8ce0c9"
 	},
 	bodytext:{
 		fontSize:"20px",
@@ -38,13 +38,13 @@ class TermsAndConditions extends React.Component{
 					<Grid item
 						justifyContent="center">
 						<h1 className={title} style={{
-							color:"#0095b3",
+							color:"#8ce0c9",
 							textAlign:"center",
 							marginBottom:"5rem"
 						}}>TÉRMINOS Y CONDICIONES</h1>
 					</Grid>
 					<Grid item>
-						<h4 className={subtitle} style={{color:"#0095b3"}}>Precios</h4>
+						<h4 className={subtitle} style={{color:"#8ce0c9"}}>Precios</h4>
 						<ol type="1">
 							<li className={bodytext}>Todos los precios se muestran como precios finales, es decir con cualquier impuesto o derecho relativo a la venta ya incluido.</li>
 							<li className={bodytext}>El precio definitivo será el aplicable en la fecha de aceptación de pedido. Precios en cotizaciones, estimaciones u otros documentos por el Vendedor no son vinculantes para este.</li>
@@ -54,7 +54,7 @@ class TermsAndConditions extends React.Component{
 									<li>Gastos adicionales al producto o a su suministro.</li>
 								</ol>
 							</li>
-						</ol><h4 className={subtitle} style={{color:"#0095b3"}}>Pago y Garantías</h4>
+						</ol><h4 className={subtitle} style={{color:"#8ce0c9"}}>Pago y Garantías</h4>
 						<ol type="1">
 							<li className={bodytext}>El pago del producto se realiza por adelantado por medio de transferencia o con tarjeta de crédito o débito.</li>
 							<li className={bodytext}>El pago no se entenderá efectuado hasta el ingreso efectivo de la cantidad correspondiente en la cuenta bancaria del Vendedor.</li>

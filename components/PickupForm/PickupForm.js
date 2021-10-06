@@ -21,6 +21,16 @@ const ColHalf = styled.div`
     flex: 0 1 calc(50% - 9px);
   }
 `;
+
+function join(t, a, s) {
+	function format(m) {
+		let f = new Intl.DateTimeFormat('en', m);
+		const isMinor = Boolean(Number(f.format(t)) < 10);
+		return isMinor ? `0${f.format(t)}` : f.format(t);
+	}
+	return a.map(format).join(s);
+}
+
 class PickupForm extends Component {
 	static propTypes = {
 		components: PropTypes.shape({
@@ -60,6 +70,16 @@ class PickupForm extends Component {
 		} = this.props;
 		const pickupDateInputId = `pickupDate_${this.uniqueInstanceIdentifier}`;
 		const pickupTimeInputId = `pickupTime_${this.uniqueInstanceIdentifier}`;
+		const options = [{ year: 'numeric' }, { month: 'numeric' }, { day: 'numeric' }];
+		const today = new Date();
+		const minDate = join(today, options, "-");
+		const maxDate = join(new Date(today.setHours(24)), options, "-");
+
+		const minTime = today;
+		minTime.setHours(-1);
+		minTime.setMinutes(today.getMinutes() + 20);
+		const formatMinTime = minTime.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", });
+
 		return (
 			<Form
 				ref={(formEl) => {
@@ -80,8 +100,8 @@ class PickupForm extends Component {
 								name="pickupDate"
 								placeholder={"Fecha"}
 								type={"date"}
-								onChange={(input) => console.log(input)}
-							// isReadOnly={isSaving || isReadOnly}
+								min={minDate}
+								max={maxDate}
 							/>
 							<ErrorsBlock names={["pickupDate"]} />
 						</Field>
@@ -92,8 +112,9 @@ class PickupForm extends Component {
 								id={pickupTimeInputId}
 								name="pickupTime"
 								placeholder={"Hora"}
-								type={"time"}
-							// isReadOnly={isSaving || isReadOnly}
+								type="time"
+								min={"12:00"}
+								step="600"
 							/>
 							<ErrorsBlock names={["pickupTime"]} />
 						</Field>

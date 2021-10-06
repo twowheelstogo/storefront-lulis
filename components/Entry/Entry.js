@@ -64,7 +64,7 @@ class Entry extends Component {
   	const { classes, onLoginButtonClick, onRegisterButtonClick, setEmailOnAnonymousCart } = this.props;
   	return (
   		<Grid container>
-  			<Grid item xs={12} md={7}>
+  			<Grid item xs={12}>
   				<div className={classes.loginWrapper}>
   					<Typography variant="h6" gutterBottom>
               Returning Customer
@@ -75,14 +75,6 @@ class Entry extends Component {
   					<Button onClick={onRegisterButtonClick} actionType="secondary" isFullWidth className={classes.loginButton}>
               Create a new account
   					</Button>
-  				</div>
-  			</Grid>
-  			<Grid item xs={12} md={5}>
-  				<div className={classes.guestWrapper}>
-  					<Typography variant="h6" gutterBottom>
-              Guest Checkout
-  					</Typography>
-  					<GuestForm onSubmit={setEmailOnAnonymousCart} />
   				</div>
   			</Grid>
   		</Grid>
