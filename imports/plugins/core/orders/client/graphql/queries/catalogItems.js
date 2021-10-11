@@ -1,0 +1,180 @@
+import gql from "graphql-tag";
+
+export default gql`
+query catalogItemsQuery($shopId: ID!, $tagIds: [ID] $first: ConnectionLimitInt, $last:  ConnectionLimitInt, $before: ConnectionCursor, $after: ConnectionCursor, $sortBy: CatalogItemSortByField, $sortByPriceCurrencyCode: String, $sortOrder: SortOrder) {
+  catalogItems(shopIds: [$shopId], tagIds: $tagIds, first: $first, last: $last, before: $before, after: $after, sortBy: $sortBy, sortByPriceCurrencyCode: $sortByPriceCurrencyCode, sortOrder: $sortOrder) {
+    totalCount
+    pageInfo {
+      endCursor
+      startCursor
+      hasNextPage
+      hasPreviousPage
+    }
+    edges {
+      cursor
+      node {
+        _id
+        ... on CatalogItemProduct {
+          product {
+            _id
+            title
+            productId
+            slug
+            description
+            pageTitle
+            vendor
+            isLowQuantity
+            isSoldOut
+            isBackorder
+            tagIds
+            productType
+            metafields {
+              description
+              key
+              namespace
+              scope
+              value
+              valueType
+            }
+            shop {
+              currency {
+                code
+              }
+            }
+            pricing {
+              compareAtPrice {
+                displayAmount
+              }
+              currency {
+                code
+              }
+              displayPrice
+              minPrice
+              maxPrice
+            }
+            primaryImage {
+              URLs {
+                thumbnail
+                small
+                medium
+                large
+              }
+            }
+            variants{
+              _id
+          odooProduct
+          categoryVariant
+          variantId
+          title
+          optionTitle
+          index
+          pricing {
+            compareAtPrice {
+              displayAmount
+            }
+            price
+            currency {
+              code
+            }
+            displayPrice
+          }
+          canBackorder
+          inventoryAvailableToSell
+          isBackorder
+          isSoldOut
+          isLowQuantity
+          options {
+            _id
+            variantId
+            title
+            index
+            pricing {
+              compareAtPrice {
+                displayAmount
+              }
+              price
+              currency {
+                code
+              }
+              displayPrice
+            }
+            optionTitle
+            canBackorder
+            inventoryAvailableToSell
+            isBackorder
+            isSoldOut
+            isLowQuantity
+            media {
+              priority
+              productId
+              variantId
+              URLs {
+                thumbnail
+                small
+                medium
+                large
+                original
+              }
+            }
+            metafields {
+              description
+              key
+              namespace
+              scope
+              value
+              valueType
+            }
+            primaryImage {
+              URLs {
+                large
+                medium
+                original
+                small
+                thumbnail
+              }
+              priority
+              productId
+              variantId
+            }
+          }
+          media {
+            priority
+            productId
+            variantId
+            URLs {
+              thumbnail
+              small
+              medium
+              large
+              original
+            }
+          }
+          metafields {
+            description
+            key
+            namespace
+            scope
+            value
+            valueType
+          }
+          primaryImage {
+            URLs {
+              large
+              medium
+              original
+              small
+              thumbnail
+            }
+            priority
+            productId
+            variantId
+          }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+`;

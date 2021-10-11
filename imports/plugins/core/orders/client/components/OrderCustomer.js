@@ -77,8 +77,11 @@ function OrderCustomer(props) {
     }
 
     const buildInput = (value) => ({
-        name: value.name,
-        username: value.name.replace(" ", ""),
+        firstName: value.firstName,
+        lastName: value.lastName,
+        name: value?.firstName.concat(" ", value?.lastName),
+        phone: value.phone,
+        username: value?.firstName.concat(value?.lastName).replace(" ", ""),
         emails: [{
             address: value.email,
             provides: "default",
@@ -88,7 +91,7 @@ function OrderCustomer(props) {
 
     const handleCreateAccount = async (value) => {
 
-        if(!value.name || !value.email) throw new Error("Asegurate de llenar todos los campos");
+        if (!value.firstName || !value.email) throw new Error("Asegurate de llenar todos los campos");
         const input = buildInput(value);
         Object.assign(input, { shopId });
 
@@ -100,7 +103,7 @@ function OrderCustomer(props) {
                 }
             });
             if (error) throw new Error(error);
-            const { createAccount: { account } } = data;
+            const { createAccountWithoutCredentials: { account } } = data;
             setSelectedAccount(account);
             setAccountOpen(false);
             enqueueSnackbar("Nuevo cliente agregado correctamente", { variant: "success" });

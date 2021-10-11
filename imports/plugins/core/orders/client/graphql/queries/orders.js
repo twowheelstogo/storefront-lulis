@@ -6,8 +6,14 @@ query ordersQuery($shopIds: [ID], $filters: OrderFilterInput, $first: Connection
     nodes {
       _id
       referenceId
+      orderId
       createdAt
       email
+          account {
+            firstName
+            lastName
+            name
+          }
       payments {
         status
       }

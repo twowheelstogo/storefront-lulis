@@ -76,7 +76,7 @@ function OrderHeader(props) {
           </Grid>
           <Grid className={classes.openSidebarButton} item>
             <DetailDrawerButton color="primary" size="small" variant="outlined">
-              {i18next.t("orderCard.orderSummary.showOrderSummary", "Show order summary")}
+              {"Mostrar resúmen de la orden"}
             </DetailDrawerButton>
           </Grid>
         </Grid>

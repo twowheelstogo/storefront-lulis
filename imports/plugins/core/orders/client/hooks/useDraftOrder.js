@@ -1,5 +1,6 @@
 import { useState, useMemo, useEffect } from "react";
 import productsQuery from "../graphql/queries/products";
+import catalogItemsQuery from "../graphql/queries/catalogItems";
 import cartByAccountIdQuery from "../graphql/queries/cartByAccountId";
 import anonymousCartByCartIdQuery from "../graphql/queries/anonymousCartByCartId";
 import draftOrderQuery from "../graphql/queries/draftOrder";
@@ -76,6 +77,13 @@ function useDraftOrder(args = {}) {
         },
         skip: !shopId
     });
+
+    // const { data: catalogItemsQueryResult, isLoading: isLoadingProducts, refetch: refetchProducts } = useQuery(catalogItemsQuery, {
+    //     variables: {
+
+    //     },
+    //     skip: !shopId
+    // });
 
     /**Query to get draft order */
     const { data: draftOrderQueryResult, loading: isLoadingDraftOrder, refetch: refetchDraftOrder } = useQuery(draftOrderQuery, {

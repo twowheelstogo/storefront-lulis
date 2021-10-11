@@ -33,7 +33,7 @@ function OrderIdCell({ cell, row }) {
         component="span"
         paddingRight={2}
       >
-        {cell.value}
+       Orden no. #{cell.value}
       </Box>
       {status !== "completed" ?
         <Chip

@@ -2,7 +2,7 @@ import gql from "graphql-tag";
 
 export const createAccountMutation = gql`
     mutation createAccount($input: CreateAccountInput!) {
-  	createAccount(input: $input) {
+  	createAccountWithoutCredentials(input: $input) {
     account {
       _id
       userId

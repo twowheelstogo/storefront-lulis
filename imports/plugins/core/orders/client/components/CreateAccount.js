@@ -6,6 +6,7 @@ import { Form } from "reacto-form";
 import { Button, TextField } from "@reactioncommerce/catalyst";
 import styled from "styled-components";
 import CloseIcon from "mdi-material-ui/Close";
+import { applyTheme } from "@reactioncommerce/components/utils";
 
 const Grid = styled.div`
   display: flex;
@@ -18,6 +19,12 @@ const ColFull = styled.div`
   padding-top: 5px;
   padding-bottom: 5px;
 `;
+
+const ColHalf = styled.div`
+  flex: 1 1 100%;
+  @media (min-width: ${applyTheme("sm", "breakpoints")}px) {
+    flex: 0 1 calc(50% - 9px);
+  }`;
 
 const CustomTitleLayout = styled.div`
     display: flex;
@@ -37,8 +44,10 @@ const CustomTitleLayout = styled.div`
 function CreateAccount(props) {
     const { open, onClose, onSubmit } = props;
     const [value, setValue] = useState({
-        name: "",
-        email: ""
+        email: "",
+        firstName: "",
+        lastName: "",
+        phone: ""
     });
 
     const handleSubmit = () => onSubmit(value);
@@ -68,12 +77,30 @@ function CreateAccount(props) {
             </DialogTitle>
             <DialogContent>
                 <Grid>
+                    <ColHalf>
+                        <TextField
+                            label="Nombre"
+                            placeholder="John Doe"
+                            name="firstName"
+                            id="firstName"
+                            onChange={handleChange}
+                        />
+                    </ColHalf>
+                    <ColHalf>
+                        <TextField
+                            label="Apellido"
+                            placeholder="John Doe"
+                            name="lastName"
+                            id="lastName"
+                            onChange={handleChange}
+                        />
+                    </ColHalf>
                     <ColFull>
                         <TextField
-                            label="Nombre completo"
-                            placeholder="John Doe"
-                            name="name"
-                            id="name"
+                            name="phone"
+                            label="Teléfono"
+                            placeholder="22220000"
+                            id="phone"
                             onChange={handleChange}
                         />
                     </ColFull>

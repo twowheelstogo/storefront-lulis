@@ -12,8 +12,10 @@ import Typography from "@material-ui/core/Typography";
  * @returns {React.Component} returns a React component
  */
 function OrderCustomerDetails({ order }) {
-  const { email, fulfillmentGroups } = order;
-  const { shippingAddress: { description } } = fulfillmentGroups[0].data;
+  const { email, fulfillmentGroups, account } = order;
+  const { shippingAddress } = fulfillmentGroups[0]?.data || {};
+  const { description, address, reference } = shippingAddress || {};
+  const { name, phone } = account;
 
   return (
     <Card>
@@ -23,13 +25,18 @@ function OrderCustomerDetails({ order }) {
       <CardContent>
         <Grid container spacing={3}>
           <Grid item xs={12} md={12}>
+            <Typography variant="body1">Nombre: {name}</Typography>
+            <Typography variant="body1">Tel: {phone}</Typography>
+            <Typography variant="body1">correo: {email}</Typography>
+          </Grid>
+          <Grid item xs={12} md={12}>
             <Typography variant="h4">
               {description}
             </Typography>
           </Grid>
           <Grid item xs={12} md={12}>
-            <Typography variant="body1">{description}</Typography>
-            <Typography variant="body1">{description}</Typography>
+            <Typography variant="body1">{address}</Typography>
+            <Typography variant="body1">{reference}</Typography>
           </Grid>
         </Grid>
       </CardContent>

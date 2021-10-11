@@ -37,9 +37,23 @@ function OrdersTable() {
   const columns = useMemo(() => [
     {
       Header: i18next.t("admin.table.headers.id"),
-      accessor: "referenceId",
+      accessor: "orderId",
       // eslint-disable-next-line react/no-multi-comp,react/display-name,react/prop-types
       Cell: ({ row, cell }) => <OrderIdCell row={row} cell={cell} />
+    },
+    {
+      Header: "Cliente",
+      accessor: (row) => (row.account && row.account?.name) || null,
+      id: "accountName",
+      // eslint-disable-next-line react/no-multi-comp,react/display-name,react/prop-types
+      Cell: ({ row }) => <Fragment>{row.values.accountName}</Fragment>,
+      Filter: makeDataTableColumnFilter({
+        isMulti: true,
+        options: [
+          { label: i18next.t("admin.table.paymentStatus.completed"), value: "completed" },
+          { label: i18next.t("admin.table.paymentStatus.created"), value: "created" }
+        ]
+      })
     },
     {
       Header: i18next.t("admin.table.headers.date"),
@@ -174,7 +188,7 @@ function OrdersTable() {
 
   // Row click callback
   const onRowClick = useCallback(async ({ row }) => {
-    history.push(`/${shopId}/orders/${row.values.referenceId}`);
+    history.push(`/${shopId}/orders/${row.original.referenceId}`);
   }, [history, shopId]);
 
   const labels = useMemo(() => ({

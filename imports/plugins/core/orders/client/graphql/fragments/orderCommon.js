@@ -5,6 +5,8 @@ export const orderCommonFragment = gql`
     _id
     account {
       _id
+      name
+      phone
     }
     cartId
     createdAt
@@ -21,6 +23,11 @@ export const orderCommonFragment = gql`
             reference
           }
         }
+        ... on PickupOrderFulfillmentGroupData {
+          pickupDetails {
+            datetime
+          }
+        }
       }
       displayStatus(language: $language)
       items {
@@ -28,6 +35,10 @@ export const orderCommonFragment = gql`
           _id
           addedAt
           createdAt
+          metafields {
+            key
+            value
+          }
           imageURLs {
             large
             medium
@@ -63,6 +74,7 @@ export const orderCommonFragment = gql`
           productTags {
             nodes {
               name
+              displayTitle
             }
           }
           quantity
