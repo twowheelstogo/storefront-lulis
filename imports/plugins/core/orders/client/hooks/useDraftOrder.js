@@ -12,6 +12,7 @@ import {
     removeCartItemsMutation,
     setShippingAddressCartMutation,
     updateCartItemsQuantityMutation,
+    setFulfillmentOptionCartMutation,
     updateFulfillmentOptionsForGroup as updateFulfillmentOptionsForGroupMutation,
     updateFulfillmentTypeForGroup as updateFulfillmentTypeForGroupMutation,
     addDraftOrderCartItemsMutation,
@@ -141,7 +142,6 @@ function useDraftOrder(args = {}) {
     const { catalogItems } = productsQueryResult || {};
     const { edges } = catalogItems || {};
     const products = (edges || []).map((item) => item.node.product);
-    console.log(products);
 
     const addDraftOrderItems = (items) => {
 
@@ -248,7 +248,6 @@ function useDraftOrder(args = {}) {
 
                         if (cartPayload) {
                             // Update Apollo cache
-                            console.log(cartPayload.account);
                             cache.writeQuery({
                                 query: cartPayload.account ? cartByAccountIdQuery : anonymousCartByCartIdQuery,
                                 variables: cartPayload.account ? {
@@ -399,10 +398,29 @@ function useDraftOrder(args = {}) {
             enqueueSnackbar(error.message.replace("GraphQL error: ", ""), { variant: "error" });
         }
     };
+    const [setFulfillmentOptionCart] = useMutation(setFulfillmentOptionCartMutation);
 
-    const handleSelectFulfillmentMethod = (item) => {
+    const handleSelectFulfillmentMethod = async ({ fulfillmentGroupId, fulfillmentMethodId }) => {
+        const input = {
+            cartId: cart._id,
+            fulfillmentGroupId,
+            fulfillmentMethodId
+        };
+        if (anonymousCartId) Object.assign(input, { cartToken: anonymousCartToken });
 
-        setSelectedFulfillmentMethod(item);
+        try {
+            await setFulfillmentOptionCart({
+                variables: {
+                    input
+                }
+            });
+
+            refetchCart();
+            enqueueSnackbar("Tarifa actualizada", { variant: "success" });
+        } catch (error) {
+            console.error(error.message);
+            enqueueSnackbar(error.message.replace("GraphQL error: ", ""), { variant: "error" });
+        }
     };
 
     const handleSelectFulfillmentType = async ({ fulfillmentGroupId, fulfillmentType }) => {

@@ -121,13 +121,21 @@ function ShippingMethod(props) {
         fulfillmentType: event.target.value
     });
 
-    const { shippingAddress } = fulfillmentGroup || {};
+    const { shippingAddress, availableFulfillmentOptions, selectedFulfillmentOption, _id: fulfillmentGroupId } = fulfillmentGroup || {};
 
     const handleSelect = (event) => selectShippingAddress(JSON.parse(event.target.value));
 
     const handleCreateAddress = async (input) => {
         await addAccountAddressBookEntry(input);
         handleClose();
+    };
+
+    const handleSelectFulfillmentOption = async (fulfillmentMethodId) => {
+
+        await selectFulfillmentMethod({
+            fulfillmentGroupId,
+            fulfillmentMethodId
+        });
     }
 
     function renderShippingMethod() {
@@ -165,6 +173,29 @@ function ShippingMethod(props) {
         );
     }
 
+    function renderFulfillmentMethods() {
+
+        return (
+            <div>
+                <CustomTitle>{"Método de envío"}</CustomTitle>
+                <CardContainer>
+                    <List>
+                        {availableFulfillmentOptions.map((fulfillment) => (
+                            <RadioItem
+                                key={`${fulfillment.fulfillmentMethod._id}`}
+                                value={JSON.stringify(fulfillment)}
+                                selected={fulfillment.fulfillmentMethod._id == selectedFulfillmentOption.fulfillmentMethod._id}
+                                handleChange={() => handleSelectFulfillmentOption(fulfillment.fulfillmentMethod._id)}
+                                title={fulfillment.fulfillmentMethod.displayName}
+                                subtitle={fulfillment.price.displayAmount}
+                            />
+                        ))}
+                    </List>
+                </CardContainer>
+            </div>
+        );
+    }
+
     function renderPickupMethod() {
         return (
             <div>
@@ -191,7 +222,12 @@ function ShippingMethod(props) {
                         subtitle="Recoger en tienda"
                     />
                 </CardContainer>
-                {fulfillmentGroup?.type == "shipping" && renderShippingMethod()}
+                {fulfillmentGroup?.type == "shipping" && (
+                    <div>
+                        {renderShippingMethod()}
+                        {renderFulfillmentMethods()}
+                    </div>
+                )}
                 {fulfillmentGroup?.type == "pickup" && renderPickupMethod()}
             </CardContent>
         </Card>

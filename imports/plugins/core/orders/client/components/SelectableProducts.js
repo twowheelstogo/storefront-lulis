@@ -51,7 +51,7 @@ function SelectableProducts(props) {
         } else {
             newChecked.splice(currentIndex, 1);
         }
-        console.log(newChecked);
+
         setChecked(newChecked);
     };
 
@@ -63,32 +63,25 @@ function SelectableProducts(props) {
         } = props;
 
         const handleChangeQuantity = (bundleItem, quantity) => {
-            console.log("quantity", quantity);
-            console.log("handleChangeQuantity")
+
             const currentIndex = checked.findIndex((item) => item._id == catalogItem._id);
 
             if (currentIndex == -1) {
-                console.log("is new");
                 const items = [];
                 items.push({ ...bundleItem, quantity: 1 });
-                console.log(items);
                 Object.assign(catalogItem, { bundleItems: items });
-                console.log(catalogItem);
                 handleToggle(catalogItem);
             } else {
-                console.log("already on list");
                 const current = checked[currentIndex];
                 const items = current.bundleItems || [];
                 const bundleIndex = items.findIndex((item) => item._id == bundleItem._id);
 
                 if (bundleIndex == -1) {
-                    console.log("new item")
                     items.push({
                         ...bundleItem,
                         quantity: quantity
                     });
                 } else {
-                    console.log("item already in")
                     if (quantity == 0 || quantity == -1) {
                         items.splice(bundleIndex, 1);
                     } else {
@@ -105,7 +98,7 @@ function SelectableProducts(props) {
                 }else {
                     newItem.splice(currentIndex, 1);
                 }
-                console.log(newItem)
+                
                 setChecked(newItem);
             }
         }

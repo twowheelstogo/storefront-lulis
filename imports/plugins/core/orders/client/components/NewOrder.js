@@ -100,6 +100,7 @@ function NewOrder() {
     const { fulfillmentGroups } = checkout || {};
     const [fulfillmentGroup] = fulfillmentGroups || [];
 
+
     const shippingProps = {
         selectedAccount,
         selectedAddress,
@@ -110,7 +111,7 @@ function NewOrder() {
         selectFulfillmentType: setSelectedFulfillmentType,
         fulfillmentGroup: fulfillmentGroup || null,
         addAccountAddressBookEntry,
-        addingAddressbook
+        addingAddressbook,
     }
 
     const skipDraftOrderPlacing = Boolean(placingOrder || Object.keys(cart || {}).length == 0);

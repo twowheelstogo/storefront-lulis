@@ -80,10 +80,7 @@ function ProductsModal(props) {
         return payload;
     });
 
-    console.log(cartItems);
-
     const addSelectedItems = () => {
-        console.log(items);
         onClose();
         handleAddItems(cartItems);
     };
