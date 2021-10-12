@@ -70,20 +70,21 @@ function useDraftOrder(args = {}) {
     const [updateFulfillmentTypeForGroup] = useMutation(updateFulfillmentTypeForGroupMutation);
 
     /**Query to get products */
-    const { data: productsQueryResult, isLoading: isLoadingProducts, refetch: refetchProducts } = useQuery(productsQuery, {
-        variables: {
-            shopIds: [shopId],
-            query
-        },
-        skip: !shopId
-    });
-
-    // const { data: catalogItemsQueryResult, isLoading: isLoadingProducts, refetch: refetchProducts } = useQuery(catalogItemsQuery, {
+    // const { data: productsQueryResult, isLoading: isLoadingProducts, refetch: refetchProducts } = useQuery(productsQuery, {
     //     variables: {
-
+    //         shopIds: [shopId],
+    //         query
     //     },
     //     skip: !shopId
     // });
+    /**Query to get catalogItems */
+    const { data: productsQueryResult, isLoading: isLoadingProducts, refetch: refetchProducts } = useQuery(catalogItemsQuery, {
+        variables: {
+            searchQuery: query,
+            shopId
+        },
+        skip: !shopId
+    });
 
     /**Query to get draft order */
     const { data: draftOrderQueryResult, loading: isLoadingDraftOrder, refetch: refetchDraftOrder } = useQuery(draftOrderQuery, {
@@ -137,8 +138,10 @@ function useDraftOrder(args = {}) {
         fetchAnonymousCart();
     }
 
-    const { products } = productsQueryResult || {};
-
+    const { catalogItems } = productsQueryResult || {};
+    const { edges } = catalogItems || {};
+    const products = (edges || []).map((item) => item.node.product);
+    console.log(products);
 
     const addDraftOrderItems = (items) => {
 
@@ -245,8 +248,16 @@ function useDraftOrder(args = {}) {
 
                         if (cartPayload) {
                             // Update Apollo cache
+                            console.log(cartPayload.account);
                             cache.writeQuery({
                                 query: cartPayload.account ? cartByAccountIdQuery : anonymousCartByCartIdQuery,
+                                variables: cartPayload.account ? {
+                                    accountId: cartPayload.account && cartPayload.account._id,
+                                    shopId
+                                } : {
+                                    cartId: anonymousCartId,
+                                    cartToken: anonymousCartToken
+                                },
                                 data: { cart: cartPayload }
                             });
                         }
@@ -280,6 +291,13 @@ function useDraftOrder(args = {}) {
                             // Update Apollo cache
                             cache.writeQuery({
                                 query: cartPayload.account ? cartByAccountIdQuery : anonymousCartByCartIdQuery,
+                                variables: cartPayload.account ? {
+                                    accountId: cartPayload.account && cartPayload.account._id,
+                                    shopId
+                                } : {
+                                    cartId: anonymousCartId,
+                                    cartToken: anonymousCartToken
+                                },
                                 data: { cart: cartPayload }
                             });
                         }
@@ -499,7 +517,8 @@ function useDraftOrder(args = {}) {
             variables: {
                 input
             }
-        })
+        });
+        refetchCart();
     };
 
     const [

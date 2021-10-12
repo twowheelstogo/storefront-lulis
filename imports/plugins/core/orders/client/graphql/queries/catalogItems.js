@@ -1,8 +1,8 @@
 import gql from "graphql-tag";
 
 export default gql`
-query catalogItemsQuery($shopId: ID!, $tagIds: [ID] $first: ConnectionLimitInt, $last:  ConnectionLimitInt, $before: ConnectionCursor, $after: ConnectionCursor, $sortBy: CatalogItemSortByField, $sortByPriceCurrencyCode: String, $sortOrder: SortOrder) {
-  catalogItems(shopIds: [$shopId], tagIds: $tagIds, first: $first, last: $last, before: $before, after: $after, sortBy: $sortBy, sortByPriceCurrencyCode: $sortByPriceCurrencyCode, sortOrder: $sortOrder) {
+query catalogItemsQuery($shopId: ID!, $tagIds: [ID] $first: ConnectionLimitInt, $last:  ConnectionLimitInt, $before: ConnectionCursor, $after: ConnectionCursor, $sortBy: CatalogItemSortByField, $sortByPriceCurrencyCode: String, $sortOrder: SortOrder, $searchQuery: String) {
+  catalogItems(shopIds: [$shopId], tagIds: $tagIds, first: $first, last: $last, before: $before, after: $after, sortBy: $sortBy, sortByPriceCurrencyCode: $sortByPriceCurrencyCode, sortOrder: $sortOrder, searchQuery: $searchQuery) {
     totalCount
     pageInfo {
       endCursor
@@ -28,6 +28,30 @@ query catalogItemsQuery($shopId: ID!, $tagIds: [ID] $first: ConnectionLimitInt, 
             isBackorder
             tagIds
             productType
+            productBundle {
+              items {
+                _id
+                description
+                slug
+                title
+                pageTitle
+                media {
+                  URLs {
+                    thumbnail
+                    small
+                    large
+                    medium
+                  }
+                }
+                variants{
+                  odooProduct
+                }
+                pricing{
+                  displayPrice
+                  price
+                }
+              }
+            }
             metafields {
               description
               key

@@ -33,6 +33,25 @@ const InputCol = styled.div`
  * @param {Object} props Component props
  * @returns {React.Component} returns a React component
  */
+
+const itemMetaFields = (items) => {
+
+    return items.map((element, index) => ({
+        key: `${index}`,
+        value: JSON.stringify({
+            quantity: element.quantity,
+            _id: element._id,
+            title: element.title,
+            description: element.description,
+            media: element.media,
+            pageTitle: element.pageTitle,
+            pricing: element.pricing,
+            odooProduct: element.variants[0].odooProduct || null
+        }),
+        valueType: "bundleItem"
+    }));
+}
+
 function ProductsModal(props) {
     const [items, setItems] = useState([]);
     const { open, handleClose, value, products: productList, handleChange, handleAddItems, selectedProducts } = props;
@@ -42,25 +61,35 @@ function ProductsModal(props) {
         handleClose();
     }
 
-    const cartItems = items.map((item)=> ({
-        price: {
-            amount: item.variants[0].pricing.price,
-            currencyCode: "GTQ"
-        },
-        productConfiguration: {
-            productId: item._id,
-            productVariantId: item.variants[0]._id
-        },
-        quantity: 1
-    }))  
+
+    const cartItems = items.map((item) => {
+        const payload = {
+            price: {
+                amount: item.variants[0].pricing[0].price,
+                currencyCode: "GTQ"
+            },
+            productConfiguration: {
+                productId: item.productId,
+                productVariantId: item.variants[0].variantId
+            },
+            quantity: 1
+        };
+
+        if (item.bundleItems) Object.assign(payload, { metafields: itemMetaFields(item.bundleItems) });
+
+        return payload;
+    });
+
+    console.log(cartItems);
 
     const addSelectedItems = () => {
+        console.log(items);
         onClose();
         handleAddItems(cartItems);
     };
 
-    const products = productList.map((product)=> {
-        const selected = selectedProducts.find((item)=>item._id == product._id);
+    const products = productList.map((product) => {
+        const selected = selectedProducts.find((item) => item._id == product._id);
 
         return {
             ...product,

@@ -74,7 +74,7 @@ function NewOrder() {
 
     const productProps = {
         handleQuery: setQuery,
-        products: products && products.nodes || [],
+        products: products,
         selectedProducts,
         handleAddItems: addItemsToCart,
         handleChangeItemQuantity: changeItemQuantity,
