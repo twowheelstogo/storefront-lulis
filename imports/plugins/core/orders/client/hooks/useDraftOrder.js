@@ -239,12 +239,13 @@ function useDraftOrder(args = {}) {
                     input: {
                         cartId: cart._id || anonymousCartId,
                         items: (Array.isArray(cartItems) && cartItems) || [cartItems],
-                        cartToken: anonymousCartToken || null
+                        cartToken: anonymousCartToken || null,
+                        accountId: selectedAccount && selectedAccount._id || null
                     }
                 },
                 update: (cache, { data: mutationData }) => {
-                    if (mutationData && mutationData.updateCartItemsQuantity) {
-                        const { cart: cartPayload } = mutationData.updateCartItemsQuantity;
+                    if (mutationData && mutationData.updateCartItemsQuantityFromDraftOrders) {
+                        const { cart: cartPayload } = mutationData.updateCartItemsQuantityFromDraftOrders;
 
                         if (cartPayload) {
                             // Update Apollo cache
@@ -404,7 +405,8 @@ function useDraftOrder(args = {}) {
         const input = {
             cartId: cart._id,
             fulfillmentGroupId,
-            fulfillmentMethodId
+            fulfillmentMethodId,
+            accountId: selectedAccount._id
         };
         if (anonymousCartId) Object.assign(input, { cartToken: anonymousCartToken });
 

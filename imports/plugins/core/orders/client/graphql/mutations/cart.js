@@ -88,8 +88,8 @@ ${CartPayloadFragment}
 `;
 
 export const setFulfillmentOptionCartMutation = gql`
-    mutation setFulfillmentOptionCartMutation($input: SelectFulfillmentOptionForGroupInput!) {
-  selectFulfillmentOptionForGroup(input: $input) {
+    mutation setFulfillmentOptionCartMutation($input: SelectFulfillmentOptionForGroupFromDraftOrderInput!) {
+      selectFulfillmentOptionForGroupFromDraftOrder(input: $input) {
     cart {
       ...CartPayloadFragment
     }
@@ -121,8 +121,8 @@ export const setPickupDetailsOnCartMutation = gql`
 `;
 
 export const updateCartItemsQuantityMutation = gql`
-    mutation updateCartItemsQuantityMutation($input: UpdateCartItemsQuantityInput!) {
-  updateCartItemsQuantity(input: $input) {
+    mutation updateCartItemsQuantityMutation($input: UpdateCartItemsQuantityFromDraftOrdersInput!) {
+  updateCartItemsQuantityFromDraftOrders(input: $input) {
     cart {
       ...CartPayloadFragment
     }
