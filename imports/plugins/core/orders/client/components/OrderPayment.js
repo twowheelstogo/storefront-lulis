@@ -131,6 +131,7 @@ function OrderPayment(props) {
           {amount.displayAmount}
         </Typography>
       </Grid>
+      {capturePaymentButton}
     </Grid>
   );
 }
