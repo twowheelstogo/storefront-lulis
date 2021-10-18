@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, CardContent, CardHeader, Grid } from "@material-ui/core";
+import { Card, CardContent, CardHeader, Grid, FormControlLabel, Checkbox } from "@material-ui/core";
 import { TextField, Button } from "@reactioncommerce/catalyst";
 import styled from "styled-components";
 import BillingServices from "../helpers/billingServices";
@@ -49,7 +49,7 @@ flex: 0 1 calc(50% - 5px);
  * @returns {React.Component} returns a React component
  */
 function MoreDetailsOrder(props) {
-    const { handleChangeBillingDetails, value, handleChangeGiftDetails, giftDetails } = props;
+    const { handleChangeBillingDetails, value, handleChangeGiftDetails, giftDetails, setNote, markAsWithoutBilling } = props;
     const {
         nit,
         address,
@@ -78,7 +78,7 @@ function MoreDetailsOrder(props) {
     });
 
     const handleKeyDown = (event) => {
-        if(event.key === "Enter" || event.key === "Tab") {
+        if (event.key === "Enter" || event.key === "Tab") {
             handleSearchCustomer();
         }
     }
@@ -87,6 +87,10 @@ function MoreDetailsOrder(props) {
         ...prev,
         [event.target.id]: event.target.value
     }));
+
+    const handleChangeNote = (event) => setNote(event.target.value);
+
+    const handleCheckboxChange = (event) => markAsWithoutBilling(event.target.checked);
 
     return (
         <Grid container spacing={2}>
@@ -130,6 +134,10 @@ function MoreDetailsOrder(props) {
                                 />
                             </ColFull>
                         </Grid>
+                        <FormControlLabel control={
+                            <Checkbox
+                                onChange={handleCheckboxChange}
+                            />} label="No enviar factura" />
                     </CardContent>
                 </Card>
             </Grid>
@@ -165,6 +173,18 @@ function MoreDetailsOrder(props) {
                             </ColFull>
                         </FormGrid>
                     </CardContent>
+                    <CardHeader title="Observaciones de la orden" />
+                    <CardContent>
+                        <ColFull>
+                            <TextField
+                                id="note"
+                                name="note"
+                                placeholder="Escribe algo..."
+                                multiline
+                                onChange={handleChangeNote}
+                            />
+                        </ColFull>
+                    </CardContent>
                 </Card>
             </Grid>
         </Grid>
@@ -182,7 +202,9 @@ MoreDetailsOrder.propTypes = {
         receiver: PropTypes.string
     }),
     handleChange: PropTypes.func,
-    handleChangeGiftDetails: PropTypes.func
+    handleChangeGiftDetails: PropTypes.func,
+    setNote: PropTypes.func,
+    markAsWithoutBilling: PropTypes.func
 };
 
 MoreDetailsOrder.defaultProps = {
@@ -196,7 +218,9 @@ MoreDetailsOrder.defaultProps = {
         city: "GUATEMALA"
     },
     handleChangeBillingDetails() { },
-    handleChangeGiftDetails() { }
+    handleChangeGiftDetails() { },
+    setNote() { },
+    markAsWithoutBilling() { }
 };
 
 export default MoreDetailsOrder;

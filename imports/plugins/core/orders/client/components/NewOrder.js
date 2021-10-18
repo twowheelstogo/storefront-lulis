@@ -53,7 +53,9 @@ function NewOrder() {
         billingDetails,
         giftDetails,
         handleUpdateCartItemQuantity,
-        handleRemoveCartItems
+        handleRemoveCartItems,
+        setNote,
+        markAsWithoutBilling
     } = useDraftOrder();
     const {
         accounts,
@@ -90,7 +92,9 @@ function NewOrder() {
         handleChangeBillingDetails,
         value: billingDetails,
         handleChangeGiftDetails,
-        giftDetails
+        giftDetails,
+        setNote,
+        markAsWithoutBilling
     };
 
     // const { checkout: { fulfillmentGroups } } = cart || {
@@ -111,7 +115,7 @@ function NewOrder() {
         selectFulfillmentType: setSelectedFulfillmentType,
         fulfillmentGroup: fulfillmentGroup || null,
         addAccountAddressBookEntry,
-        addingAddressbook,
+        addingAddressbook
     }
 
     const skipDraftOrderPlacing = Boolean(placingOrder || Object.keys(cart || {}).length == 0);

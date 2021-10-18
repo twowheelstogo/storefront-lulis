@@ -65,6 +65,8 @@ function useDraftOrder(args = {}) {
         partnerId: -1
     });
     const [giftDetails, setGiftDetails] = useState({});
+    const [note, setNote] = useState(null);
+    const [withoutBilling, setWithoutBilling] = useState(false);
 
     const [addDraftOrderAccount] = useMutation(addDraftOrderAccountMutation);
     const [updateFulfillmentOptionsForGroup] = useMutation(updateFulfillmentOptionsForGroupMutation);
@@ -392,7 +394,7 @@ function useDraftOrder(args = {}) {
             });
             setAnonymousCartId(null);
             setAnonymousCartToken(null);
-            refetchDraftOrder();
+            refetchCart();
             enqueueSnackbar("Cliente seleccionado", { variant: "success" });
         } catch (error) {
             console.error(error.message);
@@ -585,13 +587,23 @@ function useDraftOrder(args = {}) {
                 type: group.type
             };
         });
+        const date = new Date();
+
+        const buildNote = [{
+            content: (withoutBilling && note && note.concat(" - ", "NO ENVIAR FACTURA")) || withoutBilling && "NO ENVIAR FACTURA" || note,
+            createdAt: date,
+            updatedAt: date
+        }];
+
+        console.log(buildNote);
 
         return {
             cartId: cart._id,
             currencyCode: checkout.summary.total.currency.code,
             email: selectedAccount.primaryEmailAddress,
             fulfillmentGroups,
-            shopId
+            shopId,
+            notes: buildNote[0].content && buildNote
         };
     };
 
@@ -613,7 +625,7 @@ function useDraftOrder(args = {}) {
 
         try {
             const order = cleanTypenames(await buildOrder());
-
+            console.log(order);
             Object.assign(order, { billing: buildBilling });
             const input = {
                 order
@@ -666,7 +678,9 @@ function useDraftOrder(args = {}) {
         handleChangeBillingDetails: setBillingDetails,
         handleChangeGiftDetails: setGiftDetails,
         billingDetails,
-        giftDetails
+        giftDetails,
+        setNote,
+        markAsWithoutBilling: setWithoutBilling
     }
 }
 
