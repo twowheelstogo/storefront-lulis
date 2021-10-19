@@ -32,7 +32,7 @@ import SelectableList from "@reactioncommerce/components/SelectableList/v1";
 import ShopLogo from "@reactioncommerce/components/ShopLogo/v1";
 import TextInput from "@reactioncommerce/components/TextInput/v1";
 import StockWarning from "@reactioncommerce/components/StockWarning/v1";
-import CartItemDetail from "@reactioncommerce/components/CartItemDetail/v1";
+import CartItemDetail from "./components/CartItemDetail";
 import CartItem from "./components/CartItem";
 import * as iconComponents from "./theme/icons";
 

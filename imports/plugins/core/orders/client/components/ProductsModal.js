@@ -34,11 +34,17 @@ const InputCol = styled.div`
  * @returns {React.Component} returns a React component
  */
 
-const itemMetaFields = (items) => {
+const itemMetaFields = (itemProps, cartItems) => {
 
-    return items.map((element, index) => ({
-        key: `${index}`,
-        value: JSON.stringify({
+    console.log(cartItems)
+
+    const currentItem = (cartItems || []).find((item) => itemProps.productId == item.productConfiguration.productId);
+
+    const currMetafields = currentItem && [...currentItem?.metafields] || [];
+
+    currMetafields.push({
+        key: currMetafields.length.toString(),
+        value: JSON.stringify((itemProps.bundleItems || []).map((element, index) => ({
             quantity: element.quantity,
             _id: element._id,
             title: element.title,
@@ -47,14 +53,16 @@ const itemMetaFields = (items) => {
             pageTitle: element.pageTitle,
             pricing: element.pricing,
             odooProduct: element.variants[0].odooProduct || null
-        }),
+        }))),
         valueType: "bundleItem"
-    }));
+    })
+
+    return currMetafields;
 }
 
 function ProductsModal(props) {
     const [items, setItems] = useState([]);
-    const { open, handleClose, value, products: productList, handleChange, handleAddItems, selectedProducts } = props;
+    const { open, handleClose, value, products: productList, handleChange, handleAddItems, selectedProducts, cartItems: currentCartItems } = props;
 
     const onClose = () => {
         setItems([]);
@@ -75,13 +83,14 @@ function ProductsModal(props) {
             quantity: 1
         };
 
-        if (item.bundleItems) Object.assign(payload, { metafields: itemMetaFields(item.bundleItems) });
+        if (item.bundleItems) Object.assign(payload, { metafields: itemMetaFields(item, currentCartItems) });
 
         return payload;
     });
 
     const addSelectedItems = () => {
         onClose();
+        console.log(cartItems);
         handleAddItems(cartItems);
     };
 
@@ -154,7 +163,8 @@ ProductsModal.propTypes = {
     handleClose: PropTypes.func,
     handleAddItems: PropTypes.func,
     value: PropTypes.string,
-    handleChange: PropTypes.func
+    handleChange: PropTypes.func,
+    cartItems: PropTypes.array
 };
 
 ProductsModal.defaultProps = {
@@ -165,7 +175,8 @@ ProductsModal.defaultProps = {
     open: false,
     handleClose() { },
     handleAddItems() { },
-    handleChange() { }
+    handleChange() { },
+    cartItems: []
 };
 
 export default ProductsModal;

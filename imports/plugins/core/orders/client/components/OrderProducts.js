@@ -47,6 +47,10 @@ function OrderProducts(props) {
         setOpen(true);
     }
 
+    const { items } = cart || {};
+
+    const cartItems = (items?.edges || []).map((item) => ({ ...item.node }));
+
     return (
         <Card>
             <CardHeader title={"Productos"} />
@@ -80,6 +84,7 @@ function OrderProducts(props) {
                 handleChange={handleChange}
                 handleAddItems={handleAddItems}
                 value={query}
+                cartItems={cartItems}
             />
         </Card>
     );

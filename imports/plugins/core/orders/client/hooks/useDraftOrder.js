@@ -242,7 +242,7 @@ function useDraftOrder(args = {}) {
                         cartId: cart._id || anonymousCartId,
                         items: (Array.isArray(cartItems) && cartItems) || [cartItems],
                         cartToken: anonymousCartToken || null,
-                        accountId: selectedAccount && selectedAccount._id || null
+                        accountId: selectedAccount && selectedAccount._id || undefined
                     }
                 },
                 update: (cache, { data: mutationData }) => {

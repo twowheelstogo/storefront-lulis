@@ -320,6 +320,7 @@ class CartItem extends Component {
         currentQuantity,
         productSlug,
         productVendor,
+        metafields,
         title,
         quantity,
         isLowQuantity,
@@ -355,6 +356,7 @@ class CartItem extends Component {
                   productVendor={productVendor}
                   quantity={isReadOnly ? quantity : null}
                   title={title}
+                  metafields={metafields}
                 />
 
                 <StockWarning
