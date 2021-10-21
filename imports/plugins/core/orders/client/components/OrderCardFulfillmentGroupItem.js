@@ -16,19 +16,27 @@ const buildMedia = (urls) => [{
   URLs: urls
 }];
 
+const cleanedMetafields = (metafields) => {
+  const items = [];
+  (metafields || []).forEach((item, index) => {
+      const bundleItems = JSON.parse(item.value) || [];
+      bundleItems.forEach((bundleItem) => {
+          items.push({
+              ...bundleItem,
+              boxId: index + 1
+          });
+      });
+  });
+
+  return items.map((item, index) => ({
+      name: index,
+      value: `box #${item.boxId}: ${item.title} (${item.quantity})`
+  }));
+};
+
 const renderSubItems = (items) => {
 
-  return Array.isArray(items) && items.map((item) => {
-    const product = JSON.parse(item.value);
-
-    return (
-      <div>
-        <Typography variant="body2">{product.title}</Typography>
-        <Typography variant="body2">Cantidad: {product.quantity}</Typography>
-            <hr></hr>
-      </div>
-    );
-  })
+  return cleanedMetafields(items).map((item)=> (<Typography variant="body2">{item.value}</Typography>))
 }
 
 class OrderCardFulfillmentGroupItem extends Component {
