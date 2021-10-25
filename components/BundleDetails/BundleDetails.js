@@ -143,11 +143,37 @@ const styles = (theme) => ({
     }
 });
 
-const itemMetaFields = (items) => {
+// const itemMetaFields = (items) => {
 
-    return items.map((element, index) => ({
-        key: `${index}`,
-        value: JSON.stringify({
+//     return items.map((element, index) => ({
+//         key: `${index}`,
+//         value: JSON.stringify({
+//             quantity: element.quantity,
+//             _id: element._id,
+//             title: element.title,
+//             description: element.description,
+//             media: element.media,
+//             pageTitle: element.pageTitle,
+//             pricing: element.pricing,
+//             odooProduct: element.variants[0].odooProduct || null
+//         }),
+//         valueType: "bundleItem"
+//     }));
+// }
+
+const itemMetaFields = (itemProps, cartItems) => {
+
+    console.log(cartItems, itemProps)
+
+    const currentItem = (cartItems || []).find((item) => itemProps.productId == item.productConfiguration.productId);
+
+    console.log(currentItem);
+
+    const currMetafields = currentItem && [...currentItem?.metafields] || [];
+
+    currMetafields.push({
+        key: currMetafields.length.toString(),
+        value: JSON.stringify((itemProps.bundleItems || []).map((element, index) => ({
             quantity: element.quantity,
             _id: element._id,
             title: element.title,
@@ -156,10 +182,12 @@ const itemMetaFields = (items) => {
             pageTitle: element.pageTitle,
             pricing: element.pricing,
             odooProduct: element.variants[0].odooProduct || null
-        }),
+        }))),
         valueType: "bundleItem"
-    }));
-}
+    })
+
+    return currMetafields;
+};
 
 const BundleDetails = (props) => {
     // const [quantity, setQuantity] = useState(0);
@@ -211,11 +239,16 @@ const BundleDetails = (props) => {
         const {
             addItemsToCart,
             currencyCode,
+            cart,
             uiStore: { openCartWithTimeout },
             productBundle: { product, variantId: productVariantId, productId }
         } = props;
 
+        const { items: cartItems } = cart || {};
+
         const price = product.variants[0].pricing.price;
+
+        const currItem = { productId, bundleItems: selectedItems };
 
         await addItemsToCart({
             price: {
@@ -226,7 +259,7 @@ const BundleDetails = (props) => {
                 productId,
                 productVariantId
             },
-            metafields: itemMetaFields(selectedItems),
+            metafields: itemMetaFields(currItem, cartItems),
             quantity: 1
         });
 
@@ -248,6 +281,8 @@ const BundleDetails = (props) => {
 
     const totalMessage = totalItems != limit ? `Tu bundle debe contener ${limit} productos, has seleccionado ${totalItems}` : `Hay ${totalItems} productos seleccionados, tu bundle está listo`;
 
+    const displayPrice = product.variants && product.variants[0].pricing && `Q${product.variants[0].pricing.price.toFixed(2)}`;
+
     return (
         <Fragment>
             <div className={classes.root}>
@@ -267,7 +302,7 @@ const BundleDetails = (props) => {
                                         <FavoriteIcon className={classes.favoriteIcon} />
                                     </IconButton>
                                 </div>
-                                <div className={classes.subtitle}>{product.variants[0].pricing.displayPrice}</div>
+                                <div className={classes.subtitle}>{displayPrice}</div>
                                 <br></br>
                                 <div className={classes.description}>{product.description}</div>
                                 <div className={classes.description}
@@ -305,7 +340,7 @@ const BundleDetails = (props) => {
                                 <br></br>
                                 <RoundedButton
                                     buttonTitle="Agregar al carrito"
-                                    buttonSubtitle={`${limit} productos por ${product.variants[0].pricing.displayPrice}`}
+                                    buttonSubtitle={`${limit} productos por ${displayPrice}`}
                                     onClick={handleAddToCart}
                                 />
                             </Grid>

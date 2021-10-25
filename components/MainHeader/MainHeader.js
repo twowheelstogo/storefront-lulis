@@ -116,7 +116,7 @@ class MainHeader extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state={
-			showAlert: true
+			showAlert: false
 		}
 	}
 	hideAlert = () => this.setState({showAlert: false})
