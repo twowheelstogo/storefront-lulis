@@ -49,7 +49,6 @@ const ProductGrid = props => {
 						>
 							<ProductCard
 								addOrCreateCartLoading={addOrCreateCartLoading}
-								addOrCreateCartLoading={false}
 								currencyCode={currencyCode}
 								uiStore={uiStore}
 								product={product} addItemsToCart={addItemsToCart}
