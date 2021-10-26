@@ -111,7 +111,7 @@ class HorizontalProductCard extends React.Component {
 		openCartWithTimeout(3000);
 	}
 	render() {
-		const { classes, product } = this.props;
+		const { classes, product, addOrCreateCartLoading } = this.props;
 		const { slug } = product;
 		const quantity = product.cartItem != undefined ? product.cartItem.quantity : 0;
 		const displayPrice = Array.isArray(product.pricing) ? product.pricing[0].displayPrice : product.pricing.displayPrice;
@@ -141,7 +141,7 @@ class HorizontalProductCard extends React.Component {
 									<IconButton size="small" color="primary" disabled={product.cartItem == undefined} onClick={() => this.HandleRemoveItemToCart(this.props)}>
 										<RemoveIcon />
 									</IconButton>
-									<IconButton size="small" color="primary" onClick={() => this.HandleAddItemToCart(this.props)}>
+									<IconButton size="small" color="primary" disabled={addOrCreateCartLoading} onClick={() => this.HandleAddItemToCart(this.props)}>
 										<AddIcon />
 									</IconButton>
 								</div>
