@@ -27,13 +27,35 @@ const PlacesWithSearchBox = (props) => {
 };
 
 const CustomAddAddressForm = withGoogleMaps((props) => {
-	const { components: { CustomForm, TextInput }, googleProps, ...itemAddFormProps } = props;
+	// this.demo = "Hola mundo";
+	const { components: { CustomForm, TextInput }, onSubmit, googleProps, ...itemAddFormProps } = props;
+
+	const handleSubmit = (value) => {
+
+		const input = { ...value };
+		if (googleProps.locationRef.latitude) {
+			Object.assign(input, {
+				geolocation: googleProps.locationRef,
+				metaddress: { ...googleProps.metadataMarker }
+			});
+		}
+
+		onSubmit(input);
+	};
+
 	let _formRef = null;
+
+	function submit() {
+		console.log("submit function executed");
+		_formRef.submit();
+	}
 
 	return (
 		<div>
 			<CustomForm
 				{...itemAddFormProps}
+				onSubmit={handleSubmit}
+
 				ref={(formEl) => {
 					_formRef = formEl;
 				}}
@@ -62,41 +84,43 @@ const CustomAddAddressForm = withGoogleMaps((props) => {
 	);
 });
 
-const CustomEditAddressForm = withGoogleMaps((props) => {
-	const { components: { CustomForm, TextInput }, googleProps, ...itemAddFormProps } = props;
-	let _formRef = null;
+console.log(CustomAddAddressForm)
 
-	return (
-		<div>
-			<CustomForm
-				{...itemAddFormProps}
-				ref={(formEl) => {
-					_formRef = formEl;
-				}}
-			/>
-			<div style={{
-				width: "100%",
-				height: "300px"
-			}}>
-				<GoogleMapComponent
-					{...googleProps}
-					authStore={props.authStore}
-					SearchBox={
-						<PlacesWithSearchBox
-							{...props}
-							{...googleProps}>
-							<TextInput
-								id="search"
-								name="search"
-								placeholder="buscar una dirección"
-							/>
-						</PlacesWithSearchBox>
-					}
-				/>
-			</div>
-		</div>
-	);
-});
+// const CustomEditAddressForm = withGoogleMaps((props) => {
+// 	const { components: { CustomForm, TextInput }, googleProps, ...itemAddFormProps } = props;
+// 	let _formRef = null;
+
+// 	return (
+// 		<div>
+// 			<CustomForm
+// 				{...itemAddFormProps}
+// 				ref={(formEl) => {
+// 					_formRef = formEl;
+// 				}}
+// 			/>
+// 			<div style={{
+// 				width: "100%",
+// 				height: "300px"
+// 			}}>
+// 				<GoogleMapComponent
+// 					{...googleProps}
+// 					authStore={props.authStore}
+// 					SearchBox={
+// 						<PlacesWithSearchBox
+// 							{...props}
+// 							{...googleProps}>
+// 							<TextInput
+// 								id="search"
+// 								name="search"
+// 								placeholder="buscar una dirección"
+// 							/>
+// 						</PlacesWithSearchBox>
+// 					}
+// 				/>
+// 			</div>
+// 		</div>
+// 	);
+// });
 
 class AddressBook extends Component {
 	static propTypes = {
@@ -219,14 +243,14 @@ class AddressBook extends Component {
 	//
 	handleAddAddress = async (value) => {
 		const input = { ...value };
-		const { onAddressAdded, googleProps } = this.props;
-		console.log(googleProps.locationRef);
-		if (googleProps.locationRef.latitude) {
-			Object.assign(input, {
-				geolocation: googleProps.locationRef,
-				metaddress: { ...googleProps.metadataMarker }
-			});
-		}
+		const { onAddressAdded } = this.props;
+		// console.log(googleProps.locationRef);
+		// if (googleProps.locationRef.latitude) {
+		// 	Object.assign(input, {
+		// 		geolocation: googleProps.locationRef,
+		// 		metaddress: { ...googleProps.metadataMarker }
+		// 	});
+		// }
 
 		await onAddressAdded(input);
 		if (this._accordionFormList) {
@@ -296,7 +320,7 @@ class AddressBook extends Component {
 		return (
 			<AccordionFormList
 				addNewItemButtonText={addNewItemButtonText}
-				components={{ ItemAddForm: CustomAddAddressForm, ItemEditForm: CustomEditAddressForm }}
+				components={{ ItemAddForm: CustomAddAddressForm, ItemEditForm: CustomAddAddressForm }}
 				deleteItemButtonText={deleteItemButtonText}
 				entryFormSubmitButtonText={entryFormSubmitButtonText}
 				itemAddFormProps={itemAddFormProps}

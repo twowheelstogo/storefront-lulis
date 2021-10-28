@@ -238,6 +238,7 @@ class AccordionFormList extends Component {
 						<ItemEditForm
 							{...itemEditFormProps}
 							ref={(el) => {
+								console.log(el);
 								this._refs[`editForm_${id}`] = el;
 							}}
 						/>
