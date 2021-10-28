@@ -2,8 +2,6 @@ import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { applyTheme, addTypographyStyles, CustomPropTypes } from "@reactioncommerce/components/utils";
-import GoogleMapComponent from "components/GoogleMaps";
-import { SearchBox } from "react-google-maps/lib/components/places/SearchBox";
 import inject from "hocs/inject";
 import { withComponents } from "@reactioncommerce/components-context";
 
@@ -76,21 +74,6 @@ const FormActionDelete = styled.div`
 
 const ENTRY = "entry";
 const LIST = "list";
-
-const PlacesWithSearchBox = (props) => {
-	return <SearchBox
-		ref={props.onSearchBoxMounted}
-		bounds={props.bounds}
-		onPlacesChanged={() => {
-			props.onPlacesChanged(props.authStore.accessToken);
-		}}
-		controlPosition={google.maps.ControlPosition.TOP_LEFT}
-	>
-		<div style={{ width: "50%", padding: "10px" }}>
-			{props.children}
-		</div>
-	</SearchBox>;
-};
 
 class AccordionFormList extends Component {
 	static propTypes = {
@@ -258,27 +241,6 @@ class AccordionFormList extends Component {
 								this._refs[`editForm_${id}`] = el;
 							}}
 						/>
-						<div
-							style={{
-								width: "100%",
-								height: "300px"
-							}}
-						>
-							<GoogleMapComponent {...googleProps}
-								authStore={this.props.authStore}
-								SearchBox={
-									<PlacesWithSearchBox
-										{...this.props}
-										{...googleProps}>
-										<TextInput
-											id="search"
-											name="search"
-											placeholder="buscar una dirección"
-										/>
-									</PlacesWithSearchBox>
-								}
-							/>
-						</div>
 						<FormActions>
 							<FormActionDelete>
 								<Button
@@ -327,27 +289,6 @@ class AccordionFormList extends Component {
 						this._addItemForm = el;
 					}}
 				/>
-				<div
-					style={{
-						width: "100%",
-						height: "300px"
-					}}
-				>
-					<GoogleMapComponent {...googleProps}
-						authStore={this.props.authStore}
-						SearchBox={
-							<PlacesWithSearchBox
-								{...this.props}
-								{...googleProps}>
-								<TextInput
-									id="search"
-									name="search"
-									placeholder="buscar una dirección"
-								/>
-							</PlacesWithSearchBox>
-						}
-					/>
-				</div>
 				<FormActions>
 					<Button actionType="secondary" onClick={this.handleEntryFormCancel}>
 						{cancelButtonText}
