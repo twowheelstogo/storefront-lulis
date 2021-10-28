@@ -71,8 +71,8 @@ export default function withGoogleMaps(Component){
 	const WithGoogleMap = React.forwardRef((props,ref)=>{
 		const GoogleMapLayout = enhance(googleProps=>
 			<Component
-				ref={ref}
 				{...props}
+				ref={ref}
 				googleProps={googleProps}
 			/>);
 		return <GoogleMapLayout/>;

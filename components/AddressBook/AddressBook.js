@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useImperativeHandle, useRef } from "react";
 import PropTypes from "prop-types";
 import isEmpty from "lodash.isempty";
 import { addressToString, CustomPropTypes } from "@reactioncommerce/components/utils";
@@ -40,18 +40,23 @@ const CustomAddAddressForm = withGoogleMaps((props) => {
 			});
 		}
 
+		console.log(input);
+
 		onSubmit(input);
 	};
 
 	let _formRef = null;
 
-	function submit() {
-		console.log("submit function executed");
-		_formRef.submit();
-	}
+	useImperativeHandle(props.formRef, () => ({
+		submit() {
+			_formRef.submit();
+		}
+	}));
 
 	return (
-		<div>
+		<div
+			ref={props.formRef}
+		>
 			<CustomForm
 				{...itemAddFormProps}
 				onSubmit={handleSubmit}
@@ -83,44 +88,6 @@ const CustomAddAddressForm = withGoogleMaps((props) => {
 		</div>
 	);
 });
-
-console.log(CustomAddAddressForm)
-
-// const CustomEditAddressForm = withGoogleMaps((props) => {
-// 	const { components: { CustomForm, TextInput }, googleProps, ...itemAddFormProps } = props;
-// 	let _formRef = null;
-
-// 	return (
-// 		<div>
-// 			<CustomForm
-// 				{...itemAddFormProps}
-// 				ref={(formEl) => {
-// 					_formRef = formEl;
-// 				}}
-// 			/>
-// 			<div style={{
-// 				width: "100%",
-// 				height: "300px"
-// 			}}>
-// 				<GoogleMapComponent
-// 					{...googleProps}
-// 					authStore={props.authStore}
-// 					SearchBox={
-// 						<PlacesWithSearchBox
-// 							{...props}
-// 							{...googleProps}>
-// 							<TextInput
-// 								id="search"
-// 								name="search"
-// 								placeholder="buscar una dirección"
-// 							/>
-// 						</PlacesWithSearchBox>
-// 					}
-// 				/>
-// 			</div>
-// 		</div>
-// 	);
-// });
 
 class AddressBook extends Component {
 	static propTypes = {
@@ -242,17 +209,8 @@ class AddressBook extends Component {
 	// Handler Methods
 	//
 	handleAddAddress = async (value) => {
-		const input = { ...value };
 		const { onAddressAdded } = this.props;
-		// console.log(googleProps.locationRef);
-		// if (googleProps.locationRef.latitude) {
-		// 	Object.assign(input, {
-		// 		geolocation: googleProps.locationRef,
-		// 		metaddress: { ...googleProps.metadataMarker }
-		// 	});
-		// }
-
-		await onAddressAdded(input);
+		await onAddressAdded(value);
 		if (this._accordionFormList) {
 			this._accordionFormList.showList();
 		}
@@ -264,17 +222,8 @@ class AddressBook extends Component {
 	};
 
 	handleEditAddress = async (value, _id) => {
-		const input = { ...value };
 		const { onAddressEdited } = this.props;
-		// console.log(googleProps.locationRef);
-
-		// if (googleProps.locationRef.latitude) {
-		// 	Object.assign(input, {
-		// 		geolocation: googleProps.locationRef,
-		// 		metaddress: { ...googleProps.metadataMarker }
-		// 	});
-		// }
-		await onAddressEdited(_id, input);
+		await onAddressEdited(_id, value);
 		if (this._accordionFormList) {
 			this._accordionFormList.toggleAccordionForItem(_id);
 		}
@@ -309,6 +258,7 @@ class AddressBook extends Component {
 			},
 			label: address.description
 		}));
+		console.log(items);
 
 		const itemAddFormProps = {
 			isSaving,
