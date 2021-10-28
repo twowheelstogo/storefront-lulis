@@ -91,9 +91,11 @@ const RenderHomePage = props => {
 		tags,
 		cart,
 		addItemsToCart,
-		onChangeCartItemsQuantity
+		onChangeCartItemsQuantity,
+		addOrCreateCartLoading
 	} = props;
 	const classes = useStyles();
+	
 	return (
 		<main className={classes.content}>
 			<HomePage
@@ -103,6 +105,7 @@ const RenderHomePage = props => {
 				pageInfo={catalogItemsPageInfo}
 				tags={tags}
 				cart={cart}
+				addOrCreateCartLoading={addOrCreateCartLoading}
 				addItemsToCart={addItemsToCart}
 				onChangeCartItemsQuantity={onChangeCartItemsQuantity}
 			/>
@@ -118,7 +121,8 @@ const RenderMobilePage = props => {
 		cart,
 		addItemsToCart,
 		onChangeCartItemsQuantity,
-		slugStore
+		slugStore,
+		addOrCreateCartLoading
 	} = props;
 	const currencyCode = (shop && shop.currency.code) || "GTQ";
 	return (
@@ -127,6 +131,7 @@ const RenderMobilePage = props => {
 			currencyCode={currencyCode}
 			catalogItems={catalogItems}
 			tags={tags}
+			addOrCreateCartLoading={addOrCreateCartLoading}
 			cart={cart}
 			addItemsToCart={addItemsToCart}
 			onChangeCartItemsQuantity={onChangeCartItemsQuantity}

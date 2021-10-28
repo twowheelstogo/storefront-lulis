@@ -10,7 +10,7 @@ import { withStyles } from "@material-ui/core/styles";
 import PropTypes from "prop-types";
 const useStyles = (theme) => ({
 	title: {
-		color: "#0095b3",
+		color: "#8ce0c9",
 		textAlign: "center",
 		marginBottom: "5rem"
 	},
@@ -62,23 +62,23 @@ class About extends React.Component {
     				<Grid item xs={12} sm={6} style={{ margin: "auto", paddingLeft: "5%", paddingRight: "5%", textAlign: "center" }}>
     					<div className={content}>
     						<h2 style={{
-    							color: "#0095b3"
+    							color: "#8ce0c9"
     						}}>Todos sabemos el nivel de felicidad que nos hace sentir una Lulis!!</h2>
     						<p style={{
-    							color: "#0095b3"
-    						}}>Ese olor de galletas en el horno hac feliz a todos los que están en la casa,
+    							color: "#8ce0c9"
+    						}}>Ese olor de galletas en el horno hace feliz a todos los que están en la casa,
                                 incluse los que pasan enfrente ;)</p>
     						<p style={{
-    							color: "#0095b3"
+    							color: "#8ce0c9"
     						}}>Hemos dedicado años de nuetras vidas para llegar a lo que hoy conocemos como Lulis, donde
-                                día a día creamos nuevas opciones para que tu y todos a tu alrededor disfruten :)</p>
+                                día a día creamos nuevas opciones para que tu y todos a tu alrededor disfruten ;)</p>
     						<br></br>
     						<p style={{
-    							color: "#0095b3"
+    							color: "#8ce0c9"
     						}}>Lots of love & lots of cookies,</p>
     						<p style={{
-    							color: "#0095b3"
-    						}}>Lulis team</p>
+    							color: "#8ce0c9"
+    						}}>Team Lulis</p>
     					</div>
     				</Grid>
     			</Grid>

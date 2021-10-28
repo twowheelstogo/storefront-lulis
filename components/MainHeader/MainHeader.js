@@ -94,7 +94,7 @@ ElevationScroll.propTypes = {
 };
 
 const HeaderAlert = styled.div`
-	background: #000025;
+	background: #000000;
 	width: 100%;
 	padding: 5px;
 	text-align: center;
@@ -116,7 +116,7 @@ class MainHeader extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state={
-			showAlert: true
+			showAlert: false
 		}
 	}
 	hideAlert = () => this.setState({showAlert: false})

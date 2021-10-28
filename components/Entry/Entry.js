@@ -26,7 +26,12 @@ const styles = (theme) => ({
 		}
 	},
 	loginButton: {
-		marginTop: theme.spacing(3)
+		marginTop: theme.spacing(2),
+		background: "black",
+		border: "none"
+	},
+	signupButton: {
+		marginTop: theme.spacing(2),
 	},
 	guestWrapper: {
 		...flexWrapper(),
@@ -42,52 +47,44 @@ const styles = (theme) => ({
 });
 
 class Entry extends Component {
-  static propTypes = {
-  	classes: PropTypes.object,
-  	onLoginButtonClick: PropTypes.func,
-  	onRegisterButtonClick: PropTypes.func,
-  	setEmailOnAnonymousCart: PropTypes.func,
-  	theme: PropTypes.object
-  };
+	static propTypes = {
+		classes: PropTypes.object,
+		onLoginButtonClick: PropTypes.func,
+		onRegisterButtonClick: PropTypes.func,
+		setEmailOnAnonymousCart: PropTypes.func,
+		theme: PropTypes.object
+	};
 
-  static defaultProps = {
-  	onLoginButtonClick() {
-  		Router.push("/signin");
-  	},
-  	onRegisterButtonClick() {
-  		Router.push("/signup");
-  	},
-  	setEmailOnAnonymousCart() {}
-  };
+	static defaultProps = {
+		onLoginButtonClick() {
+			Router.push("/signin");
+		},
+		onRegisterButtonClick() {
+			window.location.href = "/signup";
+		},
+		setEmailOnAnonymousCart() { }
+	};
 
-  render() {
-  	const { classes, onLoginButtonClick, onRegisterButtonClick, setEmailOnAnonymousCart } = this.props;
-  	return (
-  		<Grid container>
-  			<Grid item xs={12} md={7}>
-  				<div className={classes.loginWrapper}>
-  					<Typography variant="h6" gutterBottom>
-              Returning Customer
-  					</Typography>
-  					<Button onClick={onLoginButtonClick} actionType="important" isFullWidth className={classes.loginButton}>
-              Login
-  					</Button>
-  					<Button onClick={onRegisterButtonClick} actionType="secondary" isFullWidth className={classes.loginButton}>
-              Create a new account
-  					</Button>
-  				</div>
-  			</Grid>
-  			<Grid item xs={12} md={5}>
-  				<div className={classes.guestWrapper}>
-  					<Typography variant="h6" gutterBottom>
-              Guest Checkout
-  					</Typography>
-  					<GuestForm onSubmit={setEmailOnAnonymousCart} />
-  				</div>
-  			</Grid>
-  		</Grid>
-  	);
-  }
+	render() {
+		const { classes, onLoginButtonClick, onRegisterButtonClick, setEmailOnAnonymousCart } = this.props;
+		return (
+			<Grid container>
+				<Grid item xs={12}>
+					<div className={classes.loginWrapper}>
+						<Typography variant="h6" gutterBottom>
+							Registrate o inicia Sesión
+						</Typography>
+						<Button onClick={onLoginButtonClick} actionType="important" isFullWidth className={classes.loginButton} color="secondary">
+							Iniciar Sesión
+						</Button>
+						<Button onClick={onRegisterButtonClick} actionType="secondary" isFullWidth className={classes.signupButton}>
+							Crear cuenta
+						</Button>
+					</div>
+				</Grid>
+			</Grid>
+		);
+	}
 }
 
 export default withStyles(styles, { withTheme: true })(Entry);

@@ -147,6 +147,7 @@ class SearchProduct extends Component {
     		uiStore,
     		addItemsToCart,
     		onChangeCartItemsQuantity,
+			addOrCreateCartLoading,
     		cart,
     		shop
     	} = this.props;
@@ -155,6 +156,7 @@ class SearchProduct extends Component {
     		<SearchProductListMobile
     			items={products}
     			uiStore={uiStore}
+				addOrCreateCartLoading={addOrCreateCartLoading}
     			currencyCode = {currencyCode}
     			addItemsToCart={addItemsToCart}
     			onChangeCartItemsQuantity={onChangeCartItemsQuantity}
@@ -165,6 +167,7 @@ class SearchProduct extends Component {
     		<SearchProductListDesktop
     			items={products}
     			uiStore={uiStore}
+				addOrCreateCartLoading={addOrCreateCartLoading}
     			currencyCode = {currencyCode}
     			addItemsToCart={addItemsToCart}
     			onChangeCartItemsQuantity={onChangeCartItemsQuantity}
@@ -175,6 +178,9 @@ class SearchProduct extends Component {
     onSubmit = (value) =>{
     	Router.push(`/product/search?query=${value.search}`);
     }
+
+	backPage = () => Router.push(`/`);
+
     renderContent() {
     	const { classes,
     		components: { SearchInput },
@@ -201,7 +207,7 @@ class SearchProduct extends Component {
     			<Grid item xs={12} md={6} className={classes.grid2}>
     				<div className={classes.flexSearcherColumn}>
     					<div className={classes.searcherColumn}>
-    						<IconButton>
+    						<IconButton onClick={this.backPage}>
     							<CloseIcon />
     						</IconButton>
     						<div className={classes.searchInput}>

@@ -80,7 +80,7 @@ class CheckoutCartItem extends Component{
 			subtotal
 		}} = this.props;
 		const { displayAmount: displaySubtotal } = subtotal || {};
-		const hostname = (typeof window !== "undefined" && (window.location.hostname != "localhost" ? "https://api.qbit01.com" : "http://localhost:3000")) || "https://api.qbit01.com";
+		const hostname = (typeof window !== "undefined" && (window.location.hostname != "localhost" ? "https://api.lulisgt.com" : "http://localhost:3000")) || "https://api.lulisgt.com";
 		const imageUrl = (imageURLs && `${hostname}${imageURLs && imageURLs.small}`) || `/images/placeholder.gif`;
 		return(
 			<React.Fragment>

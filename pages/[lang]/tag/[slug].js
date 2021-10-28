@@ -32,6 +32,7 @@ const StyledProductGrid = withStyles(styles)((props)=> {
 	const {
 		currencyCode,
 		cart,
+		addOrCreateCartLoading,
 		addItemsToCart,
 		onChangeCartItemsQuantity,
 		products: catalogProducts,
@@ -47,6 +48,7 @@ const StyledProductGrid = withStyles(styles)((props)=> {
 	return (
 		<div className={classes.root}>
 			<CustomProductGrid
+			addOrCreateCartLoading={addOrCreateCartLoading}
 			currencyCode={currencyCode}
 			cart={cart}
 			addItemsToCart={addItemsToCart}

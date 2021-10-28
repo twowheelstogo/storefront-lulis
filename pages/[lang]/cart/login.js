@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import Router from "translations/i18nRouter";
 import Head from "next/head";
 import { makeStyles } from "@material-ui/core/styles";
-import Layout from "components/Layout";
+import Layout from "components/CustomLayout";
 import Entry from "components/Entry";
 import PageLoading from "components/PageLoading";
 import { withApollo } from "lib/apollo/withApollo";

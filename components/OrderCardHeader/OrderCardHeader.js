@@ -109,17 +109,13 @@ class OrderCardHeader extends Component {
 
   	return (
   		<div className={classes.orderCardHeader}>
-  			<Grid container alignItems="center">
+  			<Grid container alignItems="center" justifyContent="space-between">
   				<Grid item xs={12} md={3}>
   					<OrderCardStatusBadge displayStatus={displayStatus} status={status} />
   				</Grid>
   				<Grid item xs={12} md={3}>
   					<Typography variant="caption" className={classnames(classes.orderCardInfoText, classes.orderCardInfoHeaderText)}>Fecha:</Typography>
   					<Typography variant="caption" className={classes.orderCardInfoTextBold}>{orderDate}</Typography>
-  				</Grid>
-  				<Grid item xs={12} md={3}>
-  					<Typography variant="caption" className={classnames(classes.orderCardInfoText, classes.orderCardInfoHeaderText)}>ID de la orden:</Typography>
-  					<Typography variant="caption" className={classes.orderCardInfoTextBold}>{referenceId}</Typography>
   				</Grid>
   				<Grid item xs={12} md={3}>
   					<Typography variant="caption" className={classes.orderCardInfoTextDetails}>

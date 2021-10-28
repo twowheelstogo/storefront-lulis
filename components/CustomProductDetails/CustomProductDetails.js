@@ -1,6 +1,6 @@
-import React, { useState,useEffect } from "react";
-import {Grid,IconButton} from "@material-ui/core";
-import {withStyles} from "@material-ui/core/styles";
+import React, { useState, useEffect } from "react";
+import { Grid, IconButton } from "@material-ui/core";
+import { withStyles } from "@material-ui/core/styles";
 import FavoriteIcon from "@material-ui/icons/FavoriteBorder";
 import AddIcon from "@material-ui/icons/Add";
 import RemoveIcon from "@material-ui/icons/Remove";
@@ -14,8 +14,7 @@ import variantById from "lib/utils/variantById";
 import withWidth, { isWidthUp, isWidthDown } from "@material-ui/core/withWidth";
 import inject from "hocs/inject";
 import Router from "translations/i18nRouter";
-
-
+import VariantList from "components/VariantList";
 
 const CustomProductTitle = styled.div`
    font-size:36px;
@@ -27,99 +26,101 @@ const CustomProductTitle = styled.div`
      overflow: hidden;
 `;
 const styles = (theme) => ({
-	root:{
-		paddingTop:theme.spacing(10),
-		paddingLeft:theme.spacing(2),
-		paddingRight:theme.spacing(2),
+	root: {
+		paddingTop: theme.spacing(10),
+		paddingLeft: theme.spacing(2),
+		paddingRight: theme.spacing(2),
 	},
-	image:{
-		margin:"auto",
-		display:"block",
+	image: {
+		margin: "auto",
+		display: "block",
 	},
-	imgContainer:{
-		[theme.breakpoints.up("md")]:{
+	imgContainer: {
+		[theme.breakpoints.up("md")]: {
 			minHeight: "50vh"
 		}
 	},
-	content:{
-		width:"100%",
+	content: {
+		width: "100%",
 		// background:'red',
-		height:"100%",
-		display:"flex",
-		flexDirection:"column",
-		justifyContent:"space-between"
+		height: "100%",
+		display: "flex",
+		flexDirection: "column",
+		justifyContent: "space-between"
 	},
-	headerContent:{
-		display:"flex",
-		flexDirection:"row",
-		justifyContent:"space-between",
-		marginTop:"auto",
-		marginBottom:"auto",
-		alignItems:"center"
+	headerContent: {
+		display: "flex",
+		flexDirection: "row",
+		justifyContent: "space-between",
+		marginTop: "auto",
+		marginBottom: "auto",
+		alignItems: "center"
 	},
 	title: {
-		fontSize:36,
-		fontWeight:600,
-		color:theme.palette.primary.main
+		fontSize: 36,
+		fontWeight: 600,
+		color: theme.palette.primary.main
 	},
-	subtitle:theme.typography.subtitle3,
-	favoriteIcon:{
-		color:theme.palette.primary.main
+	subtitle: theme.typography.subtitle3,
+	favoriteIcon: {
+		color: theme.palette.primary.main
 	},
-	description:{
-		fontSize:"16px",
-		color:"black"
+	description: {
+		fontSize: "16px",
+		color: "black"
 	},
-	controls:{
-		display:"flex",
-		flexDirection:"row",
-		justifyContent:"flex-end",
-		gap:"10px",
-		alignItems:"center"
+	controls: {
+		display: "flex",
+		flexDirection: "row",
+		justifyContent: "flex-end",
+		gap: "10px",
+		alignItems: "center"
 	},
-	centerControls:{
-		display:"flex",
-		flexDirection:"row",
-		justifyContent:"center",
-		gap:"10px",
-		alignItems:"center",
-		paddingTop:theme.spacing(2)
+	centerControls: {
+		display: "flex",
+		flexDirection: "row",
+		justifyContent: "center",
+		gap: "10px",
+		alignItems: "center",
+		paddingTop: theme.spacing(2)
 	},
-	removeButton:{
-		background:theme.palette.primary.main,
-		color:"white",
-		borderRadius:"10px",
-		width:"36px",
-		height:"36px"
+	removeButton: {
+		background: theme.palette.primary.main,
+		color: "white",
+		borderRadius: "10px",
+		width: "36px",
+		height: "36px"
 
 	},
-	addButon:{
-		background:theme.palette.secondary.light,
-		color:"white",
-		borderRadius:"10px",
-		width:"36px",
-		height:"36px"
+	addButon: {
+		background: theme.palette.secondary.light,
+		color: "white",
+		borderRadius: "10px",
+		width: "36px",
+		height: "36px"
 	},
-	bottom:{
-		display:"flex",
-		flexDirection:"row",
-		justifyContent:"flex-end",
-		width:"100%",
+	bottom: {
+		display: "flex",
+		flexDirection: "row",
+		justifyContent: "flex-end",
+		width: "100%",
 		// background:'green'
 	}
 });
 const CustomProductDetails = props => {
 	const theme = useTheme();
-	const matches= useMediaQuery(theme.breakpoints.down("sm"));
-	const [quantity,setQuantity] = useState(1);
+	const matches = useMediaQuery(theme.breakpoints.down("sm"));
+	const [quantity, setQuantity] = useState(1);
 	const { classes,
 		product,
-		relatedProducts,cart,addItemsToCart,onChangeCartItemsQuantity,uiStore,currencyCode} = props;
-	const relatedProps = {product,relatedProducts,cart,addItemsToCart,onChangeCartItemsQuantity,uiStore,currencyCode};
+		relatedProducts, cart, addItemsToCart, onChangeCartItemsQuantity, uiStore, currencyCode,
+		uiStore: { pdpSelectedOptionId, pdpSelectedVariantId }
+	} = props;
+	const relatedProps = { product, relatedProducts, cart, addItemsToCart, onChangeCartItemsQuantity, uiStore, currencyCode };
 	delete relatedProducts.classes;
-	useEffect(()=>{
+	useEffect(() => {
 		const { product, uiStore } = props;
-		const variant =product.variants[0];
+		const variant = product.variants[0];
 		// Select the variant, and if it has options, the first option
 		const variantId = variant._id;
 		let selectOptionId;
@@ -130,8 +131,8 @@ const CustomProductDetails = props => {
 		uiStore.setPDPSelectedVariantId(variantId, selectOptionId);
 
 		Router.replace("/product/[...slugOrId]", `/product/${product.slug}/${selectOptionId || variantId}`);
-	},[]);
-	const handleChange = (count) => setQuantity(quantity+count);
+	}, []);
+	const handleChange = (count) => setQuantity(quantity + count);
 	const handleAddToCart = async () => {
 		const {
 			addItemsToCart,
@@ -140,16 +141,16 @@ const CustomProductDetails = props => {
 			uiStore: { openCartWithTimeout, pdpSelectedOptionId, pdpSelectedVariantId },
 			width
 		} = props;
-      
+
 		// Get selected variant or variant option
 		const selectedVariant = variantById(product.variants, pdpSelectedVariantId);
 		const selectedOption = variantById(selectedVariant.options, pdpSelectedOptionId);
 		const selectedVariantOrOption = selectedOption || selectedVariant;
-      
+
 		if (selectedVariantOrOption) {
 			// Get the price for the currently selected variant or variant option
 			const price = priceByCurrencyCode(currencyCode, selectedVariantOrOption.pricing);
-      
+
 			// Call addItemsToCart with an object matching the GraphQL `CartItemInput` schema
 			await addItemsToCart([
 				{
@@ -172,19 +173,51 @@ const CustomProductDetails = props => {
 		openCartWithTimeout(3000);
 		// Router.push("","")
 	};
-	const currentProduct = (cart?.items||[]).find(item=>item.productSlug==product.slug);
+
+	const selectVariant = (variant, optionId) => {
+		const { product, uiStore } = props;
+
+		// Select the variant, and if it has options, the first option
+		const variantId = variant._id;
+		let selectOptionId = optionId;
+		if (!selectOptionId && variant.options && variant.options.length) {
+			selectOptionId = variant.options[0]._id;
+		}
+
+		uiStore.setPDPSelectedVariantId(variantId, selectOptionId);
+
+		Router.replace("/product/[...slugOrId]", `/product/${product.slug}/${selectOptionId || variantId}`);
+	}
+
+	const handleSelectOption = (option) => {
+		const { product, uiStore } = props;
+
+		// If we are clicking an option, it must be for the current selected variant
+		const variant = product.variants.find((vnt) => vnt._id === uiStore.pdpSelectedVariantId);
+
+		this.selectVariant(variant, option._id);
+
+	}
+
+	const handleSelectVariant = (variant) => {
+		selectVariant(variant);
+	}
+
+
+
+	const currentProduct = (cart?.items || []).find(item => item.productSlug == product.slug);
 	const currentQuantity = currentProduct ? currentProduct.quantity : 0;
-	const subtotal = `Q${Number(product.pricing[0].maxPrice*quantity).toFixed(2)}`;
-	const hostname = (typeof window !== "undefined" && (window.location.hostname != "localhost" ? "https://api.qbit01.com" : "http://localhost:3000")) || "https://api.qbit01.com";
-	const media = product.primaryImage && product.primaryImage.URLs ? product.primaryImage.URLs.small.replace("jpg","png"):`/images/placeholder.gif`;
-	return(
+	const subtotal = `Q${Number(product.pricing[0].maxPrice * quantity).toFixed(2)}`;
+	const hostname = (typeof window !== "undefined" && (window.location.hostname != "localhost" ? "https://api.lulisgt.com" : "http://localhost:3000")) || "https://api.lulisgt.com";
+	const media = product.primaryImage && product.primaryImage.URLs ? product.primaryImage.URLs.small.replace("jpg", "png") : `/images/placeholder.gif`;
+	return (
 		<React.Fragment>
 			<div className={classes.root}>
 				<Grid container>
 					<Grid item lg={6} xs={12}>
-							<div className={classes.imgContainer}>
-							<img src={media}  className={classes.image}/>
-							</div>
+						<div className={classes.imgContainer}>
+							<img src={media} className={classes.image} />
+						</div>
 					</Grid>
 					<Grid item lg={6} xs={12}>
 						<div className={classes.content}>
@@ -193,27 +226,38 @@ const CustomProductDetails = props => {
 									{/* <CustomProductTitle>{product.title}</CustomProductTitle> */}
 									<div className={classes.title}>{product.title}</div>
 									<IconButton>
-										<FavoriteIcon className={classes.favoriteIcon}/>
+										<FavoriteIcon className={classes.favoriteIcon} />
 									</IconButton>
 								</div>
 								<div className={classes.subtitle}>{product.pricing[0].displayPrice}</div>
 								<br></br>
 								<div className={classes.description}>{product.description}</div>
 							</div>
+							<div>
+								<VariantList
+									onSelectOption={handleSelectOption}
+									onSelectVariant={handleSelectVariant}
+									product={product}
+									selectedOptionId={pdpSelectedOptionId}
+									selectedVariantId={pdpSelectedVariantId}
+									currencyCode={currencyCode}
+									variants={product.variants}
+								/>
+							</div>
 							<br></br>
-							<div className={!matches?classes.controls:classes.centerControls}>
-								<IconButton className={classes.removeButton} onClick={()=>handleChange(-1)} disabled={quantity==0}>
-									<RemoveIcon/>
+							<div className={!matches ? classes.controls : classes.centerControls}>
+								<IconButton className={classes.removeButton} onClick={() => handleChange(-1)} disabled={quantity == 0}>
+									<RemoveIcon />
 								</IconButton>
 								<div className={classes.title}>{quantity}</div>
-								<IconButton className={classes.addButon} onClick={()=>handleChange(1)}>
-									<AddIcon/>
+								<IconButton className={classes.addButon} onClick={() => handleChange(1)}>
+									<AddIcon />
 								</IconButton>
 							</div>
 						</div>
 					</Grid>
 					<Grid item xs={12}>
-						<RelatedProducts {...relatedProps}/>
+						<RelatedProducts {...relatedProps} />
 					</Grid>
 					<div className={classes.bottom}>
 						<Grid
@@ -222,7 +266,7 @@ const CustomProductDetails = props => {
 							lg={4}>
 							<br></br>
 							<br></br>
-							<RoundedButton onClick={handleAddToCart} buttonTitle={currentQuantity>0?"Agregar más al carrito": "Agregar al carrito"} buttonSubtitle={quantity!=1?`${quantity} items por ${subtotal}`:`${quantity} item por ${subtotal}`}/>
+							<RoundedButton onClick={handleAddToCart} buttonTitle={currentQuantity > 0 ? "Agregar más al carrito" : "Agregar al carrito"} buttonSubtitle={quantity != 1 ? `${quantity} items por ${subtotal}` : `${quantity} item por ${subtotal}`} />
 						</Grid>
 					</div>
 				</Grid>

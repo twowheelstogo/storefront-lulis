@@ -8,6 +8,7 @@ const HomePage = props => {
 		isLoadingCatalogItems,
 		tags,
 		cart,
+		addOrCreateCartLoading,
 		addItemsToCart,
 		onChangeCartItemsQuantity
 	} = props;
@@ -20,6 +21,7 @@ const HomePage = props => {
 				isLoadingCatalogItems={isLoadingCatalogItems}
 				tags={tags}
 				cart={cart}
+				addOrCreateCartLoading={addOrCreateCartLoading}
 				addItemsToCart={addItemsToCart}
 				onChangeCartItemsQuantity={onChangeCartItemsQuantity}
 			/>

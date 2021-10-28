@@ -101,9 +101,6 @@ const CustomFooter = props => {
 							<Link href="/about">
 								<CustomItem>{"Sobre Nosotros"}</CustomItem>
 							</Link>
-							<Link href="/faq">
-								<CustomItem>{"Preguntas Frecuentes"}</CustomItem>
-							</Link>
 							<Hidden mdUp>
 								<Link href="/politics">
 									<CustomItem>{"Políticas de Devolución"}</CustomItem>

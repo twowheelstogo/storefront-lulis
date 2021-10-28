@@ -13,10 +13,24 @@ import { withApollo } from "lib/apollo/withApollo";
 import { locales } from "translations/config";
 import fetchPrimaryShop from "staticUtils/shop/fetchPrimaryShop";
 import fetchTranslations from "staticUtils/translations/fetchTranslations";
+import styled from "styled-components";
+
+const CustomTitle = styled.h1`
+	font-weight: 700;
+	color: #3c3c3c;
+	text-align: center;
+`;
+
+const CustomSubtitle = styled.p`
+font-weight: 700;
+color: #3c3c3c;
+`;
 
 const styles = (theme) => ({
 	orderThankYou: {
-		marginBottom: theme.spacing(3)
+		marginBottom: theme.spacing(3),
+		paddingLeft: theme.spacing(2),
+		paddingRight: theme.spacing(2)
 	},
 	title: {
 		marginBottom: theme.spacing(3)
@@ -73,10 +87,10 @@ class CheckoutComplete extends Component {
 					<Grid item xs={false} md={3} /> {/* MUI grid doesn't have an offset. Use blank grid item instead. */}
 					<Grid item xs={12} md={6}>
 						<Grid item className={classes.orderThankYou} xs={12} md={12}>
-							<Typography className={classes.title} variant="h6">Gracias por tu compra</Typography>
-							<Typography variant="body1">
-								{"El ID de tu orden es:"} <strong>{(`#${order.orderId}` || order.referenceId)}</strong>
-							</Typography>
+							<CustomTitle className={classes.title}>Gracias por tu compra</CustomTitle>
+							<CustomSubtitle>
+								{"No de orden. "} <strong>{(`#${order.orderId}` || order.referenceId)}</strong>
+							</CustomSubtitle>
 							<Typography variant="body1">
 								{"Te enviamos un correo de confirmación a:"} <strong>{order.email}</strong>
 							</Typography>
