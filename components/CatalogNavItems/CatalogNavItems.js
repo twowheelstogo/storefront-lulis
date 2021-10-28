@@ -23,7 +23,7 @@ const styles = (theme) => ({
 const CatalogNavItems = (props) => {
 	const {classes,tags,selected,SetSelected} = props;
 	return (
-		<AppBar className={classes.root} position="sticky" color="white">
+		<AppBar className={classes.root} position="sticky" color="inherit">
 			<div className={classes.items}>
 				{(tags||[]).map((item,i)=><CatalogItem key={`${i}`} item={item} current={selected} SetSelected={SetSelected}/>)}
 			</div>
