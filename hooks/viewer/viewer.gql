@@ -1,6 +1,7 @@
 query viewer {
   viewer {
     _id
+    userId
     addressBook {
       edges{
         node {
@@ -30,6 +31,8 @@ query viewer {
     emailRecords {
       address
     }
+    phone
+    username
     name
     primaryEmailAddress
   }

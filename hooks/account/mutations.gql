@@ -1,0 +1,15 @@
+# Mutation to update account details
+mutation updateAccountMutation($input: UpdateAccountInput!) {
+  updateAccount(input: $input) {
+    account{
+      _id
+      userId
+      username
+      firstName
+      lastName
+      name
+      phone
+      primaryEmailAddress
+    }
+  }
+}

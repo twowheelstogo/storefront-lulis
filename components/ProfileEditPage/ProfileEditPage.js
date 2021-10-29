@@ -4,6 +4,8 @@ import styled from "styled-components";
 import { applyTheme } from "@reactioncommerce/components/utils";
 import { withComponents } from "@reactioncommerce/components-context";
 import Router from "translations/i18nRouter";
+import inject from "hocs/inject";
+import useUpdateAccount from "hooks/account/useUpdateAccount";
 
 const CustomTitle = styled.div`
     font-size: 18px;
@@ -26,12 +28,23 @@ const Grid = styled.div`
 `;
 
 function ProfileEditPage(props) {
+    const { authStore: { account } } = props;
+    const [updateAccountEntry, loading] = useUpdateAccount();
 
     let _formRef = null;
 
-    const handleSubmit = (value) => {
+    const handleSubmit = async (value) => {
         console.log(value);
+        await updateAccountEntry(value);
+        Router.push("/profile/address");
     }
+
+    // const formValues = {
+    //     firstName: account.firstName,
+    //     lastName: account.lastName,
+    //     username: account.username,
+    //     phone: account.phone
+    // }
 
     function renderButtons() {
         const {
@@ -43,11 +56,10 @@ function ProfileEditPage(props) {
         return (
             <ButtonsLayout>
                 <Button variant="important" color="primary" actionType="secondary" onClick={handleCancel}>Cancelar</Button>
-                <Button variant="important" color="primary" onClick={() => { _formRef.submit() }}>Guardar cambios</Button>
+                <Button variant="important" color="primary" onClick={() => { _formRef.submit() }} isWaiting={loading}>Guardar cambios</Button>
             </ButtonsLayout>
         );
     }
-    console.log(_formRef)
 
     return (
         <Grid>
@@ -57,10 +69,12 @@ function ProfileEditPage(props) {
                     _formRef = formEl;
                 }}
                 onSubmit={handleSubmit}
+                isSaving={loading}
+                value={account}
             />
             {renderButtons()}
         </Grid>
     );
 }
 
-export default withComponents(ProfileEditPage);
+export default withComponents(inject("authStore")(ProfileEditPage));

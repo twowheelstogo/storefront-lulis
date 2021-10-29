@@ -34,7 +34,9 @@ function ProfileEditForm(props) {
         validator,
         value,
         onChange,
-        onSubmit
+        onSubmit,
+        isSaving,
+        isReadOnly
     } = props;
 
     let _form = null;
@@ -76,7 +78,7 @@ function ProfileEditForm(props) {
                                 name="firstName"
                                 // TODO: Replace addressNamePlaceholder to adressNamePlaceholderText
                                 placeholder={"Ingrese..."}
-                            // isReadOnly={isSaving || isReadOnly}
+                            isReadOnly={isSaving || isReadOnly}
                             />
                             <ErrorsBlock names={["firstName"]} />
                         </Field>
@@ -88,7 +90,7 @@ function ProfileEditForm(props) {
                                 name="lastName"
                                 // TODO: Replace addressNamePlaceholder to adressNamePlaceholderText
                                 placeholder={"Ingrese..."}
-                            // isReadOnly={isSaving || isReadOnly}
+                            isReadOnly={isSaving || isReadOnly}
                             />
                             <ErrorsBlock names={["lastName"]} />
                         </Field>
@@ -100,7 +102,7 @@ function ProfileEditForm(props) {
                                 name="username"
                                 // TODO: Replace addressNamePlaceholder to adressNamePlaceholderText
                                 placeholder={"Ingrese..."}
-                            // isReadOnly={isSaving || isReadOnly}
+                            isReadOnly={isSaving || isReadOnly}
                             />
                             <ErrorsBlock names={["username"]} />
                         </Field>
@@ -112,7 +114,7 @@ function ProfileEditForm(props) {
                                 name="phone"
                                 // TODO: Replace addressNamePlaceholder to adressNamePlaceholderText
                                 placeholder={"Ingrese..."}
-                            // isReadOnly={isSaving || isReadOnly}
+                            isReadOnly={isSaving || isReadOnly}
                             />
                             <ErrorsBlock names={["phone"]} />
                         </Field>
@@ -142,7 +144,9 @@ ProfileEditForm.propTypes = {
         message: PropTypes.string.isRequired,
         name: PropTypes.string.isRequired
     })),
-    validator: PropTypes.func
+    validator: PropTypes.func,
+    isSaving: PropTypes.bool,
+    isReadOnly: PropTypes.bool
 };
 
 ProfileEditForm.defaultProps = {
@@ -161,7 +165,9 @@ ProfileEditForm.defaultProps = {
     onSubmit() { },
     onChange() { },
     errors: [],
-    validator: getRequiredValidator("firstName", "lastName", "phone", "username")
+    validator: getRequiredValidator("firstName", "lastName", "phone", "username"),
+    isSaving: false,
+    isReadOnly: false
 };
 
 export default withComponents(ProfileEditForm);
