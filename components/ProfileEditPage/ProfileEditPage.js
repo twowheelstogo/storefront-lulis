@@ -3,6 +3,7 @@ import ProfileEditForm from "components/ProfileEditForm";
 import styled from "styled-components";
 import { applyTheme } from "@reactioncommerce/components/utils";
 import { withComponents } from "@reactioncommerce/components-context";
+import Router from "translations/i18nRouter";
 
 const CustomTitle = styled.div`
     font-size: 18px;
@@ -20,6 +21,10 @@ const ButtonsLayout = styled.div`
       justify-content: flex-end;
 `;
 
+const Grid = styled.div`
+      padding: 10px;
+`;
+
 function ProfileEditPage(props) {
 
     let _formRef = null;
@@ -32,9 +37,12 @@ function ProfileEditPage(props) {
         const {
             components: { Button }
         } = props;
+
+        const handleCancel = () => Router.push("/profile/address");
+
         return (
             <ButtonsLayout>
-                <Button variant="important" color="primary" actionType="secondary">Cancelar</Button>
+                <Button variant="important" color="primary" actionType="secondary" onClick={handleCancel}>Cancelar</Button>
                 <Button variant="important" color="primary" onClick={() => { _formRef.submit() }}>Guardar cambios</Button>
             </ButtonsLayout>
         );
@@ -42,7 +50,7 @@ function ProfileEditPage(props) {
     console.log(_formRef)
 
     return (
-        <React.Fragment>
+        <Grid>
             <CustomTitle>Editar Perfil</CustomTitle>
             <ProfileEditForm
                 formRef={(formEl) => {
@@ -51,7 +59,7 @@ function ProfileEditPage(props) {
                 onSubmit={handleSubmit}
             />
             {renderButtons()}
-        </React.Fragment>
+        </Grid>
     );
 }
 
