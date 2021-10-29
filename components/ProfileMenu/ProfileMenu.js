@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
-import AccountProfileInfo from "@reactioncommerce/components/AccountProfileInfo/v1";
+import AccountProfileInfo from "components/AccountProfileInfo";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
@@ -13,6 +13,7 @@ import OrderIcon from "mdi-material-ui/Package";
 import { useRouter } from "next/router";
 import useAuthStore from "hooks/globalStores/useAuthStore";
 import Link from "components/Link";
+import Router from "translations/i18nRouter";
 
 const useStyles = makeStyles((theme) => ({
 	accountProfileInfoContainer: {
@@ -50,7 +51,11 @@ function ProfileMenu() {
 	return (
 		<section>
 			<div className={classes.accountProfileInfoContainer}>
-				<AccountProfileInfo viewer={account} />
+				<AccountProfileInfo 
+				shouldShowEditButton
+				editAccountButtonText="Editar cuenta"
+				onClickEdit={()=>Router.push("/profile/edit")}
+				viewer={account} />
 			</div>
 			<div className={classes.inPageMenuItemLink}>
 				<List component="nav">
