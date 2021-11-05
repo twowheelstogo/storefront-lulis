@@ -22,6 +22,7 @@ import deliveryMethods from "custom/deliveryMethods";
 import PaymentMethodCheckoutAction from "components/PaymentMethodCheckoutAction";
 import RoundedButton from "components/RoundedButton";
 import { formatName } from '../utils';
+import { Mutex } from "async-mutex";
 
 const MessageDiv = styled.div`
   ${addTypographyStyles("NoPaymentMethodsMessage", "bodyText")}
@@ -43,6 +44,10 @@ class CheckoutError {
 	}
 }
 class CheckoutActions extends Component {
+	constructor(props){
+		super(props);
+		this.mutex = new Mutex();
+	}
 	static propTypes = {
 		addressValidation: PropTypes.func.isRequired,
 		addressValidationResults: PropTypes.object,
@@ -400,19 +405,22 @@ class CheckoutActions extends Component {
 			return { ...payment, amount };
 		});
 		const billing = cartStore.checkoutBilling;
-		console.log(billing);
 		const giftNote = cartStore.checkoutGift;
 		try {
-			const { data } = await apolloClient.mutate({
-				mutation: placeOrderMutation,
-				variables: {
-					input: {
-						order,
-						payments,
-						billing,
-						giftNote
+			let data = null;
+			await this.mutex.runExclusive(async function () {
+				const resApolloClient = await apolloClient.mutate({
+					mutation: placeOrderMutation,
+					variables: {
+						input: {
+							order,
+							payments,
+							billing,
+							giftNote
+						}
 					}
-				}
+				});
+				data = resApolloClient.data;
 			});
 
 			// Placing the order was successful, so we should clear the
