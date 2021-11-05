@@ -6,7 +6,7 @@ import { ContextProviders } from "context/ContextProviders";
 import { ComponentsProvider } from "@reactioncommerce/components-context";
 import components from "custom/componentsContext";
 import theme from "custom/reactionTheme";
-
+import GoogleAnalyticsProvider from "custom/ga/GoogleAnalyticsProvider";
 export default class App extends NextApp {
 	componentDidMount() {
 		// Remove the server-side injected CSS.
@@ -20,14 +20,16 @@ export default class App extends NextApp {
 		const { Component, pageProps, ...rest } = this.props;
 
 		return (
-			<ContextProviders pageProps={pageProps}>
-				<ComponentsProvider value={components}>
-					<MuiThemeProvider theme={theme}>
-						<CssBaseline />
-						<Component {...rest} {...pageProps} />
-					</MuiThemeProvider>
-				</ComponentsProvider>
-			</ContextProviders>
+			<GoogleAnalyticsProvider>
+				<ContextProviders pageProps={pageProps}>
+					<ComponentsProvider value={components}>
+						<MuiThemeProvider theme={theme}>
+							<CssBaseline />
+							<Component {...rest} {...pageProps} />
+						</MuiThemeProvider>
+					</ComponentsProvider>
+				</ContextProviders>
+			</GoogleAnalyticsProvider>
 		);
 	}
 }

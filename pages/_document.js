@@ -41,10 +41,27 @@ class HTMLDocument extends Document {
 		];
 		definedPaymentMethods
 			.some((method) => method.name === "stripe_card")
-        && scripts.push({
-        	type: "text/javascript",
-        	src: "https://js.stripe.com/v3/"
-        });
+			&& scripts.push({
+				type: "text/javascript",
+				src: "https://js.stripe.com/v3/"
+			});
+
+		scripts.push({
+			type: "text/javascript",
+			src: `https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS}`
+		});
+
+		scripts.push({
+			type: "text/javascript",
+			innerHTML: `
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', '${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS}', {
+              page_path: window.location.pathname,
+            });
+          `
+		});
 
 		return (
 			<Html lang="en">
@@ -56,7 +73,7 @@ class HTMLDocument extends Document {
 					<Main />
 					<NextScript />
 					{scripts.map((script, index) => (script.innerHTML ? /* eslint-disable-next-line */
-            <script async key={index} type={script.type} dangerouslySetInnerHTML={{ __html: script.innerHTML }} /> : <script async key={index} {...script} />))}
+						<script async key={index} type={script.type} dangerouslySetInnerHTML={{ __html: script.innerHTML }} /> : <script async key={index} {...script} />))}
 				</body>
 			</Html>
 		);
