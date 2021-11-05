@@ -73,6 +73,11 @@ module.exports = {
 					source: "/graphql",
 					destination: appConfig.EXTERNAL_GRAPHQL_URL,
 					permanent: true
+				},
+				{
+					source: "/pages/lulis-care",
+					destination: "/",
+					permanent: true
 				}
 			];
 		},
@@ -120,6 +125,7 @@ module.exports = {
 					source: "/",
 					destination: "/api/detectLanguage"
 				}
+
 			];
 		}
 	}
