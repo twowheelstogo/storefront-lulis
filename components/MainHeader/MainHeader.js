@@ -93,33 +93,9 @@ ElevationScroll.propTypes = {
 	window: PropTypes.func,
 };
 
-const HeaderAlert = styled.div`
-	background: #000000;
-	width: 100%;
-	padding: 5px;
-	text-align: center;
-	color: white;
-	text-weight: 800;
-	flex-direction: row;
-	justify-content: flex-end;
-	align-items: center;
-	gap: 20px;
-	position: fixed;
-	top: 70px;
-	left: 0;
-	z-index: 10000;
-	font-size: 14px;
-	display: ${(props) => (props.open ? "flex" : "none")}
-`;
-
 class MainHeader extends React.Component {
-	constructor(props) {
-		super(props);
-		this.state={
-			showAlert: false
-		}
-	}
-	hideAlert = () => this.setState({showAlert: false})
+
+	
 	handleNavigationToggleClick = () => {
 		this.props.uiStore.toggleMenuDrawerOpen();
 	};
@@ -156,12 +132,6 @@ class MainHeader extends React.Component {
 					</Toolbar>
 					<NavigationMobile />
 				</AppBar>
-				<HeaderAlert open={this.state.showAlert}>
-					<div>El tiempo de entrega de pedidos es de 1 a 2 horas!</div>
-					<IconButton className={closeAlert} size="small" color="inherit" onClick={this.hideAlert}>
-						<CloseIcon fontSize="small" />
-					</IconButton>
-				</HeaderAlert>
 			</React.Fragment>
 		);
 		return (
