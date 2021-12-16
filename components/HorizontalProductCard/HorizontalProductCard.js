@@ -73,6 +73,9 @@ const styles = (theme) => ({
 		right: 0,
 		backgroundColor: theme.palette.reaction.badges.product,
 		color: theme.palette.primary.main
+	},
+	badgeMargin: {
+		width: "100%"
 	}
 });
 class HorizontalProductCard extends React.Component {
@@ -121,6 +124,7 @@ class HorizontalProductCard extends React.Component {
 		return (
 			<React.Fragment>
 				<Badge badgeContent={quantity}
+				className={classes.badgeMargin}
 					classes={{ badge: classes.badge }}>
 					<div className={classes.root}>
 						<div className={classes.leading}>

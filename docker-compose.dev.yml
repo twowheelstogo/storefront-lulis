@@ -21,9 +21,6 @@ services:
       # This allows IDEs to run lint etc with native add-ons for host OS
       # Without interfering with native add-ons in container
       - empty_node_modules:/usr/local/src/app/node_modules
-      - ./package.json:/usr/local/src/app/package.json
-      - ./package-lock.json:/usr/local/src/app/package-lock.json
-      - ./yarn.lock:/usr/local/src/app/yarn.lock
 
 volumes:
   web-yarn:
