@@ -6,7 +6,7 @@ const styles = (theme) => ({
 		boxShadow: "0px 1px 4px rgba(0, 0, 0, 0.25)",
 		padding:"15px",
 		// position:'sticky',
-		top:"70px",
+		top:"110px",
 		zIndex:2
 		// background:'white'
 	},

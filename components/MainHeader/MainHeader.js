@@ -67,6 +67,20 @@ const styles = (theme) => ({
 		color: "white"
 	}
 });
+
+const MessageBanner = styled.div`
+	background: #000000;
+	width: 100%;
+	text-align: center;
+	color: white;
+	text-weight: 800;
+	align-items: center;
+	font-size: 16px;
+	height: 40px;
+	line-height: 40px;
+	font-weight: 700;
+`;
+
 function ElevationScroll(props) {
 	const { children, window, classes: { appBar, scrolledAppBar } } = props;
 	// Note that you normally won't need to set the window ref as useScrollTrigger
@@ -95,7 +109,7 @@ ElevationScroll.propTypes = {
 
 class MainHeader extends React.Component {
 
-	
+
 	handleNavigationToggleClick = () => {
 		this.props.uiStore.toggleMenuDrawerOpen();
 	};
@@ -109,6 +123,7 @@ class MainHeader extends React.Component {
 			<React.Fragment>
 				<CssBaseline />
 				<AppBar position="fixed" className={scrolledAppBar} elevation={0}>
+					<MessageBanner>{"Envíos gratis en compras arriba de Q150!"}</MessageBanner>
 					<Toolbar className={toolbar}>
 						<Hidden mdUp>
 							<NavigationToggleMobile onClick={this.handleNavigationToggleClick} />
@@ -139,6 +154,7 @@ class MainHeader extends React.Component {
 				<CssBaseline />
 				<ElevationScroll {...this.props}>
 					<AppBar position="fixed">
+						<MessageBanner>{"Envíos gratis en compras arriba de Q150!"}</MessageBanner>
 						<Toolbar className={toolbar}>
 							<Hidden mdUp>
 								<NavigationToggleMobile onClick={this.handleNavigationToggleClick} />

@@ -39,7 +39,7 @@ const HeaderAlert = styled.div`
 	align-items: center;
 	gap: 20px;
 	position: fixed;
-	top: 70px;
+	top: 110px;
 	left: 0;
 	z-index: 10000;
 	font-size: 14px;
@@ -117,7 +117,7 @@ const useStyles = makeStyles((theme) => ({
 		paddingTop: theme.spacing(5),
 		alignSelf: "center",
 		position: "sticky",
-		top: "70px",
+		top: "110px",
 		[theme.breakpoints.down("md")]: {
 			paddingLeft: theme.spacing(2),
 			paddingRight: theme.spacing(2),
