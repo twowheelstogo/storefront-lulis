@@ -58,7 +58,7 @@ const styles = theme => ({
 		display: "flex",
 		flexDirection: "column",
 		justifyContent: "center",
-		top: "70px",
+		top: "110px",
 		gap: "15px",
 		alignItems: "flex-end",
 		paddingBottom: theme.spacing(10),
@@ -71,7 +71,7 @@ const styles = theme => ({
 			paddingBottom: theme.spacing(2),
 		},
 		position: "sticky",
-		top: "70px"
+		top: "110px"
 	},
 	searchInput: {
 		display: "flex",
@@ -80,7 +80,7 @@ const styles = theme => ({
 		width: "100%",
 		[theme.breakpoints.down("md")]: {
 			position:"sticky",
-			top:"70px",
+			top:"110px",
 		},
 	},
 	flexProductColumn: {
@@ -114,7 +114,7 @@ const styles = theme => ({
 		},
 	},
 	container: {
-		minHeight: "calc(100vh - 70px)",
+		minHeight: "calc(100vh - 110px)",
 		[theme.breakpoints.down("sm")]: {
 			minHeight: "auto"
 		}

@@ -297,7 +297,7 @@ const RenderWeb = withStyles(styles)((props) => {
 	};
 	return(
 		<Fragment>
-			<Grid container style={{minHeight:"calc(100vh - 70px)"}}>
+			<Grid container style={{minHeight:"calc(100vh - 110px)"}}>
 				<Grid item xs={12} md={6}>
 					<div className={classes.flexForm}>
 						<div className={classes.form}>

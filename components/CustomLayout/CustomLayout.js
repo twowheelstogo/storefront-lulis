@@ -18,7 +18,7 @@ const styles = (theme) => ({
 		maxWidth: theme.layout.mainContentMaxWidth,
 		marginLeft: "auto",
 		marginRight: "auto",
-		paddingTop:"70px",
+		paddingTop:"110px",
 		paddingBottom:theme.spacing(5),
 		width:"100%",
 		minHeight:"100vh"
@@ -28,7 +28,7 @@ const styles = (theme) => ({
 		// maxWidth: theme.layout.mainContentMaxWidth,
 		marginLeft: "auto",
 		marginRight: "auto",
-		paddingTop:"70px",
+		paddingTop:"110px",
 		width:"100%",
 		minHeight:"100vh"
 	},
