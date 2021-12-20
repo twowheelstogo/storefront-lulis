@@ -209,14 +209,14 @@ const CustomProductDetails = props => {
 	const currentQuantity = currentProduct ? currentProduct.quantity : 0;
 	const subtotal = `Q${Number(product.pricing[0].maxPrice * quantity).toFixed(2)}`;
 	const hostname = (typeof window !== "undefined" && (window.location.hostname != "localhost" ? "https://api.lulisgt.com" : "http://localhost:3000")) || "https://api.lulisgt.com";
-	const media = product.primaryImage && product.primaryImage.URLs ? product.primaryImage.URLs.small.replace("jpg", "png") : `/images/placeholder.gif`;
+	const media = product.primaryImage && product.primaryImage.URLs ? product.primaryImage.URLs.large.replace("jpg", "png") : `/images/placeholder.gif`;
 	return (
 		<React.Fragment>
 			<div className={classes.root}>
 				<Grid container>
 					<Grid item lg={6} xs={12}>
 						<div className={classes.imgContainer}>
-							<img src={media} className={classes.image} />
+							<img src={media} className={classes.image} width={"250px"}/>
 						</div>
 					</Grid>
 					<Grid item lg={6} xs={12}>
