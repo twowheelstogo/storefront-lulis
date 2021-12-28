@@ -9,6 +9,7 @@ import { useTheme } from "@material-ui/core/styles";
 import BundleItems from "components/BundleItems";
 import useScrollTrigger from "@material-ui/core/useScrollTrigger";
 import inject from "hocs/inject";
+import ItemGroups from "components/ItemGroups";
 
 const BundleAlert = styled.div`
     left: 0;
@@ -25,7 +26,7 @@ const BundleAlert = styled.div`
 `;
 
 const BundleAlertContent = styled.div`
-    background: #7A6240;
+    background: #000000;
     padding: 1rem;
     text-align: center;
     border-radius: 3px;
@@ -198,11 +199,14 @@ const BundleDetails = (props) => {
         classes,
         productBundle: {
             product,
-            items,
-            limit
+            groups
         },
         currencyCode
     } = props;
+    const items = [];
+
+    const limit = (groups || []).reduce((total, element) => total + element.limit, 0);
+
     const hostname = (typeof window !== "undefined" && (window.location.hostname != "localhost" ? "https://api.lulisgt.com" : "http://localhost:3000")) || "https://api.lulisgt.com";
 
     const media = (product.media && product.media[0].URLs) ? `${hostname}${product.media[0].URLs.small.replace("jpg", "png")}` : `/images/placeholder.gif`;
@@ -266,17 +270,6 @@ const BundleDetails = (props) => {
         openCartWithTimeout(3000);
     };
 
-    const mergedItems = (items || []).map((item) => {
-        const match = selectedItems.find((selectedItem) => selectedItem._id == item._id);
-        if (match) {
-            return {
-                ...item,
-                quantity: match.quantity
-            }
-        }
-        return item;
-    });
-
     const totalItems = selectedItems.reduce((total, element) => total + element.quantity, 0);
 
     const totalMessage = totalItems != limit ? `Tu bundle debe contener ${limit} productos, has seleccionado ${totalItems}` : `Hay ${totalItems} productos seleccionados, tu bundle está listo`;
@@ -315,11 +308,17 @@ const BundleDetails = (props) => {
                         </div>
                     </Grid>
                     <Grid item><br></br></Grid>
-                    <BundleItems
+                    {/* <BundleItems
                         items={mergedItems}
                         currencyCode={currencyCode}
                         handleChange={setItem}
                         disabled={totalItems == limit}
+                    /> */}
+                    <ItemGroups
+                        selectedItems={selectedItems}
+                        currencyCode={currencyCode}
+                        groups={groups}
+                        handleChange={setItem}
                     />
                     <Grid item>
                         <ElevationScroll {...props}>
