@@ -6,18 +6,19 @@ query productBundle($productId: ID, $shopId: ID!, $bundleId: ID){
     limit
     subtitle
     description
-    items{
-      _id
-      title
-    }
     variantId
     productId
     product{
       ...Product
     }
+    groups{
+      _id
+      title
+      limit
       items{
         ...Product
-      }
+  }
+  }
     shop{
       _id
       name

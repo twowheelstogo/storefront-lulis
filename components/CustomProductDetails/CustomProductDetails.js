@@ -216,7 +216,7 @@ const CustomProductDetails = props => {
 				<Grid container>
 					<Grid item lg={6} xs={12}>
 						<div className={classes.imgContainer}>
-							<img src={media} className={classes.image} />
+							<img src={media} className={classes.image}/>
 						</div>
 					</Grid>
 					<Grid item lg={6} xs={12}>

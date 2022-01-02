@@ -23,6 +23,29 @@ import definedPaymentMethods from "custom/paymentMethods";
 import { locales } from "translations/config";
 import fetchPrimaryShop from "staticUtils/shop/fetchPrimaryShop";
 import fetchTranslations from "staticUtils/translations/fetchTranslations";
+import styled from "styled-components";
+import { IconButton } from "@material-ui/core";
+import CloseIcon from "@material-ui/icons/Close";
+
+const HeaderAlert = styled.div`
+	background: #000000;
+	width: 100%;
+	padding: 5px;
+	text-align: center;
+	color: white;
+	text-weight: 800;
+	flex-direction: row;
+	justify-content: flex-end;
+	align-items: center;
+	gap: 20px;
+	position: fixed;
+	top: 110px;
+	left: 0;
+	z-index: 10000;
+	font-size: 14px;
+	display: ${(props) => (props.open ? "flex" : "none")}
+`;
+
 const useStyles = makeStyles((theme) => ({
 	checkoutActions: {
 		width: "100%",
@@ -94,7 +117,7 @@ const useStyles = makeStyles((theme) => ({
 		paddingTop: theme.spacing(5),
 		alignSelf: "center",
 		position: "sticky",
-		top: "70px",
+		top: "110px",
 		[theme.breakpoints.down("md")]: {
 			paddingLeft: theme.spacing(2),
 			paddingRight: theme.spacing(2),
@@ -116,6 +139,9 @@ const useStyles = makeStyles((theme) => ({
 		display: "flex",
 		flexDirection: "column"
 	},
+	closeAlert: {
+		color: "white"
+	}
 }));
 
 const Checkout = ({ router }) => {
@@ -143,6 +169,9 @@ const Checkout = ({ router }) => {
 	const { asPath } = router;
 	const hasIdentity = !!((cart && cart.account !== null) || (cart && cart.email));
 	const pageTitle = hasIdentity ? `Checkout | ${shop && shop.name}` : `Login | ${shop && shop.name}`;
+	const [showAlert, setShowAlert] = useState(true);
+
+	const hideAlert = () => setShowAlert(false);
 
 	useEffect(() => {
 		// Skipping if the `cart` is not available
@@ -166,9 +195,9 @@ const Checkout = ({ router }) => {
 				<div className={classes.emptyCartContainer}>
 					<div className={classes.emptyCart}>
 						<div>
-							<CartEmptyMessage onClick={() => Router.push("/")} 
-								messageText = {"Tu Carrito está vacío"}
-								buttonText = {"Continuar comprando"} />
+							<CartEmptyMessage onClick={() => Router.push("/")}
+								messageText={"Tu Carrito está vacío"}
+								buttonText={"Continuar comprando"} />
 						</div>
 					</div>
 				</div>
@@ -181,9 +210,9 @@ const Checkout = ({ router }) => {
 					<div className={classes.emptyCartContainer}>
 						<div className={classes.emptyCart}>
 							<div>
-								<CartEmptyMessage onClick={() => Router.push("/")} 
-									messageText = {"Tu Carrito está vacío"}
-									buttonText = {"Continuar comprando"} />
+								<CartEmptyMessage onClick={() => Router.push("/")}
+									messageText={"Tu Carrito está vacío"}
+									buttonText={"Continuar comprando"} />
 							</div>
 						</div>
 					</div>
@@ -191,7 +220,7 @@ const Checkout = ({ router }) => {
 			}
 
 			const orderEmailAddress = (cart && cart.account && Array.isArray(cart.account.emailRecords) &&
-        cart.account.emailRecords[0].address) || (cart ? cart.email : null);
+				cart.account.emailRecords[0].address) || (cart ? cart.email : null);
 
 			// Filter the hard-coded definedPaymentMethods list from the client to remove any
 			// payment methods that were not returned from the API as currently available.
@@ -200,6 +229,12 @@ const Checkout = ({ router }) => {
 
 			return (
 				<Grid container style={{ minHeight: "100vh" }}>
+					<HeaderAlert open={showAlert}>
+						<div>El tiempo de entrega de pedidos es de 1 a 2 horas!</div>
+						<IconButton className={classes.closeAlert} size="small" color="inherit" onClick={hideAlert}>
+							<CloseIcon fontSize="small" />
+						</IconButton>
+					</HeaderAlert>
 					<Grid item xs={12} md={4}>
 						<div className={classes.flexSummary}>
 							<div className={classes.checkoutSummary}>
