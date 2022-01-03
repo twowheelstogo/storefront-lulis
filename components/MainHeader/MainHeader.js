@@ -17,6 +17,7 @@ import { IconButton } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
 import Router from "translations/i18nRouter";
 import styled from "styled-components";
+import BranchModal from "components/Branches/BranchModal";
 import CloseIcon from "@material-ui/icons/Close";
 
 const styles = (theme) => ({
@@ -171,6 +172,7 @@ class MainHeader extends React.Component {
 								</Hidden>
 							</div>
 							{/* <LocaleDropdown /> */}
+              <BranchModal />
 							<IconButton color="inherit" onClick={this.handleSearch}>
 								<SearchIcon />
 							</IconButton>
