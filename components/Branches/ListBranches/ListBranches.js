@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
@@ -7,12 +7,13 @@ import ListItemText from "@material-ui/core/ListItemText";
 import Avatar from "@material-ui/core/Avatar";
 import Typography from "@material-ui/core/Typography";
 import StoreIcon from "@material-ui/icons/Store";
+import useShop from "hooks/shop/useShop";
 import useBranch from "hooks/branches/useBranch";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     width: "100%",
-    maxHeight: 300,
+    maxHeight: 350,
     overflow: "auto",
     backgroundColor: theme.palette.background.paper,
     "&::-webkit-scrollbar": {
@@ -42,13 +43,32 @@ const useStyles = makeStyles((theme) => ({
 const ListBranches = (props) => {
   const { handleClose } = props;
   const classes = useStyles();
-  const [selectedIndex, setSelectedIndex] = React.useState(0);
-  const { branches, loading } = useBranch();
+  const [selectedIndex, setSelectedIndex] = useState(0);
+  const { branches } = useBranch();
+  const { shopState } = useShop();
+
+  const setSelectedBranch = () => {
+    if (branches && branches.length > 0 && shopState.branch) {
+      const index = branches.findIndex((elem) => elem._id === shopState.branch._id);
+      setSelectedIndex(index);
+    }
+  };
+
+  const onSelectedBranch = (index) => {
+    if (branches && branches.length > 0) {
+      setSelectedIndex(index);
+      shopState.setBranch(branches[index]);
+    }
+  };
 
   const handleListItemClick = (event, index) => {
-    setSelectedIndex(index);
+    onSelectedBranch(index);
     handleClose();
   };
+
+  useEffect(() => {
+    setSelectedBranch();
+  }, []);
 
   return (
     <div>
@@ -70,17 +90,19 @@ const ListBranches = (props) => {
                 </ListItemAvatar>
                 <ListItemText
                   primary={
-                    <Typography component="span" variant="subtitle2">
+                    <Typography component="span" variant="subtitle1">
                       {branch.generalData.name}
                     </Typography>
                   }
                   secondary={
-                    <div>
+                    <React.Fragment>
                       <Typography component="span" variant="body2" className={classes.secondText}>
                         {branch.generalData.address}
                       </Typography>
-                      <p className={`${classes.secondText} ${classes.phone}`}>Tel. {branch.generalData.phone}</p>
-                    </div>
+                      <Typography component="span" variant="body2" className={`${classes.secondText} ${classes.phone}`}>
+                        Tel. {branch.generalData.phone}
+                      </Typography>
+                    </React.Fragment>
                   }
                 />
               </ListItem>
