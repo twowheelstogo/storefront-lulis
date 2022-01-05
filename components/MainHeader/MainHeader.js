@@ -19,6 +19,7 @@ import Router from "translations/i18nRouter";
 import styled from "styled-components";
 import BranchModal from "components/Branches/BranchModal";
 import CloseIcon from "@material-ui/icons/Close";
+import useShop from "hooks/shop/useShop";
 
 const styles = (theme) => ({
 	root: {
@@ -81,6 +82,25 @@ const MessageBanner = styled.div`
 	line-height: 40px;
 	font-weight: 700;
 `;
+
+const DivBranch = styled.div`
+  background: #191013;
+  text-align: right;
+  color: #ffffff;
+  text-weight: 800;
+  align-items: end;
+  font-size: 16px;
+  height: 40px;
+  line-height: 40px;
+  font-weight: 700;
+  padding-right: 50px;
+  opacity: 60%;
+`;
+
+const BranchBanner = ({ classStyle }) => {
+  const { shopState } = useShop();
+  return <DivBranch>{shopState.branch.generalData.name}</DivBranch>;
+}
 
 function ElevationScroll(props) {
 	const { children, window, classes: { appBar, scrolledAppBar } } = props;
@@ -146,6 +166,7 @@ class MainHeader extends React.Component {
 						<AccountDropdown />
 						<MiniCart {...cart} />
 					</Toolbar>
+          <BranchBanner classStyle={scrolledAppBar} />
 					<NavigationMobile />
 				</AppBar>
 			</React.Fragment>
@@ -179,6 +200,7 @@ class MainHeader extends React.Component {
 							<AccountDropdown />
 							<MiniCart {...cart} />
 						</Toolbar>
+            <BranchBanner classStyle="" />
 						<NavigationMobile />
 					</AppBar>
 				</ElevationScroll>

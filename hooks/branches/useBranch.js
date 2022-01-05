@@ -9,7 +9,6 @@ import getBranchesQuery from "./queries.gql";
 
 export default function useBranch() {
   const shop = useShop();
-
   const { loading, data } = useQuery(getBranchesQuery, {
     variables: {
       shopId: shop && shop._id,
