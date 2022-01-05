@@ -179,6 +179,7 @@ class MainHeader extends React.Component {
 							<AccountDropdown />
 							<MiniCart {...cart} />
 						</Toolbar>
+            <p>Sucursal el zapotal zona 9</p>
 						<NavigationMobile />
 					</AppBar>
 				</ElevationScroll>

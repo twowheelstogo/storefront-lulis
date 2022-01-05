@@ -1,48 +1,53 @@
-import * as React from "react";
-import Box from "@material-ui/core/Box";
-import Button from "@material-ui/core/Button";
+import React, { useState } from "react";
+import { makeStyles } from "@material-ui/core/styles";
 import Modal from "@material-ui/core/Modal";
-// import Typography from "@mui/material/Typography";
+import Tooltip from "@material-ui/core/Tooltip";
+import Button from "@material-ui/core/Button";
 import ListBranches from "components/Branches/ListBranches";
 
+const getModalStyle = () => {
+  const top = 50;
+  const left = 50;
+  return {
+    top: `${top}%`,
+    left: `${left}%`,
+    transform: `translate(-${top}%, -${left}%)`,
+  };
+};
+
+const useStyles = makeStyles((theme) => ({
+  paper: {
+    position: "absolute",
+    width: 500,
+    backgroundColor: theme.palette.background.paper,
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing(2, 4, 3),
+  },
+}));
+
 const BranchModal = () => {
-  const [open, setOpen] = React.useState(false);
+  const classes = useStyles();
+  const [modalStyle] = useState(getModalStyle);
+  const [open, setOpen] = useState(false);
+
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const style = {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    width: 200,
-    bgcolor: "background.paper",
-    border: "2px solid #000",
-    boxShadow: 24,
-    p: 4,
-    border: "1px solid red",
-  };
+  const body = (
+    <div style={modalStyle} className={classes.paper}>
+      <ListBranches handleClose={handleClose} />
+    </div>
+  );
 
   return (
     <div>
-      <Button color="inherit" onClick={handleOpen}>
-        Sucursales
-      </Button>
-      <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box sx={style}>
-          <ListBranches />
-          {/* <Typography id="modal-modal-title" variant="h6" component="h2">
-          Text in a modal
-        </Typography>
-        <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-          Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-        </Typography> */}
-        </Box>
+      <Tooltip title="Sucursal el zapotal z9">
+        <Button color="inherit" onClick={handleOpen}>
+          Sucursales
+        </Button>
+      </Tooltip>
+      <Modal open={open} onClose={handleClose}>
+        {body}
       </Modal>
     </div>
   );
