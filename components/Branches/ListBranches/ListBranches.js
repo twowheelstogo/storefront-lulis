@@ -8,7 +8,6 @@ import Avatar from "@material-ui/core/Avatar";
 import Typography from "@material-ui/core/Typography";
 import StoreIcon from "@material-ui/icons/Store";
 import useShop from "hooks/shop/useShop";
-import useBranch from "hooks/branches/useBranch";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -44,8 +43,8 @@ const ListBranches = (props) => {
   const { handleClose } = props;
   const classes = useStyles();
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const { branches } = useBranch();
   const { shopState } = useShop();
+  const { branches } = shopState;
 
   const setSelectedBranch = () => {
     if (branches && branches.length > 0 && shopState.branch) {

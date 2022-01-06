@@ -4,7 +4,6 @@ import { useTheme, makeStyles } from "@material-ui/core/styles";
 import Modal from "@material-ui/core/Modal";
 import Tooltip from "@material-ui/core/Tooltip";
 import Button from "@material-ui/core/Button";
-import styled from "styled-components";
 import ListBranches from "components/Branches/ListBranches";
 import useShop from "hooks/shop/useShop";
 

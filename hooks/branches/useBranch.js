@@ -14,7 +14,6 @@ export default function useBranch() {
       shopId: shop && shop._id,
     },
   });
-
   const branches = data ? data.branchWithoutPagination : [];
   return { branches, loading };
 }
