@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { withStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import PropTypes from "prop-types";
@@ -19,6 +19,7 @@ import Router from "translations/i18nRouter";
 import styled from "styled-components";
 import BranchModal from "components/Branches/BranchModal";
 import CloseIcon from "@material-ui/icons/Close";
+import useBranch from "hooks/branches/useBranch";
 import useShop from "hooks/shop/useShop";
 
 const styles = (theme) => ({
@@ -99,7 +100,13 @@ const DivBranch = styled.div`
 
 const BranchBanner = ({ classStyle }) => {
   const { shopState } = useShop();
-  return <DivBranch>{shopState.branch.generalData.name}</DivBranch>;
+  const { branches } = useBranch();
+
+  useEffect(() => {
+    shopState.setBranches(branches);
+  }, [branches]);
+
+  return <DivBranch>Sucursal: {shopState.branch.generalData.name}</DivBranch>;
 }
 
 function ElevationScroll(props) {

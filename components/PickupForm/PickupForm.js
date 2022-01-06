@@ -4,6 +4,7 @@ import { withComponents } from "@reactioncommerce/components-context";
 import { CustomPropTypes, applyTheme, getRequiredValidator } from "@reactioncommerce/components/utils";
 import PropTypes from "prop-types";
 import styled from "styled-components";
+import SelectBranch from "components/Branches/SelectBranch";
 import { uniqueId } from "lodash";
 const Grid = styled.div`
   display: flex;
@@ -68,7 +69,8 @@ class PickupForm extends Component {
 			name,
 			validator
 		} = this.props;
-		const pickupDateInputId = `pickupDate_${this.uniqueInstanceIdentifier}`;
+		const pickupBranchInputId = `pickupBranch_${this.uniqueInstanceIdentifier}`;
+    const pickupDateInputId = `pickupDate_${this.uniqueInstanceIdentifier}`;
 		const pickupTimeInputId = `pickupTime_${this.uniqueInstanceIdentifier}`;
 		const options = [{ year: 'numeric' }, { month: 'numeric' }, { day: 'numeric' }];
 		const today = new Date();
@@ -93,6 +95,11 @@ class PickupForm extends Component {
 				validator={validator}
 			>
 				<Grid>
+          <ColHalf>
+						<Field name="pickupBranch" label="Sucursal" labelFor={pickupBranchInputId} isRequired>
+              <SelectBranch />
+						</Field>
+					</ColHalf>
 					<ColHalf>
 						<Field name="pickupDate" label="Fecha de pickup" labelFor={pickupDateInputId} isRequired>
 							<TextInput

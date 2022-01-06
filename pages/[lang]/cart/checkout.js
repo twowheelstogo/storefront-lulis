@@ -173,6 +173,12 @@ const Checkout = ({ router }) => {
 
 	const hideAlert = () => setShowAlert(false);
 
+  useEffect(() => {
+    setTimeout(() => {
+      hideAlert();
+    }, 5000);
+  }, []);
+
 	useEffect(() => {
 		// Skipping if the `cart` is not available
 		if (!cart) return;
