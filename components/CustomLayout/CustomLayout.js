@@ -18,7 +18,7 @@ const styles = (theme) => ({
 		maxWidth: theme.layout.mainContentMaxWidth,
 		marginLeft: "auto",
 		marginRight: "auto",
-		paddingTop:"110px",
+		paddingTop:"150px",
 		paddingBottom:theme.spacing(5),
 		width:"100%",
 		minHeight:"100vh"
@@ -49,11 +49,11 @@ class CustomLayout extends Component{
     	}),
     	viewer: PropTypes.object
     };
-  
+
     static defaultProps = {
     	classes: {}
     };
-  
+
     render(){
     	const {classes,children,shop,viewer,title,subtitle,background,type,noMaxwidth,cart} = this.props;
     	const sliderProps={

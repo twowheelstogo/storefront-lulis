@@ -18,6 +18,8 @@ mutation addAccountAddressBookEntryMutation($input: AddAccountAddressBookEntryIn
         distance{
           value
           text
+          branch
+          branchId
         }
       }
     }
@@ -44,6 +46,8 @@ mutation updateAccountAddressBookEntryMutation($input: UpdateAccountAddressBookE
         distance{
           value
           text
+          branch
+          branchId
         }
       }
     }
@@ -70,6 +74,8 @@ mutation removeAccountAddressBookEntryMutation($input: RemoveAccountAddressBookE
         distance{
           value
           text
+          branch
+          branchId
         }
       }
     }
