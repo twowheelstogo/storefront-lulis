@@ -12,10 +12,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SelectBranch() {
+export default function SelectBranch(props) {
+  const defaultId = props.defaultId || "";
   const { shopState } = useShop();
   const { branch, branches } = shopState;
+  const defaultBranch = branches.find((x) => x._id === defaultId) || {
+    generalData: { name: "No hay sucursal seleccionada" },
+  };
   const classes = useStyles();
+  const hookChange = props.hookChange || (() => {});
 
   return (
     <Autocomplete
@@ -25,8 +30,11 @@ export default function SelectBranch() {
       size="small"
       options={branches}
       getOptionLabel={(option) => option.generalData.name}
-      defaultValue={branch}
+      defaultValue={defaultBranch}
       renderInput={(params) => <TextField {...params} variant="outlined" />}
+      onChange={(event, newValue) => {
+        hookChange(newValue);
+      }}
     />
   );
 }

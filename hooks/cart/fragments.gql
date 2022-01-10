@@ -27,24 +27,28 @@ fragment CartCommon on Cart {
           description
           address
           reference
-          geolocation{
+          geolocation {
             latitude
             longitude
           }
-          metaddress{
+          metaddress {
             administrative_area_level_1
             administrative_area_level_2
             neighborhood
             street_address
             sublocality
-            distance{
+            distance {
               value
               text
+              branch
+              branchId
             }
           }
         }
         pickupDetails {
           datetime
+          branchId
+          branch
         }
       }
       availableFulfillmentOptions {
@@ -78,24 +82,26 @@ fragment CartCommon on Cart {
       }
       shippingAddress {
         _id
-          description
-          address
-          reference
-          geolocation{
-            latitude
-            longitude
+        description
+        address
+        reference
+        geolocation {
+          latitude
+          longitude
+        }
+        metaddress {
+          administrative_area_level_1
+          administrative_area_level_2
+          neighborhood
+          street_address
+          sublocality
+          distance {
+            value
+            text
+            branch
+            branchId
           }
-          metaddress{
-            administrative_area_level_1
-            administrative_area_level_2
-            neighborhood
-            street_address
-            sublocality
-            distance{
-              value
-              text
-            }
-          }
+        }
       }
     }
     summary {

@@ -31,6 +31,8 @@ fragment OrderCommon on Order {
             distance{
               value
               text
+              branch
+              branchId
             }
           }
         }

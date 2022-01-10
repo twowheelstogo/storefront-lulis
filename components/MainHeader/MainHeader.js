@@ -96,6 +96,7 @@ const DivBranch = styled.div`
   font-weight: 700;
   padding-right: 50px;
   opacity: 60%;
+  display: none;
 `;
 
 const BranchBanner = ({ classStyle }) => {

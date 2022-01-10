@@ -3,7 +3,7 @@ query viewer {
     _id
     userId
     addressBook {
-      edges{
+      edges {
         node {
           _id
           description
@@ -13,20 +13,21 @@ query viewer {
             latitude
             longitude
           }
-          metaddress{
+          metaddress {
             administrative_area_level_1
             administrative_area_level_2
             neighborhood
             street_address
             sublocality
-            distance{
+            distance {
               value
               text
+              branchId
+              branch
             }
           }
         }
       }
-      
     }
     emailRecords {
       address
