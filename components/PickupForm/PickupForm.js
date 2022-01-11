@@ -106,19 +106,19 @@ class PickupForm extends Component {
         validator={validator}
       >
         <Grid>
-          <ColHalf>
-            <Field name="pickupBranch" label="Sucursal" labelFor={pickupBranchSelectInputId} isRequired>
-              <SelectBranch hookChange={hookChange} defaultId={this.state.branchId} />
-            </Field>
-            <div style={{ display: "none" }}>
+          <div style={{ display: "none" }}>
+            <ColHalf>
+              <Field name="pickupBranch" label="Sucursal" labelFor={pickupBranchSelectInputId} isRequired>
+                <SelectBranch hookChange={hookChange} defaultId={this.state.branchId} />
+              </Field>
               <Field name="branchName" label="Nombre de la sucursal" labelFor={pickupBranchInput}>
                 <TextInput id={pickupBranchInput} name="branchName" value={this.state.branch} />
               </Field>
               <Field name="branchId" label="Id de la sucursal" labelFor={pickupBranchInputId}>
                 <TextInput id={pickupBranchInputId} name="branchId" value={this.state.branchId} />
               </Field>
-            </div>
-          </ColHalf>
+            </ColHalf>
+          </div>
           <ColHalf>
             <Field name="pickupDate" label="Fecha de pickup" labelFor={pickupDateInputId} isRequired>
               <TextInput
