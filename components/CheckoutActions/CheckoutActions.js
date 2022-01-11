@@ -454,8 +454,8 @@ class CheckoutActions extends Component {
     const cartId = cartStore.hasAccountCart ? cartStore.accountCartId : cartStore.anonymousCartId;
     const { checkout } = cart;
     try {
-      await this.handleInputPickupComponentSubmit();
-      await this.handleInputShippingComponentSubmit();
+      //await this.handleInputPickupComponentSubmit();
+      //await this.handleInputShippingComponentSubmit();
       await this.handleInputComponentSubmit();
       await this.handleInputBillingComponentSubmit();
       await this.handleInputGiftComponentSubmit();
