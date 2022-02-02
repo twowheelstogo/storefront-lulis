@@ -73,15 +73,30 @@ const styles = (theme) => ({
 
 const MessageBanner = styled.div`
 	background: #000000;
-	width: 100%;
 	text-align: center;
-	color: white;
-	text-weight: 800;
 	align-items: center;
-	font-size: 16px;
 	height: 40px;
+	overflow: hidden;
+`;
+
+const BannerText = styled.div`
+	text-weight: 800;
 	line-height: 40px;
 	font-weight: 700;
+	color: white;
+	font-size: 16px;
+	white-space: nowrap;
+	@media(max-width: 600px) {
+		animation: move 7s linear 0s infinite;
+	}
+	@keyframes move {
+		0% {
+		  transform: translate(0,0);
+		}
+		100% {
+		  transform: translate(-820px,0);
+		}
+	  }
 `;
 
 const DivBranch = styled.div`
@@ -152,7 +167,9 @@ class MainHeader extends React.Component {
 			<React.Fragment>
 				<CssBaseline />
 				<AppBar position="fixed" className={scrolledAppBar} elevation={0}>
-					<MessageBanner>{"Envíos gratis en compras arriba de Q150!"}</MessageBanner>
+					<MessageBanner>
+						<BannerText>{"Envíos gratis en compras arriba de Q150! Únicamente en este canal de venta"}</BannerText>
+					</MessageBanner>
 					<Toolbar className={toolbar}>
 						<Hidden mdUp>
 							<NavigationToggleMobile onClick={this.handleNavigationToggleClick} />
@@ -184,7 +201,9 @@ class MainHeader extends React.Component {
 				<CssBaseline />
 				<ElevationScroll {...this.props}>
 					<AppBar position="fixed">
-						<MessageBanner>{"Envíos gratis en compras arriba de Q150!"}</MessageBanner>
+						<MessageBanner>
+							<BannerText>{"Envíos gratis en compras arriba de Q150! Únicamente en este canal de venta"}</BannerText>
+						</MessageBanner>
 						<Toolbar className={toolbar}>
 							<Hidden mdUp>
 								<NavigationToggleMobile onClick={this.handleNavigationToggleClick} />
