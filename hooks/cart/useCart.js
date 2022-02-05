@@ -15,7 +15,8 @@ import {
 	updateCartItemsQuantityMutation,
 	updateFulfillmentOptionsForGroup,
 	updateFulfillmentTypeForGroup,
-	setPickupDetailsOnCartMutation
+	setPickupDetailsOnCartMutation,
+	applyDiscountCodeMutation
 } from "./mutations.gql";
 import {
 	accountCartByAccountIdQuery,
@@ -312,14 +313,14 @@ export default function useCart() {
 						}
 					}
 				});
-				
+
 				// Update fulfillment options for current cart
 				const { data: { updateFulfillmentTypeForGroup: fulfillmentResponse } } = response;
 				handleUpdateFulfillmentOptionsForGroup(fulfillmentResponse.cart.checkout.fulfillmentGroups[0]._id);
 				return response;
 
 			},
-			onSetPickupDetails: async(pickupDetails) => {
+			onSetPickupDetails: async (pickupDetails) => {
 				const response = await apolloClient.mutate({
 					mutation: setPickupDetailsOnCartMutation,
 					variables: {
@@ -334,6 +335,18 @@ export default function useCart() {
 				const { data: { setPickupDetailsOnCart } } = response;
 				handleUpdateFulfillmentOptionsForGroup(setPickupDetailsOnCart.cart.checkout.fulfillmentGroups[0]._id);
 				return response;
+			},
+			onSetDiscountCode: async ({ code }) => {
+				await apolloClient.mutate({
+					mutation: applyDiscountCodeMutation,
+					variables: {
+						input: {
+							...cartIdAndCartToken(),
+							shopId: shop._id,
+							discountCode: code
+						}
+					}
+				})
 			}
 		},
 		hasMoreCartItems: (pageInfo && pageInfo.hasNextPage) || false,

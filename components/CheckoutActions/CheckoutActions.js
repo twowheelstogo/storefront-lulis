@@ -20,6 +20,7 @@ import { placeOrderMutation } from "../../hooks/orders/placeOrder.gql";
 import DeliveryOptionsCheckoutAction from "components/DeliveryOptionsCheckoutAction";
 import deliveryMethods from "custom/deliveryMethods";
 import PaymentMethodCheckoutAction from "components/PaymentMethodCheckoutAction";
+import DiscountCodeAction from "components/DiscountCodeAction";
 import RoundedButton from "components/RoundedButton";
 import { formatName } from "../utils";
 import { Mutex } from "async-mutex";
@@ -128,6 +129,28 @@ class CheckoutActions extends Component {
       },
     }));
   };
+
+  handleDiscountCodeToCart = async (value) => {
+    const {
+      checkoutMutations: { onSetDiscountCode },
+    } = this.props;
+
+    try {
+      await onSetDiscountCode(value);
+    } catch (error) {
+      console.log(error.message);
+      this.setState({
+        actionAlerts: {
+          7: {
+            alertType: "error",
+            title: "Discount code error!",
+            message: error.message,
+          },
+        },
+      })
+    }
+  }
+
   componentDidUpdate({ addressValidationResults: prevAddressValidationResults }) {
     const { addressValidationResults } = this.props;
     if (
@@ -294,10 +317,10 @@ class CheckoutActions extends Component {
     const shippingAlert =
       validationErrors && validationErrors.length
         ? {
-            alertType: validationErrors[0].type,
-            title: validationErrors[0].summary,
-            message: validationErrors[0].details,
-          }
+          alertType: validationErrors[0].type,
+          title: validationErrors[0].summary,
+          message: validationErrors[0].details,
+        }
         : null;
     this.setState({ actionAlerts: { 1: shippingAlert } });
   }
@@ -704,6 +727,18 @@ class CheckoutActions extends Component {
           messageValue: this.state.giftInputs.message,
         },
       },
+      {
+        id: "7",
+        activeLabel: "Agrega un código de descuento",
+        completeLabel: "Agrega un código de descuento",
+        incompleteLabel: "Agrega un código de descuento",
+        status: "incomplete",
+        component: DiscountCodeAction,
+        onSubmit: this.handleDiscountCodeToCart,
+        props: {
+          alert: actionAlerts["7"]
+        },
+      }
     ];
     return (
       <Fragment>

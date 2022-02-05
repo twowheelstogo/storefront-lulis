@@ -108,6 +108,10 @@ fragment CartCommon on Cart {
       fulfillmentTotal {
         displayAmount
       }
+      discountTotal {
+        displayAmount
+        amount
+      }
       itemTotal {
         amount
         displayAmount

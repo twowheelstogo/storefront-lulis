@@ -117,7 +117,7 @@ class CheckoutSummary extends Component {
     const { cart, classes } = this.props;
 
     if (cart && cart.checkout && cart.checkout.summary) {
-      const { fulfillmentTotal, itemTotal, surchargeTotal, taxTotal, total } = cart.checkout.summary;
+      const { fulfillmentTotal, itemTotal, surchargeTotal, taxTotal, total, discountTotal } = cart.checkout.summary;
 
       return (
         <Grid item xs={12} className={classes.summary}>
@@ -129,6 +129,7 @@ class CheckoutSummary extends Component {
             displayTax={taxTotal && taxTotal.displayAmount}
             displayTotal={total && total.displayAmount}
             itemsQuantity={cart.totalItemQuantity}
+            displayDiscount={discountTotal && discountTotal.displayAmount}
           />
         </Grid>
       );

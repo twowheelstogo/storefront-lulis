@@ -274,6 +274,10 @@ class CartSummary extends Component {
   						<Td isDense={isDense}>{"Envío"}</Td>
   						<TdValue isDense={isDense}>{shipping}</TdValue>
   					</tr>
+  					<tr>
+  						<Td isDense={isDense}>{"Descuento"}</Td>
+  						<TdValue isDense={isDense}>{displayDiscount}</TdValue>
+  					</tr>
   				</tbody>
   			</Table>
   			<TotalItem>{`Total de la orden ${displayTotal}`}</TotalItem>
