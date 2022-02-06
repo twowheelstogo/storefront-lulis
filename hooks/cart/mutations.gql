@@ -113,3 +113,12 @@ mutation updateFulfillmentTypeForGroup($input:UpdateFulfillmentTypeForGroupInput
     }
   }
 }
+
+#apply a discount code for a cart
+mutation applyDiscountCodeMutation($input: ApplyDiscountCodeToCartInput!) {
+  applyDiscountCodeToCart(input: $input) {
+    cart{
+      _id
+    }
+  }
+}

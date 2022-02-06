@@ -4,13 +4,17 @@ import PropTypes from "prop-types";
 import { CustomPropTypes } from "@reactioncommerce/components/utils";
 import { withComponents } from "@reactioncommerce/components-context";
 const Items = styled.div`
-    display: grid;
+    <display: grid;
     overflow-x: scroll;
     gap: 15px;
     grid-auto-flow: column;
     justify-content: flex-start;
     grid-auto-columns: minmax(180px,180px);
     scrollbar-width: none;
+    -ms-overflow-style: none;
+    &::-webkit-scrollbar {
+        display: none;
+      }>
 `;
 class CardItemList extends Component{
     static propTypes = {
