@@ -31,6 +31,12 @@ const ColMin = styled.div`
   justify-content: flex-end;
 `;
 class DiscountCodeForm extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            submitting: false
+        }
+    }
 
     static propTypes = {
         value: PropTypes.shape({
@@ -50,8 +56,14 @@ class DiscountCodeForm extends React.Component {
 
     uniqueInstanceIdentifier = uniqueId("AddressForm_");
 
-    submit = () => {
-        this._form.submit();
+    submit = async () => {
+        this.setState({
+            submitting: true
+        });
+        await this._form.submit();
+        this.setState({
+            submitting: false
+        });
     }
 
     render() {
@@ -80,6 +92,7 @@ class DiscountCodeForm extends React.Component {
                                 title="secondary"
                                 actionType="secondary"
                                 isShortHeight
+                                isWaiting={this.state.submitting}
                                 onClick={this.submit}>Canjear</Button>
                         </ColMin>
                     </Grid>

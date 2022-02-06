@@ -33,7 +33,8 @@ class OrderCardSummary extends Component {
   			itemTotal,
   			surchargeTotal,
   			taxTotal,
-  			total
+  			total,
+			discountTotal
   		} = summary;
 
   		return (
@@ -49,6 +50,8 @@ class OrderCardSummary extends Component {
 				surchargesLabelText={"Cargos"}
 				taxLabelText={"Impuesto"}
 				orderTotalLabelText={"Total del la orden"}
+				discountLabelText={"Descuento"}
+				displayDiscount={discountTotal && discountTotal.displayAmount}
   			/>
   		);
   	}

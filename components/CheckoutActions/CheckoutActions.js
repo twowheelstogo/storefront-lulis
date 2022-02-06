@@ -137,8 +137,14 @@ class CheckoutActions extends Component {
 
     try {
       await onSetDiscountCode(value);
+      this.setState({
+        actionAlerts: {
+          7: {
+          },
+        },
+      });
     } catch (error) {
-      console.log(error.message);
+      console.error(error.message);
       this.setState({
         actionAlerts: {
           7: {
@@ -147,7 +153,7 @@ class CheckoutActions extends Component {
             message: error.message,
           },
         },
-      })
+      });
     }
   }
 
@@ -206,9 +212,8 @@ class CheckoutActions extends Component {
         address._id,
         this.props.authStore.accessToken
       );
-      console.log("address", address);
     } catch (errTmp) {
-      console.log("errtmp", errTmp);
+      console.error("errtmp", errTmp);
     }
     const { data, error } = await onSetShippingAddress(address);
 

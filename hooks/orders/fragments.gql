@@ -127,6 +127,10 @@ fragment OrderCommon on Order {
       _id
     }
     summary {
+      discountTotal {
+        amount
+        displayAmount
+      }
       fulfillmentTotal {
         amount
         displayAmount
@@ -170,6 +174,10 @@ fragment OrderCommon on Order {
   }
   status
   summary {
+      discountTotal {
+        amount
+        displayAmount
+      }
     fulfillmentTotal {
       amount
       displayAmount

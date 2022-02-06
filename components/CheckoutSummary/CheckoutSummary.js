@@ -129,7 +129,7 @@ class CheckoutSummary extends Component {
             displayTax={taxTotal && taxTotal.displayAmount}
             displayTotal={total && total.displayAmount}
             itemsQuantity={cart.totalItemQuantity}
-            displayDiscount={discountTotal && discountTotal.displayAmount}
+            displayDiscount={discountTotal && discountTotal.amount > 0 && discountTotal.displayAmount}
           />
         </Grid>
       );
