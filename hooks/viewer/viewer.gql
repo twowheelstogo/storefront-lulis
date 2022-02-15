@@ -9,6 +9,8 @@ query viewer {
           description
           address
           reference
+          receiver
+          phone
           geolocation {
             latitude
             longitude

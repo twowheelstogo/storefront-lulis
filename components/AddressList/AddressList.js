@@ -101,7 +101,7 @@ class AddressList extends Component {
     } = this.props;
     return (
       <Items>
-        {addressBook.map(({ _id, description, address, reference, geolocation, metaddress }) => {
+        {addressBook.map(({ _id, description, address, reference, geolocation, metaddress, receiver, phone }) => {
           const getNameOfBranch = (distance) => {
             if (!distance.branchId) {
               return "Actualiza su dirección";
@@ -127,6 +127,8 @@ class AddressList extends Component {
                 reference,
                 geolocation,
                 metaddress,
+                receiver,
+                phone
               }}
               handleChange={onSelect}
               trailing={<Controls id={_id} onAddressDeleted={onAddressDeleted} />}
