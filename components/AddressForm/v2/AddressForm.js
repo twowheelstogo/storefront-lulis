@@ -34,6 +34,8 @@ class AddressForm extends Component {
       address: "",
       description: "",
       reference: "",
+      receiver: "",
+      phone: ""
     },
     validator: getRequiredValidator("address", "description"),
   };
@@ -56,6 +58,8 @@ class AddressForm extends Component {
     const addressInputId = `addressInput_${this.uniqueInstanceIdentifier}`;
     const referenceInputId = `referenceInput_${this.uniqueInstanceIdentifier}`;
     const descriptionInputId = `descriptionInput_${this.uniqueInstanceIdentifier}`;
+    const receiverInputId = `receiverInput_${this.uniqueInstanceIdentifier}`;
+    const phoneInputId = `phoneInput_${this.uniqueInstanceIdentifier}`;
 
     return (
       <Fragment>
@@ -99,6 +103,20 @@ class AddressForm extends Component {
               <Field name="description" label="Obligatorio" labelFor={descriptionInputId} isRequired>
                 <TextInput id={descriptionInputId} name="description" placeholder="ej. Casa, Trabajo." />
                 <ErrorsBlock names={["description"]} />
+              </Field>
+            </ColFull>
+            <ColFull>
+              <FieldTitle>{"¿Quién recibe la orden?"}</FieldTitle>
+              <Field name="receiver" label="Obligatorio" labelFor={receiverInputId} isRequired>
+                <TextInput id={receiverInputId} name="receiver" placeholder="Escribe aquí" />
+                <ErrorsBlock names={["receiver"]} />
+              </Field>
+            </ColFull>
+            <ColFull>
+              <FieldTitle>{"Teléfono de quién recibe"}</FieldTitle>
+              <Field name="phone" label="Obligatorio" labelFor={phoneInputId} isRequired>
+                <TextInput id={phoneInputId} name="phone" placeholder="Escribe aquí" />
+                <ErrorsBlock names={["phone"]} />
               </Field>
             </ColFull>
           </Grid>

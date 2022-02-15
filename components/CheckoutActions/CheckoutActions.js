@@ -200,12 +200,14 @@ class CheckoutActions extends Component {
     const {
       checkoutMutations: { onSetShippingAddress },
     } = this.props;
+    console.log("setting shipping")
     let _metaddress = await AddressMetadataService.getAddressMetadataGraphql(
       address.geolocation.latitude,
       address.geolocation.longitude,
       this.props.authStore.accessToken,
       this.props.cart.shop
     );
+    console.log("address", address);
     try {
       address = await MetadataService.updateMetadataAddressBook(
         _metaddress,
@@ -215,14 +217,30 @@ class CheckoutActions extends Component {
     } catch (errTmp) {
       console.error("errtmp", errTmp);
     }
-    const { data, error } = await onSetShippingAddress(address);
 
-    if (data && !error && this._isMounted) {
+    try {
+      console.log("udpated address", address);
+      const { data, error } = await onSetShippingAddress(address);
+
+      if (data && !error && this._isMounted) {
+        this.setState({
+          actionAlerts: {
+            1: {},
+            2: {}
+          },
+        });
+      }
+    } catch (error) {
       this.setState({
         actionAlerts: {
-          1: {},
+          2: {
+            alertType: "error",
+            title: "Shipping error",
+            message: error.message
+          }
         },
       });
+      console.error("graphql error: ", error);
     }
   };
 

@@ -5,6 +5,8 @@ mutation addAccountAddressBookEntryMutation($input: AddAccountAddressBookEntryIn
       description
       address
       reference
+      phone
+      receiver
       geolocation{
         latitude
         longitude
@@ -33,6 +35,8 @@ mutation updateAccountAddressBookEntryMutation($input: UpdateAccountAddressBookE
       description
       address
       reference
+      phone
+      receiver
       geolocation{
         latitude
         longitude
@@ -61,6 +65,8 @@ mutation removeAccountAddressBookEntryMutation($input: RemoveAccountAddressBookE
       description
       address
       reference
+      receiver
+      phone
       geolocation{
         latitude
         longitude

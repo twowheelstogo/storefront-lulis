@@ -43,7 +43,9 @@ class ShippingAddressCheckoutAction extends React.Component {
 	}
 	render() {
 		const {
-			fulfillmentGroup: { shippingAddress }
+			fulfillmentGroup: { shippingAddress },
+			components: { InlineAlert },
+			alert
 		} = this.props;
 		const date = new Date();
 		date.setHours(date.getHours() + 1);
@@ -55,6 +57,7 @@ class ShippingAddressCheckoutAction extends React.Component {
 				<SecureCaption>
 					{shippingAddress && (<Span>{"Tu orden llegará a más tardar a las " + estimatedTime}</Span>)}
 				</SecureCaption>
+				{alert ? <InlineAlert {...alert} /> : ""}
 			</React.Fragment>
 		);
 	}
