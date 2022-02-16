@@ -14,7 +14,7 @@ networks:
 services:
   web:
     #image: luiscelano/storefront:fix-styles
-    image: luiscelano/storefront:production
+    image: luiscelano/storefront:pre-launch
     #image: reactioncommerce/example-storefront:4.0.2
     build: 
       context: .
