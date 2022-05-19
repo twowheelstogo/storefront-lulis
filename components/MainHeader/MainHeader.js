@@ -168,7 +168,6 @@ class MainHeader extends React.Component {
 				<CssBaseline />
 				<AppBar position="fixed" className={scrolledAppBar} elevation={0}>
 					<MessageBanner>
-						<BannerText>{"Envíos gratis en compras arriba de Q150! Únicamente en este canal de venta"}</BannerText>
 					</MessageBanner>
 					<Toolbar className={toolbar}>
 						<Hidden mdUp>
