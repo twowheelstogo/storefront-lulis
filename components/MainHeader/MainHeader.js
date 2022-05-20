@@ -201,7 +201,6 @@ class MainHeader extends React.Component {
 				<ElevationScroll {...this.props}>
 					<AppBar position="fixed">
 						<MessageBanner>
-							<BannerText>{"Envíos gratis en compras arriba de Q150! Únicamente en este canal de venta"}</BannerText>
 						</MessageBanner>
 						<Toolbar className={toolbar}>
 							<Hidden mdUp>
