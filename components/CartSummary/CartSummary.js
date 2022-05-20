@@ -254,7 +254,7 @@ class CartSummary extends Component {
   	} = this.props;
 
   	// Use "-" to indicate we are still calculating this field.
-  	const shipping = (displayShipping) || "-";
+  	const shipping = (displayShipping || "-") ;
   	const tax = displayTax || "-";
   	const header = !isDense && this.renderHeader();
   	const discount = displayDiscount && this.renderDiscount();
